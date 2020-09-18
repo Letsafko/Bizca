@@ -1,0 +1,48 @@
+name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+
+variables:
+  projectApi:  'user/src/Bizca.User.WebApi/Bizca.User.WebApi.csproj'
+  testPattern: 'user/test/**/*.csproj'
+  buildConfiguration: 'Release'
+
+trigger:
+  branches:
+    include: ['master', 'develop', 'release/*', 'hotfix/*', 'feature/*', 'bugfix/*']
+  paths:
+    include: 
+     - 'user/src'
+     - 'user/test'
+steps:
+  #- task: UseDotNet@2
+  #  inputs:
+  #    packageType: 'sdk'
+  #    version: '3.1.x'
+  #
+  #- script: 'dotnet tool update -g dotnet-format && dotnet format --check --verbosity diagnostic'
+  #  displayName: 'code formatting'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'restore'
+    inputs:
+      command: restore
+
+  - task: DotNetCoreCLI@2
+    displayName: 'build api'
+    inputs:
+      command: build
+      configuration: '$(buildConfiguration)'
+      projects: '$(projectApi)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'unit tests'
+    inputs:
+      command: test
+      projects: '$(testPattern)'
+      arguments: >
+        --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover%2ccobertura
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'code coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(Build.SourcesDirectory)/**/*cobertura.xml'
