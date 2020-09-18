@@ -1,2 +1,2 @@
 # Bizca
-business place for Africa
+Business corner for Africa
