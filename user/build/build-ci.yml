@@ -13,11 +13,11 @@ trigger:
      - 'user/src'
      - 'user/test'
 steps:
-  #- task: UseDotNet@2
-  #  inputs:
-  #    packageType: 'sdk'
-  #    version: '3.1.x'
-  #
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '3.1.x'
+  
   #- script: 'dotnet tool update -g dotnet-format && dotnet format --check --verbosity diagnostic'
   #  displayName: 'code formatting'
 
