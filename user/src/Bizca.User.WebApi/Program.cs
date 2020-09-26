@@ -16,5 +16,4 @@ namespace Bizca.User.WebApi
                         .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
         }
     }
-
 }

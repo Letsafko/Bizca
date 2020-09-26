@@ -13,20 +13,11 @@ trigger:
      - 'user/src'
      - 'user/test'
 steps:
-  #- task: UseDotNet@2
-  #  inputs:
-  #    packageType: 'sdk'
-  #    version: '3.1.x'
-  #
-  #- script: 'dotnet tool update -g dotnet-format && dotnet format --check --verbosity diagnostic'
-  #  displayName: 'code formatting'
-
-  - task: DotNetCoreCLI@2
+  - script: 'dotnet restore --configfile ./Nuget.config'
     displayName: 'restore'
-    inputs:
-      command: restore
-      feedsToUse: 'config'
-      nugetConfigPath: 'NuGet.config'
+
+  #- script: 'export PATH="$PATH:/home/vsts/.dotnet/tools" && dotnet tool update -g dotnet-format && dotnet format --check --verbosity diagnostic'
+  #  displayName: 'code formatting'
 
   - task: DotNetCoreCLI@2
     displayName: 'build api'
@@ -34,7 +25,7 @@ steps:
       command: build
       configuration: '$(buildConfiguration)'
       projects: '$(projectApi)'
-
+  
   - task: DotNetCoreCLI@2
     displayName: 'unit tests'
     inputs:
@@ -42,7 +33,7 @@ steps:
       projects: '$(testPattern)'
       arguments: >
         --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover%2ccobertura
-
+  
   - task: PublishCodeCoverageResults@1
     displayName: 'code coverage'
     inputs:
