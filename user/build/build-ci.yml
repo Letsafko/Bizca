@@ -25,9 +25,9 @@ steps:
     displayName: 'restore'
     inputs:
       command: restore
-      feedsToUse: 'config'
-      nugetConfigPath: '../../NuGet.config'
-
+      selectOrConfig: config
+      nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config   
+      
   - task: DotNetCoreCLI@2
     displayName: 'build api'
     inputs:
