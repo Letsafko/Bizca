@@ -25,12 +25,12 @@ steps:
     inputs:
       script: 'ls $(Build.SourcesDirectory)' 
     
-  #- task: DotNetCoreCLI@2
-  #  displayName: 'restore'
-  #  inputs:
-  #    command: restore
-  #    selectOrConfig: config
-  #    nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config   
+  - task: DotNetCoreCLI@2
+    displayName: 'restore'
+    inputs:
+      command: restore
+      feedsToUse: 'config'
+      nugetConfigPath: '$(Build.SourcesDirectory)/NuGet.config'   
       
   #- task: DotNetCoreCLI@2
   #  displayName: 'build api'
