@@ -23,7 +23,7 @@ steps:
 
   - task: CmdLine@2
     inputs:
-    script: 'ls $(Build.SourcesDirectory)' 
+      script: 'ls $(Build.SourcesDirectory)' 
     
   #- task: DotNetCoreCLI@2
   #  displayName: 'restore'
