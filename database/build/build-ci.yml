@@ -1,0 +1,42 @@
+pool:
+  name: 'S-Money'
+  demands:
+    - Action -equals Build
+
+variables:
+  projects: 'database/bizca.dacpac/bizca.dacpac.sqlproj'
+  artifactName: "dacpac"
+  buildConfiguration: 'Release'
+
+trigger:
+  branches:
+    include: [ 'develop', 'master', 'feature', 'release/*', 'hotfix/*' ]
+  paths:
+    include: [ 'database/bizca.dacpac' ]
+
+name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+
+steps:
+- task: VSBuild@1
+  inputs:
+    solution: '$(projects)'
+    vsVersion: latest
+    clean: true
+    msbuildArgs: /p:OutputPath=$(Build.BinariesDirectory)/data
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.BinariesDirectory)/data'
+    Contents: |
+      *.dacpac
+    TargetFolder: '$(build.ArtifactStagingDirectory)/data'
+    OverWrite: true
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/data'
+    ArtifactName: '$(artifactName)'
+    publishLocation: 'Container'
+
+
+
