@@ -12,12 +12,22 @@ trigger:
 name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
 steps:
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
+  displayName: 'build dacpac'
   inputs:
-    solution: '$(projects)'
-    vsVersion: latest
-    clean: true
-    msbuildArgs: /p:OutputPath=$(Build.BinariesDirectory)/data
+    command: build
+    configuration: '$(buildConfiguration)'
+    projects: '$(projects)'
+
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  displayName: 'publish dacpac'
+  inputs:
+    command: publish
+    projects: '$(projects)'
+    zipAfterPublish: false
+    publishWebProjects: false
+    arguments: '--configuration $(buildConfiguration) --output $(Build.BinariesDirectory)/data'
 
 - task: CopyFiles@2
   inputs:
