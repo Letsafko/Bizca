@@ -20,7 +20,6 @@ steps:
     projects: '$(projects)'
 
 - task: DotNetCoreCLI@2
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   displayName: 'publish dacpac'
   inputs:
     command: publish
