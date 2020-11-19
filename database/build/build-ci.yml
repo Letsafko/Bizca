@@ -1,8 +1,3 @@
-pool:
-  name: 'S-Money'
-  demands:
-    - Action -equals Build
-
 variables:
   projects: 'database/bizca.dacpac/bizca.dacpac.sqlproj'
   artifactName: "dacpac"
