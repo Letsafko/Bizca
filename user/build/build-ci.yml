@@ -25,6 +25,7 @@ steps:
       command: build
       configuration: '$(buildConfiguration)'
       projects: '$(projectApi)'
+      workingDirectory: $(System.DefaultWorkingDirectory)
   
   - task: DotNetCoreCLI@2
     displayName: 'unit tests'
