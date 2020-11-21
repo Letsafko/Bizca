@@ -1,3 +1,5 @@
+name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+
 variables:
   projects: 'database/bizca.dacpac/bizca.dacpac.sqlproj'
   artifactName: "dacpac"
@@ -9,7 +11,6 @@ trigger:
   paths:
     include: [ 'database/bizca.dacpac' ]
 
-name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
 steps:
 - task: DotNetCoreCLI@2
@@ -18,11 +19,12 @@ steps:
     command: build
     configuration: '$(buildConfiguration)'
     projects: '$(projects)'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-- script: 'ls $(Build.BinariesDirectory)'
-  displayName: 'display folder $(Build.BinariesDirectory)'
+- script: 'ls -r $(System.DefaultWorkingDirectory)'
+  displayName: 'display folder $(System.DefaultWorkingDirectory)'
 
-- script: 'ls $(build.ArtifactStagingDirectory)'
+- script: 'ls -r $(build.ArtifactStagingDirectory)'
   displayName: 'display folder $(build.ArtifactStagingDirectory)'
 
 #- task: CopyFiles@2
