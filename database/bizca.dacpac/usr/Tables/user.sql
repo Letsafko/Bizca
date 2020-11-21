@@ -1,20 +1,21 @@
 ﻿create table [usr].[user]
 (
-	[userId]		     int identity(1,1) not null,
-	[appUserId]		     varchar(10) not null,
-	[email]			     varchar(50) not null,
-	[phoneNumber]	     varchar(15) not null,
-	[userCode]		     uniqueidentifier not null,
-	[partnerId]		     smallint not null,
-	[civilityId]	     smallint not null,
-	[economicActivityId] smallint  null,
-	[firstName]			 nvarchar(50) not null,
-	[lastName]			 nvarchar(50) not null,
-	[birthDate]			 date not null,
-	[birthCountryId]	 smallint not null,
-	[birthCity]			 varchar(50) not null,
-	[creationDate]		 datetime2 not null,
-    [lastUpdate]		 datetime2 not null
+	[userId]		        int identity(1,1) not null,
+	[appUserId]		        varchar(10) not null,
+	[email]			        varchar(50) not null,
+	[phoneNumber]	        varchar(15) not null,
+	[userCode]		        uniqueidentifier not null,
+	[partnerId]		        smallint not null,
+	[civilityId]	        smallint not null,
+	[notificationChannels]	int not null,
+	[economicActivityId]	smallint  null,
+	[firstName]				nvarchar(50) not null,
+	[lastName]			    nvarchar(50) not null,
+	[birthDate]			    date not null,
+	[birthCountryId]	    smallint not null,
+	[birthCity]			    varchar(50) not null,
+	[creationDate]		    datetime2 not null,
+    [lastUpdate]		    datetime2 not null
 )
 go
 

@@ -1,0 +1,15 @@
+version: "3.2"
+services:
+    sql-server-db-fts:
+        build:
+          context: .
+          dockerfile: dockerfile
+        container_name: sql-server-db-fts
+        ports:
+          - "1401:1433"
+        volumes:
+            - ./volume/sqlserver:/var/opt/mssql
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=Password_01
+            - MSSQL_AGENT_ENABLED=true

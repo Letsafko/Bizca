@@ -1,1 +1,1 @@
-﻿create schema [usr]
+﻿create schema [usr] authorization [dbo]

@@ -6,18 +6,29 @@
   , @firstName		nvarchar(50)  = null
   , @lastName		nvarchar(50)  = null
   , @birthDate		date		  = null
+  , @direction	    varchar(10)	  = 'next'
   , @pageSize		int			  = 20 
+  , @index			int			  = 0
 as
 begin
 	
-	declare @ParmDefinition nvarchar(500) = '@pageSize int
-	   , @partnerCode	varchar(30)
-	   , @appUserId		varchar(10)
-	   , @email			varchar(50)	
-	   , @phone			varchar(15)	
-	   , @firstName		nvarchar(50)	
-	   , @lastName		nvarchar(50)	
-	   , @birthDate		date';
+	if @direction is null or @direction not in ('prev', 'next')
+	begin
+		declare @msg varchar(100) = formatmessage('invalid direction value(%s), should be (prev or next)', @direction)
+		raiserror(@msg, 16, 1);
+		return;
+	end
+	
+	declare @ParmDefinition nvarchar(500) = '@partnerCode	varchar(30)	
+	  , @appUserId		varchar(10)	
+	  , @email			varchar(50)	
+	  , @phone			varchar(15)	
+	  , @firstName		nvarchar(50)
+	  , @lastName		nvarchar(50)
+	  , @birthDate		date		
+	  , @direction	    varchar(10)
+	  , @pageSize		int			
+	  , @index			int';
 	   
 	declare @query nvarchar(MAX) = 
 		'select top(@pageSize)
@@ -43,43 +54,48 @@ begin
 		left join [ref].[economicActivity] e on e.economicActivityId = u.economicActivityId
 		where p.partnerCode = @partnerCode';
 
-	if @email is not null
-		set @query = @query + ' and u.email = @email';
-
 	if @phone is not null
 		set @query = @query + ' and u.phoneNumber = @phone';
 	
 	if @birthDate is not null
-		set @query = @query + ' and u.birthDate = @birthDate'
+		set @query = @query + ' and u.birthDate = @birthDate';
+
+	if @email is not null
+		set @query = @query + ' and contains((u.email), @email)';
 
 	if @appUserId is not null
-	begin
-		set @appUserId = @appUserId + '%'
-		set @query = @query + ' and u.appUserId like @appUserId'
-	end 
+		set @query = @query + ' and contains((u.appUserId), @appUserId)';
 
 	if @firstName is not null
-	begin
-		set @firstName = @firstName + '%'
-		set @query = @query + ' and u.firstName like @firstName'
-	end
+		set @query = @query + ' and contains((u.firstName, u.lastName), @firstName)';
 
 	if @lastName is not null
+		set @query = @query + ' and contains((u.firstName, u.lastName), @lastName)';
+
+	if @direction = 'next'
 	begin
-		set @lastName = @lastName + '%'
-		set @query = @query + ' and u.lastName like @lastName'
+		set @query = @query + ' and u.userId > @index';
+		set @query = @query + ' order by u.userId asc';
 	end
+	else
+	begin
+		set @query = @query + ' and u.userId < @index';
+		set @query = @query + ' order by u.userId desc';
+	end
+
+	print(@query);
 
 	execute sp_executesql @query
 	, @ParmDefinition
-	, @pageSize  
 	, @partnerCode
-	, @appUserId  
-	, @email	 
-	, @phone	 
-	, @firstName
+	, @appUserId	
+	, @email		
+	, @phone		
+	, @firstName	
 	, @lastName	
-	, @birthDate 
+	, @birthDate	
+	, @direction	
+	, @pageSize	
+	, @index;
 
 end
-	

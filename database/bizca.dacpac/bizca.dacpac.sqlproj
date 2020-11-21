@@ -126,6 +126,7 @@
     <Folder Include="usr" />
     <Folder Include="usr\Stored procedures" />
     <Folder Include="usr\Tables" />
+    <Folder Include="usr\Full text" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ref\Tables\partner.sql" />
@@ -150,5 +151,7 @@
     <Build Include="usr\Stored procedures\usp_create_user.sql" />
     <Build Include="usr\Stored procedures\usp_update_user.sql" />
     <Build Include="usr\Stored procedures\usp_getByCriteria_user.sql" />
+    <Build Include="usr\Full text\ft_catalog_user.sql" />
+    <Build Include="usr\Full text\ft_index_user.sql" />
   </ItemGroup>
 </Project>

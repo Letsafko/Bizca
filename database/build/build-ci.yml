@@ -19,28 +19,24 @@ steps:
     configuration: '$(buildConfiguration)'
     projects: '$(projects)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'publish dacpac'
-  inputs:
-    command: publish
-    projects: '$(projects)'
-    zipAfterPublish: false
-    publishWebProjects: false
-    arguments: '--configuration $(buildConfiguration) --output $(Build.BinariesDirectory)/data'
+- script: 'ls $(Build.BinariesDirectory)'
+  displayName: 'display folder $(Build.BinariesDirectory)'
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.BinariesDirectory)/data'
-    Contents: |
-      *.dacpac
-    TargetFolder: '$(build.ArtifactStagingDirectory)/data'
-    OverWrite: true
-    
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/data'
-    ArtifactName: '$(artifactName)'
-    publishLocation: 'Container'
+- script: 'ls $(build.ArtifactStagingDirectory)'
+  displayName: 'display folder $(build.ArtifactStagingDirectory)'
 
-
-
+#- task: CopyFiles@2
+#  displayName: 'copy dacpac'
+#  inputs:
+#    SourceFolder: '$(Build.BinariesDirectory)'
+#    Contents: |
+#      *.dacpac
+#    TargetFolder: '$(build.ArtifactStagingDirectory)'
+#    OverWrite: true
+#
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#    ArtifactName: '$(artifactName)'
+#    publishLocation: 'Container'
+#

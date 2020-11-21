@@ -1,1 +1,1 @@
-﻿create schema [ref]
+﻿create schema [ref] authorization [dbo]
