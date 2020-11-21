@@ -1,5 +1,8 @@
 name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
+pool:
+  vmImage: 'windows-latest'
+
 variables:
   projects: 'database/bizca.dacpac/bizca.dacpac.sqlproj'
   artifactName: "dacpac"
@@ -11,34 +14,24 @@ trigger:
   paths:
     include: [ 'database/bizca.dacpac' ]
 
-
 steps:
-- task: DotNetCoreCLI@2
-  displayName: 'build dacpac'
+- task: VSBuild@1
   inputs:
-    command: build
-    configuration: '$(buildConfiguration)'
-    projects: '$(projects)'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    solution: '$(projects)'
+    vsVersion: latest
+    clean: true
+    msbuildArgs: /p:OutputPath=$(Build.BinariesDirectory)
 
-- script: 'ls -r $(System.DefaultWorkingDirectory)'
-  displayName: 'display folder $(System.DefaultWorkingDirectory)'
-
-- script: 'ls -r $(build.ArtifactStagingDirectory)'
-  displayName: 'display folder $(build.ArtifactStagingDirectory)'
-
-#- task: CopyFiles@2
-#  displayName: 'copy dacpac'
-#  inputs:
-#    SourceFolder: '$(Build.BinariesDirectory)'
-#    Contents: |
-#      *.dacpac
-#    TargetFolder: '$(build.ArtifactStagingDirectory)'
-#    OverWrite: true
-#
-#- task: PublishBuildArtifacts@1
-#  inputs:
-#    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#    ArtifactName: '$(artifactName)'
-#    publishLocation: 'Container'
-#
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.BinariesDirectory)'
+    Contents: |
+      *.dacpac
+    TargetFolder: '$(build.ArtifactStagingDirectory)'
+    OverWrite: true
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(artifactName)'
+    publishLocation: 'Container'
