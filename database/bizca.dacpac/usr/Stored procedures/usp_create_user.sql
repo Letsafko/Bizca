@@ -10,6 +10,7 @@
 	, @birthCountryId	  smallint 
 	, @birthCity		  varchar(50)
 	, @userCode		      uniqueidentifier  
+	, @channels			  int
 	, @economicActivityId smallint = null
 as
 begin
@@ -27,6 +28,7 @@ begin
 			, [partnerId]		    
 			, [civilityId]	    
 			, [economicActivityId]
+			, [notificationChannels]
 			, [firstName]			
 			, [lastName]		
 			, [birthDate]
@@ -44,6 +46,7 @@ begin
 			, @partnerId		 
 			, @civilityId	     
 			, @economicActivityId
+			, @channels
 			, @firstName		 
 			, @lastName			 
 			, @birthDate   		

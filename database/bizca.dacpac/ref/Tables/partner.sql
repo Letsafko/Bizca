@@ -1,7 +1,7 @@
 ﻿create table [ref].[partner]
 (
 	[partnerId]   smallint not null,
-	[partnerCode] varchar(30) not null,
+	[partnerCode] varchar(10) not null,
 	[description] varchar(50) not null,
 	[creationDate] [datetime2] not null,
     [lastUpdate] [datetime2] not null
