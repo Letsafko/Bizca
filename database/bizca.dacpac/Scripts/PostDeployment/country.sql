@@ -1,11 +1,7 @@
-﻿	declare	@country table (
-		[countryId]	    smallint not null,
-		[countryCode]	varchar(2) not null,
-		[description]	varchar(50) not null
-	)
-
-	insert into @country ([countryId], [description], [countryCode])
-	values   (1,'Afghanistan','AF')
+﻿merge into [ref].[country] as target
+	using
+	( 
+		values   (1,'Afghanistan','AF')
 			,(2,'Aland Islands','AX')
 			,(3,'Albania','AL')
 			,(4,'Algeria','DZ')
@@ -170,25 +166,24 @@
 			,(163,'North Korea','KP')
 			,(164,'Northern Mariana Islands','MP')
 			,(165,'Norway','NO')
-			,(166,'Oman','OM')
-
-	merge into [ref].[country] as target
-		using @country source on target.countryId = source.countryId
-	when matched then 
-		update
-			set countryCode = source.countryCode,
-				description = source.description,
-			    lastUpdate  = getutcdate()
-	when not matched by target then
-		insert
-		(
-			countryId, 
-			countryCode, 
-			description
-		)
-		values
-		(
-			source.countryId, 
-			source.countryCode, 
-			source.description
-		);
+			,(166,'Oman','OM') 
+	) as source(countryId, description, countryCode) on target.countryId = source.countryId
+when matched then 
+	update
+		set countryCode = source.countryCode,
+			description = source.description,
+			lastUpdate  = getutcdate()
+when not matched by target then
+	insert
+	(
+		countryId, 
+		countryCode, 
+		description
+	)
+	values
+	(
+		source.countryId, 
+		source.countryCode, 
+		source.description
+	);
+go

@@ -10,7 +10,7 @@ variables:
 
 trigger:
   branches:
-    include: [ 'develop', 'master', 'feature', 'release/*', 'hotfix/*' ]
+    include: [ 'develop', 'master', 'feature', 'release/*', 'hotfix/*', 'bugfix/*' ]
   paths:
     include: [ 'database/bizca.dacpac' ]
 
