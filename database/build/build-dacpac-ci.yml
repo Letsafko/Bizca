@@ -12,8 +12,11 @@ trigger:
     include: [ 'database/bizca.build', 'database/bizca.dacpac' ]
 
 steps:
-- script: 'dotnet restore'
+- task: DotNetCoreCLI@2
   displayName: 'restore'
+  inputs:
+    command: restore
+    projects: '$(projects)'
 
 - task: DotNetCoreCLI@2
   displayName: 'build dacpac'
@@ -23,21 +26,19 @@ steps:
     projects: '$(projects)'
     workingDirectory: $(System.DefaultWorkingDirectory)
 
-- task: DotNetCoreCLI@2
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  displayName: 'publish dacpac'
+- task: CopyFiles@2
   inputs:
-    command: publish
-    projects: '$(projects)'
-    zipAfterPublish: false
-    publishWebProjects: false
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: |
+      **/*.dacpac
+      **/database.profile.xml
+    TargetFolder: '$(build.ArtifactStagingDirectory)/database'
+    OverWrite: true
+    flattenFolders: true
+    
 - task: PublishBuildArtifacts@1
-  displayName: 'webapi artefact'
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  displayName: 'dacpac artefact'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: '$(artifactApi)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/database'
+    ArtifactName: '$(artifactName)'
     publishLocation: 'Container'
-    nobuild: false
