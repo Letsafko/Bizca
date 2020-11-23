@@ -135,16 +135,13 @@
     <Build Include="ref\Stored Procedures\usp_getByCode_country.sql" />
     <Build Include="Security\ref.sql" />
     <Build Include="Security\usr.sql" />
-    <None Include="Scripts\PostDeployment\country.sql" />
-    <None Include="Scripts\PostDeployment\partner.sql" />
     <PostDeploy Include="Scripts\PostDeployment.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
     </PostDeploy>
     <Build Include="usr\Tables\user.sql" />
     <Build Include="ref\Tables\civility.sql" />
     <None Include="Scripts\PostDeployment\civility.sql" />
     <Build Include="ref\Tables\economicActivity.sql" />
-    <None Include="Scripts\PostDeployment\economicActivity.sql" />
     <Build Include="ref\Stored Procedures\usp_getById_civility.sql" />
     <Build Include="ref\Stored Procedures\usp_getById_economicActivity.sql" />
     <Build Include="usr\Stored procedures\usp_getByPartnerAndAppUserId_user.sql" />
@@ -153,5 +150,8 @@
     <Build Include="usr\Stored procedures\usp_getByCriteria_user.sql" />
     <Build Include="usr\Full text\ft_catalog_user.sql" />
     <Build Include="usr\Full text\ft_index_user.sql" />
+    <None Include="Scripts\PostDeployment\country.sql" />
+    <None Include="Scripts\PostDeployment\economicActivity.sql" />
+    <None Include="Scripts\PostDeployment\partner.sql" />
   </ItemGroup>
 </Project>

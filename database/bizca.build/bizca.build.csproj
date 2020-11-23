@@ -1,0 +1,25 @@
+<Project Sdk="MSBuild.Sdk.SqlProj/1.9.0">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <SqlServerVersion>SqlAzure</SqlServerVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\bizca.dacpac\**\*.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="..\bizca.dacpac\bin\Debug\**" />
+    <Content Remove="..\bizca.dacpac\obj\Debug\**" />
+    <Content Remove="bin\**" />
+    <Content Remove="obj\**" />
+    <None Remove="bin\**" />
+    <None Remove="obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="..\bizca.dacpac\Scripts\PostDeployment.sql" />
+  </ItemGroup>
+  
+</Project>

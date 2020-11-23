@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{A03691
 		database\docker\dockerfile = database\docker\dockerfile
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bizca.build", "database\bizca.build\bizca.build.csproj", "{76EFAAF8-B782-4AB2-A970-D54A9EE37532}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{BD7FBE3E-0188-477D-AFB9-41C2C9B0E5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD7FBE3E-0188-477D-AFB9-41C2C9B0E5BD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD7FBE3E-0188-477D-AFB9-41C2C9B0E5BD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{76EFAAF8-B782-4AB2-A970-D54A9EE37532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76EFAAF8-B782-4AB2-A970-D54A9EE37532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76EFAAF8-B782-4AB2-A970-D54A9EE37532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76EFAAF8-B782-4AB2-A970-D54A9EE37532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{BD7FBE3E-0188-477D-AFB9-41C2C9B0E5BD} = {4012C8EC-5724-46E8-858C-FE6221482BD8}
 		{EF7E32D1-D498-4B28-AF92-B3CD28DA3651} = {4012C8EC-5724-46E8-858C-FE6221482BD8}
 		{A036919F-65F6-48DB-89AC-D21FC15CCF36} = {4012C8EC-5724-46E8-858C-FE6221482BD8}
+		{76EFAAF8-B782-4AB2-A970-D54A9EE37532} = {4012C8EC-5724-46E8-858C-FE6221482BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D7BB865-F57C-4290-8D7B-3D1CFD483CDE}
