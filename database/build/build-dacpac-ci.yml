@@ -1,0 +1,43 @@
+name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+
+variables:
+  projects: 'database/bizca.build/bizca.build.csproj'
+  artifactName: "dacpac"
+  buildConfiguration: 'Release'
+
+trigger:
+  branches:
+    include: [ 'develop', 'master', 'feature', 'release/*', 'hotfix/*', 'bugfix/*' ]
+  paths:
+    include: [ 'database/bizca.build', 'database/bizca.dacpac' ]
+
+steps:
+- script: 'dotnet restore'
+    displayName: 'restore'
+
+- task: DotNetCoreCLI@2
+  displayName: 'build dacpac'
+  inputs:
+    command: build
+    configuration: '$(buildConfiguration)'
+    projects: '$(projects)'
+    workingDirectory: $(System.DefaultWorkingDirectory)
+
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  displayName: 'publish dacpac'
+  inputs:
+    command: publish
+    projects: '$(projects)'
+    zipAfterPublish: false
+    publishWebProjects: false
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+    displayName: 'webapi artefact'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: '$(artifactApi)'
+      publishLocation: 'Container'
+      nobuild: false

@@ -39,6 +39,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{EF7E32D1-D498-4B28-AF92-B3CD28DA3651}"
 	ProjectSection(SolutionItems) = preProject
 		database\build\build-ci.yml = database\build\build-ci.yml
+		database\build\build-dacpac-ci.yml = database\build\build-dacpac-ci.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{A036919F-65F6-48DB-89AC-D21FC15CCF36}"
