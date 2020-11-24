@@ -6,12 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\bizca.dacpac\**\*.sql" />
+    <Content Include="..\bizca.database\**\*.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="..\bizca.dacpac\bin\**" />
-    <Content Remove="..\bizca.dacpac\obj\**" />
+    <Content Remove="..\bizca.database\bin\**" />
+    <Content Remove="..\bizca.database\obj\**" />
     <Content Remove="bin\**" />
     <Content Remove="obj\**" />
     <None Remove="bin\**" />
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="..\bizca.dacpac\Scripts\PostDeployment.sql" />
+    <Content Remove="..\bizca.database\Scripts\PostDeployment.sql" />
   </ItemGroup>
   
 </Project>
