@@ -33,8 +33,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Test.Support", "user\test\Bizca.Test.Support\Bizca.Test.Support.csproj", "{36B4C6BC-F733-463B-BEA5-14A79FEC2B4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{4012C8EC-5724-46E8-858C-FE6221482BD8}"
+	ProjectSection(SolutionItems) = preProject
+		database\database.profile.xml = database\database.profile.xml
+	EndProjectSection
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "bizca.dacpac", "database\bizca.dacpac\bizca.dacpac.sqlproj", "{BD7FBE3E-0188-477D-AFB9-41C2C9B0E5BD}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "bizca.database", "database\bizca.database\bizca.database.sqlproj", "{BD7FBE3E-0188-477D-AFB9-41C2C9B0E5BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{EF7E32D1-D498-4B28-AF92-B3CD28DA3651}"
 	ProjectSection(SolutionItems) = preProject
@@ -48,7 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{A03691
 		database\docker\dockerfile = database\docker\dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bizca.build", "database\bizca.build\bizca.build.csproj", "{76EFAAF8-B782-4AB2-A970-D54A9EE37532}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bizca.database.build", "database\bizca.database.build\bizca.database.build.csproj", "{76EFAAF8-B782-4AB2-A970-D54A9EE37532}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
