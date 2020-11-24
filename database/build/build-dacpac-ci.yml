@@ -12,6 +12,10 @@ trigger:
     include: [ 'database/bizca.build', 'database/bizca.dacpac' ]
 
 steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core 3.x sdk'
+  inputs:
+     version: 3.x
 - task: DotNetCoreCLI@2
   displayName: 'restore'
   inputs:
