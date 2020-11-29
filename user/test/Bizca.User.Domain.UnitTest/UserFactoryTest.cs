@@ -1,8 +1,9 @@
 namespace Bizca.User.Domain.UnitTest
 {
-    using Bizca.Test.Support.Factories;
-    using Bizca.Test.Support.Rules;
-    using Bizca.User.Domain.Rules;
+    using Bizca.User.Domain.Agregates.Users;
+    using Bizca.User.Domain.Agregates.Users.Exceptions;
+    using Bizca.User.Domain.Agregates.Users.Rules;
+    using Bizca.User.Domain.UnitTest.Rules;
     using NFluent;
     using System;
     using System.Threading.Tasks;
@@ -12,19 +13,8 @@ namespace Bizca.User.Domain.UnitTest
         [Fact]
         public void UserFactory_OneOfConstructorAgumentIsNull_ThrowArgumentNullException()
         {
-            //arrange
-            static void action()
-            {
-                UserFactoryBuilder.Create()
-                    .WithBusinessRuleEngine(default)
-                    .Build();
-            }
-
-            //act
-            Exception record = Record.Exception(action);
-
-            //assert
-            Check.That(record).IsInstanceOf<ArgumentNullException>();
+            Check.ThatCode(() => UserFactoryBuilder.Instance.WithBusinessRuleEngine(default).Build())
+                 .Throws<ArgumentNullException>();
         }
 
         [Theory]
@@ -33,33 +23,26 @@ namespace Bizca.User.Domain.UnitTest
         public async Task UserFactory_UserAlreadyExistOrNot(bool userExist)
         {
             //arrange
-            UserMustBeUniqueForPartnerBuilder
-                userMustBeUniqueBuilder = UserMustBeUniqueForPartnerBuilder.Create().WithUserExist(userExist);
+            var request = new UserRequest { PartnerCode = "bizca", ExternalUserId = "test" };
+            UserMustBeUniqueByPartnerBuilder userMustBeUniqueBuilder = UserMustBeUniqueByPartnerBuilder.Instance.WithUserExist(userExist);
+            UserRuleEngine engine = UserRuleEngineBuilder.Instance.WithBusinessRule(userMustBeUniqueBuilder.Build()).Build();
+            UserFactoryBuilder factoryBuilder = UserFactoryBuilder.Instance.WithBusinessRuleEngine(engine);
 
-            BusinessUserRuleEngine
-                engine = BusinessUserRuleEngineBuilder.Create().WithBusinessRule(userMustBeUniqueBuilder.Build()).Build();
-
-            UserFactoryBuilder factoryBuilder = UserFactoryBuilder.Create().WithBusinessRuleEngine(engine);
-            Factories.UserFactory factory = factoryBuilder.Build();
-
-            //assert
-            Exception record = default;
+            //act & assert
             if (userExist)
             {
-                record = await Record.ExceptionAsync(() => factory.CreateAsync(new UserRequest())).ConfigureAwait(false);
-
-                userMustBeUniqueBuilder.WithReceiveUserExist(1);
-                Check.That(record).IsInstanceOf<UserDomainException>();
-                Check.That((record as UserDomainException)?.Message).Equals(nameof(UserMustBeUniqueForPartner).ToLower());
+                Check.ThatAsyncCode(() => factoryBuilder.Build().CreateAsync(request))
+                     .Throws<UserAlreadyExistException>()
+                     .WithMessage($"user::{request.ExternalUserId} for partner::{request.PartnerCode} must be unique.");
             }
             else
             {
-                IUser result = await factory.CreateAsync(new UserRequest()).ConfigureAwait(false);
-
-                Check.That(result).IsNotNull();
-                userMustBeUniqueBuilder.WithReceiveUserExist(1);
-                Check.That(result).IsInstanceOf<Entities.User>();
+                var result = await factoryBuilder.Build().CreateAsync(request).ConfigureAwait(false) as User;
+                Check.That(result).IsNotNull().And.InheritsFrom<IUser>();
+                Check.That(result.ExternalUserId).Equals(request.ExternalUserId);
+                Check.That(result.PartnerCode).Equals(request.PartnerCode);
             }
+            userMustBeUniqueBuilder.WithReceiveUserExist(1);
         }
     }
 }

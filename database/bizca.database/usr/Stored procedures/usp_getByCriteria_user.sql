@@ -32,21 +32,21 @@ begin
 	   
 	declare @query nvarchar(MAX) = 
 		'select top(@pageSize)
-			 u.[appUserId]		    
-		   , u.[email]			    
-		   , u.[phoneNumber]	    
-		   , u.[userCode]		    
-		   , u.[partnerId]		    
-		   , u.[firstName]			
-		   , u.[lastName]			
+			 u.appUserId		    
+		   , u.email	    
+		   , u.phoneNumber	    
+		   , u.userCode		    
+		   , u.partnerId		    
+		   , u.firstName			
+		   , u.lastName		
 		   , c.civilityId
 		   , u.birthDate
 		   , u.birthCity
-		   , c.[civilityCode]	
+		   , c.civilityCode
 		   , u.birthCountryId
 		   , co.countryCode birthCountryCode
-		   , e.[economicActivityId]
-		   , e.[economicActivityCode]
+		   , e.economicActivityId
+		   , e.economicActivityCode
 		from [usr].[user] u
 		join [ref].[partner] p on p.partnerId = u.partnerId
 		join [ref].[civility] c on c.civilityId = u.civilityId
@@ -73,17 +73,9 @@ begin
 		set @query = @query + ' and contains((u.firstName, u.lastName), @lastName)';
 
 	if @direction = 'next'
-	begin
-		set @query = @query + ' and u.userId > @index';
-		set @query = @query + ' order by u.userId asc';
-	end
+		set @query = @query + ' and u.userId > @index order by u.userId asc';
 	else
-	begin
-		set @query = @query + ' and u.userId < @index';
-		set @query = @query + ' order by u.userId desc';
-	end
-
-	print(@query);
+		set @query = @query + ' and u.userId < @index order by u.userId desc';
 
 	execute sp_executesql @query
 	, @ParmDefinition
