@@ -1,5 +1,5 @@
 ﻿create procedure [usr].[usp_create_user]
-	  @appUserId		  varchar(10) 
+	  @externalUserId	  varchar(10) 
 	, @email			  varchar(50) 
 	, @phoneNumber	      varchar(15)
 	, @partnerId		  smallint
@@ -21,14 +21,14 @@ begin
 		
 		insert into [usr].[user]
 		(
-			  [appUserId]		    
+			  [externalUserId]		    
 			, [email]			    
 			, [phoneNumber]	    
 			, [userCode]		    
 			, [partnerId]		    
 			, [civilityId]	    
 			, [economicActivityId]
-			, [notificationChannels]
+			, [channels]
 			, [firstName]			
 			, [lastName]		
 			, [birthDate]
@@ -39,7 +39,7 @@ begin
 		)
 		values
 		(
-			  @appUserId		 
+			  @externalUserId		 
 			, @email			 
 			, @phoneNumber	     
 			, @userCode		     

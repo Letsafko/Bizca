@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Domain.UnitTest
+﻿namespace Bizca.User.Domain.UnitTest.Factories
 {
     using Bizca.User.Domain.Agregates.Users.Factories;
     using Bizca.User.Domain.Agregates.Users.Rules;

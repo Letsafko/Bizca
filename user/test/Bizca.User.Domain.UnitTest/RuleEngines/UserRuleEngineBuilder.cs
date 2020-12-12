@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Domain.UnitTest.Rules
+﻿namespace Bizca.User.Domain.UnitTest.Rules.RuleEngines
 {
     using Bizca.User.Domain.Agregates.Users.Rules;
     using System.Collections.Generic;
@@ -6,10 +6,10 @@
 
     public sealed class UserRuleEngineBuilder
     {
-        private readonly ICollection<IUserRule> _businessRules;
+        private ICollection<IUserRule> _businessRules;
         private UserRuleEngineBuilder()
         {
-            _businessRules = new List<IUserRule>();
+            _businessRules = default;
         }
 
         public static UserRuleEngineBuilder Instance => new UserRuleEngineBuilder();
@@ -24,6 +24,7 @@
             if (rule is null)
                 return this;
 
+            _businessRules ??= new List<IUserRule>();
             _businessRules.Add(rule);
             return this;
         }

@@ -8,16 +8,16 @@
 
     public sealed class UserRuleEngine : IUserRuleEngine
     {
-        private readonly ICollection<IUserRule> _businessRules;
-        public UserRuleEngine(ICollection<IUserRule> businessRules)
+        private readonly ICollection<IUserRule> _userBusinessRules;
+        public UserRuleEngine(ICollection<IUserRule> userBusinessRules)
         {
-            _businessRules = businessRules ?? throw new ArgumentNullException(nameof(businessRules));
+            _userBusinessRules = userBusinessRules ?? throw new ArgumentNullException(nameof(userBusinessRules));
         }
 
         public async Task<RuleResultCollection> CheckRulesAsync(UserRequest request)
         {
             var collection = new RuleResultCollection();
-            foreach (IBusinessRule<UserRequest> rule in _businessRules)
+            foreach (IBusinessRule<UserRequest> rule in _userBusinessRules)
             {
                 RuleResult result = await rule.CheckAsync(request).ConfigureAwait(false);
                 collection.Add(result);

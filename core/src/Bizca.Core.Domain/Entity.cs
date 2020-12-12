@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Core.Domain
 {
-    public abstract class Entity
+    public class Entity
     {
-        public abstract int Id { get; }
+        public int Id { get; set; }
     }
 }

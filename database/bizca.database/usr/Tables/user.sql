@@ -1,13 +1,13 @@
 ﻿create table [usr].[user]
 (
 	[userId]		        int identity(1,1) not null,
-	[appUserId]		        varchar(10) not null,
+	[externalUserId]	    varchar(10) not null,
 	[email]			        varchar(50) not null,
 	[phoneNumber]	        varchar(15) not null,
 	[userCode]		        uniqueidentifier not null,
 	[partnerId]		        smallint not null,
 	[civilityId]	        smallint not null,
-	[notificationChannels]	int not null,
+	[channels]				int not null,
 	[economicActivityId]	smallint  null,
 	[firstName]				nvarchar(50) not null,
 	[lastName]			    nvarchar(50) not null,
@@ -43,7 +43,7 @@ go
 create index [ix_economicActivity_economicActivityId] on [usr].[user] ([economicActivityId])
 go
 
-create unique index [ix_partnerId_appUserId] on [usr].[user] ([partnerId], [appUserId])
+create unique index [ix_partnerId_externalUserId] on [usr].[user] ([partnerId], [externalUserId])
 go
 
 create unique index [ix_partnerId_email] on [usr].[user] ([partnerId], [email])

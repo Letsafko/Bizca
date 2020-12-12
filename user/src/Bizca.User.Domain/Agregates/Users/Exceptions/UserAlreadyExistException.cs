@@ -3,8 +3,10 @@
     using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     [Serializable]
+    [ExcludeFromCodeCoverage]
     public sealed class UserAlreadyExistException : DomainException
     {
         /// <inheritdoc/>

@@ -3,6 +3,7 @@
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Exceptions;
     using Bizca.User.Domain.Agregates.Users.Rules;
+    using Bizca.User.Domain.Agregates.Users.ValueObjects;
     using System;
     using System.Threading.Tasks;
 
@@ -20,10 +21,10 @@
 
         public async Task<IUser> CreateAsync(UserRequest request)
         {
-           RuleResultCollection collection = await _userRuleEngine.CheckRulesAsync(request).ConfigureAwait(false);
+            RuleResultCollection collection = await _userRuleEngine.CheckRulesAsync(request).ConfigureAwait(false);
             ManageResultChecks(collection);
 
-           return new User(new UserCode(Guid.NewGuid()), request.ExternalUserId, request.PartnerCode);
+            return new User(new UserCode(Guid.NewGuid()), request.Partner, request.ExternalUserId);
         }
 
         private void ManageResultChecks(RuleResultCollection collection)

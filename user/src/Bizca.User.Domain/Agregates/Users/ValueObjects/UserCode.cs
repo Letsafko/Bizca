@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Domain.Agregates.Users
+﻿namespace Bizca.User.Domain.Agregates.Users.ValueObjects
 {
     using Bizca.Core.Domain;
     using System;
@@ -15,6 +15,11 @@
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Code;
+        }
+
+        public override string ToString()
+        {
+            return Code.ToString();
         }
     }
 }

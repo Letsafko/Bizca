@@ -1,8 +1,11 @@
-﻿namespace Bizca.User.Domain.UnitTest.Rules
+﻿namespace Bizca.User.Domain.UnitTest.Rules.RuleEngines
 {
     using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Partner;
+    using Bizca.Core.Support.Test.Builders;
     using Bizca.User.Domain.Agregates.Users;
     using Bizca.User.Domain.Agregates.Users.Rules;
+    using Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner;
     using NFluent;
     using System;
     using System.Collections.Generic;
@@ -24,11 +27,12 @@
         public async Task BusinessUserRuleEngine_UserExist_ThrowDomainExceptionAsync(bool userExist)
         {
             //arrange
+            Partner partner = PartnerBuilder.Instance.Build();
             UserMustBeUniqueByPartnerBuilder userMustBeUniqueBuilder = UserMustBeUniqueByPartnerBuilder.Instance.WithUserExist(userExist);
             UserRuleEngine engine = UserRuleEngineBuilder.Instance.WithBusinessRule(userMustBeUniqueBuilder.Build()).Build();
 
             //act
-            RuleResultCollection ruleResultCollection = await engine.CheckRulesAsync(new UserRequest()).ConfigureAwait(false);
+            RuleResultCollection ruleResultCollection = await engine.CheckRulesAsync(new UserRequest { Partner = partner }).ConfigureAwait(false);
 
             //assert
             userMustBeUniqueBuilder.WithReceiveUserExist(1);

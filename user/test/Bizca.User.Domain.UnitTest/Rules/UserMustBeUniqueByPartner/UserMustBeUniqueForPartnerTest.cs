@@ -1,6 +1,8 @@
-﻿namespace Bizca.User.Domain.UnitTest.Rules
+﻿namespace Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner
 {
     using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Partner;
+    using Bizca.Core.Support.Test.Builders;
     using Bizca.User.Domain.Agregates.Users;
     using NFluent;
     using System;
@@ -25,7 +27,8 @@
             UserMustBeUniqueByPartnerBuilder builder = UserMustBeUniqueByPartnerBuilder.Instance.WithUserExist(userExist);
 
             //act
-            RuleResult result = await builder.Build().CheckAsync(new UserRequest()).ConfigureAwait(false);
+            Partner partner = PartnerBuilder.Instance.Build();
+            RuleResult result = await builder.Build().CheckAsync(new UserRequest { Partner = partner }).ConfigureAwait(false);
 
             //assert
             builder.WithReceiveUserExist(1);

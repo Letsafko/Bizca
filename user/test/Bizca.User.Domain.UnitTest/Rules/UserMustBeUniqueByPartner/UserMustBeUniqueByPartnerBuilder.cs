@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Domain.UnitTest.Rules
+﻿namespace Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner
 {
     using Bizca.User.Domain.Agregates.Users.Repositories;
     using Bizca.User.Domain.Agregates.Users.Rules;

@@ -1,9 +1,9 @@
-﻿create procedure [usr].[usp_getByPartnerAndAppUserId_user]
-	@partnerId smallint,
-	@appUserId varchar(10)
+﻿create procedure [usr].[usp_getByPartnerAndExternalUserId_user]
+	@partnerId		smallint,
+	@externalUserId varchar(10)
 as
 	select
-	     u.[appUserId]		    
+	     u.[externalUserId]		    
 	   , u.[email]			    
 	   , u.[phoneNumber]	    
 	   , u.[userCode]		    
@@ -22,5 +22,5 @@ as
 	join [ref].[civility] c on c.civilityId = u.civilityId
 	join [ref].[country] co on co.countryId = u.birthCountryId
 	left join [ref].[economicActivity] e on e.economicActivityId = u.economicActivityId
-	where appUserId = @appUserId and
-		  partnerId = @partnerId
+	where externalUserId = @externalUserId and
+		  partnerId		 = @partnerId

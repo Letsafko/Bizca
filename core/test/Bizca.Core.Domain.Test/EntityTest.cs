@@ -22,7 +22,6 @@ namespace Bizca.Core.Domain.Test
 
     public sealed class FakeEntity : Entity
     {
-        public override int Id { get; }
         public FakeEntity(int id)
         {
             Id = id;

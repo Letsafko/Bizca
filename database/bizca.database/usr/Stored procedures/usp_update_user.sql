@@ -1,5 +1,5 @@
 ﻿create procedure [usr].[usp_update_user]
-	  @appUserId		  varchar(10)  
+	  @externalUserId	  varchar(10)  
 	, @partnerId		  smallint	   
 	, @email			  varchar(50)  = null
 	, @phoneNumber	      varchar(15)  = null
@@ -25,11 +25,11 @@ begin
 			, u.[birthCity]		       = @birthCity
 			, u.[birthDate]		       = @birthDate
 			, u.[birthCountryId]	   = @birthCountryId
-			, u.[notificationChannels] = @channels
+			, u.[channels]			   = @channels
 			, u.[economicActivityId]   = @economicActivityId
 			, u.[lastUpdate]		   = getutcdate()
 	from [usr].[user] u
-	where appUserId = @appUserId and
+	where externalUserId = @externalUserId and
 		  partnerId = @partnerId
 
 end

@@ -16,9 +16,9 @@
 
         public async Task<RuleResult> CheckAsync(UserRequest request)
         {
-            bool result = !await _userRepository.IsExistAsync(request.PartnerId, request.ExternalUserId).ConfigureAwait(false);
+            bool result = !await _userRepository.IsExistAsync(request.Partner.Id, request.ExternalUserId).ConfigureAwait(false);
             return new RuleResult(result,
-                result ? default : $"user::{request.ExternalUserId} for partner::{request.PartnerCode} must be unique.",
+                result ? default : $"user::{request.ExternalUserId} for partner::{request.Partner.PartnerCode} must be unique.",
                 result ? default : typeof(UserAlreadyExistException));
         }
     }
