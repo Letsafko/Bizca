@@ -1,4 +1,4 @@
-namespace Bizca.User.Infrastructure.UnitTest.UnitOfWork
+namespace Bizca.Core.Infrastructure.Test
 {
     using Bizca.Core.Infrastructure.Abstracts;
     using Bizca.Core.Infrastructure.Abstracts.Configuration;

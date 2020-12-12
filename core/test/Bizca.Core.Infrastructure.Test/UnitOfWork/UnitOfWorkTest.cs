@@ -1,4 +1,4 @@
-namespace Bizca.User.Infrastructure.UnitTest.UnitOfWork
+namespace Bizca.Core.Infrastructure.Test
 {
     using Bizca.Core.Domain.Repositories;
     using Bizca.Core.Infrastructure;
@@ -91,11 +91,11 @@ namespace Bizca.User.Infrastructure.UnitTest.UnitOfWork
                 .Build();
 
             //act
-            IRepository repository = unitOfWork.GetRepository<UserRepository>();
+            IRepository repository = unitOfWork.GetRepository<UnitOfWorkRepository>();
 
             //assert
             Check.That(repository).IsNotNull().And
-                 .IsInstanceOf<UserRepository>();
+                 .IsInstanceOf<UnitOfWorkRepository>();
         }
     }
 }
