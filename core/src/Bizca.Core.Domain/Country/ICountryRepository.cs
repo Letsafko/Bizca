@@ -1,7 +1,10 @@
 ﻿namespace Bizca.Core.Domain.Country
 {
-    public interface ICountryRepository
+    using Bizca.Core.Domain.Repositories;
+    using System.Threading.Tasks;
+
+    public interface ICountryRepository : IRepository
     {
-        Country GetByCode(string code);
+        Task<Country> GetByCodeAsync(string countryCode);
     }
 }

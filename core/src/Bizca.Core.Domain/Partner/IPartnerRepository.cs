@@ -1,7 +1,10 @@
 ﻿namespace Bizca.Core.Domain.Partner
 {
-    public interface IPartnerRepository
+    using Bizca.Core.Domain.Repositories;
+    using System.Threading.Tasks;
+
+    public interface IPartnerRepository : IRepository
     {
-        Partner GetByCode(string partnerCode);
+        Task<Partner> GetByCodeAsync(string partnerCode);
     }
 }
