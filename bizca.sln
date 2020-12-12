@@ -65,13 +65,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Support.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.User.Infrastructure", "user\src\Bizca.User.Infrastructure\Bizca.User.Infrastructure.csproj", "{2AD792A5-3053-4901-8BAC-F12D558CFC9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Core.Infrastructure.Abstracts", "core\src\Bizca.Core.Infrastructure.Abstracts\Bizca.Core.Infrastructure.Abstracts.csproj", "{4ECBD64F-9D9C-47A2-9C46-4D7AFE9C3A74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Infrastructure.Abstracts", "core\src\Bizca.Core.Infrastructure.Abstracts\Bizca.Core.Infrastructure.Abstracts.csproj", "{4ECBD64F-9D9C-47A2-9C46-4D7AFE9C3A74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Core.Infrastructure", "core\src\Bizca.Core.Infrastructure\Bizca.Core.Infrastructure.csproj", "{9F09439F-CAC7-4381-9A91-9BEAF0EA9CCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Infrastructure", "core\src\Bizca.Core.Infrastructure\Bizca.Core.Infrastructure.csproj", "{9F09439F-CAC7-4381-9A91-9BEAF0EA9CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.User.Infrastructure.UnitTest", "user\test\Bizca.User.Infrastructure.UnitTest\Bizca.User.Infrastructure.UnitTest.csproj", "{624E98DD-30A2-441B-9D97-1E881FFA038C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.User.Infrastructure.UnitTest", "user\test\Bizca.User.Infrastructure.UnitTest\Bizca.User.Infrastructure.UnitTest.csproj", "{624E98DD-30A2-441B-9D97-1E881FFA038C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Core.Infrastructure.Test", "core\test\Bizca.Core.Infrastructure.Test\Bizca.Core.Infrastructure.Test.csproj", "{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Infrastructure.Test", "core\test\Bizca.Core.Infrastructure.Test\Bizca.Core.Infrastructure.Test.csproj", "{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Core.Application.Abstracts", "core\src\Bizca.Core.Application.Abstracts\Bizca.Core.Application.Abstracts.csproj", "{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Core.Application", "core\src\Bizca.Core.Application\Bizca.Core.Application.csproj", "{A723CA4A-26FF-4E4E-B313-2BF0B12A8B63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Core.Application.Test", "core\test\Bizca.Core.Application.Test\Bizca.Core.Application.Test.csproj", "{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +139,18 @@ Global
 		{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A723CA4A-26FF-4E4E-B313-2BF0B12A8B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A723CA4A-26FF-4E4E-B313-2BF0B12A8B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A723CA4A-26FF-4E4E-B313-2BF0B12A8B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A723CA4A-26FF-4E4E-B313-2BF0B12A8B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,6 +177,9 @@ Global
 		{9F09439F-CAC7-4381-9A91-9BEAF0EA9CCE} = {EE1A66BE-1601-4D86-A082-F391F986C43A}
 		{624E98DD-30A2-441B-9D97-1E881FFA038C} = {D685D605-5CF4-4A64-806B-BAB0FF71912F}
 		{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF} = {99C1A37C-EE0E-4791-90CF-C90520CE17A7}
+		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2} = {EE1A66BE-1601-4D86-A082-F391F986C43A}
+		{A723CA4A-26FF-4E4E-B313-2BF0B12A8B63} = {EE1A66BE-1601-4D86-A082-F391F986C43A}
+		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37} = {99C1A37C-EE0E-4791-90CF-C90520CE17A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D7BB865-F57C-4290-8D7B-3D1CFD483CDE}
