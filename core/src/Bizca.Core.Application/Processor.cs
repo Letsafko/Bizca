@@ -28,6 +28,10 @@
             await _mediator.Send(command).ConfigureAwait(false);
         }
 
+        public async Task ProcessQueryAsync(IQuery query)
+        {
+            await _mediator.Send(query).ConfigureAwait(false);
+        }
         public async Task ProcessQueryAsync<TResult>(IQuery<TResult> query)
         {
             await _mediator.Send(query).ConfigureAwait(false);

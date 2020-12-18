@@ -2,6 +2,7 @@
 {
     using Bizca.Core.Application.Abstracts.Commands;
     using Bizca.Core.Application.Abstracts.Queries;
+    using Bizca.Core.Application.Test.Cqrs;
     using Bizca.Core.Support.Test;
     using MediatR;
     using NFluent;
@@ -49,6 +50,22 @@
             //assert
             Check.That(arg[0]).IsInstanceOf<FakeCommand2>();
             Check.That(arg[0]).InheritsFrom<ICommand>();
+        }
+
+        [Fact]
+        public async Task ProcessQuery2_Receive_Send()
+        {
+            //arrance
+            var arg = new ArgCapture<FakeQuery2>();
+            IMediator _mediator = Substitute.For<IMediator>();
+            await _mediator.Send(arg.Capture()).ConfigureAwait(false);
+
+            //act
+            await new Processor(_mediator).ProcessQueryAsync(new FakeQuery2()).ConfigureAwait(false);
+
+            //assert
+            Check.That(arg[0]).IsInstanceOf<FakeQuery2>();
+            Check.That(arg[0]).InheritsFrom<IQuery>();
         }
 
         [Fact]

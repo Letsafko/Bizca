@@ -8,6 +8,8 @@
 	[partnerId]		        smallint not null,
 	[civilityId]	        smallint not null,
 	[channels]				int not null,
+	[activeChannels]		int not null,
+	[confirmedChannels]		int not null,
 	[economicActivityId]	smallint  null,
 	[firstName]				nvarchar(50) not null,
 	[lastName]			    nvarchar(50) not null,

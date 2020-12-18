@@ -1,6 +1,5 @@
 namespace Bizca.Core.Infrastructure.Test
 {
-    using Bizca.Core.Domain.Repositories;
     using Bizca.Core.Infrastructure;
     using Bizca.Core.Infrastructure.Abstracts.Configuration;
     using NFluent;
@@ -79,23 +78,6 @@ namespace Bizca.Core.Infrastructure.Test
             Received.InOrder(() => unitOfWork.Reset());
             Check.That(unitOfWork.Connection).IsNull();
             Check.That(unitOfWork.Transaction).IsNull();
-        }
-
-        [Fact]
-        public void GetRepository_ShouldReturn_GenericRepositoryParameter()
-        {
-            //arrange
-            connection.BeginTransaction(IsolationLevel.ReadCommitted).Returns(transaction);
-            UnitOfWork unitOfWork = UnitOfWorkBuilder.Instance
-                .WithDbConnection<BizcaDatabaseConfiguration>(connection)
-                .Build();
-
-            //act
-            IRepository repository = unitOfWork.GetRepository<UnitOfWorkRepository>();
-
-            //assert
-            Check.That(repository).IsNotNull().And
-                 .IsInstanceOf<UnitOfWorkRepository>();
         }
     }
 }

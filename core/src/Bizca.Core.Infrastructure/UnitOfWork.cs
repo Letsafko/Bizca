@@ -1,10 +1,8 @@
 ﻿namespace Bizca.Core.Infrastructure
 {
-    using Bizca.Core.Domain.Repositories;
     using Bizca.Core.Infrastructure.Abstracts;
     using Bizca.Core.Infrastructure.Abstracts.Configuration;
     using System;
-    using System.Collections.Generic;
     using System.Data;
 
     public sealed class UnitOfWork : IUnitOfWork
@@ -20,7 +18,6 @@
         }
 
         private bool _disposed;
-        private readonly IDictionary<Type, IRepository> _repositories = new Dictionary<Type, IRepository>();
 
         #endregion
 
@@ -28,14 +25,6 @@
         public IDbTransaction Transaction { get; private set; }
 
         #region methods
-
-        public IRepository GetRepository<TRepository>() where TRepository : IRepository
-        {
-            if (!_repositories.ContainsKey(typeof(TRepository)))
-                _repositories[typeof(TRepository)] = Activator.CreateInstance(typeof(TRepository), this) as IRepository;
-
-            return _repositories[typeof(TRepository)];
-        }
 
         public void Rollback()
         {

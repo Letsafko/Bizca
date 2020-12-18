@@ -1,10 +1,9 @@
 ﻿namespace Bizca.User.Domain.Agregates.Users.Repositories
 {
-    using Bizca.Core.Domain.Repositories;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IUserRepository : IRepository
+    public interface IUserRepository
     {
         Task<bool> AddAsync(User user);
         Task<bool> UpdateAsync(User user);

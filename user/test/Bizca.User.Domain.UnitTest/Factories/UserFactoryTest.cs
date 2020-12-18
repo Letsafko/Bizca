@@ -43,7 +43,7 @@ namespace Bizca.User.Domain.UnitTest.Factories
             {
                 var result = await factoryBuilder.Build().CreateAsync(request).ConfigureAwait(false) as User;
                 Check.That(result).IsNotNull().And.InheritsFrom<IUser>();
-                Check.That(result.ExternalUserId).Equals(request.ExternalUserId);
+                Check.That(result.ExternalUserId.AppUserId).Equals(request.ExternalUserId);
                 Check.That(result.Partner).Equals(request.Partner);
             }
             userMustBeUniqueBuilder.WithReceiveUserExist(1);

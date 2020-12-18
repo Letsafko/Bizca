@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Core.Infrastructure
 {
     using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Domain.Repositories;
+    using Bizca.Core.Infrastructure.Abstracts;
     using Dapper;
     using System.Data;
     using System.Diagnostics.CodeAnalysis;

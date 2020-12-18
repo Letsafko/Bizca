@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Infrastructure
 {
-    using Bizca.Core.Domain.Repositories;
+    using Bizca.Core.Infrastructure.Abstracts;
     using Bizca.User.Domain.Agregates.Users;
     using Bizca.User.Domain.Agregates.Users.Repositories;
     using Dapper;

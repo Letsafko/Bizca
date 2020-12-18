@@ -24,7 +24,7 @@
             RuleResultCollection collection = await _userRuleEngine.CheckRulesAsync(request).ConfigureAwait(false);
             ManageResultChecks(collection);
 
-            return new User(new UserCode(Guid.NewGuid()), request.Partner, request.ExternalUserId);
+            return new User(request.Partner, new UserCode(Guid.NewGuid()), new ExternalUserId(request.ExternalUserId));
         }
 
         private void ManageResultChecks(RuleResultCollection collection)

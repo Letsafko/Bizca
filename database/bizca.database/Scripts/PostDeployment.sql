@@ -10,6 +10,7 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+:r .\PostDeployment\channel.sql
 :r .\PostDeployment\partner.sql
 :r .\PostDeployment\country.sql 
 :r .\PostDeployment\civility.sql
