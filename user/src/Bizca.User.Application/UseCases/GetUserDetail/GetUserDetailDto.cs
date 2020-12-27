@@ -1,9 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
     using Bizca.User.Domain.Agregates.Users;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     public sealed class GetUserDetailDto
     {
@@ -14,7 +12,7 @@
         public string Civility { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
-        public IEnumerable<string> Channels { get; set; }
+        public List<Channel> Channels { get; set; }
         public string BirthCity { get; set; }
         public string BirthDate { get; set; }
         public string BirthCountry { get; set; }
@@ -26,7 +24,10 @@
         private readonly GetUserDetailDto _getUserDetail;
         private GetUserDetailBuilder()
         {
-            _getUserDetail = new GetUserDetailDto();
+            _getUserDetail = new GetUserDetailDto
+            {
+               Channels = new List<Channel>()
+            };
         }
 
         public static GetUserDetailBuilder Instance => new GetUserDetailBuilder();
@@ -47,15 +48,27 @@
             return this;
         }
 
-        public GetUserDetailBuilder WithEmail(string email)
+        public GetUserDetailBuilder WithEmail(string email, int? active, int? confirmed)
         {
-            _getUserDetail.Email = email;
+            if(!string.IsNullOrWhiteSpace(email))
+                _getUserDetail.Channels.Add(new Channel(email, nameof(NotificationChanels.Email).ToLower(), ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+
             return this;
         }
 
-        public GetUserDetailBuilder WithPhoneNumber(string phoneNumber)
+        public GetUserDetailBuilder WithPhoneNumber(string phoneNumber, int? active, int? confirmed)
         {
-            _getUserDetail.PhoneNumber = phoneNumber;
+            if (!string.IsNullOrWhiteSpace(phoneNumber))
+                _getUserDetail.Channels.Add(new Channel(phoneNumber, nameof(NotificationChanels.Sms).ToLower(), ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+
+            return this;
+        }
+
+        public GetUserDetailBuilder WithWhatsapp(string whatsapp, int? active, int? confirmed)
+        {
+            if (!string.IsNullOrWhiteSpace(whatsapp))
+                _getUserDetail.Channels.Add(new Channel(whatsapp, nameof(NotificationChanels.Whatsapp).ToLower(), ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+
             return this;
         }
 
@@ -74,15 +87,6 @@
         public GetUserDetailBuilder WithFirstName(string firstname)
         {
             _getUserDetail.FirstName = firstname;
-            return this;
-        }
-
-        public GetUserDetailBuilder WithChannels(NotificationChanels channels)
-        {
-            _getUserDetail.Channels = from NotificationChanels item
-                                      in Enum.GetValues(typeof(NotificationChanels)).Cast<NotificationChanels>()
-                                      where (channels & item) != 0
-                                      select item.ToString();
             return this;
         }
 
@@ -108,6 +112,11 @@
         {
             _getUserDetail.EconomicActivity = economicActivity;
             return this;
+        }
+
+        private bool ConvertToBoolean(int value)
+        {
+            return value == 1;
         }
     }
 }

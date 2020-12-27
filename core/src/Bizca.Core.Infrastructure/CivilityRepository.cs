@@ -25,12 +25,14 @@
         public async Task<Civility> GetByIdAsync(int civilityId)
         {
             dynamic result = await _unitOfWork.Connection
-                    .QueryFirstAsync(getCivilityByIdStoredProcedure,
+                    .QueryFirstOrDefaultAsync(getCivilityByIdStoredProcedure,
                             new { civilityId },
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
 
-            return new Civility(result.civilityId, result.civilityCode);
+            return result is null
+                    ? default
+                    : new Civility(result.civilityId, result.civilityCode);
         }
     }
 }

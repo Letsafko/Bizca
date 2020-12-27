@@ -3,6 +3,7 @@
   , @externalUserId	varchar(10)	  = null
   , @email			varchar(50)	  = null
   , @phone			varchar(15)	  = null
+  , @whatsapp		varchar(15)	  = null
   , @firstName		nvarchar(50)  = null
   , @lastName		nvarchar(50)  = null
   , @birthDate		date		  = null
@@ -24,6 +25,7 @@ begin
 	  , @externalUserId	varchar(10)	
 	  , @email			varchar(50)	
 	  , @phone			varchar(15)	
+	  , @whatsapp		varchar(15)
 	  , @firstName		nvarchar(50)
 	  , @lastName		nvarchar(50)
 	  , @birthDate		date		
@@ -34,8 +36,6 @@ begin
 	declare @query nvarchar(MAX) = 
 		'select top(@pageSize)
 			 u.externalUserId		    
-		   , u.email	    
-		   , u.phoneNumber	    
 		   , u.userCode		    
 		   , u.partnerId		    
 		   , u.firstName			
@@ -46,22 +46,38 @@ begin
 		   , c.civilityCode
 		   , u.birthCountryId
 		   , co.countryCode birthCountryCode
+		   , uc.email	    
+		   , uc.emailActive	    
+		   , uc.emailconfirmed	    
+		   , uc.phone	    
+		   , uc.phoneActive	    
+		   , uc.phoneConfirmed	    
+		   , uc.whatsapp	    
+		   , uc.whatsappActive	    
+		   , uc.whatsappConfirmed	    
+		   , uc.messenger
+		   , uc.messengerActive	    
+		   , uc.messengerConfirmed	    
 		   , e.economicActivityId
 		   , e.economicActivityCode
 		from [usr].[user] u
 		join [ref].[civility] c on c.civilityId = u.civilityId
 		join [ref].[country] co on co.countryId = u.birthCountryId
 		left join [ref].[economicActivity] e on e.economicActivityId = u.economicActivityId
+		outer apply usr.fn_getPivotByUserId_channel(u.userId) uc
 		where u.partnerId = @partnerId';
 
 	if @phone is not null
-		set @query = @query + ' and u.phoneNumber = @phone';
+		set @query = @query + ' and uc.phone = @phone';
+
+	if @whatsapp is not null
+		set @query = @query + ' and uc.whatsapp = @whatsapp';
 	
 	if @birthDate is not null
 		set @query = @query + ' and u.birthDate = @birthDate';
 
 	if @email is not null
-		set @query = @query + ' and contains((u.firstName, u.lastName, u.email), @email)';
+		set @query = @query + ' and uc.email = @email';
 
 	if @externalUserId is not null
 		set @query = @query + ' and u.externalUserId = @externalUserId';
@@ -84,7 +100,8 @@ begin
 	, @partnerId
 	, @externalUserId	
 	, @email		
-	, @phone		
+	, @phone	
+	, @whatsapp
 	, @firstName	
 	, @lastName	
 	, @birthDate	

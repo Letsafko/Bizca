@@ -25,12 +25,14 @@
         public async Task<Partner> GetByCodeAsync(string partnerCode)
         {
             dynamic result = await _unitOfWork.Connection
-                    .QueryFirstAsync(getPartnerByCodeStoredProcedure,
+                    .QueryFirstOrDefaultAsync(getPartnerByCodeStoredProcedure,
                             new { partnerCode },
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
 
-            return new Partner(result.partnerId, result.partnerCode, result.description);
+            return result is null
+                    ? default
+                    : new Partner(result.partnerId, result.partnerCode, result.description);
         }
     }
 }

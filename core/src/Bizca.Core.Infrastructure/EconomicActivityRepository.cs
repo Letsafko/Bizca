@@ -25,12 +25,14 @@
         public async Task<EconomicActivity> GetByIdAsync(int economicActivityId)
         {
             dynamic result = await _unitOfWork.Connection
-                    .QueryFirstAsync(getEconomicActivityByIdStoredProcedure,
+                    .QueryFirstOrDefaultAsync(getEconomicActivityByIdStoredProcedure,
                             new { economicActivityId },
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
 
-            return new EconomicActivity(result.economicActivityId, result.economicActivityCode, result.description);
+            return result is null
+                    ? default
+                    : new EconomicActivity(result.economicActivityId, result.economicActivityCode, result.description);
         }
     }
 }

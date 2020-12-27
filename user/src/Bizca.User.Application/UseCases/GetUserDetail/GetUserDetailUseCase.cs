@@ -2,7 +2,6 @@
 {
     using Bizca.Core.Application.Abstracts.Queries;
     using Bizca.Core.Domain.Partner;
-    using Bizca.User.Domain.Agregates.Users;
     using Bizca.User.Domain.Agregates.Users.Repositories;
     using MediatR;
     using System;
@@ -11,10 +10,10 @@
 
     public sealed class GetUserDetailUseCase : IQueryHandler<GetUserDetailQuery>
     {
-        private readonly IOutputPort _outputPort;
+        private readonly IGetUserDetailOutput _outputPort;
         private readonly IUserRepository _userRepository;
         private readonly IPartnerRepository _partnerRepository;
-        public GetUserDetailUseCase(IOutputPort outputPort, IPartnerRepository partnerRepository, IUserRepository userRepository)
+        public GetUserDetailUseCase(IGetUserDetailOutput outputPort, IPartnerRepository partnerRepository, IUserRepository userRepository)
         {
             _outputPort = outputPort ?? throw new ArgumentNullException(nameof(outputPort));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
@@ -47,14 +46,14 @@
         private GetUserDetailDto BuildDto(dynamic result)
         {
             return GetUserDetailBuilder.Instance
-                .WithUserCode(result.userCode)
+                .WithUserCode(result.userCode.ToString())
                 .WithExternalUserId(result.externalUserId)
-                .WithEmail(result.email)
-                .WithPhoneNumber(result.phoneNumber)
+                .WithEmail(result.email, result.emailActive, result.emailConfirmed)
+                .WithPhoneNumber(result.phone, result.phoneActive, result.phoneConfirmed)
+                .WithWhatsapp(result.whatsapp, result.whatsappActive, result.whatsappConfirmed)
                 .WithCivility(result.civilityCode)
                 .WithLastName(result.lastName)
                 .WithFirstName(result.firstName)
-                .WithChannels((NotificationChanels)1)
                 .WithBirthCity(result.birthCity)
                 .WithBirthDate(result.birthDate.ToString("yyyy/MM/dd"))
                 .WithBirthCountry(result.birthCountryCode)

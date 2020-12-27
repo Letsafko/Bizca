@@ -29,6 +29,13 @@
                 partnerId = user.Partner.Id,
                 userCode = user.UserCode.ToString(),
                 externalUserId = user.ExternalUserId,
+                civilityId = user.Civility.CivilityId,
+                lastName = user.LastName,
+                firstName = user.FirstName,
+                birthDate = user.BirthDate,
+                birthCity = user.BirthCity,
+                birthCountryId = user.BirthCountry.Id,
+                economicActivityId = user.EconomicActivity?.Id
             };
 
             return await _unitOfWork.Connection
@@ -43,9 +50,15 @@
         {
             var parameters = new
             {
-                externalUserId = user.ExternalUserId,
                 partnerId = user.Partner.Id,
-                userCode = user.UserCode.ToString(),
+                externalUserId = user.ExternalUserId,
+                civilityId = user.Civility.CivilityId,
+                lastName = user.LastName,
+                firstName = user.FirstName,
+                birthDate = user.BirthDate,
+                birthCity = user.BirthCity,
+                birthCountryId = user.BirthCountry.Id,
+                economicActivityId = user.EconomicActivity?.Id
             };
 
             return await _unitOfWork.Connection
@@ -65,7 +78,7 @@
             };
 
             return await _unitOfWork.Connection
-                    .QueryFirstAsync(getByPartnerAndExternalUserIdStoredProcedure,
+                    .QueryFirstOrDefaultAsync(getByPartnerAndExternalUserIdStoredProcedure,
                             parameters,
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
@@ -96,6 +109,7 @@
                 email = criteria.Email,
                 index = criteria.PageIndex,
                 phone = criteria.PhoneNumber,
+                whatsapp = criteria.WhatsappNumber,
                 lastName = criteria.LastName,
                 pageSize = criteria.PageSize,
                 birthDate = criteria.BirthDate,

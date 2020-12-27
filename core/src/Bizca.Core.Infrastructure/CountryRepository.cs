@@ -25,12 +25,14 @@
         public async Task<Country> GetByCodeAsync(string countryCode)
         {
             dynamic result = await _unitOfWork.Connection
-                    .QueryFirstAsync(getCountryByCodeStoredProcedure,
+                    .QueryFirstOrDefaultAsync(getCountryByCodeStoredProcedure,
                             new { countryCode },
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
 
-            return new Country(result.countryId, result.countryCode, result.description);
+            return result is null
+                    ? default
+                    : new Country(result.countryId, result.countryCode, result.description);
         }
     }
 }

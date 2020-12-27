@@ -1,5 +1,4 @@
 ﻿create fulltext index on [usr].[user](
-	[email] language [english],
 	[lastName] language [english],
 	[firstName] language [english]
 )

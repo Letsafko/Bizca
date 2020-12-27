@@ -1,7 +1,9 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.GetUser
 {
     using Bizca.User.Application.UseCases.GetUserDetail;
-    using Bizca.User.WebApi.ViewModels;
+    using Bizca.User.Domain.Agregates.Users;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     ///     Gets user detail response.
@@ -13,12 +15,75 @@
         /// </summary>
         public GetUserDetailResponse(GetUserDetailDto userDetail)
         {
-            User = new UserDetailsModel(userDetail);
+            UserCode = userDetail.UserCode;
+            Civility = userDetail.Civility;
+            LastName = userDetail.LastName;
+            Channels = userDetail.Channels;
+            FirstName = userDetail.FirstName;
+            BirthCity = userDetail.BirthCity;
+            BirthDate = userDetail.BirthDate;
+            BirthCountry = userDetail.BirthCountry;
+            ExternalUserId = userDetail.ExternalUserId;
+            EconomicActivity = userDetail.EconomicActivity;
         }
 
         /// <summary>
-        ///     Gets user detail.
+        ///     Get user code.
         /// </summary>
-        public UserDetailsModel User { get; }
+        [Required]
+        public string UserCode { get; }
+
+        /// <summary>
+        ///     Gets user civility.
+        /// </summary>
+        [Required]
+        public string Civility { get; }
+
+        /// <summary>
+        ///     Gets user lastname.
+        /// </summary>
+        [Required]
+        public string LastName { get; }
+
+        /// <summary>
+        ///     Gets user firstname.
+        /// </summary>
+        [Required]
+        public string FirstName { get; }
+
+        /// <summary>
+        ///     Gets user birth city.
+        /// </summary>
+        [Required]
+        public string BirthCity { get; }
+
+        /// <summary>
+        ///     Gets user birth date.
+        /// </summary>
+        [Required]
+        public string BirthDate { get; }
+
+        /// <summary>
+        ///     Gets user birth country.
+        /// </summary>
+        [Required]
+        public string BirthCountry { get; }
+
+        /// <summary>
+        ///  Gets external user identifier.
+        /// </summary>
+        [Required]
+        public string ExternalUserId { get; }
+
+        /// <summary>
+        ///  Gets user economic activity.
+        /// </summary>
+        public string EconomicActivity { get; }
+
+        /// <summary>
+        ///     Gets user notification channels.
+        /// </summary>
+        [Required]
+        public IEnumerable<Channel> Channels { get; }
     }
 }

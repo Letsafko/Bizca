@@ -8,6 +8,7 @@
         None = 0,
         Sms = 1,
         Email = 2,
-        Whatsapp = 4
+        Whatsapp = 4,
+        Messenger = 8
     }
 }

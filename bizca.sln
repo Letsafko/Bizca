@@ -79,9 +79,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Application", "c
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Application.Test", "core\test\Bizca.Core.Application.Test\Bizca.Core.Application.Test.csproj", "{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.User.Application", "user\src\Bizca.User.Application\Bizca.User.Application.csproj", "{8141DDA1-4BFF-4EB3-A3AD-5C0262987511}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.User.Application", "user\src\Bizca.User.Application\Bizca.User.Application.csproj", "{8141DDA1-4BFF-4EB3-A3AD-5C0262987511}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.User.Application.UnitTest", "user\test\Bizca.User.Application.UnitTest\Bizca.User.Application.UnitTest.csproj", "{240ABBBD-7255-4AC1-9814-6A4B5443C6C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.User.Application.UnitTest", "user\test\Bizca.User.Application.UnitTest\Bizca.User.Application.UnitTest.csproj", "{240ABBBD-7255-4AC1-9814-6A4B5443C6C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Core.Api", "core\src\Bizca.Core.Api\Bizca.Core.Api.csproj", "{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,6 +165,10 @@ Global
 		{240ABBBD-7255-4AC1-9814-6A4B5443C6C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{240ABBBD-7255-4AC1-9814-6A4B5443C6C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{240ABBBD-7255-4AC1-9814-6A4B5443C6C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -194,6 +200,7 @@ Global
 		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37} = {99C1A37C-EE0E-4791-90CF-C90520CE17A7}
 		{8141DDA1-4BFF-4EB3-A3AD-5C0262987511} = {041743DF-BFB5-45F8-9B3A-BDC51CDC0B6E}
 		{240ABBBD-7255-4AC1-9814-6A4B5443C6C8} = {D685D605-5CF4-4A64-806B-BAB0FF71912F}
+		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4} = {EE1A66BE-1601-4D86-A082-F391F986C43A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D7BB865-F57C-4290-8D7B-3D1CFD483CDE}

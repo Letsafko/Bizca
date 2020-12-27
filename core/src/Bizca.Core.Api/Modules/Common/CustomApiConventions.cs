@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.WebApi.Modules
+﻿namespace Bizca.Core.Api.Modules.Common
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApiExplorer;

@@ -15,6 +15,11 @@
         public string PhoneNumber { get; set; }
 
         /// <summary>
+        ///     identification whatsapp phone number.
+        /// </summary>
+        public string WhatsappNumber { get; set; }
+
+        /// <summary>
         ///     surname of user.
         /// </summary>
         public string LastName { get; set; }
@@ -47,12 +52,12 @@
         /// <summary>
         ///     direction of search(next or prev).
         /// </summary>
-        public string Direction { get; set; } = nameof(SearchDirection.Next).ToLower();
+        public string Direction { get; set; } = SearchDirection.Next;
     }
 
-    public enum SearchDirection
+    public static class SearchDirection
     {
-        Next = 1,
-        Prev = 2
+        public const string Next = "next";
+        public const string Prev = "previous";
     }
 }

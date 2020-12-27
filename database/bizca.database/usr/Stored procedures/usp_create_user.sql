@@ -1,7 +1,5 @@
 ﻿create procedure [usr].[usp_create_user]
 	  @externalUserId	  varchar(10) 
-	, @email			  varchar(50) 
-	, @phoneNumber	      varchar(15)
 	, @partnerId		  smallint
 	, @civilityId	      smallint 
 	, @firstName		  nvarchar(50) 
@@ -10,7 +8,6 @@
 	, @birthCountryId	  smallint 
 	, @birthCity		  varchar(50)
 	, @userCode		      uniqueidentifier  
-	, @channels			  int
 	, @economicActivityId smallint = null
 as
 begin
@@ -22,13 +19,10 @@ begin
 		insert into [usr].[user]
 		(
 			  [externalUserId]		    
-			, [email]			    
-			, [phoneNumber]	    
 			, [userCode]		    
 			, [partnerId]		    
 			, [civilityId]	    
 			, [economicActivityId]
-			, [channels]
 			, [firstName]			
 			, [lastName]		
 			, [birthDate]
@@ -40,13 +34,10 @@ begin
 		values
 		(
 			  @externalUserId		 
-			, @email			 
-			, @phoneNumber	     
 			, @userCode		     
 			, @partnerId		 
 			, @civilityId	     
 			, @economicActivityId
-			, @channels
 			, @firstName		 
 			, @lastName			 
 			, @birthDate   		

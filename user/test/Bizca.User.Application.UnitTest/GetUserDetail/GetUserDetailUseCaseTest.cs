@@ -19,7 +19,7 @@
     {
         [Theory]
         [ClassData(typeof(GetUserDetailUseCaseDataSetup))]
-        public void OneOfArgumentIsNull_ThrowArgumentNullException((IOutputPort output,
+        public void OneOfArgumentIsNull_ThrowArgumentNullException((IGetUserDetailOutput output,
             IUserRepository userRepository,
             IPartnerRepository partnerRepository) tuple)
         {
@@ -134,12 +134,12 @@
 
     internal sealed class GetUserDetailUseCaseBuilder
     {
-        private IOutputPort output;
+        private IGetUserDetailOutput output;
         private IUserRepository userRepository;
         private IPartnerRepository partnerRepository;
         private GetUserDetailUseCaseBuilder()
         {
-            output = Substitute.For<IOutputPort>();
+            output = Substitute.For<IGetUserDetailOutput>();
             userRepository = Substitute.For<IUserRepository>();
             partnerRepository = Substitute.For<IPartnerRepository>();
         }
@@ -150,7 +150,7 @@
             return new GetUserDetailUseCase(output, partnerRepository, userRepository);
         }
 
-        internal GetUserDetailUseCaseBuilder WithOutputPort(IOutputPort output)
+        internal GetUserDetailUseCaseBuilder WithOutputPort(IGetUserDetailOutput output)
         {
             this.output = output;
             return this;
@@ -189,11 +189,11 @@
             return this;
         }
     }
-    internal sealed class GetUserDetailUseCaseDataSetup : TheoryData<(IOutputPort, IUserRepository, IPartnerRepository)>
+    internal sealed class GetUserDetailUseCaseDataSetup : TheoryData<(IGetUserDetailOutput, IUserRepository, IPartnerRepository)>
     {
         public GetUserDetailUseCaseDataSetup()
         {
-            IOutputPort output = Substitute.For<IOutputPort>();
+            IGetUserDetailOutput output = Substitute.For<IGetUserDetailOutput>();
             IUserRepository userRepository = Substitute.For<IUserRepository>();
             IPartnerRepository partnerRepository = Substitute.For<IPartnerRepository>();
 
@@ -202,7 +202,7 @@
             Add((output, userRepository, default));
         }
     }
-    internal sealed class GetUserDetailPresenter : IOutputPort
+    internal sealed class GetUserDetailPresenter : IGetUserDetailOutput
     {
         public IActionResult ViewModel { get; private set; } = new NoContentResult();
         public void Invalid(Notification notification)

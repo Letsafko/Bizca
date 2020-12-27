@@ -2,7 +2,7 @@
 {
     using Bizca.Core.Application.Abstracts;
 
-    public interface IOutputPort
+    public interface IGetUserDetailOutput
     {
         /// <summary>
         ///     Invalid input.
