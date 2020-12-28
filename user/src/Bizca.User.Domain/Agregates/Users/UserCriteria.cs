@@ -1,7 +1,5 @@
 ﻿namespace Bizca.User.Domain.Agregates.Users
 {
-    using System;
-
     public sealed class UserCriteria
     {
         /// <summary>
@@ -37,12 +35,12 @@
         /// <summary>
         ///     birth date of user.
         /// </summary>
-        public DateTime BirthDate { get; set;  }
+        public string BirthDate { get; set;  }
 
         /// <summary>
         ///     number of rows elements by page.
         /// </summary>
-        public int PageSize { get; set; } = 20;
+        public int PageSize { get; set; }
 
         /// <summary>
         ///     id where to start retrieving elements.
@@ -52,12 +50,8 @@
         /// <summary>
         ///     direction of search(next or prev).
         /// </summary>
-        public string Direction { get; set; } = SearchDirection.Next;
+        public string Direction { get; set; }
     }
 
-    public static class SearchDirection
-    {
-        public const string Next = "next";
-        public const string Prev = "previous";
-    }
+    
 }

@@ -1,30 +1,30 @@
-﻿namespace Bizca.User.WebApi.UseCases.V1.GetUser
+﻿namespace Bizca.User.WebApi.ViewModels
 {
-    using Bizca.User.Application.UseCases.GetUserDetail;
-    using Bizca.User.Domain.Agregates.Users;
+    using Bizca.User.Application.UseCases.GetUser.Common;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
 
     /// <summary>
-    ///     Gets user detail response.
+    ///     Gets user model.
     /// </summary>
-    public sealed class GetUserDetailResponse
+    public sealed class UserModel
     {
         /// <summary>
-        ///     Create instance of user detail response.
+        ///     Create instance of user model.
         /// </summary>
-        public GetUserDetailResponse(GetUserDetailDto userDetail)
+        public UserModel(GetUserDto user)
         {
-            UserCode = userDetail.UserCode;
-            Civility = userDetail.Civility;
-            LastName = userDetail.LastName;
-            Channels = userDetail.Channels;
-            FirstName = userDetail.FirstName;
-            BirthCity = userDetail.BirthCity;
-            BirthDate = userDetail.BirthDate;
-            BirthCountry = userDetail.BirthCountry;
-            ExternalUserId = userDetail.ExternalUserId;
-            EconomicActivity = userDetail.EconomicActivity;
+            UserCode = user.UserCode;
+            Civility = user.Civility;
+            LastName = user.LastName;
+            FirstName = user.FirstName;
+            BirthCity = user.BirthCity;
+            BirthDate = user.BirthDate;
+            BirthCountry = user.BirthCountry;
+            ExternalUserId = user.ExternalUserId;
+            EconomicActivity = user.EconomicActivity;
+            Channels = user.Channels?.Select(x => new UserChannelModel(x));
         }
 
         /// <summary>
@@ -84,6 +84,6 @@
         ///     Gets user notification channels.
         /// </summary>
         [Required]
-        public IEnumerable<Channel> Channels { get; }
+        public IEnumerable<UserChannelModel> Channels { get; }
     }
 }

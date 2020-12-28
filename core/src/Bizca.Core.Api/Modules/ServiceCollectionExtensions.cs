@@ -105,7 +105,7 @@
 
             services.AddSwaggerGen(x =>
             {
-                x.CustomSchemaIds(y => y.FullName);
+                //x.CustomSchemaIds(y => y.FullName);
 
                 foreach (VersionConfigurationModel current in swaggerConfiguration.Versions)
                 {

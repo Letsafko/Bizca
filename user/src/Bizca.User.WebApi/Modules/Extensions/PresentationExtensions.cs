@@ -1,7 +1,9 @@
 ﻿namespace Bizca.User.WebApi.Modules.Extensions
 {
-    using Bizca.User.Application.UseCases.GetUserDetail;
-    using Bizca.User.WebApi.UseCases.V1.GetUser;
+    using Bizca.User.Application.UseCases.GetUser.Detail;
+    using Bizca.User.Application.UseCases.GetUser.List;
+    using Bizca.User.WebApi.UseCases.V1.GetUserDetails;
+    using Bizca.User.WebApi.UseCases.V1.GetUsers;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
@@ -16,8 +18,11 @@
         /// <returns></returns>
         public static IServiceCollection AddPresentersV1(this IServiceCollection services)
         {
-            services.AddScoped<GetUserDetailPresenter>()
+            services.AddScoped<GetUsersPresenter>()
+                    .AddScoped<IGetUsersOutput>(x => x.GetRequiredService<GetUsersPresenter>())
+                    .AddScoped<GetUserDetailPresenter>()
                     .AddScoped<IGetUserDetailOutput>(x => x.GetRequiredService<GetUserDetailPresenter>());
+
             return services;
         }
     }

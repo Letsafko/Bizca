@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Application.UseCases.GetUserDetail
+﻿namespace Bizca.User.Application.UseCases.GetUser.Detail
 {
     using Bizca.Core.Application.Abstracts;
     using Bizca.Core.Application.Abstracts.Queries;
@@ -16,7 +16,7 @@
             if (string.IsNullOrWhiteSpace(externalUserId))
                 ModelState.Add(nameof(externalUserId), "externalUserId is required.");
 
-            if(ModelState.Errors.Count == 0)
+            if(ModelState.IsValid)
             {
                 PartnerCode = partnerCode;
                 ExternalUserId = new ExternalUserId(externalUserId);

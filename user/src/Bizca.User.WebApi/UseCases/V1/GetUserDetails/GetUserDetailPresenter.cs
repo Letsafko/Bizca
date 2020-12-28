@@ -1,7 +1,8 @@
-﻿namespace Bizca.User.WebApi.UseCases.V1.GetUser
+﻿namespace Bizca.User.WebApi.UseCases.V1.GetUserDetails
 {
     using Bizca.Core.Application.Abstracts;
-    using Bizca.User.Application.UseCases.GetUserDetail;
+    using Bizca.User.Application.UseCases.GetUser.Common;
+    using Bizca.User.Application.UseCases.GetUser.Detail;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -35,7 +36,7 @@
         ///     Retrieves user informations.
         /// </summary>
         /// <param name="userDetail"></param>
-        public void Ok(GetUserDetailDto userDetail)
+        public void Ok(GetUserDto userDetail)
         {
             ViewModel = new OkObjectResult(new GetUserDetailResponse(userDetail));
         }

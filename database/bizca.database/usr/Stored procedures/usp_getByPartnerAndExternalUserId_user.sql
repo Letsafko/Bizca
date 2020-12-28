@@ -3,7 +3,8 @@
 	@externalUserId varchar(10)
 as
 	select
-	         u.externalUserId		    
+	         u.userId
+		   , u.externalUserId		    
 		   , u.userCode		    
 		   , u.partnerId		    
 		   , u.firstName			

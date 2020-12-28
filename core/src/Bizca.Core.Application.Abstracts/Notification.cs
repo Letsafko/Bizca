@@ -9,6 +9,7 @@
         public IDictionary<string, string[]> Errors => _errorMessages.ToDictionary(item => item.Key, item => item.Value.ToArray());
         public void Add(string key, string message)
         {
+            key = key.ToLower();
             if (!_errorMessages.ContainsKey(key))
             {
                 _errorMessages[key] = new List<string>();

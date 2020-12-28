@@ -1,6 +1,6 @@
-﻿namespace Bizca.User.Application.UnitTest.GetUserDetail
+﻿namespace Bizca.User.Application.UnitTest.GetUser.Detail
 {
-    using Bizca.User.Application.UseCases.GetUserDetail;
+    using Bizca.User.Application.UseCases.GetUser.Detail;
     using NFluent;
     using Xunit;
 

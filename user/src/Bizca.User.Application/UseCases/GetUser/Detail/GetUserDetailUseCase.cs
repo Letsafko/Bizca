@@ -1,7 +1,8 @@
-﻿namespace Bizca.User.Application.UseCases.GetUserDetail
+﻿namespace Bizca.User.Application.UseCases.GetUser.Detail
 {
     using Bizca.Core.Application.Abstracts.Queries;
     using Bizca.Core.Domain.Partner;
+    using Bizca.User.Application.UseCases.GetUser.Common;
     using Bizca.User.Domain.Agregates.Users.Repositories;
     using MediatR;
     using System;
@@ -43,9 +44,10 @@
             return Unit.Value;
         }
 
-        private GetUserDetailDto BuildDto(dynamic result)
+        private GetUserDto BuildDto(dynamic result)
         {
-            return GetUserDetailBuilder.Instance
+            return GetUserBuilder.Instance
+                .WithUserId(result.userId)
                 .WithUserCode(result.userCode.ToString())
                 .WithExternalUserId(result.externalUserId)
                 .WithEmail(result.email, result.emailActive, result.emailConfirmed)
@@ -55,7 +57,7 @@
                 .WithLastName(result.lastName)
                 .WithFirstName(result.firstName)
                 .WithBirthCity(result.birthCity)
-                .WithBirthDate(result.birthDate.ToString("yyyy/MM/dd"))
+                .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
                 .WithBirthCountry(result.birthCountryCode)
                 .WithEconomicActivity(result.economicActivityCode)
                 .Build();

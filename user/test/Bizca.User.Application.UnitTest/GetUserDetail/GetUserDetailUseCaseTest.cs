@@ -1,11 +1,11 @@
-﻿namespace Bizca.User.Application.UnitTest.GetUserDetail
+﻿namespace Bizca.User.Application.UnitTest.GetUser.Detail
 {
     using Bizca.Core.Application.Abstracts;
     using Bizca.Core.Domain.Partner;
     using Bizca.Core.Support.Test;
     using Bizca.Core.Support.Test.Builders;
-    using Bizca.User.Application.UseCases.GetUserDetail;
-    using Bizca.User.Domain.Agregates.Users;
+    using Bizca.User.Application.UseCases.GetUser.Common;
+    using Bizca.User.Application.UseCases.GetUser.Detail;
     using Bizca.User.Domain.Agregates.Users.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using NFluent;
@@ -77,7 +77,7 @@
         {
             //arrange
             dynamic user = GetDynamicUser();
-            var argCapture = new ArgCapture<GetUserDetailDto>();
+            var argCapture = new ArgCapture<GetUserDto>();
             var request = new GetUserDetailQuery("test", "bizca");
             GetUserDetailUseCaseBuilder builder = GetUserDetailUseCaseBuilder.Instance
                             .WithGetPartnerByCode(PartnerBuilder.Instance.Build())
@@ -88,8 +88,8 @@
             builder.WithArgumentOkCapture(argCapture);
 
             //assert
-            GetUserDetailDto userDto = BuildDto(user);
-            Check.That(argCapture[0]).IsInstanceOf<GetUserDetailDto>();
+            GetUserDto userDto = BuildDto(user);
+            Check.That(argCapture[0]).IsInstanceOf<GetUserDto>();
             Check.That(userDto).HasFieldsWithSameValues(argCapture[0]);
         }
 
@@ -101,7 +101,14 @@
             user.userCode = Guid.NewGuid().ToString();
             user.externalUserId = "externalUserId";
             user.email = "aa@aa.fr";
-            user.phoneNumber = "0123456789";
+            user.emailActive = 1;
+            user.emailConfirmed = 1;
+            user.phone = "0123456789";
+            user.phoneActive = 1;
+            user.phoneConfirmed = 0;
+            user.whatsapp = "0123456789";
+            user.whatsappActive = 0;
+            user.whatsappConfirmed = 0;
             user.civilityCode = "Mr";
             user.lastName = "lastName";
             user.firstName = "firstName";
@@ -111,19 +118,20 @@
             user.economicActivityCode = "Craftsman";
             return user;
         }
-        private GetUserDetailDto BuildDto(dynamic result)
+        private GetUserDto BuildDto(dynamic result)
         {
-            return GetUserDetailBuilder.Instance
-                .WithUserCode(result.userCode)
+            return GetUserBuilder.Instance
+                .WithUserId(result.userId)
+                .WithUserCode(result.userCode.ToString())
                 .WithExternalUserId(result.externalUserId)
-                .WithEmail(result.email)
-                .WithPhoneNumber(result.phoneNumber)
+                .WithEmail(result.email, result.emailActive, result.emailConfirmed)
+                .WithPhoneNumber(result.phone, result.phoneActive, result.phoneConfirmed)
+                .WithWhatsapp(result.whatsapp, result.whatsappActive, result.whatsappConfirmed)
                 .WithCivility(result.civilityCode)
                 .WithLastName(result.lastName)
                 .WithFirstName(result.firstName)
-                .WithChannels((NotificationChanels)1)
                 .WithBirthCity(result.birthCity)
-                .WithBirthDate(result.birthDate.ToString("yyyy/MM/dd"))
+                .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
                 .WithBirthCountry(result.birthCountryCode)
                 .WithEconomicActivity(result.economicActivityCode)
                 .Build();
@@ -183,7 +191,7 @@
             output.Received(1).Invalid(argNotification.Capture());
             return this;
         }
-        internal GetUserDetailUseCaseBuilder WithArgumentOkCapture(ArgCapture<GetUserDetailDto> argDto)
+        internal GetUserDetailUseCaseBuilder WithArgumentOkCapture(ArgCapture<GetUserDto> argDto)
         {
             output.Received(1).Ok(argDto.Capture());
             return this;
@@ -215,7 +223,7 @@
             ViewModel = new NotFoundResult();
         }
 
-        public void Ok(GetUserDetailDto userDetail)
+        public void Ok(GetUserDto userDetail)
         {
             ViewModel = new OkResult();
         }

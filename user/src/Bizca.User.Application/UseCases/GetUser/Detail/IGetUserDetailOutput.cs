@@ -1,6 +1,7 @@
-﻿namespace Bizca.User.Application.UseCases.GetUserDetail
+﻿namespace Bizca.User.Application.UseCases.GetUser.Detail
 {
     using Bizca.Core.Application.Abstracts;
+    using Bizca.User.Application.UseCases.GetUser.Common;
 
     public interface IGetUserDetailOutput
     {
@@ -19,6 +20,6 @@
         ///     Returns user detail.
         /// </summary>
         /// <param name="userDetail"></param>
-        void Ok(GetUserDetailDto userDetail);
+        void Ok(GetUserDto userDetail);
     }
 }

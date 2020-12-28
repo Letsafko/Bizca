@@ -13,13 +13,6 @@
 as
 begin
 	
-	if @direction is null or @direction not in ('prev', 'next')
-	begin
-		declare @msg varchar(100) = formatmessage('invalid direction value(%s), should be (prev or next)', @direction)
-		raiserror(@msg, 16, 1);
-		return;
-	end
-	
 	declare @parmDefinition nvarchar(500) = 
 	  ' @partnerId		smallint 
 	  , @externalUserId	varchar(10)	
@@ -35,7 +28,8 @@ begin
 	   
 	declare @query nvarchar(MAX) = 
 		'select top(@pageSize)
-			 u.externalUserId		    
+			 u.userId
+		   , u.externalUserId		    
 		   , u.userCode		    
 		   , u.partnerId		    
 		   , u.firstName			
@@ -48,7 +42,7 @@ begin
 		   , co.countryCode birthCountryCode
 		   , uc.email	    
 		   , uc.emailActive	    
-		   , uc.emailconfirmed	    
+		   , uc.emailConfirmed	    
 		   , uc.phone	    
 		   , uc.phoneActive	    
 		   , uc.phoneConfirmed	    

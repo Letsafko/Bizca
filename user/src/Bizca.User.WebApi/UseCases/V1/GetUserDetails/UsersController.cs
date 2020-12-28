@@ -1,8 +1,8 @@
-﻿namespace Bizca.User.WebApi.UseCases.V1.GetUser
+﻿namespace Bizca.User.WebApi.UseCases.V1.GetUserDetails
 {
     using Bizca.Core.Api.Modules.Common;
     using Bizca.Core.Application.Abstracts;
-    using Bizca.User.Application.UseCases.GetUserDetail;
+    using Bizca.User.Application.UseCases.GetUser.Detail;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
