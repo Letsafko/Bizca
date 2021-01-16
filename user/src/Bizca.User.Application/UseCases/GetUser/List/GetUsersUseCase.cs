@@ -94,7 +94,7 @@
         private PagedResult<GetUserDto> GetPagedResult(int pageSize, GetUsersQuery request, IEnumerable<dynamic> rows)
         {
             List<GetUserDto> users = BuildDto(rows)?.ToList() ?? new List<GetUserDto>();
-            var pagination = new Pagination<GetUserDto>(pageSize, request.RequestPath, users);
+            var pagination = new Pagination<GetUserDto>(pageSize, users, request.RequestPath);
             return pagination.GetPaged(request,
                     pagination.FirstIndex?.UserId ?? 0,
                     pagination.LastIndex?.UserId ?? 0);

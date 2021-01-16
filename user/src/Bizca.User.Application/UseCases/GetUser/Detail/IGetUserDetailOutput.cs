@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUser.Detail
 {
-    using Bizca.Core.Application.Abstracts;
+    using Bizca.Core.Domain;
     using Bizca.User.Application.UseCases.GetUser.Common;
 
     public interface IGetUserDetailOutput

@@ -1,7 +1,7 @@
 ﻿create table [usr].[user]
 (
 	[userId]		        int identity(1,1) not null,
-	[externalUserId]	    varchar(10) not null,
+	[externalUserId]	    varchar(20) not null,
 	[userCode]		        uniqueidentifier not null,
 	[partnerId]		        smallint not null,
 	[civilityId]	        smallint not null,

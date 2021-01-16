@@ -1,7 +1,8 @@
-﻿namespace Bizca.Core.Infrastructure.Abstracts
+﻿namespace Bizca.Core.Domain
 {
+    using System;
     using System.Data;
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         void Begin();
         void Commit();

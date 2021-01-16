@@ -16,8 +16,13 @@ namespace Bizca.User.Domain.UnitTest.Factories
         [Fact]
         public void UserFactory_OneOfConstructorAgumentIsNull_ThrowArgumentNullException()
         {
-            Check.ThatCode(() => UserFactoryBuilder.Instance.WithBusinessRuleEngine(default).Build())
-                 .Throws<ArgumentNullException>();
+            Check.ThatCode(() =>
+            {
+                return UserFactoryBuilder.Instance
+                        .WithUserRuleEngine(default)
+                        .Build();
+            })
+            .Throws<ArgumentNullException>();
         }
 
         [Theory]
@@ -30,7 +35,7 @@ namespace Bizca.User.Domain.UnitTest.Factories
             var request = new UserRequest { Partner = partner, ExternalUserId = "test" };
             UserMustBeUniqueByPartnerBuilder userMustBeUniqueBuilder = UserMustBeUniqueByPartnerBuilder.Instance.WithUserExist(userExist);
             UserRuleEngine engine = UserRuleEngineBuilder.Instance.WithBusinessRule(userMustBeUniqueBuilder.Build()).Build();
-            UserFactoryBuilder factoryBuilder = UserFactoryBuilder.Instance.WithBusinessRuleEngine(engine);
+            UserFactoryBuilder factoryBuilder = UserFactoryBuilder.Instance.WithUserRuleEngine(engine);
 
             //act & assert
             if (userExist)
@@ -41,10 +46,11 @@ namespace Bizca.User.Domain.UnitTest.Factories
             }
             else
             {
-                var result = await factoryBuilder.Build().CreateAsync(request).ConfigureAwait(false) as User;
-                Check.That(result).IsNotNull().And.InheritsFrom<IUser>();
-                Check.That(result.ExternalUserId.AppUserId).Equals(request.ExternalUserId);
-                Check.That(result.Partner).Equals(request.Partner);
+                Core.Domain.Response<IUser> response = await factoryBuilder.Build().CreateAsync(request).ConfigureAwait(false);
+                Check.That(response.Value).IsNotNull().And.InheritsFrom<IUser>();
+                Check.That((response.Value as User)?.ExternalUserId.AppUserId).Equals(request.ExternalUserId);
+                Check.That((response.Value as User)?.Partner).Equals(request.Partner);
+                Check.That(response.ModelState.IsValid).IsTrue();
             }
             userMustBeUniqueBuilder.WithReceiveUserExist(1);
         }

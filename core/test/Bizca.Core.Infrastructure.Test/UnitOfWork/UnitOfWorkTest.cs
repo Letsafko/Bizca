@@ -40,6 +40,7 @@ namespace Bizca.Core.Infrastructure.Test
             //assert
             Check.That(unitOfWork.Connection).Equals(connection);
             Check.That(unitOfWork.Transaction).Equals(transaction);
+            unitOfWork.Connection.Received(1).BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
         [Fact]
@@ -56,9 +57,16 @@ namespace Bizca.Core.Infrastructure.Test
             unitOfWork.Commit();
 
             //assert
-            Received.InOrder(() => unitOfWork.Reset());
+            transaction.Received(1).Commit();
+            transaction.Received(1).Dispose();
             Check.That(unitOfWork.Connection).IsNull();
             Check.That(unitOfWork.Transaction).IsNull();
+            Received.InOrder(() =>
+            {
+                connection.BeginTransaction(IsolationLevel.ReadCommitted);
+                transaction.Commit();
+                unitOfWork.Dispose();
+            });
         }
 
         [Fact]
@@ -75,9 +83,16 @@ namespace Bizca.Core.Infrastructure.Test
             unitOfWork.Rollback();
 
             //assert
-            Received.InOrder(() => unitOfWork.Reset());
+            transaction.Received(1).Dispose();
+            transaction.Received(1).Rollback();
             Check.That(unitOfWork.Connection).IsNull();
             Check.That(unitOfWork.Transaction).IsNull();
+            Received.InOrder(() =>
+            {
+                connection.BeginTransaction(IsolationLevel.ReadCommitted);
+                transaction.Rollback();
+                unitOfWork.Dispose();
+            });
         }
     }
 }

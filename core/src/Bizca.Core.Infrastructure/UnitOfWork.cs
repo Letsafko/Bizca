@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Core.Infrastructure
 {
+    using Bizca.Core.Domain;
     using Bizca.Core.Infrastructure.Abstracts;
     using Bizca.Core.Infrastructure.Abstracts.Configuration;
     using System;
@@ -34,7 +35,7 @@
             }
             finally
             {
-                Reset();
+                Dispose();
             }
         }
 
@@ -46,7 +47,7 @@
             }
             finally
             {
-                Reset();
+                Dispose();
             }
         }
 
@@ -55,15 +56,15 @@
             Transaction = Connection.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
-        #endregion
-
-        #region private helpers
-
-        public void Reset()
+        public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        #endregion
+
+        #region private helpers
 
         private void Dispose(bool disposing)
         {
@@ -76,6 +77,8 @@
             }
             _disposed = true;
         }
+
+        
 
         #endregion
     }

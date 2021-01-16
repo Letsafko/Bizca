@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Core.Infrastructure
 {
+    using Bizca.Core.Domain;
     using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Infrastructure.Abstracts;
     using Dapper;
     using System.Data;
     using System.Diagnostics.CodeAnalysis;
@@ -27,6 +27,7 @@
             dynamic result = await _unitOfWork.Connection
                     .QueryFirstOrDefaultAsync(getPartnerByCodeStoredProcedure,
                             new { partnerCode },
+                            _unitOfWork.Transaction,
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
 

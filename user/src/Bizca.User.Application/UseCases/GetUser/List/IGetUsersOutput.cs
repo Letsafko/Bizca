@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUser.List
 {
-    using Bizca.Core.Application.Abstracts;
     using Bizca.Core.Application.Abstracts.Paging;
+    using Bizca.Core.Domain;
     using Bizca.User.Application.UseCases.GetUser.Common;
 
     public interface IGetUsersOutput

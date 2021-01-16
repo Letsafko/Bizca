@@ -22,8 +22,9 @@ begin
 			, u.[birthCountryId]	   = @birthCountryId
 			, u.[economicActivityId]   = @economicActivityId
 			, u.[lastUpdate]		   = getutcdate()
+	output inserted.userId
 	from [usr].[user] u
-	where externalUserId = @externalUserId and
-		  partnerId = @partnerId
+	where externalUserId = @externalUserId and 
+	      partnerId = @partnerId 
 
 end

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.GetUsers
 {
-    using Bizca.Core.Application.Abstracts;
     using Bizca.Core.Application.Abstracts.Paging;
+    using Bizca.Core.Domain;
     using Bizca.User.Application.UseCases.GetUser.Common;
     using Bizca.User.Application.UseCases.GetUser.List;
     using Microsoft.AspNetCore.Mvc;

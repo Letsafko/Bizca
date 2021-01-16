@@ -4,8 +4,8 @@
 		values   (0,'None')
 				,(1,'Sms')
 				,(2,'Email')
-				,(3,'Whatsapp')
-				,(4,'Messenger')
+				,(4,'Whatsapp')
+				,(8,'Messenger')
 	) as source(channelId, channelCode) on target.channelId = source.channelId
 when matched then 
 	update

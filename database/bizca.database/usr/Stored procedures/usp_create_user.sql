@@ -31,6 +31,7 @@ begin
 			, [creationDate]		
 			, [lastUpdate]		
 		)
+		output inserted.userId
 		values
 		(
 			  @externalUserId		 
@@ -46,8 +47,6 @@ begin
 			, getutcdate()
 			, getutcdate()
 		)
-
-		select scope_identity()
 
 	end try
 	begin catch

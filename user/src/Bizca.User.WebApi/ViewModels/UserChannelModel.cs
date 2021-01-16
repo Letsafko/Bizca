@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.ViewModels
 {
-    using Bizca.User.Application.UseCases.GetUser.Common;
+    using Bizca.User.Application.UseCases;
 
     /// <summary>
     ///     Gets user channel model.

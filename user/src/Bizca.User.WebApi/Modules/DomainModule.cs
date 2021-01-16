@@ -2,6 +2,7 @@
 {
     using Autofac;
     using Bizca.Core.Domain.Rules;
+    using Bizca.User.Domain.Agregates.Users.Factories;
     using Bizca.User.Domain.Agregates.Users.Rules;
 
     /// <summary>
@@ -15,6 +16,8 @@
         /// <param name="builder"></param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<UserFactory>().As<IUserFactory>();
+            builder.RegisterType<UserChannelConfirmationFactory>().As<IUserChannelConfirmationFactory>();
             builder.RegisterAssemblyTypes(typeof(UserRuleEngine).Assembly).AsClosedTypesOf(typeof(IBusinessRuleEngine<>));
             builder.RegisterAssemblyTypes(typeof(UserMustBeUniqueByPartner).Assembly).AsClosedTypesOf(typeof(IBusinessRule<>));
         }

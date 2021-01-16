@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Application.UseCases.GetUser.Common
+﻿namespace Bizca.User.Application.UseCases
 {
     public sealed class ChannelDto
     {

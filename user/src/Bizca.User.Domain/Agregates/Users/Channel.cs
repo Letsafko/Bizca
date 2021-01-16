@@ -2,7 +2,7 @@
 {
     public sealed class Channel
     {
-        public Channel(string value, string type, bool active, bool confirmed)
+        public Channel(string value, NotificationChanels type, bool active, bool confirmed)
         {
             Active = active;
             Confirmed = confirmed;
@@ -11,7 +11,7 @@
         }
         public bool Active { get; }
         public bool Confirmed { get; }
-        public string ChannelType { get; }
         public string ChannelValue { get; }
+        public NotificationChanels ChannelType { get; }
     }
 }

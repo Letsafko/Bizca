@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bizca.Core.Application.Abstracts\Bizca.Core.Application.Abstracts.csproj" />
+    <ProjectReference Include="..\Bizca.Core.Domain\Bizca.Core.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,15 +11,13 @@
             //arrange
             const int value = 1;
             const bool success = true;
-            const string message = "message";
 
             //act 
-            var result = new Response<int>(value, success, message);
+            var result = new Response<int>(value);
 
             //assert
             Check.That(result.Value).Equals(value);
             Check.That(result.Success).Equals(success);
-            Check.That(result.Message).Equals(message);
             Check.That(result.Value).IsInstanceOfType(value.GetType());
         }
     }

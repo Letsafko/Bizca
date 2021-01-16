@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UnitTest.GetUser.Detail
 {
-    using Bizca.Core.Application.Abstracts;
+    using Bizca.Core.Domain;
     using Bizca.Core.Domain.Partner;
     using Bizca.Core.Support.Test;
     using Bizca.Core.Support.Test.Builders;

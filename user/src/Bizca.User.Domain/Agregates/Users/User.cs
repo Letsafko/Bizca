@@ -1,33 +1,28 @@
 ﻿namespace Bizca.User.Domain.Agregates.Users
 {
+    using Bizca.Core.Domain;
     using Bizca.Core.Domain.Civility;
     using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.EconomicActivity;
     using Bizca.Core.Domain.Partner;
     using Bizca.User.Domain.Agregates.Users.ValueObjects;
     using System;
+    using System.Collections.Generic;
 
-    public sealed class User : IUser
+    public sealed class User : Entity, IUser
     {
-        public User(Partner partner, UserCode userCode, ExternalUserId externalUserId)
-        {
-            Partner = partner;
-            UserCode = userCode;
-            ExternalUserId = externalUserId;
-        }
-
         /// <inheritdoc />
-        public UserCode UserCode { get; }
+        public UserCode UserCode { get; set; }
 
         /// <summary>
         ///     Gets partner identification.
         /// </summary>
-        public Partner Partner { get; }
+        public Partner Partner { get; set; }
 
         /// <summary>
         ///     Gets external user identification.
         /// </summary>
-        public ExternalUserId ExternalUserId { get; }
+        public ExternalUserId ExternalUserId { get; set; }
 
         /// <summary>
         ///     Gets user civility.
@@ -65,20 +60,8 @@
         public string FirstName { get; set; }
 
         /// <summary>
-        ///     Gets user phone number.
+        ///     Gets notification channels.
         /// </summary>
-        public string PhoneNumber { get; set; }
-
-        /// <summary>
-        ///     Gets user email.
-        /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
-        ///     Gets notification channels of user.
-        /// </summary>
-        public int Channels { get; set; }
-
-
+        public ICollection<Channel> Channels { get; } = new List<Channel>();
     }
 }

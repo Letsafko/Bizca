@@ -128,6 +128,7 @@
     <Folder Include="usr\Tables" />
     <Folder Include="usr\Full text" />
     <Folder Include="usr\Functions" />
+    <Folder Include="usr\Types" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ref\Tables\partner.sql" />
@@ -160,5 +161,11 @@
     <Build Include="usr\Stored procedures\usp_isExists_user.sql" />
     <None Include="Scripts\PostDeployment\channel.sql" />
     <Build Include="usr\Functions\fn_getPivotByUserId_channel.sql" />
+    <Build Include="usr\Stored procedures\usp_create_userChannel.sql" />
+    <Build Include="usr\Stored procedures\usp_create_userChannelConfirmation.sql" />
+    <Build Include="usr\Stored procedures\usp_get_userChannel.sql" />
+    <Build Include="usr\Stored procedures\usp_get_userChannelConfirmation.sql" />
+    <Build Include="usr\Stored procedures\usp_update_userChannel.sql" />
+    <Build Include="usr\Types\channelList.sql" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿namespace Bizca.User.WebApi.ViewModels
 {
+    using Bizca.User.Application.UseCases.CreateUser;
     using Bizca.User.Application.UseCases.GetUser.Common;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,23 @@
         ///     Create instance of user model.
         /// </summary>
         public UserModel(GetUserDto user)
+        {
+            UserCode = user.UserCode;
+            Civility = user.Civility;
+            LastName = user.LastName;
+            FirstName = user.FirstName;
+            BirthCity = user.BirthCity;
+            BirthDate = user.BirthDate;
+            BirthCountry = user.BirthCountry;
+            ExternalUserId = user.ExternalUserId;
+            EconomicActivity = user.EconomicActivity;
+            Channels = user.Channels?.Select(x => new UserChannelModel(x));
+        }
+
+        /// <summary>
+        ///     Create instance of user model.
+        /// </summary>
+        public UserModel(CreateUserDto user)
         {
             UserCode = user.UserCode;
             Civility = user.Civility;

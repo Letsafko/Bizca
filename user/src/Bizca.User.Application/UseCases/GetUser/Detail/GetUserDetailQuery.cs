@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUser.Detail
 {
-    using Bizca.Core.Application.Abstracts;
     using Bizca.Core.Application.Abstracts.Queries;
+    using Bizca.Core.Domain;
     using Bizca.User.Domain.Agregates.Users.ValueObjects;
 
     public sealed class GetUserDetailQuery : IQuery

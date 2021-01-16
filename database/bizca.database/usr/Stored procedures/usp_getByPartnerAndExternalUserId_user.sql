@@ -1,6 +1,6 @@
 ﻿create procedure [usr].[usp_getByPartnerAndExternalUserId_user]
 	@partnerId		smallint,
-	@externalUserId varchar(10)
+	@externalUserId varchar(20)
 as
 	select
 	         u.userId
@@ -15,6 +15,7 @@ as
 		   , c.civilityCode
 		   , u.birthCountryId
 		   , co.countryCode birthCountryCode
+		   , co.description birthCountryDescription
 		   , uc.email	    
 		   , uc.emailActive	    
 		   , uc.emailConfirmed	    
@@ -29,6 +30,7 @@ as
 		   , uc.messengerConfirmed	    
 		   , e.economicActivityId
 		   , e.economicActivityCode
+		   , e.description economicActivityDescription
 	from [usr].[user] u
 	join [ref].[civility] c on c.civilityId = u.civilityId
 	join [ref].[country] co on co.countryId = u.birthCountryId

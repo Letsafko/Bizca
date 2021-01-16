@@ -17,7 +17,7 @@
         private int rowcount { get; }
         private string requestPath { get; }
         private IEnumerable<T> results { get; }
-        public Pagination(int pageSize, string requestPath, List<T> results)
+        public Pagination(int pageSize, List<T> results, string requestPath = "")
         {
             this.pageSize = pageSize;
             rowcount = results.Count;
@@ -25,7 +25,7 @@
             this.results = results.Take(pageSize);
 
             FirstIndex = rowcount == 0 ? default : results[0];
-            LastIndex = rowcount == 0 ? default : pageSize > rowcount ? results[rowcount - 1] : results[rowcount - 2];
+            LastIndex = rowcount == 0 ? default : pageSize >= rowcount ? results[rowcount - 1] : results[rowcount - 2];
         }
 
         public T LastIndex { get; }

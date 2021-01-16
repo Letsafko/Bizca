@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Core.Infrastructure
 {
+    using Bizca.Core.Domain;
     using Bizca.Core.Domain.Country;
-    using Bizca.Core.Infrastructure.Abstracts;
     using Dapper;
     using System.Data;
     using System.Diagnostics.CodeAnalysis;
@@ -27,6 +27,7 @@
             dynamic result = await _unitOfWork.Connection
                     .QueryFirstOrDefaultAsync(getCountryByCodeStoredProcedure,
                             new { countryCode },
+                            _unitOfWork.Transaction,
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
 

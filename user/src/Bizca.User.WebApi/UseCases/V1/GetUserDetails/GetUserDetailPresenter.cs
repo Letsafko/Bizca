@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.GetUserDetails
 {
-    using Bizca.Core.Application.Abstracts;
+    using Bizca.Core.Domain;
     using Bizca.User.Application.UseCases.GetUser.Common;
     using Bizca.User.Application.UseCases.GetUser.Detail;
     using Microsoft.AspNetCore.Mvc;

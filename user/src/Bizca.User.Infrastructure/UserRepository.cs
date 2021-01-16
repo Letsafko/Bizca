@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Infrastructure
 {
-    using Bizca.Core.Infrastructure.Abstracts;
+    using Bizca.Core.Domain;
     using Bizca.User.Domain.Agregates.Users;
     using Bizca.User.Domain.Agregates.Users.Repositories;
     using Dapper;
@@ -22,13 +22,13 @@
         private const string getUserByCriteriaStoredProcedure = "[usr].[usp_getByCriteria_user]";
         private const string getByPartnerAndExternalUserIdStoredProcedure = "[usr].[usp_getByPartnerAndExternalUserId_user]";
 
-        public async Task<bool> AddAsync(User user)
+        public async Task<int> AddAsync(User user)
         {
             var parameters = new
             {
                 partnerId = user.Partner.Id,
                 userCode = user.UserCode.ToString(),
-                externalUserId = user.ExternalUserId,
+                externalUserId = user.ExternalUserId.ToString(),
                 civilityId = user.Civility.CivilityId,
                 lastName = user.LastName,
                 firstName = user.FirstName,
@@ -39,19 +39,19 @@
             };
 
             return await _unitOfWork.Connection
-                    .ExecuteAsync(createUserStoredProcedure, 
+                    .ExecuteScalarAsync<int>(createUserStoredProcedure, 
                         parameters,
                         _unitOfWork.Transaction,
                         commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false) > 0;
+                    .ConfigureAwait(false);
         }
 
-        public async Task<bool> UpdateAsync(User user)
+        public async Task<int> UpdateAsync(User user)
         {
             var parameters = new
             {
                 partnerId = user.Partner.Id,
-                externalUserId = user.ExternalUserId,
+                externalUserId = user.ExternalUserId.ToString(),
                 civilityId = user.Civility.CivilityId,
                 lastName = user.LastName,
                 firstName = user.FirstName,
@@ -62,11 +62,11 @@
             };
 
             return await _unitOfWork.Connection
-                    .ExecuteAsync(updateUserStoredProcedure,
+                    .ExecuteScalarAsync<int>(updateUserStoredProcedure,
                         parameters,
                         _unitOfWork.Transaction,
                         commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false) > 0;
+                    .ConfigureAwait(false);
         }
 
         public async Task<dynamic> GetById(int partnerId, string externalUserId)
@@ -80,6 +80,7 @@
             return await _unitOfWork.Connection
                     .QueryFirstOrDefaultAsync(getByPartnerAndExternalUserIdStoredProcedure,
                             parameters,
+                            _unitOfWork.Transaction,
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
         }
@@ -95,6 +96,7 @@
             int result = await _unitOfWork.Connection
                             .ExecuteScalarAsync<int>(isUserExistStoredProcedure,
                                 parameters,
+                                _unitOfWork.Transaction,
                                 commandType: CommandType.StoredProcedure)
                             .ConfigureAwait(false);
 
@@ -111,7 +113,7 @@
                 phone = criteria.PhoneNumber,
                 whatsapp = criteria.WhatsappNumber,
                 lastName = criteria.LastName,
-                pageSize = criteria.PageSize,
+                pageSize = criteria.PageSize + 1,
                 birthDate = criteria.BirthDate,
                 firstName = criteria.FirstName,
                 externalUserId = criteria.ExternalUserId,
@@ -121,6 +123,7 @@
             return await _unitOfWork.Connection
                     .QueryAsync(getUserByCriteriaStoredProcedure,
                             parameters,
+                            _unitOfWork.Transaction,
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
         }

@@ -1,8 +1,8 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUser.List
 {
-    using Bizca.Core.Application.Abstracts;
     using Bizca.Core.Application.Abstracts.Paging;
     using Bizca.Core.Application.Abstracts.Queries;
+    using Bizca.Core.Domain;
     using Newtonsoft.Json;
     using System;
 
