@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Core.Application.Test.Cqrs
 {
-    using MediatR;
-    public class FakeNotification : INotification
+    using Bizca.Core.Application.Events;
+    public class FakeNotification : IEvent
     {
     }
 }

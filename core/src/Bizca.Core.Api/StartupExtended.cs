@@ -1,7 +1,6 @@
 ﻿namespace Bizca.Core.Api
 {
-    using Bizca.Core.Api.Modules;
-    using Bizca.Core.Api.Modules.Common;
+    using Bizca.Core.Api.Modules.Extensions;
     using Bizca.Core.Api.Modules.Filters;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -11,17 +10,17 @@
 
     public abstract class StartupExtended
     {
-        protected readonly IHostEnvironment _enviroment;
-        protected readonly IConfiguration _configuration;
+        protected readonly IHostEnvironment environment;
+        protected readonly IConfiguration configuration;
         protected StartupExtended(IConfiguration configuration, IHostEnvironment environment)
         {
-            _enviroment = environment;
-            _configuration = configuration;
+            this.environment = environment;
+            this.configuration = configuration;
         }
 
         protected void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureServiceCollection(_configuration)
+            services.ConfigureServiceCollection(configuration)
                     .AddHttpContextAccessor()
                     .AddRouting(options => options.LowercaseUrls = true)
                     .AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
@@ -29,12 +28,12 @@
 
         protected void Configure(IApplicationBuilder app)
         {
-            if (_enviroment.IsDevelopment())
+            if (environment.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            app.ConfigureApp(_configuration)
+            app.ConfigureApp(configuration)
                .UseHttpsRedirection()
-               .ConfigureSwagger(_configuration.GetSwaggerConfiguration())
+               .ConfigureSwagger(configuration.GetSwaggerConfiguration())
                .UseCustomHttpMetrics();
         }
     }

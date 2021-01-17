@@ -1,4 +1,4 @@
-﻿namespace Bizca.Core.Domain.Partner
+﻿namespace Bizca.Core.Domain.EconomicActivity
 {
     using Bizca.Core.Domain.Exceptions;
     using System;

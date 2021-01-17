@@ -12,16 +12,19 @@
         {
             //arrange
             const bool success = true;
-            const string message = "message";
-            Type exceptionType = typeof(DomainException); 
+            const string errorMessage = "errorMessage";
+            const string propertyName = "propertyName";
+            Type exceptionType = typeof(DomainException);
+            var failure = new DomainFailure(errorMessage, propertyName, exceptionType);
 
             //act
-            var result = new RuleResult(success, message, exceptionType);
+            var result = new RuleResult(success, failure);
 
             //assert
             Check.That(success).Equals(result.Sucess);
-            Check.That(message).Equals(result.Message);
-            Check.That(exceptionType).Equals(result.ExceptionType);
+            Check.That(errorMessage).Equals(result.Failure.ErrorMessage);
+            Check.That(propertyName).Equals(result.Failure.PropertyName);
+            Check.That(exceptionType).Equals(result.Failure.ExceptionType);
         }
     }
 }

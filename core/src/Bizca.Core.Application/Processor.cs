@@ -1,10 +1,9 @@
 ﻿namespace Bizca.Core.Application
 {
-    using Bizca.Core.Application.Abstracts;
-    using Bizca.Core.Application.Abstracts.Commands;
-    using Bizca.Core.Application.Abstracts.Queries;
+    using Bizca.Core.Application.Commands;
+    using Bizca.Core.Application.Events;
+    using Bizca.Core.Application.Queries;
     using MediatR;
-    using System;
     using System.Threading.Tasks;
 
     public sealed class Processor : IProcessor
@@ -14,7 +13,7 @@
         private readonly IMediator _mediator;
         public Processor(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator;
         }
 
         #endregion
@@ -23,23 +22,23 @@
         {
             await _mediator.Send(command).ConfigureAwait(false);
         }
-        public async Task ProcessCommandAsync<TResult>(ICommand<TResult> command)
+        public async Task<TResult> ProcessCommandAsync<TResult>(ICommand<TResult> command)
         {
-            await _mediator.Send(command).ConfigureAwait(false);
+            return await _mediator.Send(command).ConfigureAwait(false);
         }
 
         public async Task ProcessQueryAsync(IQuery query)
         {
             await _mediator.Send(query).ConfigureAwait(false);
         }
-        public async Task ProcessQueryAsync<TResult>(IQuery<TResult> query)
+        public async Task<TResult> ProcessQueryAsync<TResult>(IQuery<TResult> query)
         {
-            await _mediator.Send(query).ConfigureAwait(false);
+            return await _mediator.Send(query).ConfigureAwait(false);
         }
 
-        public async Task ProcessNotificationAsync(INotification notification)
+        public async Task ProcessNotificationAsync(IEvent @event)
         {
-            await _mediator.Publish(notification).ConfigureAwait(false);
+            await _mediator.Publish(@event).ConfigureAwait(false);
         }
     }
 }

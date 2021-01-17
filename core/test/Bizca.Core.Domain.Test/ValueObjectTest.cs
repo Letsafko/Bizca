@@ -16,7 +16,7 @@
             var objTwo = new FakeValueObject(1, true, propTwo);
 
             //assert
-            if(expected)
+            if (expected)
                 Check.That(objOne).IsEqualTo(objTwo);
             else
                 Check.That(objOne).IsNotEqualTo(objTwo);

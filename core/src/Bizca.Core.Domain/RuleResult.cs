@@ -1,16 +1,14 @@
 ﻿namespace Bizca.Core.Domain
 {
-    using System;
+    using Bizca.Core.Domain.Exceptions;
     public sealed class RuleResult
     {
         public bool Sucess { get; }
-        public string Message { get; }
-        public Type ExceptionType { get; set; }
-        public RuleResult(bool sucess, string message, Type type)
+        public DomainFailure Failure { get; }
+        public RuleResult(bool sucess, DomainFailure failure)
         {
             Sucess = sucess;
-            Message = message;
-            ExceptionType = type;
+            Failure = failure;
         }
     }
 }

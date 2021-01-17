@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Application.Behaviors
 {
-    using Bizca.Core.Application.Abstracts.Commands;
+    using Bizca.Core.Application.Commands;
     using Bizca.Core.Domain;
     using MediatR;
     using System;

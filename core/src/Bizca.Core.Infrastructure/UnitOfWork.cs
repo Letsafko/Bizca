@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Core.Infrastructure
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Infrastructure.Abstracts;
-    using Bizca.Core.Infrastructure.Abstracts.Configuration;
+    using Bizca.Core.Infrastructure.Database;
+    using Bizca.Core.Infrastructure.Database.Configuration;
     using System;
     using System.Data;
 
@@ -15,7 +15,7 @@
             if (connectionFactory is null)
                 throw new ArgumentNullException(nameof(connectionFactory));
 
-            Connection = connectionFactory.CreateConnection<BizcaDatabaseConfiguration>();
+            Connection = connectionFactory.CreateConnection<DatabaseConfiguration>();
         }
 
         private bool _disposed;
@@ -24,8 +24,6 @@
 
         public IDbConnection Connection { get; private set; }
         public IDbTransaction Transaction { get; private set; }
-
-        #region methods
 
         public void Rollback()
         {
@@ -62,8 +60,6 @@
             GC.SuppressFinalize(this);
         }
 
-        #endregion
-
         #region private helpers
 
         private void Dispose(bool disposing)
@@ -77,8 +73,6 @@
             }
             _disposed = true;
         }
-
-        
 
         #endregion
     }

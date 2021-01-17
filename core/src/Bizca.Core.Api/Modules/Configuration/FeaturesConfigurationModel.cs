@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Api.Modules.Configuration
 {
-    public sealed class FeaturesConfigurationModel
+    public class FeaturesConfigurationModel
     {
         /// <summary>
         ///     Enable or disable logging.
@@ -36,5 +36,10 @@
         ///     Enable or disable security authentication.
         /// </summary>
         public bool Sts { get; set; }
+
+        /// <summary>
+        ///     Enable or disable key vault.
+        /// </summary>
+        public bool KeyVault { get; set; }
     }
 }

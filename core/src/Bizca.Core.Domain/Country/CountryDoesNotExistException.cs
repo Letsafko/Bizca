@@ -1,4 +1,4 @@
-﻿namespace Bizca.Core.Domain.Partner
+﻿namespace Bizca.Core.Domain.Country
 {
     using Bizca.Core.Domain.Exceptions;
     using System;

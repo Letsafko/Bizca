@@ -1,0 +1,42 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/v1.0/{partnerCode}/notification/whatsapp",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamPathTemplate": "/api/v1.0/{partnerCode}/notification/whatsapp",
+      "ChangeDownstreamPathTemplate": {
+        "partnerCode": "Claims[partner_code] > value[0]"
+      },
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44386
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Identity",
+        "AllowedScopes": [ "partner" ]
+      },
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 60,
+        "Limit": 10
+      },
+      "SwaggerKey": "bizca.notification"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "bizca.notification",
+      "Config": [
+        {
+          "Name": "Notification Api",
+          "Version": "v1.0",
+          "Url": "https://#{bizca-notification-service-host}#/swagger/v1.0/swagger.json"
+        }
+      ]
+    }
+  ]
+}
