@@ -83,7 +83,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.User.Application", "u
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.User.Application.UnitTest", "user\test\Bizca.User.Application.UnitTest\Bizca.User.Application.UnitTest.csproj", "{240ABBBD-7255-4AC1-9814-6A4B5443C6C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Core.Api", "core\src\Bizca.Core.Api\Bizca.Core.Api.csproj", "{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Api", "core\src\Bizca.Core.Api\Bizca.Core.Api.csproj", "{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notification", "notification", "{B97FA904-845F-4021-9927-5C9B02F62BCB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{544717FB-0B8C-4475-B132-AAFF44B657CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5CAD597B-E6B1-42BE-8223-CA4B8F0402F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{229A6F06-F4A9-42EE-9953-22C8D3F63D9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{1DAA2573-AFF0-4B90-ACF7-A07AA099414D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Notification.Application", "notification\src\Bizca.Notification.Application\Bizca.Notification.Application.csproj", "{178CCCF2-73FA-41F8-9812-E8C25F247605}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Notification.Application.UnitTest", "notification\test\Bizca.Notification.Application.UnitTest\Bizca.Notification.Application.UnitTest.csproj", "{DD1D8ED8-2FBA-41D9-85C1-D6F09459ED46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Notification.Infrastructure", "notification\src\Bizca.Notification.Infrastructure\Bizca.Notification.Infrastructure.csproj", "{3CA06DD1-D10B-421B-B7F9-48417B41031E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Notification.Infrastructure.UnitTest", "notification\test\Bizca.Notification.Infrastructure.UnitTest\Bizca.Notification.Infrastructure.UnitTest.csproj", "{2E360BC2-1900-4888-8703-DFBB6B903AD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Notification.WebApi", "notification\src\Bizca.Notification.WebApi\Bizca.Notification.WebApi.csproj", "{BB8384C8-F393-417E-8A30-4E8F4A6542FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +189,26 @@ Global
 		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{178CCCF2-73FA-41F8-9812-E8C25F247605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178CCCF2-73FA-41F8-9812-E8C25F247605}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178CCCF2-73FA-41F8-9812-E8C25F247605}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178CCCF2-73FA-41F8-9812-E8C25F247605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD1D8ED8-2FBA-41D9-85C1-D6F09459ED46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD1D8ED8-2FBA-41D9-85C1-D6F09459ED46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD1D8ED8-2FBA-41D9-85C1-D6F09459ED46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD1D8ED8-2FBA-41D9-85C1-D6F09459ED46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CA06DD1-D10B-421B-B7F9-48417B41031E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA06DD1-D10B-421B-B7F9-48417B41031E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA06DD1-D10B-421B-B7F9-48417B41031E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA06DD1-D10B-421B-B7F9-48417B41031E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E360BC2-1900-4888-8703-DFBB6B903AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E360BC2-1900-4888-8703-DFBB6B903AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E360BC2-1900-4888-8703-DFBB6B903AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E360BC2-1900-4888-8703-DFBB6B903AD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB8384C8-F393-417E-8A30-4E8F4A6542FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8384C8-F393-417E-8A30-4E8F4A6542FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8384C8-F393-417E-8A30-4E8F4A6542FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB8384C8-F393-417E-8A30-4E8F4A6542FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,6 +241,15 @@ Global
 		{8141DDA1-4BFF-4EB3-A3AD-5C0262987511} = {041743DF-BFB5-45F8-9B3A-BDC51CDC0B6E}
 		{240ABBBD-7255-4AC1-9814-6A4B5443C6C8} = {D685D605-5CF4-4A64-806B-BAB0FF71912F}
 		{03A01FA4-67A5-4AFC-BB2D-F9449A7342E4} = {EE1A66BE-1601-4D86-A082-F391F986C43A}
+		{544717FB-0B8C-4475-B132-AAFF44B657CB} = {B97FA904-845F-4021-9927-5C9B02F62BCB}
+		{5CAD597B-E6B1-42BE-8223-CA4B8F0402F6} = {B97FA904-845F-4021-9927-5C9B02F62BCB}
+		{229A6F06-F4A9-42EE-9953-22C8D3F63D9E} = {B97FA904-845F-4021-9927-5C9B02F62BCB}
+		{1DAA2573-AFF0-4B90-ACF7-A07AA099414D} = {5CAD597B-E6B1-42BE-8223-CA4B8F0402F6}
+		{178CCCF2-73FA-41F8-9812-E8C25F247605} = {1DAA2573-AFF0-4B90-ACF7-A07AA099414D}
+		{DD1D8ED8-2FBA-41D9-85C1-D6F09459ED46} = {229A6F06-F4A9-42EE-9953-22C8D3F63D9E}
+		{3CA06DD1-D10B-421B-B7F9-48417B41031E} = {5CAD597B-E6B1-42BE-8223-CA4B8F0402F6}
+		{2E360BC2-1900-4888-8703-DFBB6B903AD5} = {229A6F06-F4A9-42EE-9953-22C8D3F63D9E}
+		{BB8384C8-F393-417E-8A30-4E8F4A6542FC} = {5CAD597B-E6B1-42BE-8223-CA4B8F0402F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D7BB865-F57C-4290-8D7B-3D1CFD483CDE}

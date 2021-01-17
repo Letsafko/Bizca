@@ -35,6 +35,28 @@
 
         #endregion
 
+        public async Task<IUser> BuildAsync(Partner partner, string externalUserId)
+        {
+            dynamic result = await _userRepository.GetById(partner.Id, externalUserId).ConfigureAwait(false);
+            return result is null
+                ? UserNull.Instance
+                : UserBuilder.Instance
+                .WithPartner(partner)
+                .WithId(result.userId)
+                .WithUserCode(new UserCode(result.userCode))
+                .WithExternalUserId(new ExternalUserId(result.externalUserId))
+                .WithLastName(result.lastName)
+                .WithFisrtName(result.firstName)
+                .WithBirthCity(result.birthCity)
+                .WithBirthDate(result.birthDate)
+                .WithEmail(result.email, result.emailActive, result.emailConfirmed)
+                .WithPhoneNumber(result.phone, result.phoneActive, result.phoneConfirmed)
+                .WithWhatsapp(result.whatsapp, result.whatsappActive, result.whatsappConfirmed)
+                .WithCivility(new Civility(result.civilityId, result.civilityCode))
+                .WithBirthCountry(new Country(result.birthCountryId, result.birthCountryCode, result.birthCountryDescription))
+                .WithEconomicActivity(new EconomicActivity(result.economicActivityId, result.economicActivityCode, result.economicActivityDescription))
+                .Build() as IUser;
+        }
         public async Task<Response<IUser>> CreateAsync(UserRequest request)
         {
             var notification = new Notification();
@@ -84,7 +106,6 @@
 
             return new Response<IUser>(user);
         }
-
         public async Task<IUser> UpdateAsync(UserRequest request)
         {
             dynamic result = await _userRepository.GetById(request.Partner.Id, request.ExternalUserId).ConfigureAwait(false);
@@ -128,29 +149,6 @@
             builder.WithEconomicActivity(economicActivity ?? new EconomicActivity(result.economicActivityId, result.economicActivityCode, result.economicActivityDescription));
 
             return builder.Build();
-        }
-
-        public async Task<IUser> BuildAsync(Partner partner, string externalUserId)
-        {
-            dynamic result = await _userRepository.GetById(partner.Id, externalUserId).ConfigureAwait(false);
-            return result is null
-                ? UserNull.Instance
-                : UserBuilder.Instance
-                .WithPartner(partner)
-                .WithId(result.userId)
-                .WithUserCode(new UserCode(result.userCode))
-                .WithExternalUserId(new ExternalUserId(result.externalUserId))
-                .WithLastName(result.lastName)
-                .WithFisrtName(result.firstName)
-                .WithBirthCity(result.birthCity)
-                .WithBirthDate(result.birthDate)
-                .WithEmail(result.email, result.emailActive, result.emailConfirmed)
-                .WithPhoneNumber(result.phone, result.phoneActive, result.phoneConfirmed)
-                .WithWhatsapp(result.whatsapp, result.whatsappActive, result.whatsappConfirmed)
-                .WithCivility(new Civility(result.civilityId, result.civilityCode))
-                .WithBirthCountry(new Country(result.birthCountryId, result.birthCountryCode, result.birthCountryDescription))
-                .WithEconomicActivity(new EconomicActivity(result.economicActivityId, result.economicActivityCode, result.economicActivityDescription))
-                .Build() as IUser;
         }
 
         private void ManageResultChecks(Notification notification, RuleResultCollection collection)
