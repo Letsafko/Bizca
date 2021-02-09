@@ -7,8 +7,8 @@
     {
         Task<int> AddAsync(User user);
         Task<int> UpdateAsync(User user);
-        Task<dynamic> GetByIdAsync(int partnerId, string externalUserId);
         Task<bool> IsExistAsync(int partnerId, string externalUserId);
         Task<IEnumerable<dynamic>> GetByCriteriaAsync(int partnerId, UserCriteria criteria);
+        Task<(dynamic user, IEnumerable<dynamic> channels)> GetByIdAsync(int partnerId, string externalUserId);
     }
 }

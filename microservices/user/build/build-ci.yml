@@ -1,8 +1,8 @@
 name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
 variables:
-  projectApi:  'user/src/Bizca.User.WebApi/Bizca.User.WebApi.csproj'
-  testPattern: 'user/test/**/*.csproj'
+  projectApi:  'microservices/user/src/Bizca.User.WebApi/Bizca.User.WebApi.csproj'
+  testPattern: 'microservices/user/test/**/*.csproj'
   buildConfiguration: 'Release'
 
 trigger:
@@ -10,8 +10,8 @@ trigger:
     include: ['master', 'develop', 'release/*', 'hotfix/*', 'feature/*', 'bugfix/*']
   paths:
     include: 
-     - 'user/src'
-     - 'user/test'
+     - 'microservices/user/src'
+     - 'microservices/user/test'
 steps:
   - script: 'dotnet restore --configfile ./Nuget.config'
     displayName: 'restore'

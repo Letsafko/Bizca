@@ -54,7 +54,7 @@
             //assert  
             Check.That(exception.Errors).CountIs(1);
             Check.That(exception.Errors).HasFieldsWithSameValues(erros);
-            Check.That(exception.Message).Equals($"\r\n -- {propertyName}: {errorMessage}");
+            Check.That(exception.Message).Equals($"\r\n -- {errorMessage}: {propertyName}");
             Check.That(exception.Errors).InheritsFrom<IEnumerable<DomainFailure>>();
         }
 

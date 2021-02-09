@@ -5,24 +5,24 @@
     using System.Linq;
     using System.Reflection;
 
-    public class Enumeration : IEquatable<Enumeration>
+    public abstract class Enumeration : IEquatable<Enumeration>
     {
         public int Id { get; }
         public string Code { get; }
 
-        public Enumeration(int id, string code)
+        protected Enumeration(int id, string code)
         {
             (Id, Code) = (id, code);
         }
 
-        public static IEnumerable<T> GetAll<T>() where T : Enumeration
-        {
-            return ((TypeInfo)typeof(T)).DeclaredProperties.Select(f => f.GetValue(null)).Cast<T>();
-        }
-
-        public static T GetFromName<T>(string code) where T : Enumeration
+        protected static T GetFromCode<T>(string code) where T : Enumeration
         {
             return Parse<T>(item => item.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
+        }
+
+        protected static T GetFromId<T>(int id) where T : Enumeration
+        {
+            return Parse<T>(item => item.Id == id);
         }
 
         #region overrides
@@ -59,6 +59,13 @@
         private static T Parse<T>(Func<T, bool> predicate) where T : Enumeration
         {
             return GetAll<T>().FirstOrDefault(predicate);
+        }
+
+        private static IEnumerable<T> GetAll<T>() where T : Enumeration
+        {
+            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                            .Select(f => f.GetValue(null))
+                            .Cast<T>();
         }
 
         #endregion

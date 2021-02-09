@@ -4,7 +4,7 @@
     using Bizca.Core.Domain.Partner;
     using Bizca.Core.Support.Test.Builders;
     using Bizca.User.Domain.Agregates;
-    using Bizca.User.Domain.Agregates.BusinessCheck.Rules;
+    using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner;
     using NFluent;
     using System;

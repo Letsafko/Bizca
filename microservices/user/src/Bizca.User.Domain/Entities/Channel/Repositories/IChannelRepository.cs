@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Domain.Entities.Channel
+﻿namespace Bizca.User.Domain.Entities.Channel.Repositories
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

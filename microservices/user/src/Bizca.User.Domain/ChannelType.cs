@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Domain.ValueObjects
+﻿namespace Bizca.User.Domain
 {
     using Bizca.Core.Domain;
 
@@ -12,9 +12,13 @@
         public static readonly ChannelType Email = new ChannelType(2, "Email");
         public static readonly ChannelType Whatsapp = new ChannelType(4, "Whatsapp");
         public static readonly ChannelType Messenger = new ChannelType(8, "Messenger");
+        public static ChannelType GetById(int id)
+        {
+            return GetFromId<ChannelType>(id);
+        }
         public static ChannelType GetByCode(string code)
         {
-            return GetFromName<ChannelType>(code) ?? ChannelType.Email;
+            return GetFromCode<ChannelType>(code);
         }
     }
 }

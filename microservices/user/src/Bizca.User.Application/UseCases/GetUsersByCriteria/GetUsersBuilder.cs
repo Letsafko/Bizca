@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUsersByCriteria
 {
+    using Bizca.User.Domain;
     using Bizca.User.Domain.Entities.Channel;
-    using Bizca.User.Domain.ValueObjects;
     using System.Collections.Generic;
 
     public sealed class GetUsersBuilder

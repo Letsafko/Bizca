@@ -7,7 +7,7 @@ namespace Bizca.User.Domain.Agregates
     {
         public Partner Partner { get; set; }
         public string ExternalUserId { get; set; }
-        public int Civility { get; set; }
+        public int? Civility { get; set; }
         public string BirthCountry { get; set; }
         public int? EconomicActivity { get; set; }
         public DateTime? BirthDate { get; set; }

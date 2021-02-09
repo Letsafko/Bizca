@@ -52,6 +52,17 @@
         }
 
         /// <summary>
+        ///     Gets country.
+        /// </summary>
+        /// <param name="countryId">country id.</param>
+        /// <param name="throwError">when true and result is null, an exception is thrown.</param>
+        public async Task<Country> GetCountryByIdAsync(int countryId, bool throwError = false)
+        {
+            return await countryRepository.GetByIdAsync(countryId).ConfigureAwait(false)
+                ?? (!throwError ? default(Country) : throw GetDomainException<CountryDoesNotExistException>(nameof(countryId), countryId));
+        }
+
+        /// <summary>
         ///     Gets partner.
         /// </summary>
         /// <param name="partner">partner code.</param>

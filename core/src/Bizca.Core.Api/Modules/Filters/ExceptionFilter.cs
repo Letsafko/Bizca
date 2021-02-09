@@ -81,10 +81,9 @@
                     .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray());
             }
 
-            return modelState is null
-                ? default
-                : new ModelStateResponse(StatusCodes.Status400BadRequest, modelState.SelectMany(x => x.Value),
-                      !env.IsDevelopment() ? default : exception);
+            return new ModelStateResponse(StatusCodes.Status400BadRequest, 
+                        modelState.SelectMany(x => x.Value),
+                        !env.IsDevelopment() ? default : exception);
         }
     }
 }

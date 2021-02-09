@@ -1,17 +1,33 @@
 ﻿namespace Bizca.User.Infrastructure.Extensions
 {
     using Bizca.User.Domain.Entities.Channel;
+    using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
 
     public static class ChannelExtensions
     {
-        public static DataTable ToDataTable(this IEnumerable<int> channelIds, string typeName)
+        public static DataTable ToDataTable(this IEnumerable<ChannelConfirmation> channelConfirmations, int userId, int channelId, string typeName)
         {
             var dt = new DataTable(typeName);
+            dt.Columns.Add(ChannelColumns.UserId, typeof(int));
             dt.Columns.Add(ChannelColumns.ChannelId, typeof(int));
-            channelIds?.ToList().ForEach(x => dt.Rows.Add(x));
+            dt.Columns.Add(ChannelColumns.ConfirmationCode, typeof(string));
+            dt.Columns.Add(ChannelColumns.CodeExpirationDate, typeof(DateTime));
+            channelConfirmations
+                ?.ToList()
+                .ForEach(x =>
+                {
+                    dt.Rows.Add
+                    (
+                        userId,
+                        channelId,
+                        x.CodeConfirmation,
+                        x.ExpirationDate
+                    );
+                });
 
             return dt;
         }
@@ -48,6 +64,8 @@
             public const string ChannelValue = "value";
             public const string ChannelId = "channelId";
             public const string Confirmed = "confirmed";
+            public const string ConfirmationCode = "confirmationCode";
+            public const string CodeExpirationDate = "expirationDate";
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
     using Bizca.Core.Application.Queries;
+    using Bizca.Core.Domain.Civility;
+    using Bizca.Core.Domain.Country;
+    using Bizca.Core.Domain.EconomicActivity;
     using Bizca.Core.Domain.Partner;
     using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates.Repositories;
@@ -25,34 +28,39 @@
         public async Task<Unit> Handle(GetUserDetailQuery request, CancellationToken cancellationToken)
         {
             Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true).ConfigureAwait(false);
-            dynamic result = await userRepository.GetByIdAsync(partner.Id, request.ExternalUserId).ConfigureAwait(false);
-            if (result != null)
+            (dynamic user, _) = await userRepository.GetByIdAsync(partner.Id, request.ExternalUserId).ConfigureAwait(false);
+            if (user is null)
             {
-                outputPort.Ok(GetUserDetail(result));
+                outputPort.NotFound();
                 return Unit.Value;
             }
 
-            outputPort.NotFound();
+            GetUserDetail getUserDetail = await GetUserDetailAsync(user).ConfigureAwait(false);
+            outputPort.Ok(getUserDetail);
             return Unit.Value;
         }
 
-        private GetUserDetail GetUserDetail(dynamic result)
+        private async Task<GetUserDetail> GetUserDetailAsync(dynamic result)
         {
+            Country country = await referentialService.GetCountryByIdAsync(result.birthCountryId ?? 0).ConfigureAwait(false);
+            Civility civility = await referentialService.GetCivilityByIdAsync(result.civilityId, true).ConfigureAwait(false);
+            EconomicActivity economicActivity = await referentialService.GetEconomicActivityByIdAsync(result.economicActivityId ?? 0).ConfigureAwait(false);
+
             return GetUserDetailBuilder.Instance
-                    .WithUserId(result.userId)
-                    .WithUserCode(result.userCode.ToString())
-                    .WithExternalUserId(result.externalUserId)
-                    .WithEmail(result.email, result.emailActive, result.emailConfirmed)
-                    .WithPhoneNumber(result.phone, result.phoneActive, result.phoneConfirmed)
-                    .WithWhatsapp(result.whatsapp, result.whatsappActive, result.whatsappConfirmed)
-                    .WithCivility(result.civilityCode)
-                    .WithLastName(result.lastName)
-                    .WithFirstName(result.firstName)
-                    .WithBirthCity(result.birthCity)
-                    .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
-                    .WithBirthCountry(result.birthCountryCode)
-                    .WithEconomicActivity(result.economicActivityCode)
-                    .Build();
+                .WithUserId(result.userId)
+                .WithUserCode(result.userCode.ToString())
+                .WithExternalUserId(result.externalUserId)
+                .WithEmail(result.email, result.emailActive, result.emailConfirmed)
+                .WithPhoneNumber(result.phone, result.phoneActive, result.phoneConfirmed)
+                .WithWhatsapp(result.whatsapp, result.whatsappActive, result.whatsappConfirmed)
+                .WithLastName(result.lastName)
+                .WithFirstName(result.firstName)
+                .WithBirthCity(result.birthCity)
+                .WithCivility(civility.CivilityCode)
+                .WithBirthCountry(country?.CountryCode)
+                .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
+                .WithEconomicActivity(economicActivity?.EconomicActivityCode)
+                .Build();
         }
     }
 }

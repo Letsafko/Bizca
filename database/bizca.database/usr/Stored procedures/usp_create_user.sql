@@ -12,47 +12,36 @@
 as
 begin
 	
-	set xact_abort on
-
-	begin try
-		
-		insert into [usr].[user]
-		(
-			  [externalUserId]		    
-			, [userCode]		    
-			, [partnerId]		    
-			, [civilityId]	    
-			, [economicActivityId]
-			, [firstName]			
-			, [lastName]		
-			, [birthDate]
-			, [birthCountryId]
-			, [birthCity]
-			, [creationDate]		
-			, [lastUpdate]		
-		)
-		output inserted.userId
-		values
-		(
-			  @externalUserId		 
-			, @userCode		     
-			, @partnerId		 
-			, @civilityId	     
-			, @economicActivityId
-			, @firstName		 
-			, @lastName			 
-			, @birthDate   		
-			, @birthCountryId	
-			, @birthCity		
-			, getutcdate()
-			, getutcdate()
-		)
-
-	end try
-	begin catch
-		
-		throw
-
-	end catch
+	insert into [usr].[user]
+	(
+		  [externalUserId]		    
+		, [userCode]		    
+		, [partnerId]		    
+		, [civilityId]	    
+		, [economicActivityId]
+		, [firstName]			
+		, [lastName]		
+		, [birthDate]
+		, [birthCountryId]
+		, [birthCity]
+		, [creationDate]		
+		, [lastUpdate]		
+	)
+	output inserted.userId
+	values
+	(
+		  @externalUserId		 
+		, @userCode		     
+		, @partnerId		 
+		, @civilityId	     
+		, @economicActivityId
+		, @firstName		 
+		, @lastName			 
+		, @birthDate   		
+		, @birthCountryId	
+		, @birthCity		
+		, getutcdate()
+		, getutcdate()
+	)
 
 end

@@ -6,9 +6,11 @@
     using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates;
     using Bizca.User.Domain.Agregates.Factories;
+    using Bizca.User.Domain.Agregates.Repositories;
     using Bizca.User.Domain.Entities.Channel;
-    using Bizca.User.Domain.Entities.ChannelConfirmation;
-    using Bizca.User.Domain.ValueObjects;
+    using Bizca.User.Domain.Entities.Channel.Exceptions;
+    using Bizca.User.Domain.Entities.Channel.Repositories;
+    using Bizca.User.Domain.Entities.Channel.ValueObjects;
     using MediatR;
     using System;
     using System.Collections.Generic;
@@ -19,24 +21,22 @@
     public sealed class ConfirmChannelCodeUseCase : ICommandHandler<ChannelConfirmationCommand>
     {
         private readonly IUserFactory userFactory;
+        private readonly IUserRepository userRepository;
         private readonly IConfirmChannelCodeOutput output;
         private readonly IChannelRepository channelRepository;
         private readonly IReferentialService referentialService;
-        private readonly IChannelConfirmationRepository channelConfirmationRepository;
         public ConfirmChannelCodeUseCase(IUserFactory userFactory,
+            IUserRepository userRepository,
             IConfirmChannelCodeOutput output,
-            IReferentialService referentialService,
             IChannelRepository channelRepository,
-            IChannelConfirmationRepository channelConfirmationRepository)
+            IReferentialService referentialService)
         {
             this.output = output;
             this.userFactory = userFactory;
+            this.userRepository = userRepository;
             this.channelRepository = channelRepository;
             this.referentialService = referentialService;
-            this.channelConfirmationRepository = channelConfirmationRepository;
         }
-
-        private const string missingChannelDefaultMessagePattern = "channel::{0} requested for user::{1} does not exist.";
 
         /// <summary>
         ///     Handles confirmation of a channel.
@@ -53,51 +53,52 @@
                 return Unit.Value;
             }
 
+            Channel channel = response.GetChannel(request.ChannelType);
+            ChannelConfirmation codeConfirmation = GetChannelConfirmation(channel, request.CodeConfirmation);
+            if(codeConfirmation is null)
+            {
+                ThrowChannelCodeConfirmationDoesNotExistException(request.CodeConfirmation);
+            }
+
             var user = response as User;
-            Channel channel = GetChannel(request.ChannelType, user);
-            DateTime? expirationDate = await GetCodeConfirmationExpirationDateAsync(user.Id, channel.ChannelType, request.CodeConfirmation).ConfigureAwait(false);
+            bool confirmed = IsChannelCodeConfirmed(codeConfirmation);
+            response.UpdateChannel(channel.ChannelValue, channel.ChannelType, channel.Active, confirmed);
 
-            if (!expirationDate.HasValue)
-            {
-                output.NotFound("code does not exist.");
-                return Unit.Value;
-            }
+            await userRepository.UpdateAsync(user).ConfigureAwait(false);
+            await channelRepository.UpdateAsync(user.Id, user.Channels).ConfigureAwait(false);
 
-            if (expirationDate.Value.CompareTo(DateTime.UtcNow) < 0)
-            {
-                var failure = new DomainFailure($"{request.CodeConfirmation} has expired.", nameof(request.CodeConfirmation), typeof(ChannelCodeConfirmationHasExpiredUserException));
-                throw new ChannelCodeConfirmationHasExpiredUserException(new List<DomainFailure> { failure });
-            }
-
-            var channelToUpdate = new Channel(channel.ChannelValue, channel.ChannelType, channel.Active, true);
-            await channelRepository.UpdateAsync(user.Id, new List<Channel> { channelToUpdate }).ConfigureAwait(false);
-            output.Ok(new ConfirmChannelCodeDto(channelToUpdate.ChannelType, channelToUpdate.ChannelValue, channelToUpdate.Confirmed));
+            output.Ok(new ConfirmChannelCodeDto(channel.ChannelType, channel.ChannelValue, confirmed));
             return Unit.Value;
         }
 
         #region private helpers
 
-        private async Task<DateTime?> GetCodeConfirmationExpirationDateAsync(int userId, ChannelType channelType, string confirmationCode)
+        private ChannelConfirmation GetChannelConfirmation(Channel channel, string confirmationCode)
         {
-            dynamic result = await channelConfirmationRepository.GetByIdsAsync(userId, channelType.Id, confirmationCode).ConfigureAwait(false);
-            return result is null
-                ? default(DateTime?)
-                : (DateTime)result.expirationDate;
+            return channel.ChannelCodes.SingleOrDefault(x => x.CodeConfirmation == confirmationCode);
         }
 
-        private Channel GetChannel(ChannelType channelType, User user)
+        private bool IsChannelCodeConfirmed(ChannelConfirmation channelConfirmation)
         {
-            Channel channel = user.Channels.SingleOrDefault(x => x.ChannelType == channelType);
-            if (channel is null)
+            bool confirmed = channelConfirmation.ExpirationDate.CompareTo(DateTime.UtcNow) > 0;
+            if (!confirmed)
             {
-                var failure = new DomainFailure(string.Format(missingChannelDefaultMessagePattern, channelType.Code, user.ExternalUserId.ToString()),
-                        nameof(channelType),
-                        typeof(ChannelDoesNotExistForUserException));
+                var failure = new DomainFailure($"{channelConfirmation.CodeConfirmation} has expired.",
+                    nameof(channelConfirmation.CodeConfirmation),
+                    typeof(ChannelCodeConfirmationHasExpiredUserException));
 
-                throw new ChannelDoesNotExistForUserException(new List<DomainFailure> { failure });
+                throw new ChannelCodeConfirmationHasExpiredUserException(new List<DomainFailure> { failure });
             }
+            return confirmed;
+        }
 
-            return channel;
+        private void ThrowChannelCodeConfirmationDoesNotExistException(string codeConfirmation)
+        {
+            var failure = new DomainFailure($"{codeConfirmation} does not exist.",
+                    nameof(codeConfirmation),
+                    typeof(ChannelCodeConfirmationDoesNotExistException));
+
+            throw new ChannelCodeConfirmationDoesNotExistException(new List<DomainFailure> { failure });
         }
 
         #endregion

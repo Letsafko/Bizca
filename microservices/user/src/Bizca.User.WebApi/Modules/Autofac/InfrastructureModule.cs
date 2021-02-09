@@ -9,8 +9,7 @@
     using Bizca.Core.Infrastructure.Database;
     using Bizca.Core.Infrastructure.Persistance;
     using Bizca.User.Domain.Agregates.Repositories;
-    using Bizca.User.Domain.Entities.Channel;
-    using Bizca.User.Domain.Entities.ChannelConfirmation;
+    using Bizca.User.Domain.Entities.Channel.Repositories;
     using Bizca.User.Infrastructure.Persistance;
     using global::Autofac;
 
@@ -33,9 +32,9 @@
             builder.RegisterType<CivilityRepository>().As<ICivilityRepository>().InstancePerLifetimeScope();
             builder.RegisterType<EconomicActivityRepository>().As<IEconomicActivityRepository>().InstancePerLifetimeScope();
 
-            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
-            builder.RegisterType<ChannelRepository>().As<IChannelRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ChannelConfirmationRepository>().As<IChannelConfirmationRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ChannelRepository>().As<IChannelRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
         }
     }
 }

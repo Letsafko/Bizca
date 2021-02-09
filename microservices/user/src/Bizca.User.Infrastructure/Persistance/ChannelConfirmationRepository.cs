@@ -1,8 +1,13 @@
 ﻿namespace Bizca.User.Infrastructure.Persistance
 {
     using Bizca.Core.Domain;
-    using Bizca.User.Domain.Entities.ChannelConfirmation;
+    using Bizca.Core.Infrastructure.Database;
+    using Bizca.User.Domain;
+    using Bizca.User.Domain.Entities.Channel.Repositories;
+    using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using Bizca.User.Infrastructure.Extensions;
     using Dapper;
+    using System.Collections.Generic;
     using System.Data;
     using System.Threading.Tasks;
 
@@ -14,42 +19,22 @@
             this.unitOfWork = unitOfWork;
         }
 
-        private const string getUserChannelConfirmationStoredProcedure = "[usr].[usp_get_userChannelConfirmation]";
-        private const string createUserChannelConfirmationStoredProcedure = "[usr].[usp_create_userChannelConfirmation]";
+        private const string channelCodeUdt = "[usr].[channelCodes]";
+        private const string upsertUserChannelConfirmationStoredProcedure = "[usr].[usp_upsert_userChannelConfirmation]";
 
-        public async Task<bool> AddAsync(int userId, ChannelConfirmation channelConfirmation)
+        public async Task<bool> UpsertAsync(int userId, ChannelType channelType, IEnumerable<ChannelConfirmation> channelConfirmations)
         {
             var parameters = new
             {
-                userId,
-                channelId = channelConfirmation.ChannelType.Id,
-                expirationDate = channelConfirmation.ExpirationDate,
-                codeConfirmation = channelConfirmation.CodeConfirmation
+                channelCodes = new TableValueParameter(channelConfirmations.ToDataTable(userId, channelType.Id, channelCodeUdt))
             };
 
             return await unitOfWork.Connection
-                .ExecuteAsync(createUserChannelConfirmationStoredProcedure,
+                .ExecuteAsync(upsertUserChannelConfirmationStoredProcedure,
                     parameters,
                     unitOfWork.Transaction,
                     commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false) > 0;
-        }
-
-        public async Task<dynamic> GetByIdsAsync(int userId, int channelId, string confirmationCode)
-        {
-            var parameters = new
-            {
-                userId,
-                channelId,
-                confirmationCode
-            };
-
-            return await unitOfWork.Connection
-                    .QuerySingleOrDefaultAsync(getUserChannelConfirmationStoredProcedure,
-                        parameters,
-                        unitOfWork.Transaction,
-                        commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false);
         }
     }
 }

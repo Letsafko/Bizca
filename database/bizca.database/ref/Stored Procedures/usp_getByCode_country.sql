@@ -1,4 +1,4 @@
-﻿create procedure [ref].[usp_getByCode_country]
+﻿create procedure [ref].[usp_getByCode_Country]
 	@countryCode varchar(2)
 as
 	select 

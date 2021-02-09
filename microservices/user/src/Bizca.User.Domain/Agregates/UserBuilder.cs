@@ -5,20 +5,14 @@
     using Bizca.Core.Domain.EconomicActivity;
     using Bizca.Core.Domain.Partner;
     using Bizca.User.Domain.Agregates.ValueObjects;
-    using Bizca.User.Domain.Entities.Channel;
-    using Bizca.User.Domain.ValueObjects;
     using System;
-    using System.Collections.Generic;
 
     public sealed class UserBuilder
     {
         private readonly User user;
         private UserBuilder()
         {
-            user = new User
-            {
-                Channels = new List<Channel>()
-            };
+            user = new User();
         }
 
         public static UserBuilder Instance => new UserBuilder();
@@ -97,7 +91,7 @@
         {
             if (!string.IsNullOrWhiteSpace(email))
             {
-                user.Channels.Add(new Channel(email, ChannelType.Email, false, false));
+                user.AddChannel(email, ChannelType.Email, false, false);
             }
             return this;
         }
@@ -106,7 +100,7 @@
         {
             if (!string.IsNullOrWhiteSpace(email))
             {
-                user.Channels.Add(new Channel(email, ChannelType.Email, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+                user.AddChannel(email, ChannelType.Email, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value));
             }
             return this;
         }
@@ -115,7 +109,7 @@
         {
             if (!string.IsNullOrWhiteSpace(phoneNumber))
             {
-                user.Channels.Add(new Channel(phoneNumber, ChannelType.Sms, false, false));
+                user.AddChannel(phoneNumber, ChannelType.Sms, false, false);
             }
             return this;
         }
@@ -124,7 +118,7 @@
         {
             if (!string.IsNullOrWhiteSpace(phoneNumber))
             {
-                user.Channels.Add(new Channel(phoneNumber, ChannelType.Sms, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+                user.AddChannel(phoneNumber, ChannelType.Sms, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value));
             }
             return this;
         }
@@ -133,7 +127,7 @@
         {
             if (!string.IsNullOrWhiteSpace(whatsapp))
             {
-                user.Channels.Add(new Channel(whatsapp, ChannelType.Whatsapp, false, false));
+                user.AddChannel(whatsapp, ChannelType.Whatsapp, false, false);
             }
             return this;
         }
@@ -142,8 +136,14 @@
         {
             if (!string.IsNullOrWhiteSpace(whatsapp))
             {
-                user.Channels.Add(new Channel(whatsapp, ChannelType.Whatsapp, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+                user.AddChannel(whatsapp, ChannelType.Whatsapp, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value));
             }
+            return this;
+        }
+
+        public UserBuilder WithRowVersion(byte[] rowVersion)
+        {
+            user.SetRowVersion(rowVersion);
             return this;
         }
 

@@ -5,6 +5,7 @@
         public string PartnerCode { get; }
         public string Desciption { get; }
         public FeatureFlags FeatureFlags { get; } = new FeatureFlags();
+        public PartnerSettings PartnerSettings { get; } = new PartnerSettings();
 
         public Partner(int id, string code, string description)
         {
@@ -12,6 +13,11 @@
             PartnerCode = code;
             Desciption = description;
         }
+    }
+
+    public sealed class PartnerSettings
+    {
+        public int ChannelCodeConfirmationExpirationDelay { get; set; } = 10;
     }
 
     public sealed class FeatureFlags
