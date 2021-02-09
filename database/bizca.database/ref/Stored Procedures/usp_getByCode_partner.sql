@@ -1,4 +1,4 @@
-﻿create procedure [ref].[usp_getByCode_partner]
+﻿create procedure [ref].[usp_getByCode_Partner]
 	@partnerCode varchar(30)
 as
 	select 

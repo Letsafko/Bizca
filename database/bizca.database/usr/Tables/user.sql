@@ -12,7 +12,10 @@
 	[birthCountryId]	    smallint not null,
 	[birthCity]			    varchar(50) not null,
 	[creationDate]		    datetime2 not null,
-    [lastUpdate]		    datetime2 not null
+    [lastUpdate]		    datetime2 not null,
+	[rowversion]			[rowversion] not null,
+	[securityStamp]			varchar(200) null,
+	[passswordHash]			varchar(200) null
 )
 go
 

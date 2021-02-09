@@ -18,6 +18,7 @@
             this.unitOfWork = unitOfWork;
         }
 
+        private const string getCountryByIdStoredProcedure = "[ref].[usp_GetById_Country]";
         private const string getCountryByCodeStoredProcedure = "[ref].[usp_getByCode_country]";
 
         #endregion
@@ -31,6 +32,25 @@
 
             dynamic result = await unitOfWork.Connection
                     .QueryFirstOrDefaultAsync(getCountryByCodeStoredProcedure,
+                            parameters,
+                            unitOfWork.Transaction,
+                            commandType: CommandType.StoredProcedure)
+                    .ConfigureAwait(false);
+
+            return result is null
+                    ? default
+                    : new Country(result.countryId, result.countryCode, result.description);
+        }
+
+        public async Task<Country> GetByIdAsync(int countryId)
+        {
+            var parameters = new
+            {
+                countryId
+            };
+
+            dynamic result = await unitOfWork.Connection
+                    .QueryFirstOrDefaultAsync(getCountryByIdStoredProcedure,
                             parameters,
                             unitOfWork.Transaction,
                             commandType: CommandType.StoredProcedure)

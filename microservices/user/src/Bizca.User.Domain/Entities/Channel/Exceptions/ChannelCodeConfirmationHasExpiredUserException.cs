@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Domain.Entities.Channel
+﻿namespace Bizca.User.Domain.Entities.Channel.Exceptions
 {
     using Bizca.Core.Domain.Exceptions;
     using System;

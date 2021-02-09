@@ -1,7 +1,7 @@
-﻿using Bizca.User.Domain.ValueObjects;
-
-namespace Bizca.User.Application.UseCases.RegisterCodeConfirmation
+﻿namespace Bizca.User.Application.UseCases.RegisterCodeConfirmation
 {
+    using Bizca.User.Domain;
+
     /// <summary>
     ///     Register code confirmation builder.
     /// </summary>

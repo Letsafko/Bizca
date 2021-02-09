@@ -7,6 +7,7 @@
     using Bizca.User.Domain.Agregates.Factories;
     using Bizca.User.Domain.Agregates.Repositories;
     using Bizca.User.Domain.Entities.Channel;
+    using Bizca.User.Domain.Entities.Channel.Repositories;
     using MediatR;
     using System;
     using System.Linq;
@@ -18,13 +19,13 @@
         private readonly IUserFactory userFactory;
         private readonly IUpdateUserOutput output;
         private readonly IUserRepository userRepository;
-        private readonly IReferentialService referentialService;
         private readonly IChannelRepository channelRepository;
+        private readonly IReferentialService referentialService;
         public UpdateUserUseCase(IUpdateUserOutput output,
             IUserFactory userFactory,
             IUserRepository userRepository,
-            IReferentialService referentialService,
-            IChannelRepository channelRepository)
+            IChannelRepository channelRepository,
+            IReferentialService referentialService)
         {
             this.output = output;
             this.userFactory = userFactory;
@@ -44,18 +45,12 @@
                 return Unit.Value;
             }
 
-            bool success = true;
             var user = response as User;
-            int userId = await userRepository.UpdateAsync(user).ConfigureAwait(false);
-            success &= userId > 0 && userId == user.Id && await channelRepository.UpdateAsync(userId, user.Channels).ConfigureAwait(false);
+            await userRepository.UpdateAsync(user).ConfigureAwait(false);
+            await channelRepository.UpdateAsync(user.Id, user.Channels).ConfigureAwait(false);
 
-            if (success)
-            {
-                UpdateUserDto userDto = GetUserDto(user);
-                output.Ok(userDto);
-                return Unit.Value;
-            }
-
+            UpdateUserDto userDto = GetUserDto(user);
+            output.Ok(userDto);
             return Unit.Value;
         }
 
@@ -81,7 +76,7 @@
             {
                 Partner = partner,
                 Email = request.Email,
-                Civility = int.Parse(request.Civility),
+                Civility = string.IsNullOrWhiteSpace(request.Civility) ? default : int.Parse(request.Civility),
                 BirthDate = string.IsNullOrWhiteSpace(request.BirthDate) ? default : DateTime.Parse(request.BirthDate),
                 BirthCity = request.BirthCity,
                 LastName = request.LastName,

@@ -5,7 +5,6 @@
     using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.Agregates.BusinessCheck.Rules;
     using Bizca.User.Domain.Agregates.Factories;
-    using Bizca.User.Domain.Entities.ChannelConfirmation;
     using global::Autofac;
 
     /// <summary>
@@ -21,7 +20,6 @@
         {
             builder.RegisterType<UserFactory>().As<IUserFactory>();
             builder.RegisterType<ReferentialService>().As<IReferentialService>();
-            builder.RegisterType<ChannelConfirmationFactory>().As<IChannelConfirmationFactory>();
             builder.RegisterAssemblyTypes(typeof(UserRuleEngine).Assembly).AsClosedTypesOf(typeof(IBusinessRuleEngine<>));
             builder.RegisterAssemblyTypes(typeof(UserMustBeUniqueByPartner).Assembly).AsClosedTypesOf(typeof(IBusinessRule<>));
         }

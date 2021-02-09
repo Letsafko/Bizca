@@ -3,6 +3,7 @@
     using Bizca.Core.Domain;
     using Bizca.Core.Infrastructure.Database;
     using Bizca.User.Domain.Entities.Channel;
+    using Bizca.User.Domain.Entities.Channel.Repositories;
     using Bizca.User.Infrastructure.Extensions;
     using Dapper;
     using System.Collections.Generic;

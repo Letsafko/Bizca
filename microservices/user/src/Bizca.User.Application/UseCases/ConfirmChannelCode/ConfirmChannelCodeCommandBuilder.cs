@@ -1,7 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.ConfirmChannelCode
 {
-    using Bizca.User.Domain.ValueObjects;
-
+    using Bizca.User.Domain;
     public sealed class ConfirmChannelCodeCommandBuilder
     {
         private readonly ChannelConfirmationCommand command;

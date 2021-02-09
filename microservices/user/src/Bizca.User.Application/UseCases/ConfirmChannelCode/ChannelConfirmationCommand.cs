@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.ConfirmChannelCode
 {
     using Bizca.Core.Application.Commands;
-    using Bizca.User.Domain.ValueObjects;
+    using Bizca.User.Domain;
 
     public sealed class ChannelConfirmationCommand : ICommand
     {

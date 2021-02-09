@@ -16,7 +16,7 @@
         public async Task<RuleResult> CheckAsync(UserRequest request)
         {
             DomainFailure failure = null;
-            bool succes = await civilityRepository.GetByIdAsync(request.Civility).ConfigureAwait(false) != null;
+            bool succes = await civilityRepository.GetByIdAsync(request.Civility ?? 0).ConfigureAwait(false) != null;
             if (!succes)
             {
                 failure = new DomainFailure($"civility::{request.Civility} does not exist.",

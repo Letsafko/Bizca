@@ -1,4 +1,4 @@
-﻿create procedure [ref].[usp_getById_economicActivity]
+﻿create procedure [ref].[usp_getById_EconomicActivity]
 	@economicActivityId smallint
 as
 	select 

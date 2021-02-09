@@ -7,6 +7,7 @@
     using Bizca.User.Domain.Agregates.Factories;
     using Bizca.User.Domain.Agregates.Repositories;
     using Bizca.User.Domain.Entities.Channel;
+    using Bizca.User.Domain.Entities.Channel.Repositories;
     using MediatR;
     using System;
     using System.Linq;
@@ -23,8 +24,8 @@
         public CreateUserUseCase(ICreateUserOutput output,
             IUserFactory userFactory,
             IUserRepository userRepository,
-            IReferentialService referentialService,
-            IChannelRepository channelRepository)
+            IChannelRepository channelRepository,
+            IReferentialService referentialService)
         {
             this.output = output;
             this.userFactory = userFactory;

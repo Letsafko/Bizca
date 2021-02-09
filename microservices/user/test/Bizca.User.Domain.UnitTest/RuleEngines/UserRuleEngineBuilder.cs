@@ -1,5 +1,6 @@
 ﻿namespace Bizca.User.Domain.UnitTest.Rules.RuleEngines
 {
+    using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.Agregates.BusinessCheck.Rules;
     using System.Collections.Generic;
     using System.Linq;

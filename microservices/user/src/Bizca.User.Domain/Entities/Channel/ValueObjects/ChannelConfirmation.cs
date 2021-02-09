@@ -1,20 +1,16 @@
-﻿namespace Bizca.User.Domain.Entities.ChannelConfirmation
+﻿namespace Bizca.User.Domain.Entities.Channel.ValueObjects
 {
-    using Bizca.User.Domain.ValueObjects;
+    using Bizca.Core.Domain;
     using System;
-    public sealed class ChannelConfirmation
+    using System.Collections.Generic;
+
+    public sealed class ChannelConfirmation : ValueObject
     {
-        public ChannelConfirmation(ChannelType channelType, string codeConfirmation, DateTime expirationDate)
+        public ChannelConfirmation(string codeConfirmation, DateTime expirationDate)
         {
             CodeConfirmation = codeConfirmation;
             ExpirationDate = expirationDate;
-            ChannelType = channelType;
         }
-
-        /// <summary>
-        ///     Gets channel type.
-        /// </summary>
-        public ChannelType ChannelType { get; }
 
         /// <summary>
         ///     Gets code of confirmation according to channel type.
@@ -25,5 +21,11 @@
         ///     Gets expiration date of code confirmation.
         /// </summary>
         public DateTime ExpirationDate { get; }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return CodeConfirmation;
+            yield return ExpirationDate;
+        }
     }
 }
