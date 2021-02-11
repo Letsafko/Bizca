@@ -1,0 +1,11 @@
+{
+  "GlobalConfiguration": {
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "Too Many Requests",
+      "HttpStatusCode": 429,
+      "ClientIdHeader": "Authorization"
+    },
+    "RequestIdKey": "CorrId"
+  }
+}

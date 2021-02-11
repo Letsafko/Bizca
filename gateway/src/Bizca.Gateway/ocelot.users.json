@@ -1,0 +1,42 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/v1.0/{partnerCode}/users/{userId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/v1.0/{partnerCode}/users/{userId}",
+      "ChangeDownstreamPathTemplate": {
+        "partnerCode": "Claims[partner_code] > value[0]"
+      },
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Identity",
+        "AllowedScopes": [ "partner" ]
+      },
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 60,
+        "Limit": 10
+      },
+      "SwaggerKey": "bizca.user"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "bizca.user",
+      "Config": [
+        {
+          "Name": "User Api",
+          "Version": "v1.0",
+          "Url": "https://#{bizca-users-service-host}#/swagger/v1.0/swagger.json"
+        }
+      ]
+    }
+  ]
+}

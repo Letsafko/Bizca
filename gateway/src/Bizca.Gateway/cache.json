@@ -1,0 +1,30 @@
+{
+  "$schema": "http://cachemanager.michaco.net/schemas/cachemanager.json#",
+  "redis": [
+    {
+      "key": "redisConnection",
+      "connectionString": ""
+    }
+  ],
+  "cacheManagers": [
+    {
+      "maxRetries": 1000,
+      "name": "cachename",
+      "retryTimeout": 100,
+      "updateMode": "Up",
+      "loggerFactory": {
+        "knownType": "Microsoft"
+      },
+      "serializer": {
+        "knownType": "Json"
+      },
+      "handles": [
+        {
+          "knownType": "Redis",
+          "key": "redisConnection",
+          "isBackplaneSource": false
+        }
+      ]
+    }
+  ]
+}

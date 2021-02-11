@@ -1,13 +1,10 @@
 ﻿create table [usr].[user]
 (
 	[userId]		        int identity(1,1) not null,
-	[appUserId]		        varchar(10) not null,
-	[email]			        varchar(50) not null,
-	[phoneNumber]	        varchar(15) not null,
+	[externalUserId]	    varchar(20) not null,
 	[userCode]		        uniqueidentifier not null,
 	[partnerId]		        smallint not null,
 	[civilityId]	        smallint not null,
-	[notificationChannels]	int not null,
 	[economicActivityId]	smallint  null,
 	[firstName]				nvarchar(50) not null,
 	[lastName]			    nvarchar(50) not null,
@@ -15,7 +12,10 @@
 	[birthCountryId]	    smallint not null,
 	[birthCity]			    varchar(50) not null,
 	[creationDate]		    datetime2 not null,
-    [lastUpdate]		    datetime2 not null
+    [lastUpdate]		    datetime2 not null,
+	[rowversion]			[rowversion] not null,
+	[securityStamp]			varchar(200) null,
+	[passswordHash]			varchar(200) null
 )
 go
 
@@ -37,16 +37,10 @@ go
 alter table [usr].[user] add constraint [fk_user_civilityId] foreign key ([civilityId]) references [ref].[civility]([civilityId]) 
 go
 
-create unique index [ix_partnerId_phoneNumber] on [usr].[user] ([partnerId], [phoneNumber])
-go
-
 create index [ix_economicActivity_economicActivityId] on [usr].[user] ([economicActivityId])
 go
 
-create unique index [ix_partnerId_appUserId] on [usr].[user] ([partnerId], [appUserId])
-go
-
-create unique index [ix_partnerId_email] on [usr].[user] ([partnerId], [email])
+create unique index [ix_partnerId_externalUserId] on [usr].[user] ([partnerId], [externalUserId])
 go
 
 create index [ix_country_countryId] on [usr].[user] ([birthCountryId])

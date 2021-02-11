@@ -1,15 +1,12 @@
 ﻿create procedure [usr].[usp_update_user]
-	  @appUserId		  varchar(10)  
+	  @externalUserId	  varchar(10)  
 	, @partnerId		  smallint	   
-	, @email			  varchar(50)  = null
-	, @phoneNumber	      varchar(15)  = null
 	, @civilityId	      smallint 	   = null
 	, @firstName		  nvarchar(50) = null
 	, @lastName			  nvarchar(50) = null
 	, @birthDate   		  date 		   = null
 	, @birthCountryId	  smallint 	   = null
 	, @birthCity		  varchar(50)  = null
-	, @channels			  int		   = null
 	, @economicActivityId smallint     = null
 as
 begin
@@ -17,19 +14,17 @@ begin
 	set xact_abort on
 
 	update u
-		  set u.[email]			       = @email
-			, u.[phoneNumber]	       = @phoneNumber  
-			, u.[civilityId]	       = @civilityId    
+		  set u.[civilityId]	       = @civilityId    
 			, u.[firstName]		       = @firstName	
 			, u.[lastName]		       = @lastName	
 			, u.[birthCity]		       = @birthCity
 			, u.[birthDate]		       = @birthDate
 			, u.[birthCountryId]	   = @birthCountryId
-			, u.[notificationChannels] = @channels
 			, u.[economicActivityId]   = @economicActivityId
 			, u.[lastUpdate]		   = getutcdate()
+	output inserted.userId
 	from [usr].[user] u
-	where appUserId = @appUserId and
-		  partnerId = @partnerId
+	where externalUserId = @externalUserId and 
+	      partnerId = @partnerId 
 
 end

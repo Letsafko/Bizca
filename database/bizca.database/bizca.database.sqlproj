@@ -127,12 +127,14 @@
     <Folder Include="usr\Stored procedures" />
     <Folder Include="usr\Tables" />
     <Folder Include="usr\Full text" />
+    <Folder Include="usr\Functions" />
+    <Folder Include="usr\Types" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ref\Tables\partner.sql" />
     <Build Include="ref\Tables\country.sql" />
-    <Build Include="ref\Stored Procedures\usp_getByCode_partner.sql" />
-    <Build Include="ref\Stored Procedures\usp_getByCode_country.sql" />
+    <Build Include="ref\Stored Procedures\usp_getByCode_Partner.sql" />
+    <Build Include="ref\Stored Procedures\usp_getByCode_Country.sql" />
     <Build Include="Security\ref.sql" />
     <Build Include="Security\usr.sql" />
     <PostDeploy Include="Scripts\PostDeployment.sql">
@@ -142,9 +144,8 @@
     <Build Include="ref\Tables\civility.sql" />
     <None Include="Scripts\PostDeployment\civility.sql" />
     <Build Include="ref\Tables\economicActivity.sql" />
-    <Build Include="ref\Stored Procedures\usp_getById_civility.sql" />
-    <Build Include="ref\Stored Procedures\usp_getById_economicActivity.sql" />
-    <Build Include="usr\Stored procedures\usp_getByPartnerAndAppUserId_user.sql" />
+    <Build Include="ref\Stored Procedures\usp_getById_Civility.sql" />
+    <Build Include="ref\Stored Procedures\usp_getById_EconomicActivity.sql" />
     <Build Include="usr\Stored procedures\usp_create_user.sql" />
     <Build Include="usr\Stored procedures\usp_update_user.sql" />
     <Build Include="usr\Stored procedures\usp_getByCriteria_user.sql" />
@@ -153,5 +154,18 @@
     <None Include="Scripts\PostDeployment\country.sql" />
     <None Include="Scripts\PostDeployment\economicActivity.sql" />
     <None Include="Scripts\PostDeployment\partner.sql" />
+    <Build Include="usr\Stored procedures\usp_getByPartnerAndExternalUserId_user.sql" />
+    <Build Include="ref\Tables\channel.sql" />
+    <Build Include="usr\Tables\userChannelConfirmation.sql" />
+    <Build Include="usr\Tables\userChannel.sql" />
+    <Build Include="usr\Stored procedures\usp_isExists_user.sql" />
+    <None Include="Scripts\PostDeployment\channel.sql" />
+    <Build Include="usr\Functions\fn_getPivotByUserId_channel.sql" />
+    <Build Include="usr\Stored procedures\usp_upsert_userChannelConfirmation.sql" />
+    <Build Include="usr\Stored procedures\usp_upsert_userChannel.sql" />
+    <Build Include="usr\Types\channelList.sql" />
+    <Build Include="ref\Stored Procedures\usp_GetById_Partner.sql" />
+    <Build Include="ref\Stored Procedures\usp_GetById_Country.sql" />
+    <Build Include="usr\Types\channelCodes.sql" />
   </ItemGroup>
 </Project>
