@@ -115,7 +115,7 @@
         public async Task<IUser> BuildAsync(Partner partner, string externalUserId)
         {
             (dynamic user, IEnumerable<dynamic> channels) = await userRepository.GetByIdAsync(partner.Id, externalUserId).ConfigureAwait(false);
-            if(user is null)
+            if (user is null)
             {
                 return UserNull.Instance;
             }
@@ -141,7 +141,7 @@
                 .WithEconomicActivity(economicActivity)
                 .Build() as IUser;
 
-            foreach(dynamic channel in channels)
+            foreach (dynamic channel in channels)
             {
                 var channelType = ChannelType.GetById(channel.channelId);
                 var channelCode = new ChannelConfirmation(channel.confirmationCode, channel.expirationDate);

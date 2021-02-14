@@ -14,7 +14,7 @@ namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
         public RegisterCodeConfirmationResponse(RegisterCodeConfirmationDto confirmationCodeDto)
         {
             ChannelId = confirmationCodeDto.ChannelId;
-            //ChannelValue = confirmationCodeDto.ChannelValue;
+            ChannelValue = confirmationCodeDto.ChannelValue;
             ConfirmationCode = confirmationCodeDto.ConfirmationCode;
         }
 
@@ -27,8 +27,8 @@ namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
         /// <summary>
         ///     ChannelId ressource value.
         /// </summary>
-        //[JsonProperty("ressource")]
-        //public string ChannelValue { get; }
+        [JsonProperty("ressource")]
+        public string ChannelValue { get; }
 
         /// <summary>
         ///     ChannelId code confirmation.

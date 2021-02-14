@@ -55,7 +55,7 @@
 
             Channel channel = response.GetChannel(request.ChannelType);
             ChannelConfirmation codeConfirmation = GetChannelConfirmation(channel, request.CodeConfirmation);
-            if(codeConfirmation is null)
+            if (codeConfirmation is null)
             {
                 ThrowChannelCodeConfirmationDoesNotExistException(request.CodeConfirmation);
             }
