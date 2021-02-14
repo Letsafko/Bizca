@@ -51,7 +51,7 @@ steps:
       zipAfterPublish: false
       publishWebProjects: false
       arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
-
+  
   - task: PublishBuildArtifacts@1
     displayName: 'api artefact'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))

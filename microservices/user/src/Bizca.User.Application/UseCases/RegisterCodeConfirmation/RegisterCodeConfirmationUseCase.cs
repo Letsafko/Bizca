@@ -18,7 +18,7 @@
 
     public sealed class RegisterCodeConfirmationUseCase : ICommandHandler<RegisterCodeConfirmationCommand>
     {
-        private readonly IUserFactory userFactory;
+        private readonly IUserFactory userFactory; 
         private readonly IUserRepository userRepository;
         private readonly IReferentialService referentialService;
         private readonly IRegisterCodeConfirmationOutput output;
