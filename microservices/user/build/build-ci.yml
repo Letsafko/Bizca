@@ -4,6 +4,7 @@ variables:
   projectApi:  'microservices/user/src/Bizca.User.WebApi/Bizca.User.WebApi.csproj'
   testPattern: 'microservices/user/test/**/*.csproj'
   buildConfiguration: 'Release'
+  artifactName: "api"
 
 trigger:
   branches:
@@ -56,6 +57,6 @@ steps:
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)/api'
-      ArtifactName: '$(artifactApi)'
+      ArtifactName: '$(artifactName)'
       publishLocation: 'Container'
       nobuild: false
