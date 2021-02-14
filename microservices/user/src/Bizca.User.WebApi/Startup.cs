@@ -5,6 +5,7 @@ namespace Bizca.User.WebApi
     using Bizca.Core.Infrastructure.Database.Configuration;
     using Bizca.User.Application.UseCases.CreateUser;
     using Bizca.User.WebApi.Modules.Autofac;
+    using Bizca.User.WebApi.Modules.Extensions;
     using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
@@ -33,8 +34,8 @@ namespace Bizca.User.WebApi
         {
             services.Configure<DatabaseConfiguration>(configuration.GetSection("BizcaDatabase"));
             base.ConfigureServices(services);
-            services.AddControllers()
-                    .AddNewtonsoftJson(options => options.UseCamelCasing(true))
+            services.ConfigureHealthChecks()
+                    .AddControllers()
                     .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<CreateUserValidator>());
         }
 
@@ -45,10 +46,6 @@ namespace Bizca.User.WebApi
         new public void Configure(IApplicationBuilder app)
         {
             base.Configure(app);
-            app.UseRouting()
-               .UseAuthentication()
-               .UseAuthorization()
-               .UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
         /// <summary>
