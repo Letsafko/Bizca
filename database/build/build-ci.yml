@@ -4,7 +4,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  projects: 'database/bizca.dacpac/bizca.dacpac.sqlproj'
+  projects: 'database/bizca.database/bizca.database.sqlproj'
   artifactName: "dacpac"
   buildConfiguration: 'Release'
 
@@ -12,7 +12,7 @@ trigger:
   branches:
     include: [ 'develop', 'master', 'feature', 'release/*', 'hotfix/*', 'bugfix/*' ]
   paths:
-    include: [ 'database/bizca.dacpac' ]
+    include: [ 'database/bizca.database' ]
 
 steps:
 - task: VSBuild@1

@@ -1,7 +1,7 @@
 name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
 variables:
-  projects: 'database/bizca.build/bizca.build.csproj'
+  projects: 'database/bizca.database.build/bizca.database.build.csproj'
   artifactName: "dacpac"
   buildConfiguration: 'Release'
 
@@ -9,7 +9,7 @@ trigger:
   branches:
     include: [ 'develop', 'master', 'feature', 'release/*', 'hotfix/*', 'bugfix/*' ]
   paths:
-    include: [ 'database/bizca.build', 'database/bizca.dacpac' ]
+    include: [ 'database/bizca.database.build', 'database/bizca.database' ]
 
 steps:
 - task: UseDotNet@2
