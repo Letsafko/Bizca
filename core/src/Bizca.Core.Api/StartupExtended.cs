@@ -39,6 +39,7 @@
                .UseRouting()
                .UseAuthentication()
                .UseAuthorization()
+               .UseEndpoints(endpoints => endpoints.MapControllers())
                .UseHealthChecks();
         }
     }
