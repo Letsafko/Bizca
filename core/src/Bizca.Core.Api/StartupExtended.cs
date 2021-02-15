@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Core.Api
 {
+    using Bizca.Core.Api.HealthChecks;
     using Bizca.Core.Api.Modules.Extensions;
     using Bizca.Core.Api.Modules.Filters;
     using Microsoft.AspNetCore.Builder;
@@ -23,7 +24,8 @@
             services.ConfigureServiceCollection(configuration)
                     .AddHttpContextAccessor()
                     .AddRouting(options => options.LowercaseUrls = true)
-                    .AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
+                    .AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)))
+                    .AddNewtonsoftJson(options => options.UseCamelCasing(true));
         }
 
         protected void Configure(IApplicationBuilder app)
@@ -33,8 +35,11 @@
 
             app.ConfigureApp(configuration)
                .UseHttpsRedirection()
-               .ConfigureSwagger(configuration.GetSwaggerConfiguration())
-               .UseCustomHttpMetrics();
+               .UseCustomHttpMetrics()
+               .UseRouting()
+               .UseAuthentication()
+               .UseAuthorization()
+               .UseHealthChecks();
         }
     }
 }

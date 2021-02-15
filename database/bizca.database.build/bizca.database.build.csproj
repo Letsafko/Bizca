@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Content Remove="..\bizca.database\Scripts\PostDeployment.sql" />
+    <PostDeploy Include="..\bizca.database\Scripts\PostDeployment.sql" />
   </ItemGroup>
   
 </Project>

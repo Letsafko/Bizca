@@ -138,7 +138,7 @@
     <Build Include="Security\ref.sql" />
     <Build Include="Security\usr.sql" />
     <PostDeploy Include="Scripts\PostDeployment.sql">
-      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </PostDeploy>
     <Build Include="usr\Tables\user.sql" />
     <Build Include="ref\Tables\civility.sql" />
