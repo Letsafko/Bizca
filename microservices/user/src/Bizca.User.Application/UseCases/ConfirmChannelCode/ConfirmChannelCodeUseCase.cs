@@ -65,7 +65,7 @@
             response.UpdateChannel(channel.ChannelValue, channel.ChannelType, channel.Active, confirmed);
 
             await userRepository.UpdateAsync(user).ConfigureAwait(false);
-            await channelRepository.UpdateAsync(user.Id, user.Channels).ConfigureAwait(false);
+            await channelRepository.UpSertAsync(user.Id, user.Channels).ConfigureAwait(false);
 
             output.Ok(new ConfirmChannelCodeDto(channel.ChannelType, channel.ChannelValue, confirmed));
             return Unit.Value;

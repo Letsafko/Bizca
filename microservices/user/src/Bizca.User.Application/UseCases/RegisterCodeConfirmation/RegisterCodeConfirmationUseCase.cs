@@ -52,7 +52,7 @@
             }
 
             var user = response as User;
-            user.AddChannelCodeConfirmation(request.ChannelType);
+            user.AddNewChannelCodeConfirmation(request.ChannelType);
             await userRepository.UpdateAsync(user).ConfigureAwait(false);
 
             IReadOnlyCollection<ChannelConfirmation> channelCodes = user.GetChannel(request.ChannelType).ChannelCodes;

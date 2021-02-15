@@ -29,7 +29,7 @@ namespace Bizca.Gateway
                            config.AddJsonFile("appsettings.json", false, true);
                            config.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-                           if (context.HostingEnvironment.IsDevelopment())
+                           if (context.HostingEnvironment.IsDevEnvironment())
                            {
                                config.AddJsonFile("ocelot.global.json", optional: false, reloadOnChange: true);
                                config.AddJsonFile("ocelot.Development.json", optional: false, reloadOnChange: true);

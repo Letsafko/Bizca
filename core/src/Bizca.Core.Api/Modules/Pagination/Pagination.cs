@@ -39,19 +39,20 @@
                 return new PagedResult<T>(results, default);
             }
 
-            List<PagedLink> relations = null;
-            if (pageSize >= rowcount)
+            var relations = new List<PagedLink>();
+            if (rowcount <= pageSize)
             {
-                if (request.PageIndex > 0)
+                if (request.Direction == next)
                 {
-                    relations ??= new List<PagedLink>();
                     relations.Add(GetPagedLink(request.Clone() as TRequest, previous, firstIndex, lastIndex));
+                }
+                else
+                {
+                    relations.Add(GetPagedLink(request.Clone() as TRequest, next, 0, 0));
                 }
             }
             else
             {
-                relations ??= new List<PagedLink>();
-
                 if (request.PageIndex > 0)
                     relations.Add(GetPagedLink(request.Clone() as TRequest, previous, firstIndex, lastIndex));
 

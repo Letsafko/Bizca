@@ -19,10 +19,8 @@
         }
 
         private const string channelUdt = "[usr].[channelList]";
-        private const string createUserChannelStoredProcedure = "[usr].[usp_create_userChannel]";
-        private const string updateUserChannelStoredProcedure = "[usr].[usp_update_userChannel]";
-
-        public async Task<bool> AddAsync(int userId, IEnumerable<Channel> channels)
+        private const string upSertUserChannelStoredProcedure = "[usr].[usp_upsert_userChannel]";
+        public async Task<bool> UpSertAsync(int userId, IEnumerable<Channel> channels)
         {
             var parameters = new
             {
@@ -30,26 +28,11 @@
             };
 
             return await unitOfWork.Connection
-                .ExecuteAsync(createUserChannelStoredProcedure,
+                .ExecuteAsync(upSertUserChannelStoredProcedure,
                     parameters,
                     unitOfWork.Transaction,
                     commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false) > 0;
-        }
-
-        public async Task<bool> UpdateAsync(int userId, IEnumerable<Channel> channels)
-        {
-            var parameters = new
-            {
-                channels = new TableValueParameter(channels.ToDataTable(userId, channelUdt))
-            };
-
-            return await unitOfWork.Connection
-                    .ExecuteAsync(updateUserChannelStoredProcedure,
-                        parameters,
-                        unitOfWork.Transaction,
-                        commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false) > 0;
         }
     }
 }

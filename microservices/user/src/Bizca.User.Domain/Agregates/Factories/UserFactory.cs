@@ -145,7 +145,7 @@
             {
                 var channelType = ChannelType.GetById(channel.channelId);
                 var channelCode = new ChannelConfirmation(channel.confirmationCode, channel.expirationDate);
-                result.UpdateChannelCodeConfirmation(channelType, channelCode);
+                result.AddNewChannelCodeConfirmation(channelType, channelCode);
             }
 
             return result;

@@ -111,14 +111,16 @@
         ///     Add a new code confirmation according to channel type.
         /// </summary>
         /// <param name="channelType"></param>
-        public void AddChannelCodeConfirmation(ChannelType channelType)
+        public void AddNewChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation = null)
         {
-            const int codeConfirmationLength = 8;
             Channel channel = GetChannel(channelType);
-            string randomCode = ChannelCodeConfirmationGenerator.GetCodeConfirmation(codeConfirmationLength);
-            DateTime expirationDate = DateTime.UtcNow.AddMinutes(Partner.PartnerSettings.ChannelCodeConfirmationExpirationDelay);
-            var codeConfirmation = new ChannelConfirmation(randomCode, expirationDate);
-            channel.AddCodeConfirmation(codeConfirmation);
+            if(channelConfirmation is null)
+            {
+                string randomCode = ChannelCodeConfirmationGenerator.GetCodeConfirmation(Partner.PartnerSettings.ChannelCodeConfirmationLength);
+                DateTime expirationDate = DateTime.UtcNow.AddMinutes(Partner.PartnerSettings.ChannelCodeConfirmationExpirationDelay);
+                channelConfirmation = new ChannelConfirmation(randomCode, expirationDate);
+            }
+            channel.AddCodeConfirmation(channelConfirmation);
         }
 
         /// <summary>
