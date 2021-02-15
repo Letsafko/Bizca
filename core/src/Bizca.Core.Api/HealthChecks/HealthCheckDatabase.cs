@@ -52,10 +52,12 @@
                 using (var connection = new SqlConnection(connectionString))
                 using (SqlCommand cmd = connection.CreateCommand())
                 {
-                    if (environment.IsDevelopment())
-                    {
-                        message = connection.ConnectionString;
-                    }
+                    //if (environment.IsDevelopment())
+                    //{
+                    //    message = connectionString;
+                    //}
+
+                    message = connectionString;
 
                     connection.Open();
                     cmd.CommandText = "select 1";
