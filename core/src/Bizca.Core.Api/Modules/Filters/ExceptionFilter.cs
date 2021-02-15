@@ -57,9 +57,13 @@
                 default:
                     const string errorMessage = "an error occured, contact your administrator.";
                     modelState = new ModelStateResponse(StatusCodes.Status500InternalServerError,
+                        new string[] { errorMessage }, context.Exception);
+                       
+                    /*
+                    modelState = new ModelStateResponse(StatusCodes.Status500InternalServerError,
                         new string[] { errorMessage },
                         !env.IsDevelopment() ? default : context.Exception);
-
+                    */
                     context.Result = new ObjectResult(modelState) { StatusCode = StatusCodes.Status500InternalServerError };
                     break;
             }
@@ -80,10 +84,15 @@
                     .ToLookup(x => x.PropertyName)
                     .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray());
             }
+            
+            return new ModelStateResponse(StatusCodes.Status400BadRequest, 
+                        modelState.SelectMany(x => x.Value), exception); 
 
+            /*
             return new ModelStateResponse(StatusCodes.Status400BadRequest, 
                         modelState.SelectMany(x => x.Value),
-                        !env.IsDevelopment() ? default : exception);
+                        !env.IsDevelopment() ? default : exception); 
+            */
         }
     }
 }
