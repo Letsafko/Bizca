@@ -1,10 +1,8 @@
 ﻿namespace Bizca.Core.Api
 {
-    using Bizca.Core.Api.HealthChecks;
     using Bizca.Core.Api.Modules.Extensions;
     using Bizca.Core.Api.Modules.Filters;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -30,7 +28,7 @@
 
         protected void Configure(IApplicationBuilder app)
         {
-            if (environment.IsDevelopment())
+            if (environment.IsDevEnvironment())
                 app.UseDeveloperExceptionPage();
 
             app.ConfigureApp(configuration)
@@ -39,8 +37,7 @@
                .UseRouting()
                .UseAuthentication()
                .UseAuthorization()
-               .UseEndpoints(endpoints => endpoints.MapControllers())
-               .UseHealthChecks();
+               .UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

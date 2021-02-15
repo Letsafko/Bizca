@@ -47,7 +47,7 @@
 
             var user = response as User;
             await userRepository.UpdateAsync(user).ConfigureAwait(false);
-            await channelRepository.UpdateAsync(user.Id, user.Channels).ConfigureAwait(false);
+            await channelRepository.UpSertAsync(user.Id, user.Channels).ConfigureAwait(false);
 
             UpdateUserDto userDto = GetUserDto(user);
             output.Ok(userDto);
@@ -77,7 +77,7 @@
                 Partner = partner,
                 Email = request.Email,
                 Civility = string.IsNullOrWhiteSpace(request.Civility) ? default : int.Parse(request.Civility),
-                BirthDate = string.IsNullOrWhiteSpace(request.BirthDate) ? default : DateTime.Parse(request.BirthDate),
+                BirthDate = string.IsNullOrWhiteSpace(request.BirthDate) ? default(DateTime?) : DateTime.Parse(request.BirthDate),
                 BirthCity = request.BirthCity,
                 LastName = request.LastName,
                 FirstName = request.FirstName,

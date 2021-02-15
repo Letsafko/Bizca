@@ -2,6 +2,7 @@ namespace Bizca.User.WebApi
 {
     using Autofac;
     using Bizca.Core.Api;
+    using Bizca.Core.Api.Modules.HealthChecks;
     using Bizca.Core.Infrastructure.Database.Configuration;
     using Bizca.User.Application.UseCases.CreateUser;
     using Bizca.User.WebApi.Modules.Autofac;
@@ -46,6 +47,7 @@ namespace Bizca.User.WebApi
         new public void Configure(IApplicationBuilder app)
         {
             base.Configure(app);
+            app.UseHealthChecks();
         }
 
         /// <summary>

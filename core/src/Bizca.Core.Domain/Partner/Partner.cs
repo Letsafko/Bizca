@@ -18,6 +18,7 @@
     public sealed class PartnerSettings
     {
         public int ChannelCodeConfirmationExpirationDelay { get; set; } = 10;
+        public int ChannelCodeConfirmationLength { get; set; } = 10;
     }
 
     public sealed class FeatureFlags

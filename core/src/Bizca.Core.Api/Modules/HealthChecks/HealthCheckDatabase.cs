@@ -1,5 +1,7 @@
-﻿namespace Bizca.Core.Api.HealthChecks
+﻿namespace Bizca.Core.Api.Modules.HealthChecks
 {
+    using Bizca.Core.Api.Modules.Extensions;
+    using Microsoft.Azure.Services.AppAuthentication;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
     using Microsoft.Extensions.Hosting;
     using System;
@@ -15,6 +17,7 @@
     {
         #region fields and consts
 
+        private readonly bool useAzureIdentity;
         private readonly string connectionString;
         private readonly IHostEnvironment environment;
 
@@ -27,9 +30,10 @@
         /// </summary>
         /// <param name="environment">host environnement</param>
         /// <param name="connectionString">connection string</param>
-        protected HealthCheckDatabase(IHostEnvironment environment, string connectionString)
+        protected HealthCheckDatabase(IHostEnvironment environment, string connectionString, bool useAzureIdentity = false)
         {
             this.environment = environment;
+            this.useAzureIdentity = useAzureIdentity;
             this.connectionString = connectionString;
         }
 
@@ -52,12 +56,15 @@
                 using (var connection = new SqlConnection(connectionString))
                 using (SqlCommand cmd = connection.CreateCommand())
                 {
-                    //if (environment.IsDevelopment())
-                    //{
-                    //    message = connectionString;
-                    //}
+                    if (environment.IsDevEnvironment())
+                    {
+                        message = connectionString;
+                    }
 
-                    message = connectionString;
+                    if(useAzureIdentity)
+                    {
+                        connection.AccessToken = new AzureServiceTokenProvider().GetAccessTokenAsync("https://database.windows.net/").Result;
+                    }
 
                     connection.Open();
                     cmd.CommandText = "select 1";

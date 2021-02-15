@@ -41,7 +41,7 @@
             var user = await userFactory.CreateAsync(userRequest).ConfigureAwait(false) as User;
 
             int userId = await userRepository.AddAsync(user).ConfigureAwait(false);
-            await channelRepository.AddAsync(userId, user.Channels).ConfigureAwait(false);
+            await channelRepository.UpSertAsync(userId, user.Channels).ConfigureAwait(false);
 
             CreateUserDto userDto = GetUserDto(user);
             output.Ok(userDto);

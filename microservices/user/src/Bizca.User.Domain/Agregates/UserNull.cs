@@ -8,7 +8,7 @@
     {
         public static UserNull Instance { get; } = new UserNull();
         public UserCode UserCode => new UserCode(Guid.Empty);
-        public void AddChannelCodeConfirmation(ChannelType channelType)
+        public void AddNewChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation)
         {
             throw new NotImplementedException();
         }
@@ -24,11 +24,6 @@
         }
 
         public void UpdateChannel(string channelValue, ChannelType channelType, bool active, bool confirmed)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation)
         {
             throw new NotImplementedException();
         }

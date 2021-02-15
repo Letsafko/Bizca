@@ -5,7 +5,6 @@
 
     public interface IChannelRepository
     {
-        Task<bool> AddAsync(int userId, IEnumerable<Channel> channels);
-        Task<bool> UpdateAsync(int userId, IEnumerable<Channel> channels);
+        Task<bool> UpSertAsync(int userId, IEnumerable<Channel> channels);
     }
 }

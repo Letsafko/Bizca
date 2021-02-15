@@ -29,7 +29,7 @@
         /// <param name="user"></param>
         public void Ok(CreateUserDto user)
         {
-            ViewModel = new OkObjectResult(new CreateUserResponse(user));
+            ViewModel = new CreatedResult(string.Empty, new CreateUserResponse(user));
         }
     }
 }

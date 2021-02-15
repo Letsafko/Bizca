@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Core.Api.Modules.Filters
 {
+    using Bizca.Core.Api.Modules.Extensions;
     using Bizca.Core.Domain.Exceptions;
     using FluentValidation;
     using Microsoft.AspNetCore.Http;
@@ -57,16 +58,11 @@
                 default:
                     const string errorMessage = "an error occured, contact your administrator.";
                     modelState = new ModelStateResponse(StatusCodes.Status500InternalServerError,
-                        new string[] { errorMessage }, context.Exception);
-                        
+                        new string[] { errorMessage },
+                        !env.IsDevEnvironment() ? default : context.Exception);
+
                     context.Result = new ObjectResult(modelState) { StatusCode = StatusCodes.Status500InternalServerError };
                     break;
-                    
-                    /*
-                    modelState = new ModelStateResponse(StatusCodes.Status500InternalServerError,
-                        new string[] { errorMessage },
-                        !env.IsDevelopment() ? default : context.Exception);
-                    */
             }
         }
 
@@ -85,15 +81,10 @@
                     .ToLookup(x => x.PropertyName)
                     .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray());
             }
-            
-            return new ModelStateResponse(StatusCodes.Status400BadRequest, 
-                        modelState.SelectMany(x => x.Value), exception); 
 
-            /*
-            return new ModelStateResponse(StatusCodes.Status400BadRequest, 
-                        modelState.SelectMany(x => x.Value),
-                        !env.IsDevelopment() ? default : exception); 
-            */
+            return new ModelStateResponse(StatusCodes.Status400BadRequest,
+                         modelState.SelectMany(x => x.Value),
+                         !env.IsDevEnvironment() ? default : exception);
         }
     }
 }

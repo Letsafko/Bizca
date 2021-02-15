@@ -1,11 +1,11 @@
 namespace Bizca.Gateway
 {
     using Application.Extensions;
+    using Bizca.Core.Api.Modules.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
     using System.Diagnostics.CodeAnalysis;
 
     public class Startup
@@ -36,7 +36,7 @@ namespace Bizca.Gateway
         [ExcludeFromCodeCoverage]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevEnvironment())
             {
                 app.UseDeveloperExceptionPage();
             }

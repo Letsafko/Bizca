@@ -30,14 +30,7 @@
         ///     Add new channel code confirmtion.
         /// </summary>
         /// <param name="channelType">channel type.</param>
-        void AddChannelCodeConfirmation(ChannelType channelType);
-
-        /// <summary>
-        ///     Update channel code confirmation.
-        /// </summary>
-        /// <param name="channelType">channel type.</param>
-        /// <param name="channelConfirmation">channel code confirmation.</param>
-        void UpdateChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation);
+        void AddNewChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation);
 
         /// <summary>
         ///     Update channel.
