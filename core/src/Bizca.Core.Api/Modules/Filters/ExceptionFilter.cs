@@ -58,14 +58,15 @@
                     const string errorMessage = "an error occured, contact your administrator.";
                     modelState = new ModelStateResponse(StatusCodes.Status500InternalServerError,
                         new string[] { errorMessage }, context.Exception);
-                       
+                        
+                    context.Result = new ObjectResult(modelState) { StatusCode = StatusCodes.Status500InternalServerError };
+                    break;
+                    
                     /*
                     modelState = new ModelStateResponse(StatusCodes.Status500InternalServerError,
                         new string[] { errorMessage },
                         !env.IsDevelopment() ? default : context.Exception);
                     */
-                    context.Result = new ObjectResult(modelState) { StatusCode = StatusCodes.Status500InternalServerError };
-                    break;
             }
         }
 
