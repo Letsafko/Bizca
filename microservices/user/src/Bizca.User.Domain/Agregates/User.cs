@@ -124,17 +124,6 @@
         }
 
         /// <summary>
-        ///     Update a channel with a new code confirmation.
-        /// </summary>
-        /// <param name="channelType"></param>
-        /// <param name="channelConfirmation"></param>
-        public void UpdateChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation)
-        {
-            Channel channel = GetChannel(channelType);
-            channel.AddCodeConfirmation(channelConfirmation);
-        }
-
-        /// <summary>
         ///     Add a new 
         /// </summary>
         /// <param name="value"></param>

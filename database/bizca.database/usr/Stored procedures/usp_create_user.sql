@@ -1,5 +1,5 @@
 ﻿create procedure [usr].[usp_create_user]
-	  @externalUserId	  varchar(10) 
+	  @externalUserId	  varchar(20) 
 	, @partnerId		  smallint
 	, @civilityId	      smallint 
 	, @firstName		  nvarchar(50) 

@@ -58,6 +58,7 @@
                 firstName = user.FirstName,
                 birthDate = user.BirthDate,
                 birthCity = user.BirthCity,
+                rowversion = user.GetRowVersion(),
                 birthCountryId = user.BirthCountry.Id,
                 economicActivityId = user.EconomicActivity?.Id
             };
@@ -68,30 +69,6 @@
                         unitOfWork.Transaction,
                         commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
-        }
-
-        public async Task<(dynamic user, IEnumerable<dynamic> channels)> GetByIdAsync(int partnerId, string externalUserId)
-        {
-            var parameters = new
-            {
-                partnerId,
-                externalUserId
-            };
-
-            SqlMapper.GridReader reader = await unitOfWork.Connection
-                    .QueryMultipleAsync(getByPartnerAndExternalUserIdStoredProcedure,
-                            parameters,
-                            unitOfWork.Transaction,
-                            commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false);
-
-            var results = new List<IEnumerable<dynamic>>();
-            while (!reader.IsConsumed)
-            {
-                results.Add(reader.Read());
-            }
-
-            return (results[0].FirstOrDefault(), results[1]);
         }
 
         public async Task<bool> IsExistAsync(int partnerId, string externalUserId)
@@ -135,6 +112,30 @@
                             unitOfWork.Transaction,
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
+        }
+
+        public async Task<(dynamic user, IEnumerable<dynamic> channels)> GetByIdAsync(int partnerId, string externalUserId)
+        {
+            var parameters = new
+            {
+                partnerId,
+                externalUserId
+            };
+
+            SqlMapper.GridReader reader = await unitOfWork.Connection
+                    .QueryMultipleAsync(getByPartnerAndExternalUserIdStoredProcedure,
+                            parameters,
+                            unitOfWork.Transaction,
+                            commandType: CommandType.StoredProcedure)
+                    .ConfigureAwait(false);
+
+            var results = new List<IEnumerable<dynamic>>();
+            while (!reader.IsConsumed)
+            {
+                results.Add(reader.Read());
+            }
+
+            return (results[0].FirstOrDefault(), results[1]);
         }
     }
 }

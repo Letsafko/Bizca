@@ -5,17 +5,17 @@
     using Bizca.User.Domain.Agregates.BusinessCheck.Exceptions;
     using System.Threading.Tasks;
 
-    public sealed class IsUserEconomicActivityMandotory : IUserRule
+    public sealed class IsUserBirthCountyMandatory : IUserRule
     {
         public async Task<RuleResult> CheckAsync(UserRequest request)
         {
             DomainFailure failure = null;
-            bool succes = await Task.FromResult(!request.Partner.FeatureFlags.IsEconomicActivityMandotory || request.EconomicActivity.HasValue).ConfigureAwait(false);
+            bool succes = await Task.FromResult(!request.Partner.FeatureFlags.IsBirthCountyMandatory || !string.IsNullOrWhiteSpace(request.BirthCountry)).ConfigureAwait(false);
             if (!succes)
             {
-                failure = new DomainFailure($"economicActivity is mandatory for partner::{request.Partner.PartnerCode}.",
-                    nameof(request.EconomicActivity),
-                    typeof(UserEconomicActivityMandatoryException));
+                failure = new DomainFailure($"email is mandatory for partner::{request.Partner.PartnerCode}.",
+                    nameof(request.Email),
+                    typeof(UserEmailMandatoryException));
             }
             return new RuleResult(succes, failure);
         }

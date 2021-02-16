@@ -70,6 +70,7 @@
             UserBuilder builder = UserBuilder.Instance
                 .WithPartner(request.Partner)
                 .WithId(user.userId)
+                .WithRowVersion(user.rowversion)
                 .WithUserCode(new UserCode(user.userCode))
                 .WithExternalUserId(new ExternalUserId(user.externalUserId))
                 .WithLastName(!string.IsNullOrWhiteSpace(request.LastName) ? request.LastName : user.lastName)
@@ -106,7 +107,7 @@
             {
                 var channelType = ChannelType.GetById(channel.channelId);
                 var channelCode = new ChannelConfirmation(channel.confirmationCode, channel.expirationDate);
-                result.UpdateChannelCodeConfirmation(channelType, channelCode);
+                result.AddNewChannelCodeConfirmation(channelType, channelCode);
             }
 
             return result;
@@ -133,6 +134,7 @@
                 .WithFisrtName(user.firstName)
                 .WithBirthCity(user.birthCity)
                 .WithBirthDate(user.birthDate)
+                .WithRowVersion(user.rowversion)
                 .WithEmail(user.email, user.emailActive, user.emailConfirmed)
                 .WithPhoneNumber(user.phone, user.phoneActive, user.phoneConfirmed)
                 .WithWhatsapp(user.whatsapp, user.whatsappActive, user.whatsappConfirmed)

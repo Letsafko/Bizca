@@ -1,5 +1,5 @@
 ﻿create procedure [usr].[usp_update_user]
-	  @externalUserId	  varchar(10)  
+	  @externalUserId	  varchar(20)  
 	, @partnerId		  smallint	   
 	, @civilityId	      smallint 	   = null
 	, @firstName		  nvarchar(50) = null
@@ -8,6 +8,7 @@
 	, @birthCountryId	  smallint 	   = null
 	, @birthCity		  varchar(50)  = null
 	, @economicActivityId smallint     = null
+	, @rowversion		  rowversion
 as
 begin
 	
@@ -25,6 +26,7 @@ begin
 	output inserted.userId
 	from [usr].[user] u
 	where externalUserId = @externalUserId and 
-	      partnerId = @partnerId 
+	      partnerId = @partnerId and
+		  [rowversion] = @rowversion
 
 end

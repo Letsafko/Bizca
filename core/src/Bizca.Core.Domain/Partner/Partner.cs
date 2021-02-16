@@ -26,6 +26,7 @@
         public bool IsPhoneMandatory { get; set; }
         public bool IsWhatsappMandatory { get; set; }
         public bool IsEmailMandatory { get; set; } = true;
-        public bool IsUserEconomicActivityMandotory { get; set; }
+        public bool IsBirthCountyMandatory { get; set; } = true;
+        public bool IsEconomicActivityMandotory { get; set; }
     }
 }

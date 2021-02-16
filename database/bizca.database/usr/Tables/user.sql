@@ -5,17 +5,16 @@
 	[userCode]		        uniqueidentifier not null,
 	[partnerId]		        smallint not null,
 	[civilityId]	        smallint not null,
+	[active]				bit not null,
 	[economicActivityId]	smallint  null,
 	[firstName]				nvarchar(50) not null,
 	[lastName]			    nvarchar(50) not null,
-	[birthDate]			    date not null,
-	[birthCountryId]	    smallint not null,
-	[birthCity]			    varchar(50) not null,
+	[birthDate]			    date null,
+	[birthCountryId]	    smallint null,
+	[birthCity]			    varchar(50) null,
 	[creationDate]		    datetime2 not null,
     [lastUpdate]		    datetime2 not null,
-	[rowversion]			[rowversion] not null,
-	[securityStamp]			varchar(200) null,
-	[passswordHash]			varchar(200) null
+	[rowversion]			[rowversion] not null
 )
 go
 
@@ -26,6 +25,9 @@ alter table [usr].[user] add constraint [df_user_creationDate] default getutcdat
 go
 
 alter table [usr].[user] add constraint [df_user_lastUpdate] default getutcdate() for [lastUpdate]
+go
+
+alter table [usr].[user] add constraint [df_user_active] default 0 for [active]
 go
 
 alter table [usr].[user] add constraint [fk_user_economicActivityId] foreign key ([economicActivityId]) references [ref].[economicActivity]([economicActivityId]) 
