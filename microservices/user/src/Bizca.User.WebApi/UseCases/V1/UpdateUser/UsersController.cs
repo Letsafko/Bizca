@@ -32,17 +32,18 @@
         }
 
         /// <summary>
-        ///     Update user informations.
+        ///     Updates user informations.
         /// </summary>
         /// <param name="partnerCode">partner code identifier.</param>
-        /// <param name="userId"> user identifier.</param>
+        /// <param name="externalUserId"> user identifier of partner.</param>
         /// <param name="input">update user input.</param>
-        [HttpPut("{userId}")]
+        /// <remarks>/Assets/updateUser.md</remarks>
+        [HttpPut("{externalUserId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateUserResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
-        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required] string userId, [Required][FromBody] UpdateUser input)
+        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required] string externalUserId, [Required][FromBody] UpdateUser input)
         {
-            UpdateUserCommand command = GetUpdateUserCommand(partnerCode, userId, input);
+            UpdateUserCommand command = GetUpdateUserCommand(partnerCode, externalUserId, input);
             await _processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return _presenter.ViewModel;
         }

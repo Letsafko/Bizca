@@ -70,7 +70,7 @@
                 services.AddVersioning(configuration.GetVersioningConfiguration());
 
             if (features.Swagger)
-                services.AddSwagger(configuration.GetSwaggerConfiguration());
+                services.AddSwagger(configuration.GetSwaggerConfiguration(), opt => opt.DocumentFilter<MarkdownFileResolverFilter>());
 
             return services;
         }

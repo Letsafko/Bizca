@@ -30,10 +30,11 @@
         }
 
         /// <summary>
-        ///     Gets users.
+        ///     Retrieves list of users with pagination.
         /// </summary>
         /// <param name="partnerCode">partner code identifier.</param>
         /// <param name="criteria">user criteria search.</param>
+        /// <remarks>/Assets/getUserByCriteria.md</remarks>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUsersResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]

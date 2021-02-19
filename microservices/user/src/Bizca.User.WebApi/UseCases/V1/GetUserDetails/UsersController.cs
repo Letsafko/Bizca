@@ -32,16 +32,17 @@
         }
 
         /// <summary>
-        ///     Gets user detail informations.
+        ///     Retrieves user details.
         /// </summary>
         /// <param name="partnerCode">partner code identifier.</param>
-        /// <param name="userId">external user identitfier.</param>
-        [HttpGet("{userId}")]
+        /// <param name="externalUserId">user identitfier of partner.</param>
+        /// <remarks>/Assets/getUserDetails.md</remarks>
+        [HttpGet("{externalUserId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserDetailResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
-        public async Task<IActionResult> GetUserDetails([Required] string partnerCode, [Required] string userId)
+        public async Task<IActionResult> GetUserDetails([Required] string partnerCode, [Required] string externalUserId)
         {
-            var query = new GetUserDetailQuery(userId, partnerCode);
+            var query = new GetUserDetailQuery(externalUserId, partnerCode);
             await _processor.ProcessQueryAsync(query).ConfigureAwait(false);
             return _presenter.ViewModel;
         }
