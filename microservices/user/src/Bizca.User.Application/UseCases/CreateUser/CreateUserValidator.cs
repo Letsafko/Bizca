@@ -33,6 +33,12 @@
 
             RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("phoneNumber is required.");
             RuleFor(x => x.Whatsapp).NotEmpty().WithMessage("whatsappNumber is required.");
+
+            When(x => x.Address != null, () =>
+            {
+                RuleFor(x => x.Address.City).NotEmpty().WithMessage("city is required.");
+                RuleFor(x => x.Address.Country).NotEmpty().WithMessage("country is required.");
+            });
         }
     }
 }

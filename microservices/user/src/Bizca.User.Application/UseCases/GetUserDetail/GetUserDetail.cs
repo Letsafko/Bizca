@@ -1,5 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
+    using Bizca.User.Domain.Entities.Address;
     using Bizca.User.Domain.Entities.Channel;
     using System.Collections.Generic;
     public sealed class GetUserDetail
@@ -13,6 +14,7 @@
         public string BirthDate { get; internal set; }
         public string BirthCountry { get; internal set; }
         public string ExternalUserId { get; internal set; }
+        public Address Address { get; internal set; }
         public List<Channel> Channels { get; internal set; }
         public string EconomicActivity { get; internal set; }
     }

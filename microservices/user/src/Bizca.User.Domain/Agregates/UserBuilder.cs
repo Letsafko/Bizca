@@ -15,7 +15,17 @@
             user = new User();
         }
 
+        private UserBuilder(User user)
+        {
+            this.user = user;
+        }
+
         public static UserBuilder Instance => new UserBuilder();
+        public static UserBuilder Create(User user)
+        {
+            return new UserBuilder(user);
+        }
+
         public User Build()
         {
             return user;
@@ -93,6 +103,7 @@
             {
                 user.AddChannel(email, ChannelType.Email, false, false);
             }
+
             return this;
         }
 

@@ -11,7 +11,7 @@
     {
         #region Fields & Constants
 
-        private const string SwaggerIntroductionMarkdownFilePath = "Assets/Documentation/Introduction.md";
+        private const string SwaggerIntroductionMarkdownFilePath = "Assets/Introduction.md";
         private readonly string _microserviceAssemblyLocation = Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName;
 
         #endregion

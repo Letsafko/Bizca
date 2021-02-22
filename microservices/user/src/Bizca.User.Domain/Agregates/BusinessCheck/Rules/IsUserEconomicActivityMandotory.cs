@@ -2,6 +2,7 @@
 {
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Exceptions;
+    using Bizca.Core.Domain.Partner;
     using Bizca.User.Domain.Agregates.BusinessCheck.Exceptions;
     using System.Threading.Tasks;
 
@@ -10,14 +11,14 @@
         public async Task<RuleResult> CheckAsync(UserRequest request)
         {
             DomainFailure failure = null;
-            bool succes = await Task.FromResult(!request.Partner.FeatureFlags.IsUserEconomicActivityMandotory || request.EconomicActivity.HasValue).ConfigureAwait(false);
+            bool succes = (MandatoryUserFlags.EconomicActivity & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || request.EconomicActivity.HasValue;
             if (!succes)
             {
                 failure = new DomainFailure($"economicActivity is mandatory for partner::{request.Partner.PartnerCode}.",
                     nameof(request.EconomicActivity),
                     typeof(UserEconomicActivityMandatoryException));
             }
-            return new RuleResult(succes, failure);
+            return await Task.FromResult(new RuleResult(succes, failure)).ConfigureAwait(false);
         }
     }
 }

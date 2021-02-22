@@ -22,7 +22,7 @@
             {
                 var pagination = new Pagination<GetUsers>(criteria.PageSize, users, requestPath);
                 PagedResult<GetUsers> pagedUsers = pagination.GetPaged(criteria, pagination.FirstIndex?.UserId ?? 0, pagination.LastIndex?.UserId ?? 0);
-                Users = pagedUsers.Value?.Select(x => new UserModel(x))?.ToList() ?? new List<UserModel>();
+                Users = pagedUsers.Value.Select(x => new UserModel(x)).ToList();
                 Relations = pagedUsers.Relations?.ToList();
             }
             else

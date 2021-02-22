@@ -42,6 +42,11 @@
             var relations = new List<PagedLink>();
             if (rowcount <= pageSize)
             {
+                if(request.PageIndex == 0)
+                {
+                    return new PagedResult<T>(results, default);
+                }
+
                 if (request.Direction == next)
                 {
                     relations.Add(GetPagedLink(request.Clone() as TRequest, previous, firstIndex, lastIndex));

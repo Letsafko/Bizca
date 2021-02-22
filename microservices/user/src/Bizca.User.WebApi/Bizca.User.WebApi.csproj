@@ -9,6 +9,44 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\activateUser.md" />
+    <None Remove="Assets\confirmChannelCode.md" />
+    <None Remove="Assets\createUser.md" />
+    <None Remove="Assets\getUserByCriteria.md" />
+    <None Remove="Assets\getUserDetails.md" />
+    <None Remove="Assets\registerCodeConfirmation.md" />
+    <None Remove="Assets\registerPassword.md" />
+    <None Remove="Assets\updateUser.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\activateUser.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\registerPassword.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\getUserByCriteria.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\registerCodeConfirmation.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\updateUser.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\getUserDetails.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\createUser.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\confirmChannelCode.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
   </ItemGroup>

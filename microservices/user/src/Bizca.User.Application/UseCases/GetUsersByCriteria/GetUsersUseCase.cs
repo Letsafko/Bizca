@@ -73,6 +73,15 @@
                         .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
                         .WithBirthCountry(result.birthCountryCode)
                         .WithEconomicActivity(result.economicActivityCode)
+                        .WithAddress(result.addressId,
+                            result.addresseActive,
+                            result.addresseStreet,
+                            result.addresseCity,
+                            result.zipcode,
+                            result.countryId,
+                            result.countryCode,
+                            result.description,
+                            result.addressName)
                         .Build();
             }
         }

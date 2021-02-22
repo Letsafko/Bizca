@@ -9,6 +9,7 @@
     using Bizca.Core.Infrastructure.Database;
     using Bizca.Core.Infrastructure.Persistance;
     using Bizca.User.Domain.Agregates.Repositories;
+    using Bizca.User.Domain.Entities.Address.Repositories;
     using Bizca.User.Domain.Entities.Channel.Repositories;
     using Bizca.User.Infrastructure.Persistance;
     using global::Autofac;
@@ -24,16 +25,18 @@
         /// <param name="builder"></param>
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
             builder.RegisterType<ConnectionFactory>().As<IConnectionFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
-            builder.RegisterType<CountryRepository>().As<ICountryRepository>().InstancePerLifetimeScope();
-            builder.RegisterType<PartnerRepository>().As<IPartnerRepository>().InstancePerLifetimeScope();
-            builder.RegisterType<CivilityRepository>().As<ICivilityRepository>().InstancePerLifetimeScope();
             builder.RegisterType<EconomicActivityRepository>().As<IEconomicActivityRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<CivilityRepository>().As<ICivilityRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<PartnerRepository>().As<IPartnerRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<CountryRepository>().As<ICountryRepository>().InstancePerLifetimeScope();
 
             builder.RegisterType<ChannelConfirmationRepository>().As<IChannelConfirmationRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<PasswordRepository>().As<IPasswordRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ChannelRepository>().As<IChannelRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<AddressRepository>().As<IAddressRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
         }
     }

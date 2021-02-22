@@ -2,6 +2,7 @@
 {
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Exceptions;
+    using Bizca.Core.Domain.Partner;
     using Bizca.User.Domain.Agregates.BusinessCheck.Exceptions;
     using System.Threading.Tasks;
 
@@ -10,14 +11,14 @@
         public async Task<RuleResult> CheckAsync(UserRequest request)
         {
             DomainFailure failure = null;
-            bool succes = await Task.FromResult(!request.Partner.FeatureFlags.IsPhoneMandatory || !string.IsNullOrWhiteSpace(request.PhoneNumber)).ConfigureAwait(false);
+            bool succes = (MandatoryUserFlags.PhoneNumber & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || !string.IsNullOrWhiteSpace(request.PhoneNumber);
             if (!succes)
             {
                 failure = new DomainFailure($"phone is mandatory for partner::{request.Partner.PartnerCode}.",
                     nameof(request.PhoneNumber),
                     typeof(UserPhoneMandatoryException));
             }
-            return new RuleResult(succes, failure);
+            return await Task.FromResult(new RuleResult(succes, failure)).ConfigureAwait(false);
         }
     }
 }

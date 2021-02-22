@@ -2,6 +2,7 @@
 {
     using Bizca.User.Application.UseCases.UpdateUser;
     using Bizca.User.WebApi.ViewModels;
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -20,6 +21,10 @@
             ExternalUserId = user.ExternalUserId;
             EconomicActivity = user.EconomicActivity;
             Channels = user.Channels?.Select(x => new UserChannelModel(x));
+            if (user.Address != null)
+            {
+                Address = new UserAddressModel(user.Address);
+            }
         }
 
         /// <summary>
@@ -74,6 +79,12 @@
         ///  Gets user economic activity.
         /// </summary>
         public string EconomicActivity { get; }
+
+        /// <summary>
+        ///     Gets user address.
+        /// </summary>
+        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
+        public UserAddressModel Address { get; }
 
         /// <summary>
         ///     Gets user notification channels.

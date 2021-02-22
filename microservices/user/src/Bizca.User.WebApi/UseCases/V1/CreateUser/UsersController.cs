@@ -32,10 +32,11 @@
         }
 
         /// <summary>
-        ///     Create user.
+        ///     Creates a new user.
         /// </summary>
         /// <param name="partnerCode">partner code identifier.</param>
         /// <param name="input">channel confirmation code input.</param>
+        /// <remarks>/Assets/createUser.md</remarks>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateUserResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
@@ -61,6 +62,7 @@
                 .WithFirstName(input.FirstName)
                 .WithWhatsapp(input.Whatsapp)
                 .WithPhoneNumber(input.PhoneNumber)
+                .WithAddress(input.Address?.Street, input.Address?.City, input.Address?.ZipCode, input.Address?.Country, input.Address?.Name)
                 .Build();
         }
     }

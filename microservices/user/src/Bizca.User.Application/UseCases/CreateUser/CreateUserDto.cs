@@ -1,5 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.CreateUser
 {
+    using Bizca.User.Domain.Entities.Address;
     using Bizca.User.Domain.Entities.Channel;
     using System.Collections.Generic;
 
@@ -14,6 +15,7 @@
         public string BirthDate { get; set; }
         public string BirthCountry { get; set; }
         public string EconomicActivity { get; set; }
+        public Address Address { get; set; }
         public List<Channel> Channels { get; set; }
     }
 }

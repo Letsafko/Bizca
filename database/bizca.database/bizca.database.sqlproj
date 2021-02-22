@@ -167,5 +167,11 @@
     <Build Include="ref\Stored Procedures\usp_GetById_Partner.sql" />
     <Build Include="ref\Stored Procedures\usp_GetById_Country.sql" />
     <Build Include="usr\Types\channelCodes.sql" />
+    <Build Include="usr\Stored procedures\usp_upsert_address.sql" />
+    <Build Include="usr\Stored procedures\usp_create_password.sql" />
+    <Build Include="usr\Tables\address.sql" />
+    <Build Include="usr\Tables\password.sql" />
+    <Build Include="usr\Types\addresses.sql" />
+    <Build Include="usr\Types\passwords.sql" />
   </ItemGroup>
 </Project>

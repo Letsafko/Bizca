@@ -8,6 +8,7 @@ as
 	where externalUserId = @externalUserId and
 	      partnerId = @partnerId
 
+	select dto = 'user'
 	select
 	         u.userId
 		   , u.externalUserId		    
@@ -37,10 +38,33 @@ as
 	outer apply fn_getPivotByUserId_channel(u.userId) uc
 	where u.userId = @userId
 
+	select dto = 'channelConfirmations'
 	select
-		uc.channelId,
+		channelId,
 		expirationDate,
 		confirmationCode
-	from [usr].[userChannel] uc 
-	join [usr].[userChannelConfirmation] a on uc.userId = a.userId and uc.channelId = a.channelId
-	where uc.userId = @userId
+	from [usr].[userChannelConfirmation]
+	where userId = @userId
+
+	select dto = 'addresses'
+	select 
+	     a.addressName
+	   , a.[addressId]
+	   , a.[active]
+	   , a.[city]      
+	   , a.[zipcode]	
+	   , a.[street]	
+	   , c.countryCode
+	   , c.countryId
+	   , c.[description]
+	from [usr].[address] a
+	join [ref].[country] c on c.countryId = a.countryId
+	where a.userId = @userId
+
+	select dto = 'passwords'
+	select 
+	    [active]
+	  , [passwordHash]
+	  , [securityStamp]
+	from [usr].[password]
+	where userId = @userId

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.WebApi.ViewModels
 {
-    using Bizca.User.Application.UseCases.CreateUser;
     using Bizca.User.Application.UseCases.GetUsersByCriteria;
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -27,23 +27,10 @@
             ExternalUserId = user.ExternalUserId;
             EconomicActivity = user.EconomicActivity;
             Channels = user.Channels?.Select(x => new UserChannelModel(x));
-        }
-
-        /// <summary>
-        ///     Create instance of user model.
-        /// </summary>
-        public UserModel(CreateUserDto user)
-        {
-            UserCode = user.UserCode;
-            Civility = user.Civility;
-            LastName = user.LastName;
-            FirstName = user.FirstName;
-            BirthCity = user.BirthCity;
-            BirthDate = user.BirthDate;
-            BirthCountry = user.BirthCountry;
-            ExternalUserId = user.ExternalUserId;
-            EconomicActivity = user.EconomicActivity;
-            Channels = user.Channels?.Select(x => new UserChannelModel(x));
+            if (user.Address != null)
+            {
+                Address = new UserAddressModel(user.Address);
+            }
         }
 
         /// <summary>
@@ -103,6 +90,12 @@
         ///  Gets user economic activity.
         /// </summary>
         public string EconomicActivity { get; }
+
+        /// <summary>
+        ///     Gets user address.
+        /// </summary>
+        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
+        public UserAddressModel Address { get; }
 
         /// <summary>
         ///     Gets user notification channels.

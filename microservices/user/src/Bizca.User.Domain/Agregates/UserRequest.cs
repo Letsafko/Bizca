@@ -1,8 +1,8 @@
-﻿using Bizca.Core.Domain.Partner;
-using System;
-
-namespace Bizca.User.Domain.Agregates
+﻿namespace Bizca.User.Domain.Agregates
 {
+    using Bizca.Core.Domain.Partner;
+    using System;
+
     public sealed class UserRequest
     {
         public Partner Partner { get; set; }
@@ -17,5 +17,10 @@ namespace Bizca.User.Domain.Agregates
         public string PhoneNumber { get; set; }
         public string Whatsapp { get; set; }
         public string Email { get; set; }
+        public string AddressName { get; set; }
+        public string Street { get; set; }
+        public string ZipCode { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressCountry { get; set; }
     }
 }

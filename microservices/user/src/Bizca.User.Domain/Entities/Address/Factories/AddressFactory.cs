@@ -1,0 +1,50 @@
+﻿namespace Bizca.User.Domain.Entities.Address.Factories
+{
+    using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Country;
+    using Bizca.Core.Domain.Exceptions;
+    using Bizca.Core.Domain.Partner;
+    using Bizca.Core.Domain.Services;
+    using Bizca.User.Domain.Entities.Address.BusinessCheck;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    public sealed class AddressFactory : IAddressFactory
+    {
+        private readonly IAddressRuleEngine addressRuleEngine;
+        private readonly IReferentialService referentialService;
+        public AddressFactory(IAddressRuleEngine addressRuleEngine, IReferentialService referentialService)
+        {
+            this.addressRuleEngine = addressRuleEngine;
+            this.referentialService = referentialService;
+        }
+
+        public async Task<Address> CreateAsync(AddressRequest request)
+        {
+            RuleResultCollection ruleResults = await addressRuleEngine.CheckRulesAsync(request).ConfigureAwait(false);
+            ManageResultChecks(ruleResults);
+
+            Country country = await referentialService.GetCountryByCodeAsync(request.Country).ConfigureAwait(false);
+            return request.Partner.Settings.FeatureFlags.MandatoryAddressFlags == MandatoryAddressFlags.None &&
+                   string.IsNullOrWhiteSpace(request.City) &&
+                   string.IsNullOrWhiteSpace(request.Name) &&
+                   string.IsNullOrWhiteSpace(request.Street) &&
+                   string.IsNullOrWhiteSpace(request.ZipCode) &&
+                   string.IsNullOrWhiteSpace(request.Country)
+             ? default
+             : new Address(0, true, request.Street, request.City, request.ZipCode, country, request.Name);
+        }
+
+        private void ManageResultChecks(RuleResultCollection collection)
+        {
+            foreach (RuleResult rule in collection)
+            {
+                if (!rule.Sucess)
+                {
+                    throw Activator.CreateInstance(rule.Failure.ExceptionType, new List<DomainFailure> { rule.Failure }) as DomainException;
+                }
+            }
+        }
+    }
+}

@@ -32,19 +32,20 @@
         }
 
         /// <summary>
-        ///     Confirms a channel code.
+        ///     Validates a channel code confirmation.
         /// </summary>
-        /// <param name="userId">user identifier of partner.</param>
         /// <param name="partnerCode">partner code identifier.</param>
+        /// <param name="externalUserId">user identifier of partner.</param>
         /// <param name="input">register code confirmation input.</param>
-        [HttpPost("{userId}/channel/code/confirm")]
+        /// <remarks>/Assets/confirmChannelCode.md</remarks>
+        [HttpPost("{externalUserId}/channel/code/confirm")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConfirmChannelCodeResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
-        public async Task<IActionResult> RegisterCodeConfirmationAsync([Required] string userId,
-            [Required] string partnerCode,
+        public async Task<IActionResult> RegisterCodeConfirmationAsync([Required] string partnerCode,
+            [Required] string externalUserId,
             [Required][FromBody] ConfirmChannelCode input)
         {
-            ChannelConfirmationCommand command = GetConfirmationCommand(userId, partnerCode, input);
+            ChannelConfirmationCommand command = GetConfirmationCommand(externalUserId, partnerCode, input);
             await _processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return _presenter.ViewModel;
         }
