@@ -1,5 +1,6 @@
 ﻿create type [usr].[addresses] as table
 (
+	[userId]         int not null,
 	[addressId]      int not null,
 	[active]		 bit not null,
 	[addressName]    varchar(100) null,

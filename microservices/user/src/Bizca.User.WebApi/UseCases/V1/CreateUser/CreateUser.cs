@@ -59,5 +59,10 @@
         ///     email.
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        ///     User address.
+        /// </summary>
+        public UserAddress Address { get; set; }
     }
 }

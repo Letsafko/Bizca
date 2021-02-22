@@ -54,9 +54,20 @@ begin
 		   , uc.messengerConfirmed	    
 		   , e.economicActivityId
 		   , e.economicActivityCode
+		   , a.addressName
+		   , a.addressId
+		   , a.[active]  [addresseActive]
+		   , a.[city]    [addresseCity]
+		   , a.[zipcode]	
+		   , a.[street]	 [addresseStreet]
+		   , co2.countryCode
+		   , co2.countryId
+		   , co2.[description]
 		from [usr].[user] u
 		join [ref].[civility] c on c.civilityId = u.civilityId
 		join [ref].[country] co on co.countryId = u.birthCountryId
+		left join [usr].[address] a on a.[userId] = u.[userId] and a.[active] = 1
+		left join [ref].[country] co2 on co2.countryId = a.countryId
 		left join [ref].[economicActivity] e on e.economicActivityId = u.economicActivityId
 		outer apply usr.fn_getPivotByUserId_channel(u.userId) uc
 		where u.partnerId = @partnerId';

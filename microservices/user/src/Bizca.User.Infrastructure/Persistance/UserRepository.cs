@@ -4,6 +4,7 @@
     using Bizca.User.Domain.Agregates;
     using Bizca.User.Domain.Agregates.Repositories;
     using Dapper;
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -114,7 +115,7 @@
                     .ConfigureAwait(false);
         }
 
-        public async Task<(dynamic user, IEnumerable<dynamic> channels)> GetByIdAsync(int partnerId, string externalUserId)
+        public async Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByIdAsync(int partnerId, string externalUserId)
         {
             var parameters = new
             {
@@ -122,20 +123,27 @@
                 externalUserId
             };
 
-            SqlMapper.GridReader reader = await unitOfWork.Connection
+            SqlMapper.GridReader gridReader = await unitOfWork.Connection
                     .QueryMultipleAsync(getByPartnerAndExternalUserIdStoredProcedure,
                             parameters,
                             unitOfWork.Transaction,
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
 
-            var results = new List<IEnumerable<dynamic>>();
-            while (!reader.IsConsumed)
+            var result = new Dictionary<ResultName, IEnumerable<dynamic>>();
+            while (!gridReader.IsConsumed)
             {
-                results.Add(reader.Read());
+                string resultSetName = gridReader.Read<string>().FirstOrDefault();
+                if (!string.IsNullOrEmpty(resultSetName))
+                {
+                    IEnumerable<dynamic> reader = gridReader.Read();
+                    if (Enum.TryParse<ResultName>(resultSetName, true, out ResultName resultName))
+                    {
+                        result[resultName] = reader;
+                    }
+                }
             }
-
-            return (results[0].FirstOrDefault(), results[1]);
+            return result;
         }
     }
 }

@@ -3,8 +3,8 @@
 	[passwordId]     int identity(1,1) not null,
 	[userId]	     int not null,
 	[active]		 bit not null,
-	[securityStamp]	 varchar(200) not null,
-	[passwordHash]	 varchar(200) not null,
+	[securityStamp]	 varchar(250) not null,
+	[passwordHash]	 varchar(250) not null,
 	[creationDate]	 datetime2 not null
 )
 go

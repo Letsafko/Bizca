@@ -2,9 +2,11 @@
 {
     using Bizca.Core.Domain.Rules;
     using Bizca.Core.Domain.Services;
+    using Bizca.User.Domain.Agregates;
     using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.Agregates.BusinessCheck.Rules;
     using Bizca.User.Domain.Agregates.Factories;
+    using Bizca.User.Domain.Entities.Address.Factories;
     using global::Autofac;
 
     /// <summary>
@@ -19,6 +21,8 @@
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<UserFactory>().As<IUserFactory>();
+            builder.RegisterType<AddressFactory>().As<IAddressFactory>();
+            builder.RegisterType<PasswordHasher>().As<IPasswordHasher>();
             builder.RegisterType<ReferentialService>().As<IReferentialService>();
             builder.RegisterAssemblyTypes(typeof(UserRuleEngine).Assembly).AsClosedTypesOf(typeof(IBusinessRuleEngine<>));
             builder.RegisterAssemblyTypes(typeof(UserMustBeUniqueByPartner).Assembly).AsClosedTypesOf(typeof(IBusinessRule<>));

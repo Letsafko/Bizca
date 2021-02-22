@@ -2,6 +2,7 @@
 {
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Exceptions;
+    using Bizca.Core.Domain.Partner;
     using Bizca.User.Domain.Agregates.BusinessCheck.Exceptions;
     using System.Threading.Tasks;
 
@@ -10,14 +11,14 @@
         public async Task<RuleResult> CheckAsync(UserRequest request)
         {
             DomainFailure failure = null;
-            bool succes = await Task.FromResult(!request.Partner.FeatureFlags.IsBirthCountyMandatory || !string.IsNullOrWhiteSpace(request.BirthCountry)).ConfigureAwait(false);
+            bool succes = (MandatoryUserFlags.BirthCounty & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || !string.IsNullOrWhiteSpace(request.BirthCountry);
             if (!succes)
             {
                 failure = new DomainFailure($"email is mandatory for partner::{request.Partner.PartnerCode}.",
                     nameof(request.Email),
                     typeof(UserEmailMandatoryException));
             }
-            return new RuleResult(succes, failure);
+            return await Task.FromResult(new RuleResult(succes, failure)).ConfigureAwait(false);
         }
     }
 }

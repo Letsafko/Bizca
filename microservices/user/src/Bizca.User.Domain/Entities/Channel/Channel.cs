@@ -1,10 +1,11 @@
 ﻿namespace Bizca.User.Domain.Entities.Channel
 {
+    using Bizca.Core.Domain;
     using Bizca.User.Domain.Entities.Channel.ValueObjects;
     using System.Collections.Generic;
     using System.Linq;
 
-    public sealed class Channel
+    public sealed class Channel : Entity
     {
         public Channel(string value, ChannelType channelType, bool active, bool confirmed)
         {
@@ -18,7 +19,7 @@
         public bool Active { get; private set; }
         public bool Confirmed { get; private set; }
         public string ChannelValue { get; private set; }
-        public ChannelType ChannelType { get; private set; }
+        public ChannelType ChannelType { get; }
         public IReadOnlyCollection<ChannelConfirmation> ChannelCodes => channelCodes.ToList();
         private readonly ICollection<ChannelConfirmation> channelCodes;
 

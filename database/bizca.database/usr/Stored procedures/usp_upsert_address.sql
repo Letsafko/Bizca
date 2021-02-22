@@ -15,8 +15,8 @@ begin
 						 t.[addressId] = s.[addressId]
 
 	insert into [usr].[address]
-	(
-		  [active]		
+	(	  [userId]
+		, [active]		
 		, [addressName]
 		, [city]       
 		, [zipcode]	
@@ -24,13 +24,14 @@ begin
 		, [countryId]  
 	)
 	select  
-		  [active]		
+		  [userId]
+		, [active]		
 		, [addressName]
 		, [city]       
 		, [zipcode]	
 		, [street]		
 		, [countryId]  
 	from @addresses
-	where addressId = 0
+	where addressId = 0 and active = 1
 
 end

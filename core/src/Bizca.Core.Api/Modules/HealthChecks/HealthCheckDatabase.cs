@@ -61,7 +61,7 @@
                         message = connectionString;
                     }
 
-                    if(useAzureIdentity)
+                    if (useAzureIdentity)
                     {
                         connection.AccessToken = new AzureServiceTokenProvider().GetAccessTokenAsync("https://database.windows.net/").Result;
                     }

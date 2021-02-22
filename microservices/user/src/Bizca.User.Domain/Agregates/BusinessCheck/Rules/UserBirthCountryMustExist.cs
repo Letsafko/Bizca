@@ -3,6 +3,7 @@
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.Exceptions;
+    using Bizca.Core.Domain.Partner;
     using System.Threading.Tasks;
 
     public sealed class UserBirthCountryMustExist : IUserRule
@@ -16,7 +17,8 @@
         public async Task<RuleResult> CheckAsync(UserRequest request)
         {
             DomainFailure failure = null;
-            bool succes = await countryRepository.GetByCodeAsync(request.BirthCountry).ConfigureAwait(false) != null;
+            bool succes = (MandatoryUserFlags.BirthCounty & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 ||
+                          await countryRepository.GetByCodeAsync(request.BirthCountry).ConfigureAwait(false) != null;
             if (!succes)
             {
                 failure = new DomainFailure($"birthCountry::{request.BirthCountry} does not exist.",

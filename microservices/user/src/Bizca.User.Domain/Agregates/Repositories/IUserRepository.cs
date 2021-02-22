@@ -9,6 +9,14 @@
         Task<int> UpdateAsync(User user);
         Task<bool> IsExistAsync(int partnerId, string externalUserId);
         Task<IEnumerable<dynamic>> GetByCriteriaAsync(int partnerId, UserCriteria criteria);
-        Task<(dynamic user, IEnumerable<dynamic> channels)> GetByIdAsync(int partnerId, string externalUserId);
+        Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByIdAsync(int partnerId, string externalUserId);
+    }
+
+    public enum ResultName
+    {
+        User,
+        Addresses,
+        Passwords,
+        ChannelConfirmations
     }
 }

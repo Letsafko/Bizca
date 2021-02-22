@@ -8,6 +8,8 @@
     using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates.Repositories;
     using MediatR;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -28,23 +30,25 @@
         public async Task<Unit> Handle(GetUserDetailQuery request, CancellationToken cancellationToken)
         {
             Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true).ConfigureAwait(false);
-            (dynamic user, _) = await userRepository.GetByIdAsync(partner.Id, request.ExternalUserId).ConfigureAwait(false);
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByIdAsync(partner.Id, request.ExternalUserId).ConfigureAwait(false);
+            dynamic user = resultDico[ResultName.User].FirstOrDefault();
             if (user is null)
             {
                 outputPort.NotFound();
                 return Unit.Value;
             }
 
-            GetUserDetail getUserDetail = await GetUserDetailAsync(user).ConfigureAwait(false);
+            dynamic address = resultDico[ResultName.Addresses].SingleOrDefault(x => (bool)x.active);
+            GetUserDetail getUserDetail = await GetUserDetailAsync(user, address).ConfigureAwait(false);
             outputPort.Ok(getUserDetail);
             return Unit.Value;
         }
 
-        private async Task<GetUserDetail> GetUserDetailAsync(dynamic result)
+        private async Task<GetUserDetail> GetUserDetailAsync(dynamic result, dynamic address)
         {
-            Country country = await referentialService.GetCountryByIdAsync(result.birthCountryId ?? 0).ConfigureAwait(false);
-            Civility civility = await referentialService.GetCivilityByIdAsync(result.civilityId, true).ConfigureAwait(false);
-            EconomicActivity economicActivity = await referentialService.GetEconomicActivityByIdAsync(result.economicActivityId ?? 0).ConfigureAwait(false);
+            Country country = await referentialService.GetCountryByIdAsync(result.birthCountryId ?? 0);
+            Civility civility = await referentialService.GetCivilityByIdAsync(result.civilityId, true);
+            EconomicActivity economicActivity = await referentialService.GetEconomicActivityByIdAsync(result.economicActivityId ?? 0);
 
             return GetUserDetailBuilder.Instance
                 .WithUserId(result.userId)
@@ -56,10 +60,19 @@
                 .WithLastName(result.lastName)
                 .WithFirstName(result.firstName)
                 .WithBirthCity(result.birthCity)
-                .WithCivility(civility.CivilityCode)
+                .WithCivility(civility?.CivilityCode)
                 .WithBirthCountry(country?.CountryCode)
                 .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
                 .WithEconomicActivity(economicActivity?.EconomicActivityCode)
+                .WithAddress(address.addressId,
+                    address.active,
+                    address.street,
+                    address.city,
+                    address.zipcode,
+                    address.countryId,
+                    address.countryCode,
+                    address.description,
+                    address.addressName)
                 .Build();
         }
     }

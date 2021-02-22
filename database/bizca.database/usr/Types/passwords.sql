@@ -2,6 +2,6 @@
 (
 	[userId]	     int not null,
 	[active]		 bit not null,
-	[securityStamp]	 varchar(200) not null,
-	[passswordHash]	 varchar(200) not null 
+	[securityStamp]	 varchar(250) not null,
+	[passswordHash]	 varchar(250) not null 
 )

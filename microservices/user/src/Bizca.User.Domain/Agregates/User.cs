@@ -7,6 +7,7 @@
     using Bizca.Core.Domain.Exceptions;
     using Bizca.Core.Domain.Partner;
     using Bizca.User.Domain.Agregates.ValueObjects;
+    using Bizca.User.Domain.Entities.Address;
     using Bizca.User.Domain.Entities.Channel;
     using Bizca.User.Domain.Entities.Channel.Exceptions;
     using Bizca.User.Domain.Entities.Channel.ValueObjects;
@@ -16,7 +17,6 @@
 
     public sealed class User : Entity, IUser
     {
-        /// <inheritdoc />
         public UserCode UserCode { get; internal set; }
 
         /// <summary>
@@ -83,19 +83,27 @@
         }
 
         /// <summary>
+        ///     Gets passwords.
+        /// </summary>
+        public IReadOnlyCollection<Password> Passwords => passwords.ToList();
+        private readonly ICollection<Password> passwords = new List<Password>();
+
+        /// <summary>
+        ///     Gets addresses.
+        /// </summary>
+        public IReadOnlyCollection<Address> Addresses => addresses.ToList();
+        private readonly ICollection<Address> addresses = new List<Address>();
+
+        /// <summary>
         ///     Gets notification channels.
         /// </summary>
         public IReadOnlyCollection<Channel> Channels => channels.ToList();
         private readonly ICollection<Channel> channels = new List<Channel>();
 
-        /// <summary>
-        ///     Gets a channel according to channel type.
-        /// </summary>
-        /// <param name="channelType"></param>
-        public Channel GetChannel(ChannelType channelType)
+        public Channel GetChannel(ChannelType channelType, bool throwError = true)
         {
             Channel channel = channels.SingleOrDefault(x => x.ChannelType == channelType);
-            if (channel is null)
+            if (channel is null && throwError)
             {
                 var failure = new DomainFailure($"channel::{channelType.Code} requested for user::{ExternalUserId} does not exist.",
                     nameof(channelType),
@@ -106,41 +114,63 @@
 
             return channel;
         }
-
-        /// <summary>
-        ///     Add a new code confirmation according to channel type.
-        /// </summary>
-        /// <param name="channelType"></param>
-        public void AddNewChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation = null)
+        public void AddNewPasword(string passwordHash, string securityStamp)
         {
-            Channel channel = GetChannel(channelType);
-            if(channelConfirmation is null)
+            var newPassword = new Password(true, passwordHash, securityStamp);
+            foreach (Password pwd in passwords)
             {
-                string randomCode = ChannelCodeConfirmationGenerator.GetCodeConfirmation(Partner.PartnerSettings.ChannelCodeConfirmationLength);
-                DateTime expirationDate = DateTime.UtcNow.AddMinutes(Partner.PartnerSettings.ChannelCodeConfirmationExpirationDelay);
-                channelConfirmation = new ChannelConfirmation(randomCode, expirationDate);
+                pwd.Update(false);
             }
-            channel.AddCodeConfirmation(channelConfirmation);
+            passwords.Add(newPassword);
         }
-
-        /// <summary>
-        ///     Add a new 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="channelType"></param>
-        /// <param name="active"></param>
-        /// <param name="confirmed"></param>
+        public void BuildPassword(bool active, string passwordHash, string securityStamp)
+        {
+            var password = new Password(active, passwordHash, securityStamp);
+            passwords.Add(password);
+        }
         public void AddChannel(string value, ChannelType channelType, bool active, bool confirmed)
         {
             var channel = new Channel(value, channelType, active, confirmed);
             channels.Add(channel);
         }
+        public void AddNewAddress(string street, string city, string zipCode, Country country, string name)
+        {
+            if(country is null && string.IsNullOrWhiteSpace(city))
+            {
+                return;
+            }
 
+            var address = new Address(0, true, street, city, zipCode, country, name);
+            foreach (Address addr in addresses)
+            {
+                UpdateAddress(addr, false, addr.Street, addr.City, addr.ZipCode, addr.Country, addr.Name);
+            }
+            addresses.Add(address);
+        }
         public void UpdateChannel(string channelValue, ChannelType channelType, bool active, bool confirmed)
         {
             Channel channel = GetChannel(channelType);
             channel.UpdateChannel(channelValue, active, confirmed);
         }
-
+        public void AddNewChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation = null)
+        {
+            Channel channel = GetChannel(channelType);
+            if (channelConfirmation is null)
+            {
+                string randomCode = ChannelCodeConfirmationGenerator.GetCodeConfirmation(Partner.Settings.ChannelCodeConfirmationLength);
+                DateTime expirationDate = DateTime.UtcNow.AddMinutes(Partner.Settings.ChannelCodeConfirmationExpirationDelay);
+                channelConfirmation = new ChannelConfirmation(randomCode, expirationDate);
+            }
+            channel.AddCodeConfirmation(channelConfirmation);
+        }
+        public void BuildAddress(int id, bool active, string street, string city, string zipCode, Country country, string name)
+        {
+            var address = new Address(id, active, street, city, zipCode, country, name);
+            addresses.Add(address);
+        }
+        public void UpdateAddress(Address address, bool active, string street, string city, string zipCode, Country country, string name)
+        {
+            address.Update(active, street, city, zipCode, country, name);
+        }
     }
 }

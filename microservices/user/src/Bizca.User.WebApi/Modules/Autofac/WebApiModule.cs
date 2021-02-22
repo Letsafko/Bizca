@@ -1,14 +1,20 @@
 ﻿namespace Bizca.User.WebApi.Modules.Autofac
 {
+    using Bizca.User.Application.UseCases.ActivateUser;
+    using Bizca.User.Application.UseCases.AuthenticateUser;
     using Bizca.User.Application.UseCases.ConfirmChannelCode;
     using Bizca.User.Application.UseCases.CreateUser;
     using Bizca.User.Application.UseCases.GetUserDetail;
     using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
+    using Bizca.User.Application.UseCases.RegisterPassword;
     using Bizca.User.Application.UseCases.UpdateUser;
+    using Bizca.User.WebApi.UseCases.V1.ActivateUser;
+    using Bizca.User.WebApi.UseCases.V1.AuthenticateUser;
     using Bizca.User.WebApi.UseCases.V1.ConfirmChannelCode;
     using Bizca.User.WebApi.UseCases.V1.CreateUser;
     using Bizca.User.WebApi.UseCases.V1.GetUserDetails;
     using Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode;
+    using Bizca.User.WebApi.UseCases.V1.RegisterPassword;
     using Bizca.User.WebApi.UseCases.V1.UpdateUser;
     using global::Autofac;
 
@@ -23,6 +29,15 @@
         /// <param name="builder"></param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<AuthenticateUserPresenter>().InstancePerLifetimeScope();
+            builder.Register<IAuthenticateUserOutput>(x => x.Resolve<AuthenticateUserPresenter>()).InstancePerLifetimeScope();
+
+            builder.RegisterType<RegisterPasswordPresenter>().InstancePerLifetimeScope();
+            builder.Register<IRegisterPasswordOutput>(x => x.Resolve<RegisterPasswordPresenter>()).InstancePerLifetimeScope();
+
+            builder.RegisterType<ActivateUserPresenter>().InstancePerLifetimeScope();
+            builder.Register<IActivateUserOutput>(x => x.Resolve<ActivateUserPresenter>()).InstancePerLifetimeScope();
+
             builder.RegisterType<GetUserDetailPresenter>().InstancePerLifetimeScope();
             builder.Register<IGetUserDetailOutput>(x => x.Resolve<GetUserDetailPresenter>()).InstancePerLifetimeScope();
 

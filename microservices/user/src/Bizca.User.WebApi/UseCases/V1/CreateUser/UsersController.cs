@@ -62,6 +62,7 @@
                 .WithFirstName(input.FirstName)
                 .WithWhatsapp(input.Whatsapp)
                 .WithPhoneNumber(input.PhoneNumber)
+                .WithAddress(input.Address?.Street, input.Address?.City, input.Address?.ZipCode, input.Address?.Country, input.Address?.Name)
                 .Build();
         }
     }

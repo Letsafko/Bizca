@@ -1,6 +1,8 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUsersByCriteria
 {
+    using Bizca.Core.Domain.Country;
     using Bizca.User.Domain;
+    using Bizca.User.Domain.Entities.Address;
     using Bizca.User.Domain.Entities.Channel;
     using System.Collections.Generic;
 
@@ -102,6 +104,29 @@
         public GetUsersBuilder WithEconomicActivity(string economicActivity)
         {
             _getUser.EconomicActivity = economicActivity;
+            return this;
+        }
+
+        public GetUsersBuilder WithAddress(int? id,
+            bool? active,
+            string street,
+            string city,
+            string zipCode,
+            int? countryId,
+            string countryCode,
+            string countryName,
+            string name)
+        {
+            if (id.HasValue)
+            {
+                _getUser.Address = new Address(id.Value,
+                    active.Value,
+                    street,
+                    city,
+                    zipCode,
+                    new Country(countryId.Value, countryCode, countryName),
+                    name);
+            }
             return this;
         }
 
