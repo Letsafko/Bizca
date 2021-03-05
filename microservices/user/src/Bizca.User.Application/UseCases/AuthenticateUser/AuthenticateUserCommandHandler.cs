@@ -58,7 +58,7 @@
         private bool IsResourceMatchesAnyChannel(string ressource, User user)
         {
             return user.Passwords.Any(x => x.Active) &&
-                   user.Channels.Any(x => x.Confirmed && x.ChannelValue.Equals(ressource, StringComparison.OrdinalIgnoreCase));
+                   user.Profile.Channels.Any(x => x.Confirmed && x.ChannelValue.Equals(ressource, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

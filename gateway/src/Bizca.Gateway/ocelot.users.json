@@ -10,8 +10,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "integ-bizca-user.azurewebsites.net",
+          "Port": 443
         }
       ],
       "AuthenticationOptions": {
@@ -34,7 +34,8 @@
         {
           "Name": "User Api",
           "Version": "v1.0",
-          "Url": "https://#{bizca-users-service-host}#/swagger/v1.0/swagger.json"
+          //"Url": "https://#{bizca-users-service-host}#/swagger/v1.0/swagger.json"
+          "Url": "https://integ-bizca-user.azurewebsites.net/swagger/v1.0/swagger.json"
         }
       ]
     }

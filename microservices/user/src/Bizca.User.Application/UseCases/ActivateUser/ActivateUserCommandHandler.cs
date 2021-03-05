@@ -33,7 +33,7 @@
             }
 
             var user = response as User;
-            if (!user.Channels.Any(x => x.Confirmed))
+            if (!user.Profile.Channels.Any(x => x.Confirmed))
             {
                 output.Invalid($"user::{request.ExternalUserId} does not have any confirmed channel.");
                 return Unit.Value;

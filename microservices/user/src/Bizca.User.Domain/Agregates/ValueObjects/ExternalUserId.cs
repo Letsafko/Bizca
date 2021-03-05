@@ -6,9 +6,9 @@
     public sealed class ExternalUserId : ValueObject
     {
         public string AppUserId { get; }
-        public ExternalUserId(string appUserId)
+        public ExternalUserId(string userId)
         {
-            AppUserId = appUserId;
+            AppUserId = userId;
         }
         protected override IEnumerable<object> GetAtomicValues()
         {

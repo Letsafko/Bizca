@@ -52,16 +52,18 @@
             }
 
             var user = response as User;
-            user.AddNewChannelCodeConfirmation(request.ChannelType);
+            user.AddChannelCodeConfirmation(request.ChannelType);
             await userRepository.UpdateAsync(user).ConfigureAwait(false);
 
             IReadOnlyCollection<ChannelConfirmation> channelCodes = user.GetChannel(request.ChannelType).ChannelCodes;
-            await channelConfirmationRepository.UpsertAsync(user.Id, request.ChannelType, channelCodes).ConfigureAwait(false);
+            await channelConfirmationRepository.UpsertAsync(user.UserIdentifier.UserId, request.ChannelType, channelCodes).ConfigureAwait(false);
 
             RegisterCodeConfirmationDto registerCode = GetChannel(request.ChannelType, user);
             output.Ok(registerCode);
             return Unit.Value;
         }
+
+        #region helpers
 
         private RegisterCodeConfirmationDto GetChannel(ChannelType channelType, User user)
         {
@@ -70,5 +72,7 @@
                     channel.ChannelValue,
                     channel.ChannelCodes.OrderByDescending(x => x.ExpirationDate).First().CodeConfirmation);
         }
+
+        #endregion
     }
 }

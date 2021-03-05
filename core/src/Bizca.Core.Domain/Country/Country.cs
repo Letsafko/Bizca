@@ -1,14 +1,23 @@
 ﻿namespace Bizca.Core.Domain.Country
 {
-    public sealed class Country : Entity
+    using System.Collections.Generic;
+    public sealed class Country : ValueObject
     {
-        public string CountryCode { get; }
         public string Description { get; }
+        public string CountryCode { get; }
+        public int Id { get; }
         public Country(int id, string code, string description)
         {
-            Id = id;
-            CountryCode = code;
             Description = description;
+            CountryCode = code;
+            Id = id;
+        }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return Description;
+            yield return CountryCode;
+            yield return Id;
         }
     }
 }

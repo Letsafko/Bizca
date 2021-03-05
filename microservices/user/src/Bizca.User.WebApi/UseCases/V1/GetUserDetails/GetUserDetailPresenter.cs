@@ -18,7 +18,7 @@
         /// </summary>
         public void NotFound()
         {
-            ViewModel = new NotFoundResult();
+            ViewModel = new NotFoundObjectResult(string.Empty);
         }
 
         /// <summary>

@@ -45,7 +45,7 @@
             response.AddNewPasword(passwordHash, securityStamp);
 
             var user = response as User;
-            await passwordRepository.AddAsync(user.Id, user.Passwords.ToList()).ConfigureAwait(false);
+            await passwordRepository.AddAsync(user.UserIdentifier.UserId, user.Passwords.ToList()).ConfigureAwait(false);
 
             registerPasswordOutput.Ok(new RegisterPasswordDto(true));
             return Unit.Value;

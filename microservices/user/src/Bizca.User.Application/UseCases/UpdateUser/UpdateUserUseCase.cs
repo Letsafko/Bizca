@@ -27,11 +27,11 @@
             IChannelRepository channelRepository,
             IReferentialService referentialService)
         {
-            this.output = output;
-            this.userFactory = userFactory;
-            this.userRepository = userRepository;
-            this.channelRepository = channelRepository;
             this.referentialService = referentialService;
+            this.channelRepository = channelRepository;
+            this.userRepository = userRepository;
+            this.userFactory = userFactory;
+            this.output = output;
         }
 
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -47,46 +47,50 @@
 
             var user = response as User;
             await userRepository.UpdateAsync(user).ConfigureAwait(false);
-            await channelRepository.UpSertAsync(user.Id, user.Channels).ConfigureAwait(false);
+            await channelRepository.UpSertAsync(user.UserIdentifier.UserId, user.Profile.Channels).ConfigureAwait(false);
 
             UpdateUserDto userDto = GetUserDto(user);
             output.Ok(userDto);
             return Unit.Value;
         }
 
-        private UpdateUserDto GetUserDto(User user)
-        {
-            return new UpdateUserDto
-            {
-                LastName = user.LastName,
-                FirstName = user.FirstName,
-                BirthCity = user.BirthCity,
-                UserCode = user.UserCode.ToString(),
-                Civility = user.Civility.CivilityCode,
-                ExternalUserId = user.ExternalUserId.ToString(),
-                BirthDate = user.BirthDate.ToString("yyyy-MM-dd"),
-                BirthCountry = user.BirthCountry.CountryCode,
-                EconomicActivity = user.EconomicActivity?.EconomicActivityCode,
-                Channels = user.Channels?.Select(x => new Channel(x.ChannelValue, x.ChannelType, x.Active, x.Confirmed))?.ToList()
-            };
-        }
+        #region helpers
+
         private UserRequest GetUserRequest(Partner partner, UpdateUserCommand request)
         {
             return new UserRequest
             {
-                Partner = partner,
-                Email = request.Email,
-                Civility = string.IsNullOrWhiteSpace(request.Civility) ? default : int.Parse(request.Civility),
-                BirthDate = string.IsNullOrWhiteSpace(request.BirthDate) ? default(DateTime?) : DateTime.Parse(request.BirthDate),
-                BirthCity = request.BirthCity,
-                LastName = request.LastName,
-                FirstName = request.FirstName,
-                Whatsapp = request.Whatsapp,
-                PhoneNumber = request.PhoneNumber,
-                BirthCountry = request.BirthCountry,
-                ExternalUserId = request.ExternalUserId,
-                EconomicActivity = string.IsNullOrWhiteSpace(request.EconomicActivity) ? default : int.Parse(request.EconomicActivity)
+                EconomicActivity =  string.IsNullOrWhiteSpace(request.EconomicActivity) ? default(int?) : int.Parse(request.EconomicActivity),
+                BirthDate        =  string.IsNullOrWhiteSpace(request.BirthDate) ? default(DateTime?) : DateTime.Parse(request.BirthDate),
+                Civility         =  string.IsNullOrWhiteSpace(request.Civility) ? default(int?) : int.Parse(request.Civility),
+                ExternalUserId   =  request.ExternalUserId,
+                BirthCountry     =  request.BirthCountry,
+                PhoneNumber      =  request.PhoneNumber,
+                FirstName        =  request.FirstName,
+                BirthCity        =  request.BirthCity,
+                LastName         =  request.LastName,
+                Whatsapp         =  request.Whatsapp,
+                Email            =  request.Email,
+                Partner          =  partner
             };
         }
+        private UpdateUserDto GetUserDto(User user)
+        {
+            return new UpdateUserDto
+            {
+                Channels         =  user.Profile.Channels?.Select(x => new Channel(x.ChannelValue, x.ChannelType, x.Active, x.Confirmed))?.ToList(),
+                EconomicActivity =  user.Profile.EconomicActivity?.EconomicActivityCode,
+                ExternalUserId   =  user.UserIdentifier.ExternalUserId.ToString(),
+                BirthDate        =  user.Profile.BirthDate.ToString("yyyy-MM-dd"),
+                UserCode         =  user.UserIdentifier.UserCode.ToString(),
+                BirthCountry     =  user.Profile.BirthCountry.CountryCode,
+                Civility         =  user.Profile.Civility.CivilityCode,
+                BirthCity        =  user.Profile.BirthCity,
+                FirstName        =  user.Profile.FirstName,
+                LastName         =  user.Profile.LastName,
+            };
+        }
+
+        #endregion
     }
 }

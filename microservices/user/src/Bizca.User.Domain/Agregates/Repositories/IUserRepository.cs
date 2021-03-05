@@ -5,11 +5,11 @@
 
     public interface IUserRepository
     {
-        Task<int> AddAsync(User user);
-        Task<int> UpdateAsync(User user);
-        Task<bool> IsExistAsync(int partnerId, string externalUserId);
-        Task<IEnumerable<dynamic>> GetByCriteriaAsync(int partnerId, UserCriteria criteria);
         Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByIdAsync(int partnerId, string externalUserId);
+        Task<IEnumerable<dynamic>> GetByCriteriaAsync(int partnerId, UserCriteria criteria);
+        Task<bool> IsExistAsync(int partnerId, string externalUserId);
+        Task<int> UpdateAsync(User user);
+        Task<int> AddAsync(User user);
     }
 
     public enum ResultName
