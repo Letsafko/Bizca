@@ -35,6 +35,7 @@
         ///     Register a new password.
         /// </summary>
         /// <param name="partnerCode">partner code identifier.</param>
+        /// <param name="externalUserId"> user identifier of partner.</param>
         /// <param name="input">register password input.</param>
         /// <remarks>/Assets/registerPassword.md</remarks>
         [HttpPost("password")]

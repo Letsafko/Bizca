@@ -47,6 +47,20 @@
         void AddNewAddress(string street, string city, string zipCode, Country country, string name);
 
         /// <summary>
+        ///     Gets channel by channel type.
+        /// </summary>
+        /// <param name="channelType">channel type.</param>
+        /// <param name="throwError">Indicates whether an exception should be thrown</param>
+        Channel GetChannel(ChannelType channelType, bool throwError = true);
+
+        /// <summary>
+        ///     Add new password.
+        /// </summary>
+        /// <param name="passwordHash">password hash.</param>
+        /// <param name="securityStamp">security stamp.</param>
+        void AddNewPasword(string passwordHash, string securityStamp);
+
+        /// <summary>
         ///     Add a new channel.
         /// </summary>
         /// <param name="value">channel value.</param>
@@ -61,21 +75,6 @@
         /// <param name="channelType">channel type.</param>
         /// <param name="codeConfirmation">channel code confirmation.</param>
         bool IsChannelCodeConfirmed(ChannelType channelType, string codeConfirmation);
-
-        /// <summary>
-        ///     Get channel by type.
-        /// </summary>
-        /// <param name="channelType">channel type.</param>
-        /// <param name="throwError">Indicates whether to throw error if channel does not exist.</param>
-        /// <returns></returns>
-        Channel GetChannel(ChannelType channelType, bool throwError = true);
-
-        /// <summary>
-        ///     Add new password.
-        /// </summary>
-        /// <param name="passwordHash">password hash.</param>
-        /// <param name="securityStamp">security stamp.</param>
-        void AddNewPasword(string passwordHash, string securityStamp);
 
         /// <summary>
         ///     Update user profile.

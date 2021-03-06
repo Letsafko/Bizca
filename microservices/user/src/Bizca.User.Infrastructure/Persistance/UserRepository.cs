@@ -172,5 +172,36 @@
                     commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false);
         }
+
+        public async Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByIdAsync(int partnerId, string externalUserId)
+        {
+            var parameters = new
+            {
+                partnerId,
+                externalUserId
+            };
+
+            SqlMapper.GridReader gridReader = await unitOfWork.Connection
+                    .QueryMultipleAsync(getByPartnerAndExternalUserIdStoredProcedure,
+                            parameters,
+                            unitOfWork.Transaction,
+                            commandType: CommandType.StoredProcedure)
+                    .ConfigureAwait(false);
+
+            var result = new Dictionary<ResultName, IEnumerable<dynamic>>();
+            while (!gridReader.IsConsumed)
+            {
+                string resultSetName = gridReader.Read<string>().FirstOrDefault();
+                if (!string.IsNullOrEmpty(resultSetName))
+                {
+                    IEnumerable<dynamic> reader = gridReader.Read();
+                    if (Enum.TryParse<ResultName>(resultSetName, true, out ResultName resultName))
+                    {
+                        result[resultName] = reader;
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

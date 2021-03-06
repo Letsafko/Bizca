@@ -11,9 +11,9 @@ namespace Bizca.User.Domain.Entities.Address
             string country,
             string name)
         {
-            Country = country;
-            ZipCode = zipCode;
             Partner = partner;
+            ZipCode = zipCode;
+            Country = country;
             Street = street;
             City = city;
             Name = name;

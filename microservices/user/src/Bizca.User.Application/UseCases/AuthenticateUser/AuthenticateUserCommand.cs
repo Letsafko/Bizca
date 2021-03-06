@@ -11,6 +11,8 @@
             PartnerCode = partnerCode;
             ResourceLogin = resource;
             Password = password;
+            ResourceLogin = resource;
+            PartnerCode = partnerCode;
         }
     }
 }

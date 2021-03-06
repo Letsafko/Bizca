@@ -31,5 +31,14 @@
         {
             ViewModel = new BadRequestObjectResult(message);
         }
+
+        /// <summary>
+        ///     Not found message.
+        /// </summary>
+        /// <param name="message"></param>
+        public void NotFound(string message)
+        {
+            ViewModel = new NotFoundObjectResult(message);
+        }
     }
 }
