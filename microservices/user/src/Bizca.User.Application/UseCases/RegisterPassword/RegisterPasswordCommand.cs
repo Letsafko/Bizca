@@ -4,14 +4,14 @@
 
     public sealed class RegisterPasswordCommand : ICommand
     {
+        public string ChannelResource { get; }
         public string PartnerCode { get; }
-        public string ExternalUserId { get; }
         public string Password { get; }
-        public RegisterPasswordCommand(string partnerCode, string externalUserId, string password)
+        public RegisterPasswordCommand(string partnerCode, string channelResource, string password)
         {
-            Password = password;
+            ChannelResource = channelResource;
             PartnerCode = partnerCode;
-            ExternalUserId = externalUserId;
+            Password = password;
         }
     }
 }

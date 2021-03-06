@@ -12,7 +12,7 @@
         {
             DomainFailure failure = null;
             bool success = (MandatoryAddressFlags.City & request.Partner.Settings.FeatureFlags.MandatoryAddressFlags) == 0 || !string.IsNullOrWhiteSpace(request.City);
-            if(!success)
+            if (!success)
             {
                 failure = new DomainFailure($"city is mandatory for partner::{request.Partner.PartnerCode}.",
                     nameof(request.City),

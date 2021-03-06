@@ -33,13 +33,13 @@
             IAddressRepository addressRepository,
             IReferentialService referentialService)
         {
-            this.output = output;
-            this.userFactory = userFactory;
-            this.addressFactory = addressFactory;
-            this.userRepository = userRepository;
+            this.referentialService = referentialService;
             this.addressRepository = addressRepository;
             this.channelRepository = channelRepository;
-            this.referentialService = referentialService;
+            this.addressFactory = addressFactory;
+            this.userRepository = userRepository;
+            this.userFactory = userFactory;
+            this.output = output;
         }
 
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@
             var user = await userFactory.CreateAsync(userRequest).ConfigureAwait(false) as User;
 
             Address address = await GetAddressAsync(partner, request).ConfigureAwait(false);
-            if(address != null)
+            if (address != null)
             {
                 user.AddNewAddress(address.Street,
                         address.City,
@@ -59,49 +59,16 @@
             }
 
             int userId = await userRepository.AddAsync(user).ConfigureAwait(false);
-            await channelRepository.UpSertAsync(userId, user.Channels).ConfigureAwait(false);
-            await addressRepository.UpsertAsync(userId, user.Addresses).ConfigureAwait(false);
+            await channelRepository.UpSertAsync(userId, user.Profile.Channels).ConfigureAwait(false);
+            await addressRepository.UpsertAsync(userId, user.Profile.Addresses).ConfigureAwait(false);
 
             CreateUserDto userDto = GetUserDto(user);
             output.Ok(userDto);
             return Unit.Value;
         }
 
-        private CreateUserDto GetUserDto(User user)
-        {
-            return new CreateUserDto
-            {
-                LastName = user.LastName,
-                FirstName = user.FirstName,
-                BirthCity = user.BirthCity,
-                UserCode = user.UserCode.ToString(),
-                Civility = user.Civility.CivilityCode,
-                ExternalUserId = user.ExternalUserId.ToString(),
-                BirthDate = user.BirthDate.ToString("yyyy-MM-dd"),
-                BirthCountry = user.BirthCountry.CountryCode,
-                EconomicActivity = user.EconomicActivity?.EconomicActivityCode,
-                Channels = user.Channels?.ToList(),
-                Address = user.Addresses.SingleOrDefault(x => x.Active)
-            };
-        }
-        private UserRequest GetUserRequest(Partner partner, CreateUserCommand request)
-        {
-            return new UserRequest
-            {
-                Partner = partner,
-                Email = request.Email,
-                Civility = int.Parse(request.Civility),
-                BirthDate = DateTime.Parse(request.BirthDate),
-                BirthCity = request.BirthCity,
-                LastName = request.LastName,
-                FirstName = request.FirstName,
-                Whatsapp = request.Whatsapp,
-                PhoneNumber = request.PhoneNumber,
-                BirthCountry = request.BirthCountry,
-                ExternalUserId = request.ExternalUserId,
-                EconomicActivity = int.Parse(request.EconomicActivity)
-            };
-        }
+        #region helpers
+
         private async Task<Address> GetAddressAsync(Partner partner, CreateUserCommand request)
         {
             var addressRequest = new AddressRequest(partner,
@@ -113,5 +80,42 @@
 
             return await addressFactory.CreateAsync(addressRequest).ConfigureAwait(false);
         }
+        private UserRequest GetUserRequest(Partner partner, CreateUserCommand request)
+        {
+            return new UserRequest
+            {
+                EconomicActivity = int.Parse(request.EconomicActivity),
+                BirthDate = DateTime.Parse(request.BirthDate),
+                Civility = int.Parse(request.Civility),
+                ExternalUserId = request.ExternalUserId,
+                BirthCountry = request.BirthCountry,
+                PhoneNumber = request.PhoneNumber,
+                FirstName = request.FirstName,
+                BirthCity = request.BirthCity,
+                LastName = request.LastName,
+                Whatsapp = request.Whatsapp,
+                Email = request.Email,
+                Partner = partner
+            };
+        }
+        private CreateUserDto GetUserDto(User user)
+        {
+            return new CreateUserDto
+            {
+                Address = user.Profile.Addresses.SingleOrDefault(x => x.Active),
+                EconomicActivity = user.Profile.EconomicActivity?.EconomicActivityCode,
+                BirthDate = user.Profile.BirthDate.ToString("yyyy-MM-dd"),
+                ExternalUserId = user.UserIdentifier.ExternalUserId.ToString(),
+                UserCode = user.UserIdentifier.UserCode.ToString(),
+                BirthCountry = user.Profile.BirthCountry.CountryCode,
+                Civility = user.Profile.Civility.CivilityCode,
+                Channels = user.Profile.Channels?.ToList(),
+                BirthCity = user.Profile.BirthCity,
+                FirstName = user.Profile.FirstName,
+                LastName = user.Profile.LastName
+            };
+        }
+
+        #endregion
     }
 }

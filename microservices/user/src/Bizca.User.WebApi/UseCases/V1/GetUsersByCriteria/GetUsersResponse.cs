@@ -3,9 +3,7 @@
     using Bizca.Core.Api.Modules.Pagination;
     using Bizca.User.Application.UseCases.GetUsersByCriteria;
     using Bizca.User.WebApi.ViewModels;
-    using Newtonsoft.Json;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
     /// <summary>
@@ -34,14 +32,11 @@
         /// <summary>
         ///     Gets user list.
         /// </summary>
-        [Required]
         public List<UserModel> Users { get; }
 
         /// <summary>
         ///     Gets relations.
         /// </summary>
-        [Required]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<PagedLink> Relations { get; }
     }
 }

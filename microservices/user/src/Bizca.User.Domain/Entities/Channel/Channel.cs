@@ -3,7 +3,6 @@
     using Bizca.Core.Domain;
     using Bizca.User.Domain.Entities.Channel.ValueObjects;
     using System.Collections.Generic;
-    using System.Linq;
 
     public sealed class Channel : Entity
     {
@@ -13,21 +12,21 @@
             ChannelValue = value;
             Confirmed = confirmed;
             ChannelType = channelType;
-            channelCodes = new List<ChannelConfirmation>();
+            channelCodes = new HashSet<ChannelConfirmation>();
         }
 
         public bool Active { get; private set; }
         public bool Confirmed { get; private set; }
         public string ChannelValue { get; private set; }
         public ChannelType ChannelType { get; }
-        public IReadOnlyCollection<ChannelConfirmation> ChannelCodes => channelCodes.ToList();
-        private readonly ICollection<ChannelConfirmation> channelCodes;
+        public IReadOnlyCollection<ChannelConfirmation> ChannelCodes => channelCodes;
+        private readonly HashSet<ChannelConfirmation> channelCodes;
 
         /// <summary>
         ///     Add new channel code confirmation.
         /// </summary>
         /// <param name="channelConfirmation"></param>
-        internal void AddCodeConfirmation(ChannelConfirmation channelConfirmation)
+        internal void AddNewCodeConfirmation(ChannelConfirmation channelConfirmation)
         {
             channelCodes.Add(channelConfirmation);
         }
@@ -40,9 +39,9 @@
         /// <param name="channelConfirmed"></param>
         internal void UpdateChannel(string channelValue, bool channelActive, bool channelConfirmed)
         {
-            Active = channelActive;
-            ChannelValue = channelValue;
             Confirmed = channelConfirmed;
+            ChannelValue = channelValue;
+            Active = channelActive;
         }
     }
 }

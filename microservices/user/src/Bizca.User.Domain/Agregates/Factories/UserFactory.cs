@@ -35,169 +35,195 @@
 
         #endregion
 
+        public async Task<IUser> BuildByPartnerAndExternalUserIdAsync(Partner partner, string externalUserId)
+        {
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByPartnerIdAndExternalUserIdAsync(partner.Id, externalUserId).ConfigureAwait(false);
+            return await ConstructUserAsync(partner, resultDico).ConfigureAwait(false);
+        }
+        public async Task<IUser> BuildByPartnerAndChannelResourceAsync(Partner partner, string channelResource)
+        {
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByPartnerIdAndChannelResourceAsync(partner.Id, channelResource).ConfigureAwait(false);
+            return await ConstructUserAsync(partner, resultDico).ConfigureAwait(false);
+        }
         public async Task<IUser> CreateAsync(UserRequest request)
         {
             RuleResultCollection collection = await userRuleEngine.CheckRulesAsync(request).ConfigureAwait(false);
             ManageResultChecks(collection);
 
-            Civility civility = await referentialService.GetCivilityByIdAsync(request.Civility.Value).ConfigureAwait(false);
+            (EconomicActivity economicActivity, Civility civility, Country birthCountry) = await GetReferentialDataAsync(request.EconomicActivity,
+                request.BirthCountry,
+                request.Civility).ConfigureAwait(false);
 
-            Country birthCountry = null;
-            if (!string.IsNullOrWhiteSpace(request.BirthCountry))
-            {
-                birthCountry = await referentialService.GetCountryByCodeAsync(request.BirthCountry).ConfigureAwait(false);
-            }
+            var userIdentifier = new UserIdentifier(0,
+                new ExternalUserId(request.ExternalUserId),
+                new UserCode(Guid.NewGuid()),
+                request.Partner);
 
-            EconomicActivity economicActivity = null;
-            if (request.EconomicActivity.HasValue)
-            {
-                economicActivity = await referentialService.GetEconomicActivityByIdAsync(request.EconomicActivity.Value).ConfigureAwait(false);
-            }
+            var profile = new UserProfile(economicActivity,
+                birthCountry,
+                request.BirthDate.Value,
+                civility,
+                request.BirthCity,
+                request.FirstName,
+                request.LastName);
 
-            return UserBuilder.Instance
-                    .WithUserCode(new UserCode(Guid.NewGuid()))
-                    .WithPartner(request.Partner)
-                    .WithExternalUserId(new ExternalUserId(request.ExternalUserId))
-                    .WithCivility(civility)
-                    .WithBirthCountry(birthCountry)
-                    .WithEconomicActivity(economicActivity)
-                    .WithBirthCity(request.BirthCity)
-                    .WithBirthDate(request.BirthDate.Value)
-                    .WithEmail(request.Email)
-                    .WithPhoneNumber(request.PhoneNumber)
-                    .WithFisrtName(request.FirstName)
-                    .WithLastName(request.LastName)
-                    .WithWhatsapp(request.Whatsapp)
-                    .Build();
+            var user = new User(userIdentifier, profile);
+            UpsertChannel(user, ChannelType.Whatsapp, request.Whatsapp);
+            UpsertChannel(user, ChannelType.Sms, request.PhoneNumber);
+            UpsertChannel(user, ChannelType.Email, request.Email);
+
+            return user;
         }
-
         public async Task<IUser> UpdateAsync(UserRequest request)
         {
-            if (!(await BuildAsync(request.Partner, request.ExternalUserId).ConfigureAwait(false) is User user))
+            if (!(await BuildByPartnerAndExternalUserIdAsync(request.Partner, request.ExternalUserId).ConfigureAwait(false) is User user))
             {
                 return UserNull.Instance;
             }
 
-            if (!string.IsNullOrWhiteSpace(request.Email))
-            {
-                Channel channel = user.GetChannel(ChannelType.Email, false);
-                if(channel is null)
-                {
-                    user.AddChannel(request.Email, ChannelType.Email, false, false);
-                }
-                else if (!channel.ChannelValue.Equals(request.Email, StringComparison.OrdinalIgnoreCase))
-                {
-                    channel.UpdateChannel(request.Email, false, false);
-                }
-            }
+            (EconomicActivity economicActivity, Civility civility, Country birthCountry) = await GetReferentialDataAsync(request.EconomicActivity,
+                request.BirthCountry,
+                request.Civility).ConfigureAwait(false);
 
-            if (!string.IsNullOrWhiteSpace(request.Whatsapp))
-            {
-                Channel channel = user.GetChannel(ChannelType.Whatsapp, false);
-                if (channel is null)
-                {
-                    user.AddChannel(request.Whatsapp, ChannelType.Whatsapp, false, false);
-                }
-                else if (!channel.ChannelValue.Equals(request.Whatsapp, StringComparison.OrdinalIgnoreCase))
-                {
-                    channel.UpdateChannel(request.Whatsapp, false, false);
-                }
-            }
+            UpsertChannel(user, ChannelType.Whatsapp, request.Whatsapp);
+            UpsertChannel(user, ChannelType.Sms, request.PhoneNumber);
+            UpsertChannel(user, ChannelType.Email, request.Email);
 
-            if (!string.IsNullOrWhiteSpace(request.PhoneNumber))
-            {
-                Channel channel = user.GetChannel(ChannelType.Sms, false);
-                if (channel is null)
-                {
-                    user.AddChannel(request.PhoneNumber, ChannelType.Sms, false, false);
-                }
-                else if (!channel.ChannelValue.Equals(request.PhoneNumber, StringComparison.OrdinalIgnoreCase))
-                {
-                    channel.UpdateChannel(request.PhoneNumber, false, false);
-                }
-            }
+            user.UpdateProfile(economicActivity,
+                birthCountry,
+                civility,
+                request.BirthDate,
+                request.BirthCity,
+                request.LastName,
+                request.FirstName);
 
-            Civility civility = null;
-            if (request.Civility.HasValue)
-            {
-                civility = await referentialService.GetCivilityByIdAsync(request.Civility.Value).ConfigureAwait(false);
-            }
-
-            Country birthCountry = null;
-            if (!string.IsNullOrWhiteSpace(request.BirthCountry))
-            {
-                birthCountry = await referentialService.GetCountryByCodeAsync(request.BirthCountry).ConfigureAwait(false);
-            }
-
-            EconomicActivity economicActivity = null;
-            if (request.EconomicActivity.HasValue)
-            {
-                economicActivity = await referentialService.GetEconomicActivityByIdAsync(request.EconomicActivity.Value).ConfigureAwait(false);
-            }
-
-            return UserBuilder.Create(user)
-                .WithFisrtName(!string.IsNullOrWhiteSpace(request.FirstName) ? request.FirstName : user.FirstName)
-                .WithBirthCity(!string.IsNullOrWhiteSpace(request.BirthCity) ? request.BirthCity : user.BirthCity)
-                .WithLastName(!string.IsNullOrWhiteSpace(request.LastName) ? request.LastName : user.LastName)
-                .WithEconomicActivity(economicActivity ?? user.EconomicActivity)
-                .WithBirthCountry(birthCountry ?? user.BirthCountry)
-                .WithBirthDate(request.BirthDate ?? user.BirthDate)
-                .WithCivility(civility ?? user.Civility)
-                .Build();
+            return user;
         }
 
-        public async Task<IUser> BuildAsync(Partner partner, string externalUserId)
+        #region private helpers
+
+        private async Task<(EconomicActivity economicActivity, Civility civility, Country birthCountry)> GetReferentialDataAsync(int? economicActivity, string birthCountry, int? civilityId)
         {
-            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByIdAsync(partner.Id, externalUserId).ConfigureAwait(false);
-            dynamic user = resultDico[ResultName.User].FirstOrDefault();
-            if (user is null)
+            var birthCountryTask = Task.FromResult<Country>(default);
+            if (!string.IsNullOrWhiteSpace(birthCountry))
+            {
+                if (int.TryParse(birthCountry, out int birthCountryId))
+                {
+                    birthCountryTask = referentialService.GetCountryByIdAsync(birthCountryId);
+                }
+                else
+                {
+                    birthCountryTask = referentialService.GetCountryByCodeAsync(birthCountry);
+                }
+            }
+
+            var economicActivityTask = Task.FromResult<EconomicActivity>(default);
+            if (economicActivity.HasValue)
+            {
+                economicActivityTask = referentialService.GetEconomicActivityByIdAsync(economicActivity.Value);
+            }
+
+            var civilityTask = Task.FromResult<Civility>(default);
+            if (civilityId.HasValue)
+            {
+                civilityTask = referentialService.GetCivilityByIdAsync(civilityId.Value, true);
+            }
+
+            await Task.WhenAll(birthCountryTask, civilityTask, economicActivityTask).ConfigureAwait(false);
+            return
+            (
+                economicActivityTask.Result,
+                civilityTask.Result,
+                birthCountryTask.Result
+            );
+        }
+        private async Task<IUser> ConstructUserAsync(Partner partner, Dictionary<ResultName, IEnumerable<dynamic>> resultDico)
+        {
+            dynamic result = resultDico[ResultName.User].FirstOrDefault();
+            if (result is null)
             {
                 return UserNull.Instance;
             }
 
-            Country country = await referentialService.GetCountryByIdAsync(user.birthCountryId ?? 0);
-            Civility civility = await referentialService.GetCivilityByIdAsync(user.civilityId, true);
-            EconomicActivity economicActivity = await referentialService.GetEconomicActivityByIdAsync(user.economicActivityId ?? 0);
+            (EconomicActivity economicActivity, Civility civility, Country birthCountry) = await GetReferentialDataAsync((int?)result.economicActivityId,
+                (string)result.birthCountryId?.ToString(),
+                (int?)result.civilityId).ConfigureAwait(false);
 
-            var result = UserBuilder.Instance
-                .WithPartner(partner)
-                .WithId(user.userId)
-                .WithUserCode(new UserCode(user.userCode))
-                .WithExternalUserId(new ExternalUserId(user.externalUserId))
-                .WithLastName(user.lastName)
-                .WithFisrtName(user.firstName)
-                .WithBirthCity(user.birthCity)
-                .WithBirthDate(user.birthDate)
-                .WithRowVersion(user.rowversion)
-                .WithEmail(user.email, user.emailActive, user.emailConfirmed)
-                .WithPhoneNumber(user.phone, user.phoneActive, user.phoneConfirmed)
-                .WithWhatsapp(user.whatsapp, user.whatsappActive, user.whatsappConfirmed)
-                .WithCivility(civility)
-                .WithBirthCountry(country)
-                .WithEconomicActivity(economicActivity)
-                .Build() as IUser;
+            var userIdentifier = new UserIdentifier(result.userId,
+                new ExternalUserId(result.externalUserId),
+                new UserCode(result.userCode),
+                partner);
+
+            var profile = new UserProfile(economicActivity,
+                birthCountry,
+                result.birthDate,
+                civility,
+                result.birthCity,
+                result.firstName,
+                result.lastName);
+
+            var user = new User(userIdentifier, profile);
+            user.SetRowVersion(result.rowversion);
+
+            if (!string.IsNullOrWhiteSpace(result.whatsapp))
+            {
+                user.AddChannel(result.whatsapp, ChannelType.Whatsapp, ConvertToBoolean(result.whatsappActive), ConvertToBoolean(result.whatsappConfirmed));
+            }
+
+            if (!string.IsNullOrWhiteSpace(result.email))
+            {
+                user.AddChannel(result.email, ChannelType.Email, ConvertToBoolean(result.emailActive), ConvertToBoolean(result.emailConfirmed));
+            }
+
+            if (!string.IsNullOrWhiteSpace(result.phone))
+            {
+                user.AddChannel(result.phone, ChannelType.Sms, ConvertToBoolean(result.phoneActive), ConvertToBoolean(result.phoneConfirmed));
+            }
 
             foreach (dynamic channel in resultDico[ResultName.ChannelConfirmations])
             {
                 var channelType = ChannelType.GetById(channel.channelId);
                 var channelCode = new ChannelConfirmation(channel.confirmationCode, channel.expirationDate);
-                result.AddNewChannelCodeConfirmation(channelType, channelCode);
-            }
-
-            foreach (dynamic pwd in resultDico[ResultName.Passwords])
-            {
-                result.BuildPassword(pwd.active, pwd.passwordHash, pwd.securityStamp);
+                user.AddChannelCodeConfirmation(channelType, channelCode);
             }
 
             foreach (dynamic addr in resultDico[ResultName.Addresses])
             {
-                var ctr = new Country(addr.countryId, addr.countryCode, addr.description);
-                result.BuildAddress(addr.addressId, addr.active, addr.street, addr.city, addr.zipcode, ctr, addr.name);
+                var ctr = new Country(addr.countryId,
+                    addr.countryCode,
+                    addr.description);
+
+                user.BuildAddress(addr.addressId,
+                    addr.active,
+                    addr.street,
+                    addr.city,
+                    addr.zipcode,
+                    ctr,
+                    addr.name);
             }
 
-            return result;
-        }
+            foreach (dynamic pwd in resultDico[ResultName.Passwords])
+            {
+                user.BuildPasword(pwd.active, pwd.passwordHash, pwd.securityStamp);
+            }
 
+            return user;
+        }
+        private void UpsertChannel(User user, ChannelType channelType, string channelValue)
+        {
+            if (!string.IsNullOrWhiteSpace(channelValue))
+            {
+                Channel channel = user.Profile.GetChannel(channelType, false);
+                if (channel is null)
+                {
+                    user.AddChannel(channelValue, channelType, false, false);
+                }
+                else if (!channel.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    user.UpdateChannel(channelValue, channelType, false, false);
+                }
+            }
+        }
         private void ManageResultChecks(RuleResultCollection collection)
         {
             foreach (RuleResult rule in collection)
@@ -208,5 +234,11 @@
                 }
             }
         }
+        private bool ConvertToBoolean(int value)
+        {
+            return value == 1;
+        }
+
+        #endregion
     }
 }

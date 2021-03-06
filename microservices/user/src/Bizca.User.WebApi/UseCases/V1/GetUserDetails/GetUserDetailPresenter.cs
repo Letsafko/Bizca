@@ -16,9 +16,9 @@
         /// <summary>
         ///     User not found.
         /// </summary>
-        public void NotFound()
+        public void NotFound(string message)
         {
-            ViewModel = new NotFoundResult();
+            ViewModel = new NotFoundObjectResult(message);
         }
 
         /// <summary>

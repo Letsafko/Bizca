@@ -6,6 +6,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Newtonsoft.Json;
 
     public abstract class StartupExtended
     {
@@ -23,7 +24,11 @@
                     .AddHttpContextAccessor()
                     .AddRouting(options => options.LowercaseUrls = true)
                     .AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)))
-                    .AddNewtonsoftJson(options => options.UseCamelCasing(true));
+                    .AddNewtonsoftJson(options =>
+                    {
+                        options.UseCamelCasing(true);
+                        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    });
         }
 
         protected void Configure(IApplicationBuilder app)

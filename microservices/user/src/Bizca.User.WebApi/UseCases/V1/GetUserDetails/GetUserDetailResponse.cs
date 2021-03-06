@@ -2,9 +2,7 @@
 {
     using Bizca.User.Application.UseCases.GetUserDetail;
     using Bizca.User.WebApi.ViewModels;
-    using Newtonsoft.Json;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
     /// <summary>
@@ -17,69 +15,27 @@
         /// </summary>
         public GetUserDetailResponse(GetUserDetail userDetail)
         {
-            UserCode = userDetail.UserCode;
-            Civility = userDetail.Civility;
-            LastName = userDetail.LastName;
+            Channels = userDetail.Address == null ? default : userDetail.Channels?.Select(x => new ChannelModel(x));
+            Address = new AddressModel(userDetail.Address);
+            EconomicActivity = userDetail.EconomicActivity;
+            ExternalUserId = userDetail.ExternalUserId;
+            BirthCountry = userDetail.BirthCountry;
             FirstName = userDetail.FirstName;
             BirthCity = userDetail.BirthCity;
             BirthDate = userDetail.BirthDate;
-            BirthCountry = userDetail.BirthCountry;
-            ExternalUserId = userDetail.ExternalUserId;
-            EconomicActivity = userDetail.EconomicActivity;
-            Channels = userDetail.Channels?.Select(x => new UserChannelModel(x));
-            if (userDetail.Address != null)
-            {
-                Address = new UserAddressModel(userDetail.Address);
-            }
+            LastName = userDetail.LastName;
+            Civility = userDetail.Civility;
         }
-
-        /// <summary>
-        ///     Get user code.
-        /// </summary>
-        [Required]
-        public string UserCode { get; }
-
-        /// <summary>
-        ///     Gets user civility.
-        /// </summary>
-        [Required]
-        public string Civility { get; }
-
-        /// <summary>
-        ///     Gets user lastname.
-        /// </summary>
-        [Required]
-        public string LastName { get; }
-
-        /// <summary>
-        ///     Gets user firstname.
-        /// </summary>
-        [Required]
-        public string FirstName { get; }
-
-        /// <summary>
-        ///     Gets user birth city.
-        /// </summary>
-        [Required]
-        public string BirthCity { get; }
-
-        /// <summary>
-        ///     Gets user birth date.
-        /// </summary>
-        [Required]
-        public string BirthDate { get; }
-
-        /// <summary>
-        ///     Gets user birth country.
-        /// </summary>
-        [Required]
-        public string BirthCountry { get; }
 
         /// <summary>
         ///  Gets external user identifier.
         /// </summary>
-        [Required]
         public string ExternalUserId { get; }
+
+        /// <summary>
+        ///     Gets user civility.
+        /// </summary>
+        public string Civility { get; }
 
         /// <summary>
         ///  Gets user economic activity.
@@ -87,15 +43,38 @@
         public string EconomicActivity { get; }
 
         /// <summary>
+        ///     Gets user firstname.
+        /// </summary>
+        public string FirstName { get; }
+
+        /// <summary>
+        ///     Gets user lastname.
+        /// </summary>
+        public string LastName { get; }
+
+        /// <summary>
+        ///     Gets user birth date.
+        /// </summary>
+        public string BirthDate { get; }
+
+        /// <summary>
+        ///     Gets user birth country.
+        /// </summary>
+        public string BirthCountry { get; }
+
+        /// <summary>
+        ///     Gets user birth city.
+        /// </summary>
+        public string BirthCity { get; }
+
+        /// <summary>
         ///     Gets user address.
         /// </summary>
-        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
-        public UserAddressModel Address { get; }
+        public AddressModel Address { get; }
 
         /// <summary>
         ///     Gets user notification channels.
         /// </summary>
-        [Required]
-        public IEnumerable<UserChannelModel> Channels { get; }
+        public IEnumerable<ChannelModel> Channels { get; }
     }
 }

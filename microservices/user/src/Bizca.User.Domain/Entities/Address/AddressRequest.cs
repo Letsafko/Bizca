@@ -11,19 +11,19 @@ namespace Bizca.User.Domain.Entities.Address
             string country,
             string name)
         {
-            City = city;
-            Name = name;
-            Street = street;
             Partner = partner;
             ZipCode = zipCode;
             Country = country;
+            Street = street;
+            City = city;
+            Name = name;
         }
 
         public Partner Partner { get; }
-        public string Name { get; }
-        public string Street { get; }
-        public string ZipCode { get; }
-        public string City { get; }
         public string Country { get; }
+        public string ZipCode { get; }
+        public string Street { get; }
+        public string City { get; }
+        public string Name { get; }
     }
 }

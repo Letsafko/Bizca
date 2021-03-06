@@ -39,17 +39,23 @@ go
 alter table [usr].[user] add constraint [fk_user_civilityId] foreign key ([civilityId]) references [ref].[civility]([civilityId]) 
 go
 
-create index [ix_economicActivity_economicActivityId] on [usr].[user] ([economicActivityId])
+alter table [usr].[user] add constraint [fk_user_partnerId] foreign key ([partnerId]) references [ref].[partner] ([partnerId])
 go
 
-create unique index [ix_partnerId_externalUserId] on [usr].[user] ([partnerId], [externalUserId])
+create unique index [ix_user_partnerId_externalUserId] on [usr].[user] ([partnerId], [externalUserId])
 go
 
-create index [ix_country_countryId] on [usr].[user] ([birthCountryId])
+create index [ix_user_economicActivityId] on [usr].[user] ([economicActivityId])
 go
 
-create index [ix_civility_civilityId] on [usr].[user] ([civilityId])
+create index [ix_user_birthCountryId] on [usr].[user] ([birthCountryId])
 go
 
-create unique index [ix_userCode] on [usr].[user] ([userCode])
+create unique index [ix_user_userCode] on [usr].[user] ([userCode])
+go
+
+create index [ix_user_civilityId] on [usr].[user] ([civilityId])
+go
+
+create index [ix_user_partnerId] on [usr].[user] ([partnerId])
 go

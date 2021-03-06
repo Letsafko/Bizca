@@ -1,55 +1,31 @@
 ﻿namespace Bizca.User.Domain.Agregates
 {
+    using Bizca.Core.Domain.Civility;
     using Bizca.Core.Domain.Country;
-    using Bizca.User.Domain.Agregates.ValueObjects;
-    using Bizca.User.Domain.Entities.Address;
+    using Bizca.Core.Domain.EconomicActivity;
     using Bizca.User.Domain.Entities.Channel;
     using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using System;
 
     public interface IUser
     {
         /// <summary>
-        ///     Gets user code.
+        ///     Update an address.
         /// </summary>
-        public UserCode UserCode { get; }
-
-        /// <summary>
-        ///     Gets channel by channel type.
-        /// </summary>
-        /// <param name="channelType">channel type.</param>
-        /// <param name="throwError">Indicates whether an exception should be thrown</param>
-        Channel GetChannel(ChannelType channelType, bool throwError = true);
-
-        /// <summary>
-        ///     Add new password.
-        /// </summary>
-        /// <param name="passwordHash">password hash.</param>
-        /// <param name="securityStamp">security stamp.</param>
-        void AddNewPasword(string passwordHash, string securityStamp);
-
-        /// <summary>
-        ///     Buil a password.
-        /// </summary>
-        /// <param name="active">Indicates whether a password is active.</param>
-        /// <param name="passwordHash">password hash.</param>
-        /// <param name="securityStamp">security stamp.</param>
-        void BuildPassword(bool active, string passwordHash, string securityStamp);
-
-        /// <summary>
-        ///     Add a new channel.
-        /// </summary>
-        /// <param name="value">channel value.</param>
-        /// <param name="channelType">channel type.</param>
-        /// <param name="active">Indicates whether a channel is active.</param>
-        /// <param name="confirmed">Indicates wheter a channel is confirmed.</param>
-        void AddChannel(string value, ChannelType channelType, bool active, bool confirmed);
+        /// <param name="active">Indicates whether an address is active.</param>
+        /// <param name="street">street</param>
+        /// <param name="city">city</param>
+        /// <param name="zipCode">postal code</param>
+        /// <param name="country">country</param>
+        /// <param name="name">address name</param>
+        void UpdateAddress(bool active, string street, string city, string zipCode, Country country, string name);
 
         /// <summary>
         ///     Add a new code confirmation according to channel type.
         /// </summary>
         /// <param name="channelType"></param>
         /// <param name="channelConfirmation">channel code confirmation</param>
-        void AddNewChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation);
+        void AddChannelCodeConfirmation(ChannelType channelType, ChannelConfirmation channelConfirmation = null);
 
         /// <summary>
         ///     Update channel.
@@ -71,27 +47,51 @@
         void AddNewAddress(string street, string city, string zipCode, Country country, string name);
 
         /// <summary>
-        ///     Build an address.
+        ///     Gets channel by channel type.
         /// </summary>
-        /// <param name="id">address identifier</param>
-        /// <param name="active">Indicates whether an address is active.</param>
-        /// <param name="street">street</param>
-        /// <param name="city">city</param>
-        /// <param name="zipCode">postal code</param>
-        /// <param name="country">country</param>
-        /// <param name="name">address name</param>
-        void BuildAddress(int id, bool active, string street, string city, string zipCode, Country country, string name);
+        /// <param name="channelType">channel type.</param>
+        /// <param name="throwError">Indicates whether an exception should be thrown</param>
+        Channel GetChannel(ChannelType channelType, bool throwError = true);
 
         /// <summary>
-        ///     Update an address.
+        ///     Add new password.
         /// </summary>
-        /// <param name="address">address to update.</param>
-        /// <param name="active">Indicates whether an address is active.</param>
-        /// <param name="street">street</param>
-        /// <param name="city">city</param>
-        /// <param name="zipCode">postal code</param>
-        /// <param name="country">country</param>
-        /// <param name="name">address name</param>
-        void UpdateAddress(Address address, bool active, string street, string city, string zipCode, Country country, string name);
+        /// <param name="passwordHash">password hash.</param>
+        /// <param name="securityStamp">security stamp.</param>
+        void AddNewPasword(string passwordHash, string securityStamp);
+
+        /// <summary>
+        ///     Add a new channel.
+        /// </summary>
+        /// <param name="value">channel value.</param>
+        /// <param name="channelType">channel type.</param>
+        /// <param name="active">Indicates whether a channel is active.</param>
+        /// <param name="confirmed">Indicates wheter a channel is confirmed.</param>
+        void AddChannel(string value, ChannelType channelType, bool active, bool confirmed);
+
+        /// <summary>
+        ///     Indicates whether a channel is confirmed or throw error if not.
+        /// </summary>
+        /// <param name="channelType">channel type.</param>
+        /// <param name="codeConfirmation">channel code confirmation.</param>
+        bool IsChannelCodeConfirmed(ChannelType channelType, string codeConfirmation);
+
+        /// <summary>
+        ///     Update user profile.
+        /// </summary>
+        /// <param name="economicActivity">economic activity</param>
+        /// <param name="birthCountry">birth country</param>
+        /// <param name="civility">civility</param>
+        /// <param name="birthDate">birth date</param>
+        /// <param name="birthCity">birth city</param>
+        /// <param name="lastName">last name</param>
+        /// <param name="firstName">first name</param>
+        void UpdateProfile(EconomicActivity economicActivity,
+            Country birthCountry,
+            Civility civility,
+            DateTime? birthDate,
+            string birthCity,
+            string lastName,
+            string firstName);
     }
 }

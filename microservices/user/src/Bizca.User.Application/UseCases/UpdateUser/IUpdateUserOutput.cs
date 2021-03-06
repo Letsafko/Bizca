@@ -5,7 +5,8 @@
         /// <summary>
         ///     User not found.
         /// </summary>
-        void NotFound();
+        /// <param name="message">not found message</param>
+        void NotFound(string message);
 
         /// <summary>
         ///     Creates an user.

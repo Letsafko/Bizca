@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.AuthenticateUser
 {
-    using Bizca.User.Application.UseCases.AuthenticateUser;
+    using Bizca.User.WebApi.ViewModels;
+    using User = Domain.Agregates.User;
 
     /// <summary>
     ///     Update password response.
@@ -10,15 +11,21 @@
         /// <summary>
         ///     Creates an instance of <see cref="AuthenticateUserResponse"/>
         /// </summary>
-        /// <param name="AuthenticateUserDto"></param>
-        public AuthenticateUserResponse(AuthenticateUserDto AuthenticateUserDto)
+        /// <param name="user"></param>
+        public AuthenticateUserResponse(User user)
         {
-            Success = AuthenticateUserDto.Success;
+            User = new UserModel(user);
+            Authenticated = true;
         }
 
         /// <summary>
-        ///     Indicates whether password has been updated succesfully.
+        ///     Indicates whether user has been authenticated succesfully.
         /// </summary>
-        public bool Success { get; }
+        public bool Authenticated { get; }
+
+        /// <summary>
+        ///     Gets user model.
+        /// </summary>
+        public UserModel User { get; }
     }
 }

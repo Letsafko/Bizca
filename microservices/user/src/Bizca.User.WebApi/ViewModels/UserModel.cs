@@ -1,10 +1,10 @@
 ﻿namespace Bizca.User.WebApi.ViewModels
 {
     using Bizca.User.Application.UseCases.GetUsersByCriteria;
-    using Newtonsoft.Json;
+    using Bizca.User.Domain.Entities.Address;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using User = Domain.Agregates.User;
 
     /// <summary>
     ///     Gets user model.
@@ -16,75 +16,46 @@
         /// </summary>
         public UserModel(GetUsers user)
         {
-            Id = user.UserId;
-            UserCode = user.UserCode;
-            Civility = user.Civility;
-            LastName = user.LastName;
-            FirstName = user.FirstName;
-            BirthCity = user.BirthCity;
-            BirthDate = user.BirthDate;
-            BirthCountry = user.BirthCountry;
-            ExternalUserId = user.ExternalUserId;
-            EconomicActivity = user.EconomicActivity;
-            Channels = user.Channels?.Select(x => new UserChannelModel(x));
-            if (user.Address != null)
-            {
-                Address = new UserAddressModel(user.Address);
-            }
+            Channels         =  user.Channels.Count == 0 ? default : user.Channels.Select(x => new ChannelModel(x));
+            Address          =  user.Address == null ? default : new AddressModel(user.Address);
+            BirthCountry     =  user.BirthCountry?.CountryCode;
+            EconomicActivity =  user.EconomicActivity;
+            ExternalUserId   =  user.ExternalUserId;
+            FirstName        =  user.FirstName;
+            BirthCity        =  user.BirthCity;
+            BirthDate        =  user.BirthDate;
+            LastName         =  user.LastName;
+            Civility         =  user.Civility;
         }
 
         /// <summary>
-        ///     Gets user id.
+        ///     Creates an instance of <see cref="UserModel"/>
         /// </summary>
-        public int Id { get; }
-
-        /// <summary>
-        ///     Get user code.
-        /// </summary>
-        [Required]
-        public string UserCode { get; }
-
-        /// <summary>
-        ///     Gets user civility.
-        /// </summary>
-        [Required]
-        public string Civility { get; }
-
-        /// <summary>
-        ///     Gets user lastname.
-        /// </summary>
-        [Required]
-        public string LastName { get; }
-
-        /// <summary>
-        ///     Gets user firstname.
-        /// </summary>
-        [Required]
-        public string FirstName { get; }
-
-        /// <summary>
-        ///     Gets user birth city.
-        /// </summary>
-        [Required]
-        public string BirthCity { get; }
-
-        /// <summary>
-        ///     Gets user birth date.
-        /// </summary>
-        [Required]
-        public string BirthDate { get; }
-
-        /// <summary>
-        ///     Gets user birth country.
-        /// </summary>
-        [Required]
-        public string BirthCountry { get; }
+        /// <param name="user"></param>
+        public UserModel(User user)
+        {
+            Address address   =  user.Profile.Addresses.Single(x => x.Active);
+            Channels          =  user.Profile.Channels.Count == 0 ? default : user.Profile.Channels.Select(x => new ChannelModel(x));
+            Address           =  address is null ? default : new AddressModel(address);
+            EconomicActivity  =  user.Profile.EconomicActivity.EconomicActivityCode;
+            ExternalUserId    =  user.UserIdentifier.ExternalUserId.ToString();
+            BirthCountry      =  user.Profile.BirthCountry?.CountryCode;
+            Civility          =  user.Profile.Civility.CivilityCode;
+            BirthDate         =  user.Profile.BirthDate.ToString();
+            FirstName         =  user.Profile.FirstName;
+            BirthCity         =  user.Profile.BirthCity;
+            LastName          =  user.Profile.LastName;
+        }
 
         /// <summary>
         ///  Gets external user identifier.
         /// </summary>
-        [Required]
         public string ExternalUserId { get; }
+
+        /// <summary>
+        ///     Gets user civility.
+        /// </summary>
+        public string Civility { get; }
 
         /// <summary>
         ///  Gets user economic activity.
@@ -92,15 +63,38 @@
         public string EconomicActivity { get; }
 
         /// <summary>
+        ///     Gets user firstname.
+        /// </summary>
+        public string FirstName { get; }
+
+        /// <summary>
+        ///     Gets user lastname.
+        /// </summary>
+        public string LastName { get; }
+
+        /// <summary>
+        ///     Gets user birth date.
+        /// </summary>
+        public string BirthDate { get; }
+
+        /// <summary>
+        ///     Gets user birth country.
+        /// </summary>
+        public string BirthCountry { get; }
+
+        /// <summary>
+        ///     Gets user birth city.
+        /// </summary>
+        public string BirthCity { get; }
+
+        /// <summary>
         ///     Gets user address.
         /// </summary>
-        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
-        public UserAddressModel Address { get; }
+        public AddressModel Address { get; }
 
         /// <summary>
         ///     Gets user notification channels.
         /// </summary>
-        [Required]
-        public IEnumerable<UserChannelModel> Channels { get; }
+        public IEnumerable<ChannelModel> Channels { get; }
     }
 }

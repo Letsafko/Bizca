@@ -1,14 +1,21 @@
 ﻿namespace Bizca.Core.Domain.Civility
 {
-    public sealed class Civility
+    using System.Collections.Generic;
+    public sealed class Civility : ValueObject
     {
         public Civility(int civilityId, string civilityCode)
         {
-            CivilityId = civilityId;
             CivilityCode = civilityCode;
+            CivilityId = civilityId;
         }
 
-        public int CivilityId { get; }
         public string CivilityCode { get; }
+        public int CivilityId { get; }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return CivilityCode;
+            yield return CivilityId;
+        }
     }
 }

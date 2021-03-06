@@ -71,7 +71,7 @@
                         .WithFirstName(result.firstName)
                         .WithBirthCity(result.birthCity)
                         .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
-                        .WithBirthCountry(result.birthCountryCode)
+                        .WithBirthCountry(result.birthCountryId, result.birthCountryCode, result.birthCountryDescription)
                         .WithEconomicActivity(result.economicActivityCode)
                         .WithAddress(result.addressId,
                             result.addresseActive,

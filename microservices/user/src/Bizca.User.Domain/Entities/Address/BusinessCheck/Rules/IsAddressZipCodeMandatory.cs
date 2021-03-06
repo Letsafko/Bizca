@@ -12,7 +12,7 @@
         {
             DomainFailure failure = null;
             bool success = (MandatoryAddressFlags.ZipCode & request.Partner.Settings.FeatureFlags.MandatoryAddressFlags) == 0 || !string.IsNullOrWhiteSpace(request.ZipCode);
-            if(!success)
+            if (!success)
             {
                 failure = new DomainFailure($"zipcode is mandatory for partner::{request.Partner.PartnerCode}.",
                     nameof(request.ZipCode),

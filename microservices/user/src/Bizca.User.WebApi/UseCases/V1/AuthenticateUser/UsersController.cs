@@ -38,12 +38,12 @@
         /// <param name="externalUserId"> user identifier of partner.</param>
         /// <param name="input">authenticate user input.</param>
         /// <remarks>/Assets/AuthenticateUser.md</remarks>
-        [HttpPost("{externalUserId}/authenticate")]
+        [HttpPost("authenticate")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AuthenticateUserResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required] string externalUserId, [Required][FromBody] AuthenticateUser input)
+        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required][FromBody] AuthenticateUser input)
         {
-            var command = new AuthenticateUserCommand(partnerCode, externalUserId, input.Password, input.Resource);
+            var command = new AuthenticateUserCommand(partnerCode, input.Password, input.Resource);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return presenter.ViewModel;
         }

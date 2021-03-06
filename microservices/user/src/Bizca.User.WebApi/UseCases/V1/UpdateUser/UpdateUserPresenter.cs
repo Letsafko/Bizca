@@ -1,6 +1,5 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.UpdateUser
 {
-    using Bizca.Core.Domain;
     using Bizca.User.Application.UseCases.UpdateUser;
     using Microsoft.AspNetCore.Mvc;
 
@@ -15,20 +14,11 @@
         public IActionResult ViewModel { get; private set; } = new NoContentResult();
 
         /// <summary>
-        ///     invalid request.
-        /// </summary>
-        /// <param name="notification"></param>
-        public void Invalid(Notification notification)
-        {
-            ViewModel = new BadRequestObjectResult(notification.Errors);
-        }
-
-        /// <summary>
         ///     not found.
         /// </summary>
-        public void NotFound()
+        public void NotFound(string message)
         {
-            ViewModel = new NotFoundResult();
+            ViewModel = new NotFoundObjectResult(message);
         }
 
         /// <summary>

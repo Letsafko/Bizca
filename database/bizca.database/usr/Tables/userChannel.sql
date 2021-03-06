@@ -2,13 +2,14 @@
 (
 	[userId]		 int not null,
 	[channelId]		 smallint not null,
+	[partnerId]      smallint not null default 1,
 	[value]     	 varchar(50) not null,
 	[active]		 bit not null,
 	[confirmed]		 bit not null,
 	[creationDate]	 datetime2 not null,
     [lastUpdate]	 datetime2 not null
 )
-go
+go 
 
 alter table [usr].[userChannel] add constraint [pk_userChannel] primary key clustered ( [userId], [channelId] )
 go
@@ -22,7 +23,13 @@ go
 alter table [usr].[userChannel] add constraint [fk_userChannel_channelId] foreign key ([channelId]) references [ref].[channel]([channelId]) 
 go
 
+alter table [usr].[userChannel] add constraint [fk_userChannel_partnerId] foreign key ([partnerId]) references [ref].[partner]([partnerId]) 
+go
+
 alter table [usr].[userChannel] add constraint [fk_userChannel_userId] foreign key ([userId]) references [usr].[user]([userId]) 
+go
+
+create unique index [ix_userChannel_value_partnerId] on [usr].[userChannel]( [value], [partnerId])
 go
 
 create index [ix_userChannel_channelId] on [usr].[userChannel]( [channelId])

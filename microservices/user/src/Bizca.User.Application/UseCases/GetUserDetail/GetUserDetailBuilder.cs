@@ -117,13 +117,13 @@
             string countryName,
             string name)
         {
-            if(id.HasValue)
+            if (id.HasValue)
             {
                 _getUser.Address = new Address(id.Value,
                     active.Value,
-                    street, 
+                    street,
                     city,
-                    zipCode, 
+                    zipCode,
                     new Country(countryId.Value, countryCode, countryName),
                     name);
             }
