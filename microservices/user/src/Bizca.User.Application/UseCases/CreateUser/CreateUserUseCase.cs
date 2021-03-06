@@ -33,13 +33,13 @@
             IAddressRepository addressRepository,
             IReferentialService referentialService)
         {
-            this.referentialService =  referentialService;
-            this.addressRepository  =  addressRepository;
-            this.channelRepository  =  channelRepository;
-            this.addressFactory     =  addressFactory;
-            this.userRepository     =  userRepository;
-            this.userFactory        =  userFactory;
-            this.output             =  output;
+            this.referentialService = referentialService;
+            this.addressRepository = addressRepository;
+            this.channelRepository = channelRepository;
+            this.addressFactory = addressFactory;
+            this.userRepository = userRepository;
+            this.userFactory = userFactory;
+            this.output = output;
         }
 
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@
             var user = await userFactory.CreateAsync(userRequest).ConfigureAwait(false) as User;
 
             Address address = await GetAddressAsync(partner, request).ConfigureAwait(false);
-            if(address != null)
+            if (address != null)
             {
                 user.AddNewAddress(address.Street,
                         address.City,
@@ -84,35 +84,35 @@
         {
             return new UserRequest
             {
-                EconomicActivity  =  int.Parse(request.EconomicActivity),
-                BirthDate         =  DateTime.Parse(request.BirthDate),
-                Civility          =  int.Parse(request.Civility),
-                ExternalUserId    =  request.ExternalUserId,
-                BirthCountry      =  request.BirthCountry,
-                PhoneNumber       =  request.PhoneNumber,
-                FirstName         =  request.FirstName,
-                BirthCity         =  request.BirthCity,
-                LastName          =  request.LastName,
-                Whatsapp          =  request.Whatsapp,
-                Email             =  request.Email,
-                Partner           =  partner
+                EconomicActivity = int.Parse(request.EconomicActivity),
+                BirthDate = DateTime.Parse(request.BirthDate),
+                Civility = int.Parse(request.Civility),
+                ExternalUserId = request.ExternalUserId,
+                BirthCountry = request.BirthCountry,
+                PhoneNumber = request.PhoneNumber,
+                FirstName = request.FirstName,
+                BirthCity = request.BirthCity,
+                LastName = request.LastName,
+                Whatsapp = request.Whatsapp,
+                Email = request.Email,
+                Partner = partner
             };
         }
         private CreateUserDto GetUserDto(User user)
         {
             return new CreateUserDto
             {
-                Address           =  user.Profile.Addresses.SingleOrDefault(x => x.Active),
-                EconomicActivity  =  user.Profile.EconomicActivity?.EconomicActivityCode,
-                BirthDate         =  user.Profile.BirthDate.ToString("yyyy-MM-dd"),
-                ExternalUserId    =  user.UserIdentifier.ExternalUserId.ToString(),
-                UserCode          =  user.UserIdentifier.UserCode.ToString(),
-                BirthCountry      =  user.Profile.BirthCountry.CountryCode,
-                Civility          =  user.Profile.Civility.CivilityCode,
-                Channels          =  user.Profile.Channels?.ToList(),
-                BirthCity         =  user.Profile.BirthCity,
-                FirstName         =  user.Profile.FirstName,
-                LastName          =  user.Profile.LastName
+                Address = user.Profile.Addresses.SingleOrDefault(x => x.Active),
+                EconomicActivity = user.Profile.EconomicActivity?.EconomicActivityCode,
+                BirthDate = user.Profile.BirthDate.ToString("yyyy-MM-dd"),
+                ExternalUserId = user.UserIdentifier.ExternalUserId.ToString(),
+                UserCode = user.UserIdentifier.UserCode.ToString(),
+                BirthCountry = user.Profile.BirthCountry.CountryCode,
+                Civility = user.Profile.Civility.CivilityCode,
+                Channels = user.Profile.Channels?.ToList(),
+                BirthCity = user.Profile.BirthCity,
+                FirstName = user.Profile.FirstName,
+                LastName = user.Profile.LastName
             };
         }
 

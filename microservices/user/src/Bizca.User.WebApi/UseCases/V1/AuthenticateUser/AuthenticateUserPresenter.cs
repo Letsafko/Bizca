@@ -2,6 +2,7 @@
 {
     using Bizca.User.Application.UseCases.AuthenticateUser;
     using Microsoft.AspNetCore.Mvc;
+    using User = Domain.Agregates.User;
 
     /// <summary>
     ///     Update password presenter.
@@ -16,19 +17,10 @@
         /// <summary>
         ///     Password updated.
         /// </summary>
-        /// <param name="authenticateUserDto"></param>
-        public void Ok(AuthenticateUserDto authenticateUserDto)
+        /// <param name="user"></param>
+        public void Ok(User user)
         {
-            ViewModel = new OkObjectResult(new AuthenticateUserResponse(authenticateUserDto));
-        }
-
-        /// <summary>
-        ///     User not found.
-        /// </summary>
-        /// <param name="message"></param>
-        public void NotFound(string message)
-        {
-            ViewModel = new NotFoundObjectResult(message);
+            ViewModel = new OkObjectResult(new AuthenticateUserResponse(user));
         }
 
         /// <summary>

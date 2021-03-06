@@ -41,7 +41,7 @@
             IUser response = await userFactory.UpdateAsync(userRequest).ConfigureAwait(false);
             if (response is UserNull)
             {
-                output.NotFound();
+                output.NotFound($"no user associated to '{request.ExternalUserId}' exists");
                 return Unit.Value;
             }
 
@@ -60,34 +60,34 @@
         {
             return new UserRequest
             {
-                EconomicActivity =  string.IsNullOrWhiteSpace(request.EconomicActivity) ? default(int?) : int.Parse(request.EconomicActivity),
-                BirthDate        =  string.IsNullOrWhiteSpace(request.BirthDate) ? default(DateTime?) : DateTime.Parse(request.BirthDate),
-                Civility         =  string.IsNullOrWhiteSpace(request.Civility) ? default(int?) : int.Parse(request.Civility),
-                ExternalUserId   =  request.ExternalUserId,
-                BirthCountry     =  request.BirthCountry,
-                PhoneNumber      =  request.PhoneNumber,
-                FirstName        =  request.FirstName,
-                BirthCity        =  request.BirthCity,
-                LastName         =  request.LastName,
-                Whatsapp         =  request.Whatsapp,
-                Email            =  request.Email,
-                Partner          =  partner
+                EconomicActivity = string.IsNullOrWhiteSpace(request.EconomicActivity) ? default(int?) : int.Parse(request.EconomicActivity),
+                BirthDate = string.IsNullOrWhiteSpace(request.BirthDate) ? default(DateTime?) : DateTime.Parse(request.BirthDate),
+                Civility = string.IsNullOrWhiteSpace(request.Civility) ? default(int?) : int.Parse(request.Civility),
+                ExternalUserId = request.ExternalUserId,
+                BirthCountry = request.BirthCountry,
+                PhoneNumber = request.PhoneNumber,
+                FirstName = request.FirstName,
+                BirthCity = request.BirthCity,
+                LastName = request.LastName,
+                Whatsapp = request.Whatsapp,
+                Email = request.Email,
+                Partner = partner
             };
         }
         private UpdateUserDto GetUserDto(User user)
         {
             return new UpdateUserDto
             {
-                Channels         =  user.Profile.Channels?.Select(x => new Channel(x.ChannelValue, x.ChannelType, x.Active, x.Confirmed))?.ToList(),
-                EconomicActivity =  user.Profile.EconomicActivity?.EconomicActivityCode,
-                ExternalUserId   =  user.UserIdentifier.ExternalUserId.ToString(),
-                BirthDate        =  user.Profile.BirthDate.ToString("yyyy-MM-dd"),
-                UserCode         =  user.UserIdentifier.UserCode.ToString(),
-                BirthCountry     =  user.Profile.BirthCountry.CountryCode,
-                Civility         =  user.Profile.Civility.CivilityCode,
-                BirthCity        =  user.Profile.BirthCity,
-                FirstName        =  user.Profile.FirstName,
-                LastName         =  user.Profile.LastName,
+                Channels = user.Profile.Channels?.Select(x => new Channel(x.ChannelValue, x.ChannelType, x.Active, x.Confirmed))?.ToList(),
+                EconomicActivity = user.Profile.EconomicActivity?.EconomicActivityCode,
+                ExternalUserId = user.UserIdentifier.ExternalUserId.ToString(),
+                BirthDate = user.Profile.BirthDate.ToString("yyyy-MM-dd"),
+                UserCode = user.UserIdentifier.UserCode.ToString(),
+                BirthCountry = user.Profile.BirthCountry.CountryCode,
+                Civility = user.Profile.Civility.CivilityCode,
+                BirthCity = user.Profile.BirthCity,
+                FirstName = user.Profile.FirstName,
+                LastName = user.Profile.LastName,
             };
         }
 

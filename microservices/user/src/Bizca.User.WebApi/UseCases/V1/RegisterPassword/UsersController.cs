@@ -35,15 +35,14 @@
         ///     Register a new password.
         /// </summary>
         /// <param name="partnerCode">partner code identifier.</param>
-        /// <param name="externalUserId"> user identifier of partner.</param>
         /// <param name="input">register password input.</param>
         /// <remarks>/Assets/registerPassword.md</remarks>
-        [HttpPost("{externalUserId}/password")]
+        [HttpPost("password")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterPasswordResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required] string externalUserId, [Required][FromBody] RegisterPassword input)
+        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required][FromBody] RegisterPassword input)
         {
-            var command = new RegisterPasswordCommand(partnerCode, externalUserId, input.Password);
+            var command = new RegisterPasswordCommand(partnerCode, input.ChannelResource, input.Password);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return presenter.ViewModel;
         }

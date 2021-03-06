@@ -44,10 +44,10 @@
         public async Task<Unit> Handle(RegisterCodeConfirmationCommand request, CancellationToken cancellationToken)
         {
             Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true).ConfigureAwait(false);
-            IUser response = await userFactory.BuildAsync(partner, request.ExternalUserId).ConfigureAwait(false);
+            IUser response = await userFactory.BuildByPartnerAndExternalUserIdAsync(partner, request.ExternalUserId).ConfigureAwait(false);
             if (response is UserNull)
             {
-                output.NotFound($"user::{request.ExternalUserId} does not exist.");
+                output.NotFound($"no user associated to '{request.ExternalUserId}' exists.");
                 return Unit.Value;
             }
 

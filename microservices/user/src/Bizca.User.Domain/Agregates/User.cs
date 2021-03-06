@@ -116,7 +116,6 @@
             }
             passwords.Add(newPassword);
         }
-
         public void UpdateProfile(EconomicActivity economicActivity,
             Country birthCountry,
             Civility civility,
@@ -127,7 +126,7 @@
         {
             Profile.FirstName = !string.IsNullOrWhiteSpace(firstName) ? firstName : Profile.FirstName;
             Profile.BirthCity = !string.IsNullOrWhiteSpace(birthCity) ? birthCity : Profile.BirthCity;
-            Profile.LastName  = !string.IsNullOrWhiteSpace(lastName)  ? lastName  : Profile.LastName;
+            Profile.LastName = !string.IsNullOrWhiteSpace(lastName) ? lastName : Profile.LastName;
             Profile.EconomicActivity = economicActivity ?? Profile.EconomicActivity;
             Profile.BirthCountry = birthCountry ?? Profile.BirthCountry;
             Profile.BirthDate = birthDate ?? Profile.BirthDate;

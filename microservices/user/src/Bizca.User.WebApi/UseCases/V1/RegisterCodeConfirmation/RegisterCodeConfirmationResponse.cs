@@ -1,8 +1,7 @@
-﻿using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
-using Newtonsoft.Json;
-
-namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
+﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
 {
+    using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
+
     /// <summary>
     ///     Creates a code confirmation response.
     /// </summary>
@@ -13,27 +12,24 @@ namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
         /// </summary>
         public RegisterCodeConfirmationResponse(RegisterCodeConfirmationDto confirmationCodeDto)
         {
-            ChannelId = confirmationCodeDto.ChannelId;
-            ChannelValue = confirmationCodeDto.ChannelValue;
             ConfirmationCode = confirmationCodeDto.ConfirmationCode;
+            Ressource = confirmationCodeDto.ChannelValue;
+            ResourceId = confirmationCodeDto.ChannelId;
         }
-
-        /// <summary>
-        ///     ChannelId ressource identifier.
-        /// </summary>
-        [JsonProperty("ressourceId")]
-        public string ChannelId { get; }
-
-        /// <summary>
-        ///     ChannelId ressource value.
-        /// </summary>
-        [JsonProperty("ressource")]
-        public string ChannelValue { get; }
 
         /// <summary>
         ///     ChannelId code confirmation.
         /// </summary>
-        [JsonProperty("confirmationCode")]
         public string ConfirmationCode { get; }
+
+        /// <summary>
+        ///     ChannelId ressource identifier.
+        /// </summary>
+        public string ResourceId { get; }
+
+        /// <summary>
+        ///     ChannelId ressource value.
+        /// </summary>
+        public string Ressource { get; }
     }
 }

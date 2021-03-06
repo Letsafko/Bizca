@@ -40,6 +40,7 @@ begin
 		   , c.civilityCode
 		   , u.birthCountryId
 		   , co.countryCode birthCountryCode
+		   , co.description birthCountryDescription
 		   , uc.email	    
 		   , uc.emailActive	    
 		   , uc.emailConfirmed	    

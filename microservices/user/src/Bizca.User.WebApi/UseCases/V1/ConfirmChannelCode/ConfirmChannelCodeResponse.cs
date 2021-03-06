@@ -1,7 +1,6 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.ConfirmChannelCode
 {
     using Bizca.User.Application.UseCases.ConfirmChannelCode;
-    using Newtonsoft.Json;
 
     /// <summary>
     ///     Confirmation channel code response.
@@ -13,22 +12,20 @@
         /// </summary>
         public ConfirmChannelCodeResponse(ConfirmChannelCodeDto confirmationCodeDto)
         {
-            ChannelId = confirmationCodeDto.ChannelType.Code.ToLower();
-            ChannelValue = confirmationCodeDto.ChannelValue;
+            ResourceId = confirmationCodeDto.ChannelType.Code.ToLower();
             Confirmed = confirmationCodeDto.ChannelConfirmed;
+            Ressource = confirmationCodeDto.ChannelValue;
         }
 
         /// <summary>
         ///     Channel ressource identifier.
         /// </summary>
-        [JsonProperty("ressourceId")]
-        public string ChannelId { get; }
+        public string ResourceId { get; }
 
         /// <summary>
         ///     Channel ressource value.
         /// </summary>
-        [JsonProperty("ressource")]
-        public string ChannelValue { get; }
+        public string Ressource { get; }
 
         /// <summary>
         ///     Channel code confirmed.

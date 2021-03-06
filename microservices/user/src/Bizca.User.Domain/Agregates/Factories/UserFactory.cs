@@ -35,9 +35,14 @@
 
         #endregion
 
-        public async Task<IUser> BuildAsync(Partner partner, string externalUserId)
+        public async Task<IUser> BuildByPartnerAndExternalUserIdAsync(Partner partner, string externalUserId)
         {
-            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByIdAsync(partner.Id, externalUserId).ConfigureAwait(false);
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByPartnerIdAndExternalUserIdAsync(partner.Id, externalUserId).ConfigureAwait(false);
+            return await ConstructUserAsync(partner, resultDico).ConfigureAwait(false);
+        }
+        public async Task<IUser> BuildByPartnerAndChannelResourceAsync(Partner partner, string channelResource)
+        {
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByPartnerIdAndChannelResourceAsync(partner.Id, channelResource).ConfigureAwait(false);
             return await ConstructUserAsync(partner, resultDico).ConfigureAwait(false);
         }
         public async Task<IUser> CreateAsync(UserRequest request)
@@ -71,7 +76,7 @@
         }
         public async Task<IUser> UpdateAsync(UserRequest request)
         {
-            if (!(await BuildAsync(request.Partner, request.ExternalUserId).ConfigureAwait(false) is User user))
+            if (!(await BuildByPartnerAndExternalUserIdAsync(request.Partner, request.ExternalUserId).ConfigureAwait(false) is User user))
             {
                 return UserNull.Instance;
             }
@@ -228,7 +233,7 @@
                     throw Activator.CreateInstance(rule.Failure.ExceptionType, new List<DomainFailure> { rule.Failure }) as DomainException;
                 }
             }
-        }        
+        }
         private bool ConvertToBoolean(int value)
         {
             return value == 1;

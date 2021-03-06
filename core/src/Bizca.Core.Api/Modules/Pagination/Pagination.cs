@@ -42,7 +42,7 @@
             var relations = new List<PagedLink>();
             if (rowcount <= pageSize)
             {
-                if(request.PageIndex == 0)
+                if (request.PageIndex == 0)
                 {
                     return new PagedResult<T>(results, default);
                 }

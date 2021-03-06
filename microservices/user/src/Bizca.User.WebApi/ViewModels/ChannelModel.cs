@@ -5,27 +5,27 @@
     /// <summary>
     ///     Gets user channel model.
     /// </summary>
-    public sealed class UserChannelModel
+    public sealed class ChannelModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="UserChannelModel"/>
+        ///     Creates an instance of <see cref="ChannelModel"/>
         /// </summary>
         /// <param name="channel"></param>
-        public UserChannelModel(Channel channel)
+        public ChannelModel(Channel channel)
         {
-            Active = channel.Active;
-            Confirmed = channel.Confirmed;
-            ChannelValue = channel.ChannelValue;
             ChannelType = channel.ChannelType.Code.ToLower();
+            ChannelValue = channel.ChannelValue;
+            Confirmed = channel.Confirmed;
+            Active = channel.Active;
         }
 
         /// <summary>
-        ///     Defines whether a channel is active or not.
+        ///     Indicates whether a channel is active or not.
         /// </summary>
         public bool Active { get; }
 
         /// <summary>
-        ///     Defines whether a channel is confirmed or not.
+        ///     Indicates whether a channel is confirmed or not.
         /// </summary>
         public bool Confirmed { get; }
 

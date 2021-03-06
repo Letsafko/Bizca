@@ -5,8 +5,9 @@
 
     public interface IUserFactory
     {
-        Task<IUser> UpdateAsync(UserRequest request);
+        Task<IUser> BuildByPartnerAndChannelResourceAsync(Partner partner, string channelResource);
+        Task<IUser> BuildByPartnerAndExternalUserIdAsync(Partner partner, string externalUserId);
         Task<IUser> CreateAsync(UserRequest request);
-        Task<IUser> BuildAsync(Partner partner, string externalUserId);
+        Task<IUser> UpdateAsync(UserRequest request);
     }
 }

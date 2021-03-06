@@ -30,11 +30,11 @@
         public async Task<Unit> Handle(GetUserDetailQuery request, CancellationToken cancellationToken)
         {
             Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true).ConfigureAwait(false);
-            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByIdAsync(partner.Id, request.ExternalUserId).ConfigureAwait(false);
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByPartnerIdAndExternalUserIdAsync(partner.Id, request.ExternalUserId).ConfigureAwait(false);
             dynamic user = resultDico[ResultName.User].FirstOrDefault();
             if (user is null)
             {
-                outputPort.NotFound();
+                outputPort.NotFound($"no user associated to '{request.ExternalUserId}' exists.");
                 return Unit.Value;
             }
 

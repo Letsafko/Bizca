@@ -17,5 +17,3 @@
         bool VerifyHashedPassword(string password, byte[] passwordHash, byte[] passwordSalt);
     }
 }
-
-
