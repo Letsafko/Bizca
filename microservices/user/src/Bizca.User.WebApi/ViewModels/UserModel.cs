@@ -3,6 +3,7 @@
     using Bizca.User.Application.UseCases.GetUsersByCriteria;
     using Bizca.User.Domain.Entities.Address;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using User = Domain.Agregates.User;
 
@@ -34,14 +35,14 @@
         /// <param name="user"></param>
         public UserModel(User user)
         {
-            Address address   =  user.Profile.Addresses.Single(x => x.Active);
+            Address address   =  user.Profile.Addresses.SingleOrDefault(x => x.Active);
             Channels          =  user.Profile.Channels.Count == 0 ? default : user.Profile.Channels.Select(x => new ChannelModel(x));
             Address           =  address is null ? default : new AddressModel(address);
-            EconomicActivity  =  user.Profile.EconomicActivity.EconomicActivityCode;
+            EconomicActivity  =  user.Profile.EconomicActivity?.EconomicActivityCode;
             ExternalUserId    =  user.UserIdentifier.ExternalUserId.ToString();
             BirthCountry      =  user.Profile.BirthCountry?.CountryCode;
             Civility          =  user.Profile.Civility.CivilityCode;
-            BirthDate         =  user.Profile.BirthDate.ToString();
+            BirthDate         =  user.Profile.BirthDate?.ToString();
             FirstName         =  user.Profile.FirstName;
             BirthCity         =  user.Profile.BirthCity;
             LastName          =  user.Profile.LastName;
@@ -50,11 +51,13 @@
         /// <summary>
         ///  Gets external user identifier.
         /// </summary>
+        [Required]
         public string ExternalUserId { get; }
 
         /// <summary>
         ///     Gets user civility.
         /// </summary>
+        [Required]
         public string Civility { get; }
 
         /// <summary>
@@ -65,11 +68,13 @@
         /// <summary>
         ///     Gets user firstname.
         /// </summary>
+        [Required]
         public string FirstName { get; }
 
         /// <summary>
         ///     Gets user lastname.
         /// </summary>
+        [Required]
         public string LastName { get; }
 
         /// <summary>
@@ -95,6 +100,7 @@
         /// <summary>
         ///     Gets user notification channels.
         /// </summary>
+        [Required]
         public IEnumerable<ChannelModel> Channels { get; }
     }
 }

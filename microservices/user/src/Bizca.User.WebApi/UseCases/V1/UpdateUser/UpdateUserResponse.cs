@@ -3,6 +3,7 @@
     using Bizca.User.Application.UseCases.UpdateUser;
     using Bizca.User.WebApi.ViewModels;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
     internal sealed class UpdateUserResponse
@@ -24,11 +25,13 @@
         /// <summary>
         ///  Gets external user identifier.
         /// </summary>
+        [Required]
         public string ExternalUserId { get; }
 
         /// <summary>
         ///     Gets user civility.
         /// </summary>
+        [Required]
         public string Civility { get; }
 
         /// <summary>
@@ -39,11 +42,13 @@
         /// <summary>
         ///     Gets user firstname.
         /// </summary>
+        [Required]
         public string FirstName { get; }
 
         /// <summary>
         ///     Gets user lastname.
         /// </summary>
+        [Required]
         public string LastName { get; }
 
         /// <summary>
@@ -69,6 +74,7 @@
         /// <summary>
         ///     Gets user notification channels.
         /// </summary>
+        [Required]
         public IEnumerable<ChannelModel> Channels { get; }
     }
 }

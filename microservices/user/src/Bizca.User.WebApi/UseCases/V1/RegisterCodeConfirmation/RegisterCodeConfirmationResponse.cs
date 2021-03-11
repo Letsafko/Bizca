@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
 {
     using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     ///     Creates a code confirmation response.
@@ -13,23 +14,26 @@
         public RegisterCodeConfirmationResponse(RegisterCodeConfirmationDto confirmationCodeDto)
         {
             ConfirmationCode = confirmationCodeDto.ConfirmationCode;
-            Ressource = confirmationCodeDto.ChannelValue;
+            Resource = confirmationCodeDto.ChannelValue;
             ResourceId = confirmationCodeDto.ChannelId;
         }
 
         /// <summary>
         ///     ChannelId code confirmation.
         /// </summary>
+        [Required]
         public string ConfirmationCode { get; }
 
         /// <summary>
         ///     ChannelId ressource identifier.
         /// </summary>
+        [Required]
         public string ResourceId { get; }
 
         /// <summary>
         ///     ChannelId ressource value.
         /// </summary>
-        public string Ressource { get; }
+        [Required]
+        public string Resource { get; }
     }
 }

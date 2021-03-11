@@ -95,11 +95,11 @@
             return this;
         }
 
-        public GetUsersBuilder WithBirthCountry(int countryId, string countryCode, string description)
+        public GetUsersBuilder WithBirthCountry(int? countryId, string countryCode, string description)
         {
             if (!string.IsNullOrWhiteSpace(countryCode))
             {
-                _getUser.BirthCountry = new Country(countryId, countryCode, description);
+                _getUser.BirthCountry = new Country(countryId.Value, countryCode, description);
             }
             return this;
         }

@@ -63,6 +63,7 @@
         /// <summary>
         ///     email.
         /// </summary>
+        [Required]
         public string Email { get; set; }
 
         /// <summary>

@@ -1,7 +1,7 @@
 namespace Bizca.Core.Infrastructure.Test
 {
-    using Bizca.Core.Infrastructure.Abstracts;
-    using Bizca.Core.Infrastructure.Abstracts.Configuration;
+    using Bizca.Core.Infrastructure.Database;
+    using Bizca.Core.Infrastructure.Database.Configuration;
     using NSubstitute;
     using System.Data;
     using UnitOfWork = Core.Infrastructure.UnitOfWork;

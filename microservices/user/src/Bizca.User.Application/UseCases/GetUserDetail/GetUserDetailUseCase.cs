@@ -44,13 +44,37 @@
             return Unit.Value;
         }
 
+        private async Task<(EconomicActivity economicActivity, Country birthCountry, Civility civility)>
+            GetReferentialAsync(int? economicActivityId, int? birthCountryId, int civilityId)
+        {
+            var economicActivityTask = Task.FromResult(default(EconomicActivity));
+            if (economicActivityId.HasValue)
+            {
+                economicActivityTask = referentialService.GetEconomicActivityByIdAsync(economicActivityId.Value);
+            }
+
+            var birthCountryTask = Task.FromResult(default(Country));
+            if (birthCountryId.HasValue)
+            {
+                birthCountryTask = referentialService.GetCountryByIdAsync(birthCountryId.Value);
+            }
+
+            Task<Civility> civilityTask = referentialService.GetCivilityByIdAsync(civilityId, true);
+            await Task.WhenAll(civilityTask, birthCountryTask, economicActivityTask).ConfigureAwait(false);
+            return
+            (
+                economicActivityTask.Result,
+                birthCountryTask.Result,
+                civilityTask.Result
+            );
+        }
+
         private async Task<GetUserDetail> GetUserDetailAsync(dynamic result, dynamic address)
         {
-            Country country = await referentialService.GetCountryByIdAsync(result.birthCountryId ?? 0);
-            Civility civility = await referentialService.GetCivilityByIdAsync(result.civilityId, true);
-            EconomicActivity economicActivity = await referentialService.GetEconomicActivityByIdAsync(result.economicActivityId ?? 0);
+            (EconomicActivity economicActivity, Country birthCountry, Civility civility) =
+                await GetReferentialAsync((int?)result.economicActivityId, (int?)result.birthCountryId, (int)result.civilityId);
 
-            return GetUserDetailBuilder.Instance
+            dynamic builder = GetUserDetailBuilder.Instance
                 .WithUserId(result.userId)
                 .WithUserCode(result.userCode.ToString())
                 .WithExternalUserId(result.externalUserId)
@@ -60,20 +84,24 @@
                 .WithLastName(result.lastName)
                 .WithFirstName(result.firstName)
                 .WithBirthCity(result.birthCity)
-                .WithCivility(civility?.CivilityCode)
-                .WithBirthCountry(country?.CountryCode)
-                .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
-                .WithEconomicActivity(economicActivity?.EconomicActivityCode)
-                .WithAddress(address.addressId,
-                    address.active,
-                    address.street,
-                    address.city,
-                    address.zipcode,
-                    address.countryId,
-                    address.countryCode,
-                    address.description,
-                    address.addressName)
-                .Build();
+                .WithCivility(civility.CivilityCode)
+                .WithBirthCountry(birthCountry?.CountryCode)
+                .WithBirthDate(result.birthDate?.ToString("yyyy-MM-dd"))
+                .WithEconomicActivity(economicActivity?.EconomicActivityCode);
+
+            if(address != null)
+            {
+                builder.WithAddress(address.addressId,
+                   address.active,
+                   address.street,
+                   address.city,
+                   address.zipcode,
+                   address.countryId,
+                   address.countryCode,
+                   address.description,
+                   address.addressName);
+            }
+            return builder.Build();
         }
     }
 }

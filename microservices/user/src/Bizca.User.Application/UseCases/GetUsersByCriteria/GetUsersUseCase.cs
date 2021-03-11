@@ -59,30 +59,30 @@
             foreach (dynamic result in rows)
             {
                 yield return
-                    GetUsersBuilder.Instance
-                        .WithUserId(result.userId)
-                        .WithUserCode(result.userCode.ToString())
-                        .WithExternalUserId(result.externalUserId)
-                        .WithEmail(result.email, result.emailActive, result.emailConfirmed)
-                        .WithPhoneNumber(result.phone, result.phoneActive, result.phoneConfirmed)
-                        .WithWhatsapp(result.whatsapp, result.whatsappActive, result.whatsappConfirmed)
-                        .WithCivility(result.civilityCode)
-                        .WithLastName(result.lastName)
-                        .WithFirstName(result.firstName)
-                        .WithBirthCity(result.birthCity)
-                        .WithBirthDate(result.birthDate.ToString("yyyy-MM-dd"))
-                        .WithBirthCountry(result.birthCountryId, result.birthCountryCode, result.birthCountryDescription)
-                        .WithEconomicActivity(result.economicActivityCode)
-                        .WithAddress(result.addressId,
-                            result.addresseActive,
-                            result.addresseStreet,
-                            result.addresseCity,
-                            result.zipcode,
-                            result.countryId,
-                            result.countryCode,
-                            result.description,
-                            result.addressName)
-                        .Build();
+                   GetUsersBuilder.Instance
+                    .WithUserId(result.userId)
+                    .WithUserCode(result.userCode.ToString())
+                    .WithExternalUserId(result.externalUserId)
+                    .WithEmail(result.email, result.emailActive, result.emailConfirmed)
+                    .WithPhoneNumber(result.phone, result.phoneActive, result.phoneConfirmed)
+                    .WithWhatsapp(result.whatsapp, result.whatsappActive, result.whatsappConfirmed)
+                    .WithCivility(result.civilityCode)
+                    .WithLastName(result.lastName)
+                    .WithFirstName(result.firstName)
+                    .WithBirthCity(result.birthCity)
+                    .WithBirthDate(result.birthDate?.ToString("yyyy-MM-dd"))
+                    .WithBirthCountry(result.birthCountryId, result.birthCountryCode, result.birthCountryDescription)
+                    .WithEconomicActivity(result.economicActivityCode)
+                    .WithAddress(result.addressId,
+                        result.addresseActive,
+                        result.addresseStreet,
+                        result.addresseCity,
+                        result.zipcode,
+                        result.countryId,
+                        result.countryCode,
+                        result.description,
+                        result.addressName)
+                    .Build();
             }
         }
 
