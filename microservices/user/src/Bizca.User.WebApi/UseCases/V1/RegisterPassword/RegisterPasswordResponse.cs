@@ -1,7 +1,7 @@
-﻿using Bizca.User.Application.UseCases.RegisterPassword;
-
-namespace Bizca.User.WebApi.UseCases.V1.RegisterPassword
+﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterPassword
 {
+    using Bizca.User.Application.UseCases.RegisterPassword;
+    using System.ComponentModel.DataAnnotations;
     /// <summary>
     ///     Register password response.
     /// </summary>
@@ -19,6 +19,7 @@ namespace Bizca.User.WebApi.UseCases.V1.RegisterPassword
         /// <summary>
         ///     Indicates whether password has been created succesfully.
         /// </summary>
+        [Required]
         public bool Success { get; }
     }
 }

@@ -3,6 +3,7 @@
     using Bizca.User.Application.UseCases.GetUserDetail;
     using Bizca.User.WebApi.ViewModels;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
     /// <summary>
@@ -15,8 +16,8 @@
         /// </summary>
         public GetUserDetailResponse(GetUserDetail userDetail)
         {
-            Channels = userDetail.Address == null ? default : userDetail.Channels?.Select(x => new ChannelModel(x));
-            Address = new AddressModel(userDetail.Address);
+            Address = userDetail.Address is null ? default  : new AddressModel(userDetail.Address);
+            Channels = userDetail.Channels?.Select(x => new ChannelModel(x));
             EconomicActivity = userDetail.EconomicActivity;
             ExternalUserId = userDetail.ExternalUserId;
             BirthCountry = userDetail.BirthCountry;
@@ -30,11 +31,13 @@
         /// <summary>
         ///  Gets external user identifier.
         /// </summary>
+        [Required]
         public string ExternalUserId { get; }
 
         /// <summary>
         ///     Gets user civility.
         /// </summary>
+        [Required]
         public string Civility { get; }
 
         /// <summary>
@@ -45,11 +48,13 @@
         /// <summary>
         ///     Gets user firstname.
         /// </summary>
+        [Required]
         public string FirstName { get; }
 
         /// <summary>
         ///     Gets user lastname.
         /// </summary>
+        [Required]
         public string LastName { get; }
 
         /// <summary>
@@ -75,6 +80,7 @@
         /// <summary>
         ///     Gets user notification channels.
         /// </summary>
+        [Required]
         public IEnumerable<ChannelModel> Channels { get; }
     }
 }

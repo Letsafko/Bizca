@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.AuthenticateUser
 {
     using Bizca.User.WebApi.ViewModels;
+    using System.ComponentModel.DataAnnotations;
     using User = Domain.Agregates.User;
 
     /// <summary>
@@ -21,11 +22,13 @@
         /// <summary>
         ///     Indicates whether user has been authenticated succesfully.
         /// </summary>
+        [Required]
         public bool Authenticated { get; }
 
         /// <summary>
         ///     Gets user model.
         /// </summary>
+        [Required]
         public UserModel User { get; }
     }
 }
