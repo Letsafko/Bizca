@@ -18,8 +18,9 @@
             this.unitOfWork = unitOfWork;
         }
 
+        private const string UpSertUserChannelStoredProcedure = "[usr].[usp_upsert_userChannel]";
+        private const string IsChannelExistStoredProcedure = "[usr].[usp_isExists_channel]";
         private const string channelUdt = "[usr].[channelList]";
-        private const string upSertUserChannelStoredProcedure = "[usr].[usp_upsert_userChannel]";
         public async Task<bool> UpSertAsync(int userId, IEnumerable<Channel> channels)
         {
             var parameters = new
@@ -28,7 +29,23 @@
             };
 
             return await unitOfWork.Connection
-                .ExecuteAsync(upSertUserChannelStoredProcedure,
+                .ExecuteAsync(UpSertUserChannelStoredProcedure,
+                    parameters,
+                    unitOfWork.Transaction,
+                    commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false) > 0;
+        }
+
+        public async Task<bool> IsExistAsync(int partnerId, string channelResource)
+        {
+            var parameters = new
+            {
+                partnerId,
+                channelResource
+            };
+
+            return await unitOfWork.Connection
+                .ExecuteScalarAsync<int>(IsChannelExistStoredProcedure,
                     parameters,
                     unitOfWork.Transaction,
                     commandType: CommandType.StoredProcedure)

@@ -10,16 +10,16 @@
     {
         public async Task<RuleResult> CheckAsync(AddressRequest request)
         {
-            DomainFailure failure = null;
             bool success = (MandatoryAddressFlags.Street & request.Partner.Settings.FeatureFlags.MandatoryAddressFlags) == 0 || !string.IsNullOrWhiteSpace(request.Street);
             if (!success)
             {
-                failure = new DomainFailure($"street is mandatory for partner::{request.Partner.PartnerCode}.",
+                var failure = new DomainFailure("address street is mandatory.",
                     nameof(request.Street),
-                    typeof(AddressIsMandatoryException));
+                    typeof(AddressStreetIsMandatoryException));
+                return new RuleResult(false, failure);
             }
 
-            return await Task.FromResult(new RuleResult(failure is null, failure)).ConfigureAwait(false);
+            return await Task.FromResult(new RuleResult(true, null)).ConfigureAwait(false);
         }
     }
 }

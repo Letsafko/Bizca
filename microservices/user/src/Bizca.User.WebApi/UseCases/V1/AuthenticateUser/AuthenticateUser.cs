@@ -7,13 +7,13 @@
     public sealed class AuthenticateUser
     {
         /// <summary>
-        ///     Gets user password to authenticate.
+        ///     Gets or sets user password to authenticate.
         /// </summary>
         [Required]
         public string Password { get; set; }
 
         /// <summary>
-        ///     Gets channel resource value.
+        ///     Gets or sets channel resource value.
         /// </summary>
         [Required]
         public string Resource { get; set; }

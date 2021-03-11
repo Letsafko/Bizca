@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace Bizca.Core.Domain.Partner
+﻿namespace Bizca.Core.Domain.Partner
 {
+    using System;
     public sealed class Partner : Entity
     {
         public string PartnerCode { get; }
@@ -24,13 +23,8 @@ namespace Bizca.Core.Domain.Partner
 
     public sealed class FeatureFlags
     {
-        public MandatoryUserFlags MandatoryUserFlags { get; set; } = MandatoryUserFlags.PhoneNumber |
-                                                                     MandatoryUserFlags.Whatsapp |
-                                                                     MandatoryUserFlags.Email;
-        public MandatoryAddressFlags MandatoryAddressFlags { get; set; } = MandatoryAddressFlags.City |
-                                                                           MandatoryAddressFlags.Street |
-                                                                           MandatoryAddressFlags.ZipCode |
-                                                                           MandatoryAddressFlags.Country;
+        public MandatoryUserFlags MandatoryUserFlags { get; set; } = MandatoryUserFlags.Email;
+        public MandatoryAddressFlags MandatoryAddressFlags { get; set; }
     }
 
     [Flags]
@@ -41,19 +35,20 @@ namespace Bizca.Core.Domain.Partner
         Whatsapp = 2,
         Email = 4,
         BirthCounty = 8,
-        EconomicActivity = 16,
-        All = PhoneNumber | Whatsapp | Email | BirthCounty | EconomicActivity
+        BirthDate = 16,
+        BirthCity = 32,
+        EconomicActivity = 64,
+        Address = 128,
+        All = PhoneNumber | Whatsapp | Email | BirthCounty | BirthDate | BirthCity | EconomicActivity | Address
     }
 
     [Flags]
     public enum MandatoryAddressFlags
     {
         None = 0,
-        City = 1,
-        Street = 2,
-        ZipCode = 4,
-        Country = 8,
-        Name = 16,
-        All = City | Street | ZipCode | Country | Name
+        Street = 1,
+        ZipCode = 2,
+        Name = 4,
+        All = Street | ZipCode | Name
     }
 }

@@ -6,5 +6,6 @@
     public interface IChannelRepository
     {
         Task<bool> UpSertAsync(int userId, IEnumerable<Channel> channels);
+        Task<bool> IsExistAsync(int partnerId, string channelResource);
     }
 }

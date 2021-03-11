@@ -173,5 +173,7 @@
     <Build Include="usr\Tables\password.sql" />
     <Build Include="usr\Types\addresses.sql" />
     <Build Include="usr\Types\passwords.sql" />
+    <Build Include="usr\Stored procedures\usp_isExists_channel.sql" />
+    <Build Include="usr\Stored procedures\usp_getByPartnerAndChannel_user.sql" />
   </ItemGroup>
 </Project>

@@ -88,17 +88,14 @@
 
         public CreateUserCommandBuilder WithAddress(string street, string city, string zipCode, string country, string name)
         {
-            if (!string.IsNullOrWhiteSpace(country) && !string.IsNullOrWhiteSpace(city))
+            command.Address = new AddressCommand
             {
-                command.Address = new AddressCommand
-                {
-                    City = city,
-                    Name = name,
-                    Street = street,
-                    ZipCode = zipCode,
-                    Country = country
-                };
-            }
+                City = city,
+                Name = name,
+                Street = street,
+                ZipCode = zipCode,
+                Country = country
+            };
             return this;
         }
     }

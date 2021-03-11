@@ -6,17 +6,17 @@
     using Bizca.User.Domain.Agregates.BusinessCheck.Exceptions;
     using System.Threading.Tasks;
 
-    public sealed class IsUserWhatsappMandatory : IUserRule
+    public sealed class IsUserBirthCityMandatory : IUserRule
     {
         public async Task<RuleResult> CheckAsync(UserRequest request)
         {
             DomainFailure failure = null;
-            bool succes = (MandatoryUserFlags.Whatsapp & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || !string.IsNullOrWhiteSpace(request.Whatsapp);
+            bool succes = (MandatoryUserFlags.BirthCity & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || !string.IsNullOrWhiteSpace(request.BirthCity);
             if (!succes)
             {
-                failure = new DomainFailure("whatsapp number is mandatory.",
-                    nameof(request.Whatsapp),
-                    typeof(WhatsappIsMandatoryException));
+                failure = new DomainFailure("birth city is mandatory.",
+                    nameof(request.BirthCity),
+                    typeof(BirthCityIsMandatoryException));
             }
             return await Task.FromResult(new RuleResult(succes, failure)).ConfigureAwait(false);
         }

@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Domain.Entities.Address.BusinessCheck.Exceptions
+﻿namespace Bizca.User.Domain.Agregates.BusinessCheck.Exceptions
 {
     using Bizca.Core.Domain.Exceptions;
     using System;

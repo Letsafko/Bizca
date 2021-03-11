@@ -1,5 +1,6 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.CreateUser
 {
+    using System.ComponentModel.DataAnnotations;
     /// <summary>
     ///     create user input.
     /// </summary>
@@ -8,11 +9,13 @@
         /// <summary>
         ///     user identifier.
         /// </summary>
+        [Required]
         public string ExternalUserId { get; set; }
 
         /// <summary>
         ///     civility.
         /// </summary>
+        [Required]
         public string Civility { get; set; }
 
         /// <summary>
@@ -38,11 +41,13 @@
         /// <summary>
         ///     surname.
         /// </summary>
+        [Required]
         public string LastName { get; set; }
 
         /// <summary>
         ///     fisrtname.
         /// </summary>
+        [Required]
         public string FirstName { get; set; }
 
         /// <summary>

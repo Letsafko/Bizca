@@ -21,9 +21,9 @@
     {
         #region fields & ctor
 
+        private readonly IReferentialService referentialService;
         private readonly IUserRuleEngine userRuleEngine;
         private readonly IUserRepository userRepository;
-        private readonly IReferentialService referentialService;
         public UserFactory(IUserRuleEngine userRuleEngine,
             IUserRepository userRepository,
             IReferentialService referentialService)
@@ -61,7 +61,7 @@
 
             var profile = new UserProfile(economicActivity,
                 birthCountry,
-                request.BirthDate.Value,
+                request.BirthDate,
                 civility,
                 request.BirthCity,
                 request.FirstName,

@@ -14,9 +14,9 @@
             bool succes = (MandatoryUserFlags.PhoneNumber & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || !string.IsNullOrWhiteSpace(request.PhoneNumber);
             if (!succes)
             {
-                failure = new DomainFailure($"phone is mandatory for partner::{request.Partner.PartnerCode}.",
+                failure = new DomainFailure("phone number is mandatory.",
                     nameof(request.PhoneNumber),
-                    typeof(UserPhoneMandatoryException));
+                    typeof(PhoneNumberIsMandatoryException));
             }
             return await Task.FromResult(new RuleResult(succes, failure)).ConfigureAwait(false);
         }

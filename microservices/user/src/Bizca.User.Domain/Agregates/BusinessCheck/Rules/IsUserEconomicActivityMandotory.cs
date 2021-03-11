@@ -14,9 +14,9 @@
             bool succes = (MandatoryUserFlags.EconomicActivity & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || request.EconomicActivity.HasValue;
             if (!succes)
             {
-                failure = new DomainFailure($"economicActivity is mandatory for partner::{request.Partner.PartnerCode}.",
+                failure = new DomainFailure("economic activity is mandatory.",
                     nameof(request.EconomicActivity),
-                    typeof(UserEconomicActivityMandatoryException));
+                    typeof(EconomicActivityIsMandatoryException));
             }
             return await Task.FromResult(new RuleResult(succes, failure)).ConfigureAwait(false);
         }

@@ -3,7 +3,6 @@
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.Exceptions;
-    using Bizca.Core.Domain.Partner;
     using Bizca.User.Domain.Entities.Address.BusinessCheck.Exceptions;
     using System.Threading.Tasks;
 
@@ -16,17 +15,17 @@
         }
         public async Task<RuleResult> CheckAsync(AddressRequest request)
         {
-            DomainFailure failure = null;
-            bool success = (MandatoryAddressFlags.Country & request.Partner.Settings.FeatureFlags.MandatoryAddressFlags) == 0 ||
-                            await countryRepository.GetByCodeAsync(request.Country).ConfigureAwait(false) != null;
+            bool success = await countryRepository.GetByCodeAsync(request.Country).ConfigureAwait(false) != null;
             if (!success)
             {
-                failure = new DomainFailure($"country is mandatory for partner::{request.Partner.PartnerCode}.",
+                var failure = new DomainFailure("address country must exist.",
                     nameof(request.Country),
-                    typeof(AddressIsMandatoryException));
+                    typeof(AddressCountryMustExistException));
+
+                return new RuleResult(false, failure);
             }
 
-            return await Task.FromResult(new RuleResult(failure is null, failure)).ConfigureAwait(false);
+            return new RuleResult(true, null);
         }
     }
 }

@@ -49,7 +49,7 @@
 
         private CreateUserCommand GetCreateUserCommand(string partnerCode, CreateUser input)
         {
-            return CreateUserCommandBuilder.Instance
+            CreateUserCommandBuilder builder = CreateUserCommandBuilder.Instance
                 .WithPartnerCode(partnerCode)
                 .WithExternalUserId(input.ExternalUserId)
                 .WithEconomicActivity(input.EconomicActivity)
@@ -61,9 +61,13 @@
                 .WithLastName(input.LastName)
                 .WithFirstName(input.FirstName)
                 .WithWhatsapp(input.Whatsapp)
-                .WithPhoneNumber(input.PhoneNumber)
-                .WithAddress(input.Address?.Street, input.Address?.City, input.Address?.ZipCode, input.Address?.Country, input.Address?.Name)
-                .Build();
+                .WithPhoneNumber(input.PhoneNumber);
+
+            if(input.Address != null)
+            {
+                builder.WithAddress(input.Address?.Street, input.Address?.City, input.Address?.ZipCode, input.Address?.Country, input.Address?.Name);
+            }
+            return builder.Build();
         }
     }
 }
