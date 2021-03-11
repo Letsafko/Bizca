@@ -14,9 +14,9 @@
             bool succes = (MandatoryUserFlags.BirthCounty & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || !string.IsNullOrWhiteSpace(request.BirthCountry);
             if (!succes)
             {
-                failure = new DomainFailure($"email is mandatory for partner::{request.Partner.PartnerCode}.",
-                    nameof(request.Email),
-                    typeof(UserEmailMandatoryException));
+                failure = new DomainFailure("birth country is mandatory.",
+                    nameof(request.BirthCountry),
+                    typeof(BirthCountryIsMandatoryException));
             }
             return await Task.FromResult(new RuleResult(succes, failure)).ConfigureAwait(false);
         }

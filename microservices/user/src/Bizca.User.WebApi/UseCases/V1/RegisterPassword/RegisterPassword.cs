@@ -8,15 +8,15 @@ namespace Bizca.User.WebApi.UseCases.V1.RegisterPassword
     public sealed class RegisterPassword
     {
         /// <summary>
-        ///     Sets password to hash.
+        ///     Gets or sets password to hash.
         /// </summary>
         [Required]
         public string Password { get; set; }
 
         /// <summary>
-        ///     Sets channel resource value.
+        ///     Gets or sets channel resource value.
         /// </summary>
         [Required]
-        public string ChannelResource { get; set; }
+        public string Resource { get; set; }
     }
 }

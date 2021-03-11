@@ -3,7 +3,6 @@
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.Exceptions;
-    using Bizca.Core.Domain.Partner;
     using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Entities.Address.BusinessCheck;
     using System;
@@ -26,14 +25,13 @@
             ManageResultChecks(ruleResults);
 
             Country country = await referentialService.GetCountryByCodeAsync(request.Country).ConfigureAwait(false);
-            return request.Partner.Settings.FeatureFlags.MandatoryAddressFlags == MandatoryAddressFlags.None &&
-                   string.IsNullOrWhiteSpace(request.City) &&
-                   string.IsNullOrWhiteSpace(request.Name) &&
-                   string.IsNullOrWhiteSpace(request.Street) &&
-                   string.IsNullOrWhiteSpace(request.ZipCode) &&
-                   string.IsNullOrWhiteSpace(request.Country)
-             ? default
-             : new Address(0, true, request.Street, request.City, request.ZipCode, country, request.Name);
+            return new Address(0,
+                true,
+                request.Street,
+                request.City,
+                request.ZipCode,
+                country,
+                request.Name);
         }
 
         private void ManageResultChecks(RuleResultCollection collection)

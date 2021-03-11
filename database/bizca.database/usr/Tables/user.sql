@@ -33,7 +33,7 @@ go
 alter table [usr].[user] add constraint [fk_user_economicActivityId] foreign key ([economicActivityId]) references [ref].[economicActivity]([economicActivityId]) 
 go
 
-alter table [usr].[user] add constraint [fk_user_countryId] foreign key ([birthCountryId]) references [ref].[country]([countryId]) 
+alter table [usr].[user] add constraint [fk_user_birthCountryId] foreign key ([birthCountryId]) references [ref].[country]([countryId]) 
 go
 
 alter table [usr].[user] add constraint [fk_user_civilityId] foreign key ([civilityId]) references [ref].[civility]([civilityId]) 

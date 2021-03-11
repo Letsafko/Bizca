@@ -16,7 +16,7 @@
     {
         public UserProfile(EconomicActivity economicActivity,
             Country birthCountry,
-            DateTime birthDate,
+            DateTime? birthDate,
             Civility civility,
             string birthCity,
             string firstName,
@@ -59,7 +59,7 @@
         /// <summary>
         ///     Gets user bith date.
         /// </summary>
-        public DateTime BirthDate { get; internal set; }
+        public DateTime? BirthDate { get; internal set; }
 
         /// <summary>
         ///     Gets user civility.

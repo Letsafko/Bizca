@@ -18,13 +18,13 @@
 
     public sealed class CreateUserUseCase : ICommandHandler<CreateUserCommand>
     {
-        private readonly IUserFactory userFactory;
-        private readonly ICreateUserOutput output;
-        private readonly IAddressFactory addressFactory;
-        private readonly IUserRepository userRepository;
+        private readonly IReferentialService referentialService;
         private readonly IChannelRepository channelRepository;
         private readonly IAddressRepository addressRepository;
-        private readonly IReferentialService referentialService;
+        private readonly IAddressFactory addressFactory;
+        private readonly IUserRepository userRepository;
+        private readonly ICreateUserOutput output;
+        private readonly IUserFactory userFactory;
         public CreateUserUseCase(ICreateUserOutput output,
             IUserFactory userFactory,
             IAddressFactory addressFactory,
@@ -71,12 +71,17 @@
 
         private async Task<Address> GetAddressAsync(Partner partner, CreateUserCommand request)
         {
+            if(request.Address is null)
+            {
+                return null;
+            }
+
             var addressRequest = new AddressRequest(partner,
-                request.Address?.Street,
-                request.Address?.City,
-                request.Address?.ZipCode,
-                request.Address?.Country,
-                request.Address?.Name);
+                request.Address.Street,
+                request.Address.City,
+                request.Address.ZipCode,
+                request.Address.Country,
+                request.Address.Name);
 
             return await addressFactory.CreateAsync(addressRequest).ConfigureAwait(false);
         }
@@ -84,8 +89,8 @@
         {
             return new UserRequest
             {
-                EconomicActivity = int.Parse(request.EconomicActivity),
-                BirthDate = DateTime.Parse(request.BirthDate),
+                EconomicActivity = string.IsNullOrWhiteSpace(request.EconomicActivity) ? default(int?) : int.Parse(request.EconomicActivity),
+                BirthDate = string.IsNullOrWhiteSpace(request.BirthDate) ? default(DateTime?) : DateTime.Parse(request.BirthDate),
                 Civility = int.Parse(request.Civility),
                 ExternalUserId = request.ExternalUserId,
                 BirthCountry = request.BirthCountry,
@@ -104,10 +109,10 @@
             {
                 Address = user.Profile.Addresses.SingleOrDefault(x => x.Active),
                 EconomicActivity = user.Profile.EconomicActivity?.EconomicActivityCode,
-                BirthDate = user.Profile.BirthDate.ToString("yyyy-MM-dd"),
+                BirthDate = user.Profile.BirthDate?.ToString("yyyy-MM-dd"),
                 ExternalUserId = user.UserIdentifier.ExternalUserId.ToString(),
                 UserCode = user.UserIdentifier.UserCode.ToString(),
-                BirthCountry = user.Profile.BirthCountry.CountryCode,
+                BirthCountry = user.Profile.BirthCountry?.CountryCode,
                 Civility = user.Profile.Civility.CivilityCode,
                 Channels = user.Profile.Channels?.ToList(),
                 BirthCity = user.Profile.BirthCity,

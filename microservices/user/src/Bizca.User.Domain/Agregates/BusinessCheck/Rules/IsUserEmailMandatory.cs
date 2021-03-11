@@ -14,9 +14,9 @@
             bool succes = (MandatoryUserFlags.Email & request.Partner.Settings.FeatureFlags.MandatoryUserFlags) == 0 || !string.IsNullOrWhiteSpace(request.Email);
             if (!succes)
             {
-                failure = new DomainFailure($"email is mandatory for partner::{request.Partner.PartnerCode}.",
+                failure = new DomainFailure("email is mandatory.",
                     nameof(request.Email),
-                    typeof(UserEmailMandatoryException));
+                    typeof(EmailIsMandatoryException));
             }
             return await Task.FromResult(new RuleResult(succes, failure)).ConfigureAwait(false);
         }

@@ -81,7 +81,7 @@
                 Channels = user.Profile.Channels?.Select(x => new Channel(x.ChannelValue, x.ChannelType, x.Active, x.Confirmed))?.ToList(),
                 EconomicActivity = user.Profile.EconomicActivity?.EconomicActivityCode,
                 ExternalUserId = user.UserIdentifier.ExternalUserId.ToString(),
-                BirthDate = user.Profile.BirthDate.ToString("yyyy-MM-dd"),
+                BirthDate = user.Profile.BirthDate?.ToString("yyyy-MM-dd"),
                 UserCode = user.UserIdentifier.UserCode.ToString(),
                 BirthCountry = user.Profile.BirthCountry.CountryCode,
                 Civility = user.Profile.Civility.CivilityCode,
