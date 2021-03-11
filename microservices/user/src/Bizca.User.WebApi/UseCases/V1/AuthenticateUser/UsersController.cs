@@ -35,7 +35,6 @@
         ///     Authenticates an user.
         /// </summary>
         /// <param name="partnerCode">partner code identifier.</param>
-        /// <param name="externalUserId"> user identifier of partner.</param>
         /// <param name="input">authenticate user input.</param>
         /// <remarks>/Assets/AuthenticateUser.md</remarks>
         [HttpPost("authenticate")]

@@ -1,12 +1,12 @@
 ﻿## Creates new user.
 
-|  Parameters        |   Description		                          |   Possible values                |
-| -------------------|------------------------------------------------|----------------------------------|
-|  partnerCode       |   partner code identifier					  |	  partner referential			 |
-|  externalUserId    |   user identifier of partner in 12 characters  |	  xxxxxxxxxx                     |
-|  civility          |   civility identifier(Id)                      |	  civility referential           |
-|  birthCountry      |   birth country code                           |	  country referential            |
-|  economicActivity  |   economic activity identifier(Id)             |   economic activity referential  |
+|  Parameters        |   Description		                          |   Possible values                |	 Mandatory  |
+| -------------------|------------------------------------------------|----------------------------------|--------------|
+|  partnerCode       |   partner code identifier					  |	  partner referential			 |	    x       |
+|  externalUserId    |   user identifier of partner in 12 characters  |	  xxxxxxxxxx                     |	    x       |
+|  civility          |   civility identifier(Id)                      |	  civility referential           |	    x       |
+|  birthCountry      |   birth country code                           |	  country referential            |	            |
+|  economicActivity  |   economic activity identifier(Id)             |   economic activity referential  |	            |
 
 <details>
   <summary>Partner referential.</summary>

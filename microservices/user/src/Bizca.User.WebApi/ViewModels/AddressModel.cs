@@ -13,7 +13,7 @@
         /// <param name="address">address</param>
         public AddressModel(Address address)
         {
-            Country = address.Country?.CountryCode;
+            Country = address.Country.CountryCode;
             ZipCode = address.ZipCode;
             Street = address.Street;
             Name = address.Name;
