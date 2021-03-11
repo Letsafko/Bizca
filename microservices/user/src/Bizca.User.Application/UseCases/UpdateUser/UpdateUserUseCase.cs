@@ -83,7 +83,7 @@
                 ExternalUserId = user.UserIdentifier.ExternalUserId.ToString(),
                 BirthDate = user.Profile.BirthDate?.ToString("yyyy-MM-dd"),
                 UserCode = user.UserIdentifier.UserCode.ToString(),
-                BirthCountry = user.Profile.BirthCountry.CountryCode,
+                BirthCountry = user.Profile.BirthCountry?.CountryCode,
                 Civility = user.Profile.Civility.CivilityCode,
                 BirthCity = user.Profile.BirthCity,
                 FirstName = user.Profile.FirstName,
