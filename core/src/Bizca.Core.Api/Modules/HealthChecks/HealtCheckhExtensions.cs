@@ -13,11 +13,15 @@
         private static bool AppHealthy = true;
         public static IHealthChecksBuilder AddHealthCheckServices(this IServiceCollection services)
         {
-            return services.AddHealthChecksUI()
-                .AddInMemoryStorage()
-                .Services
-                .AddHealthChecks()
-                .AddCheck("self", () => AppHealthy ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy());
+            return services.AddHealthChecksUI(setup =>
+            {
+                setup.SetEvaluationTimeInSeconds(86400);
+                setup.MaximumHistoryEntriesPerEndpoint(50);
+            })
+            .AddInMemoryStorage()
+            .Services
+            .AddHealthChecks()
+            .AddCheck("self", () => AppHealthy ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy());
         }
 
         public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
