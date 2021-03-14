@@ -220,7 +220,11 @@
                 }
                 else if (!channel.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase))
                 {
-                    user.UpdateChannel(channelValue, channelType, false, false);
+                    Channel channelWithSameValue = user.Profile.Channels.SingleOrDefault(x => x.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase));
+                    user.UpdateChannel(channelValue,
+                        channelType,
+                        channelWithSameValue?.Active ?? false,
+                        channelWithSameValue?.Confirmed ?? false);
                 }
             }
         }
