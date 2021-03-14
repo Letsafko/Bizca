@@ -14,8 +14,17 @@ go
 alter table [usr].[userChannelConfirmation] add constraint [df_userChannelConfirmation_creationDate] default getutcdate() for [creationDate]
 go
 
-alter table [usr].[userChannelConfirmation] add constraint [fk_userChannelConfirmation_userId_channelId] foreign key ([userId], [channelId]) references [usr].[userChannel]([userId], [channelId]) 
+alter table [usr].[userChannelConfirmation] add constraint [fk_userChannelConfirmation_channelId] foreign key ([channelId]) references [ref].[channel]([channelId]) 
+go
+
+alter table [usr].[userChannelConfirmation] add constraint [fk_userChannelConfirmation_userId] foreign key ([userId]) references [usr].[user]([userId]) 
 go
 
 create index [ix_userChannelConfirmation_userId_channelId] on [usr].[userChannelConfirmation] ([userId], [channelId])
+go
+
+create index [ix_userChannelConfirmation_channelId] on [usr].[userChannelConfirmation] ([channelId])
+go
+
+create index [ix_userChannelConfirmation_userId] on [usr].[userChannelConfirmation] ([userId])
 go

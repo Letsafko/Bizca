@@ -41,19 +41,30 @@
             dt.Columns.Add(ChannelColumns.Confirmed, typeof(bool));
             dt.Columns.Add(ChannelColumns.ChannelValue, typeof(string));
 
-            channels?.ToList()
-                .ForEach(x =>
-                {
-                    dt.Rows.Add
-                    (
-                        userId,
-                        x.ChannelType.Id,
-                        x.Active,
-                        x.Confirmed,
-                        x.ChannelValue
-                    );
-                });
+            var primaryKeys = new DataColumn[1];
+            primaryKeys[0] = dt.Columns[ChannelColumns.ChannelValue];
+            dt.PrimaryKey = primaryKeys;
 
+            foreach(Channel channel in channels ?? new List<Channel>())
+            {
+                if (dt.Rows.Contains(channel.ChannelValue))
+                {
+                    DataRow datarow = dt.Rows.Find(channel.ChannelValue);
+                    datarow[ChannelColumns.ChannelId] = (int)datarow[ChannelColumns.ChannelId] + channel.ChannelType.Id;
+                    datarow[ChannelColumns.Confirmed] = (bool)datarow[ChannelColumns.Confirmed] || channel.Confirmed;
+                    datarow[ChannelColumns.Active] = (bool)datarow[ChannelColumns.Active] || channel.Active;
+                    continue;
+                }
+
+                dt.Rows.Add
+                (
+                    userId,
+                    channel.ChannelType.Id,
+                    channel.Active,
+                    channel.Confirmed,
+                    channel.ChannelValue
+                );
+            }
             return dt;
         }
 

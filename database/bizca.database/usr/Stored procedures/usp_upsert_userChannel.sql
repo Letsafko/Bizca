@@ -3,19 +3,16 @@
 as
 begin
 
-	update [usr].[userChannel]
-	   set [value]      = c.[value]
-		  ,[active]	    = c.[active]
-		  ,[confirmed]	= c.[confirmed]
-		  ,[lastUpdate] = getdate()
-	from [usr].[userChannel] u
-	join @channels c on u.userId = c.userId and 
-	                    u.channelId = c.channelId
+	delete from [usr].[userChannel]
+	where exists
+	(
+		select 1 from @channels c  where userId = c.userId
+	)
 	
 	insert into [usr].[userChannel]
 	(
 		  [userId]		
-		, [channelId]		
+		, [channelMask]		
 		, [value]     	
 		, [active]		
 		, [confirmed]		
@@ -23,17 +20,13 @@ begin
 		, [lastUpdate]	
 	)
 	select
-		  source.userId
-		, source.channelId
-		, source.[value]
-		, source.active
-		, source.confirmed
+		  userId
+		, channelId
+		, [value]
+		, active
+		, confirmed
 		, getutcdate()
 		, getutcdate()
-	from @channels source
-	where not exists
-	(
-		select 1 from [usr].[userChannel] where userId = source.userId and channelId = source.channelId
-	)
+	from @channels
 
 end
