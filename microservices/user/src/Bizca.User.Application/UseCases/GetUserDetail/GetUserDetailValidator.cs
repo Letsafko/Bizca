@@ -5,8 +5,13 @@
     {
         public GetUserDetailValidator()
         {
-            RuleFor(x => x.PartnerCode).NotNull().WithMessage("partnerCode is required.");
-            RuleFor(x => x.ExternalUserId).NotNull().WithMessage("externalUserId is required.");
+            RuleFor(x => x.PartnerCode)
+                .NotNull()
+                .WithMessage("partnerCode is required.");
+
+            RuleFor(x => x.ExternalUserId)
+                .NotNull()
+                .WithMessage("externalUserId is required.");
         }
     }
 }

@@ -3,10 +3,13 @@
 as
 begin
 
-	delete from [usr].[userChannel]
-	where exists
+	delete uc
+	from [usr].[userChannel] uc
+	join @channels c 
+	on 
 	(
-		select 1 from @channels c  where userId = c.userId
+		c.userId = uc.userId and 
+		c.channelId & uc.channelMask != 0
 	)
 	
 	insert into [usr].[userChannel]
