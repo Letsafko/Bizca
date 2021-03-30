@@ -214,13 +214,17 @@
             if (!string.IsNullOrWhiteSpace(channelValue))
             {
                 Channel channel = user.Profile.GetChannel(channelType, false);
+                Channel channelWithSameValue = user.Profile.GetChannel(channelValue, false);
+
                 if (channel is null)
                 {
-                    user.AddChannel(channelValue, channelType, false, false);
+                    user.AddChannel(channelValue,
+                        channelType,
+                        channelWithSameValue?.Active ?? false,
+                        channelWithSameValue?.Confirmed ?? false);
                 }
                 else if (!channel.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase))
                 {
-                    Channel channelWithSameValue = user.Profile.Channels.SingleOrDefault(x => x.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase));
                     user.UpdateChannel(channelValue,
                         channelType,
                         channelWithSameValue?.Active ?? false,

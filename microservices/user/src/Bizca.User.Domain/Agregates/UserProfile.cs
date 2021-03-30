@@ -169,6 +169,26 @@
         }
 
         /// <summary>
+        ///     Gets channel by value
+        /// </summary>
+        /// <param name="channelValue">channel value</param>
+        /// <param name="throwError"></param>
+        internal Channel GetChannel(string channelValue, bool throwError = true)
+        {
+            Channel channel = channels.FirstOrDefault(x => x.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase));
+            if (channel is null && throwError)
+            {
+                var failure = new DomainFailure($"channel requested for {channelValue} does not exist.",
+                    nameof(channelValue),
+                    typeof(ChannelDoesNotExistForUserException));
+
+                throw new ChannelDoesNotExistForUserException(new List<DomainFailure> { failure });
+            }
+
+            return channel;
+        }
+
+        /// <summary>
         ///     Add new user address.
         /// </summary>
         /// <param name="address"></param>
