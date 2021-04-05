@@ -3,6 +3,8 @@
     using Bizca.Core.Api.Modules.Configuration;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Api.Modules.Filters;
+    using Bizca.Core.Domain.Cache;
+    using Bizca.Core.Infrastructure.Cache;
     using IdentityServer4.AccessTokenValidation;
     using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.ApplicationInsights.Extensibility;
@@ -37,6 +39,14 @@
             return services;
         }
 
+        public static IServiceCollection AddCache(this IServiceCollection services)
+        {
+            return
+                services
+                    .AddMemoryCache()
+                    .AddSingleton<ICacheProvider, MemoryCacheProvider>();
+        }
+
         public static IServiceCollection AddCors(this IServiceCollection services, CorsConfigurationModel corsConfiguration)
         {
             return services.AddCors(options =>
@@ -54,7 +64,9 @@
         internal static IServiceCollection ConfigureServiceCollection(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMvc()
-                .AddControllersAsServices();
+                .AddControllersAsServices()
+                .Services
+                .AddCache();
 
             FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
             if (features.Logging)
@@ -125,8 +137,6 @@
 
             services.AddSwaggerGen(x =>
             {
-                //x.CustomSchemaIds(y => y.FullName);
-
                 foreach (VersionConfigurationModel current in swaggerConfiguration.Versions)
                 {
                     x.SwaggerDoc($"v{current.Version}", new OpenApiInfo
@@ -141,11 +151,12 @@
                     });
                 }
 
-                x.AddSwaggerSecurity(swaggerConfiguration.Security);
                 x.AddSwaggerStsSecurity(swaggerConfiguration.StsSecurity);
+                x.AddSwaggerSecurity(swaggerConfiguration.Security);
 
-                x.OperationFilter<RemoveVersionFromParameter>();
                 x.DocumentFilter<ReplaceVersionWithExactValueInPath>();
+                x.OperationFilter<SwaggerExcludePropertyFilter>();
+                x.OperationFilter<RemoveVersionFromParameter>();
 
                 x.DocInclusionPredicate((version, apiDescriptor) =>
                 {
@@ -160,8 +171,7 @@
                     return versions.Any(v => $"v{v}" == version) && (maps.Length == 0 || maps.Any(v => $"v{v}" == version));
                 });
 
-                IEnumerable<string> documentations = swaggerConfiguration.XmlDocumentations ?? new[] { $"{Assembly.GetEntryAssembly().GetName().Name}.xml" };
-                foreach (string documentationPath in documentations)
+                foreach (string documentationPath in swaggerConfiguration.XmlDocumentations ?? new[] { $"{Assembly.GetEntryAssembly().GetName().Name}.xml" })
                 {
                     string xmlPath = Path.Combine(AppContext.BaseDirectory, documentationPath);
                     x.IncludeXmlComments(xmlPath);

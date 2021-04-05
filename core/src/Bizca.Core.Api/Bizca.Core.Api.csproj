@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bizca.Core.Domain\Bizca.Core.Domain.csproj" />
+    <ProjectReference Include="..\Bizca.Core.Infrastructure\Bizca.Core.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

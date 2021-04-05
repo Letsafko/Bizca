@@ -4,6 +4,7 @@ variables:
   projectApi:  'notification/src/Bizca.Notification.WebApi/Bizca.Notification.WebApi.csproj'
   testPattern: 'notification/test/**/*.csproj'
   buildConfiguration: 'Release'
+  artifactName: "api"
 
 trigger:
   branches:
@@ -27,16 +28,35 @@ steps:
       projects: '$(projectApi)'
       workingDirectory: $(System.DefaultWorkingDirectory)
   
+  #- task: DotNetCoreCLI@2
+  #  displayName: 'unit tests'
+  #  inputs:
+  #    command: test
+  #    projects: '$(testPattern)'
+  #    arguments: >
+  #      --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover%2ccobertura
+  #
+  #- task: PublishCodeCoverageResults@1
+  #  displayName: 'code coverage'
+  #  inputs:
+  #    codeCoverageTool: Cobertura
+  #    summaryFileLocation: '$(Build.SourcesDirectory)/**/*cobertura.xml'
+
   - task: DotNetCoreCLI@2
-    displayName: 'unit tests'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    displayName: 'api binaries'
     inputs:
-      command: test
-      projects: '$(testPattern)'
-      arguments: >
-        --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover%2ccobertura
+      command: publish
+      projects: '$(projectApi)'
+      zipAfterPublish: false
+      publishWebProjects: false
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
   
-  - task: PublishCodeCoverageResults@1
-    displayName: 'code coverage'
+  - task: PublishBuildArtifacts@1
+    displayName: 'api artefact'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     inputs:
-      codeCoverageTool: Cobertura
-      summaryFileLocation: '$(Build.SourcesDirectory)/**/*cobertura.xml'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/api'
+      ArtifactName: '$(artifactName)'
+      publishLocation: 'Container'
+      nobuild: false

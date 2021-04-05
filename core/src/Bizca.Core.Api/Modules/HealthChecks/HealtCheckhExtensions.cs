@@ -10,13 +10,15 @@
 
     public static class HealtCheckhExtensions
     {
+        private const int EvaluationTimeInSeconds = 60 * 10;
+        private const int MaximunHistoryEntries = 10;
         private static bool AppHealthy = true;
         public static IHealthChecksBuilder AddHealthCheckServices(this IServiceCollection services)
         {
             return services.AddHealthChecksUI(setup =>
             {
-                setup.SetEvaluationTimeInSeconds(86400);
-                setup.MaximumHistoryEntriesPerEndpoint(50);
+                setup.MaximumHistoryEntriesPerEndpoint(MaximunHistoryEntries);
+                setup.SetEvaluationTimeInSeconds(EvaluationTimeInSeconds);
             })
             .AddInMemoryStorage()
             .Services
