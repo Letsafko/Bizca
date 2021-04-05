@@ -2,6 +2,8 @@ namespace Bizca.Notification.WebApi
 {
     using Autofac;
     using Bizca.Core.Api;
+    using Bizca.Core.Api.Modules.HealthChecks;
+    using Bizca.Core.Infrastructure.Database.Configuration;
     using Bizca.Notification.WebApi.Modules.Autofac;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
@@ -9,7 +11,7 @@ namespace Bizca.Notification.WebApi
     using Microsoft.Extensions.Hosting;
 
     /// <summary>
-    ///     Startup.
+    ///     Startup
     /// </summary>
     public sealed class Startup : StartupExtended
     {
@@ -28,10 +30,8 @@ namespace Bizca.Notification.WebApi
         /// <param name="services">service collection.</param>
         new public void ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<BizcaDatabaseConfiguration>(configuration.GetSection("BizcaDatabase"));
+            services.Configure<DatabaseConfiguration>(configuration.GetSection("BizcaDatabase"));
             base.ConfigureServices(services);
-            services.AddControllers()
-                    .AddNewtonsoftJson(options => options.UseCamelCasing(true));
         }
 
         /// <summary>
@@ -41,10 +41,7 @@ namespace Bizca.Notification.WebApi
         new public void Configure(IApplicationBuilder app)
         {
             base.Configure(app);
-            app.UseRouting()
-               .UseAuthentication()
-               .UseAuthorization()
-               .UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseHealthChecks();
         }
 
         /// <summary>
@@ -53,11 +50,11 @@ namespace Bizca.Notification.WebApi
         /// <param name="builder"></param>
         public static void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new DomainModule());
             builder.RegisterModule(new WebApiModule());
+            builder.RegisterModule(new DomainModule());
             builder.RegisterModule(new MediatorModule());
-            builder.RegisterModule(new ApplicationModule());
             builder.RegisterModule(new InfrastructureModule());
+            builder.RegisterModule(new ApplicationModule());
         }
     }
 }
