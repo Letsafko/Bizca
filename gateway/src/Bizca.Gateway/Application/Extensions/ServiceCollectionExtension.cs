@@ -31,7 +31,7 @@
 
             if (features.ApplicationInsights)
             {
-                services.AddApplicationInsights(configuration.GetApplicationInsightsConfiguration());
+                //services.AddApplicationInsights(configuration.GetApplicationInsightsConfiguration());
             }
 
             if (features.Sts)

@@ -1,5 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.RegisterPassword
 {
+    using Bizca.User.Application.Properties;
     using FluentValidation;
 
     public sealed class RegisterPasswordCommandValidator : AbstractValidator<RegisterPasswordCommand>
@@ -8,15 +9,15 @@
         {
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .WithMessage("password is required.");
+                .WithMessage(Resources.PASSWORD_REQUIRED);
 
             RuleFor(x => x.PartnerCode)
                 .NotEmpty()
-                .WithMessage("partnerCode is required.");
+                .WithMessage(Resources.PARTNER_CODE_REQUIRED);
 
             RuleFor(x => x.ChannelResource)
                 .NotEmpty()
-                .WithMessage("externalUserId is required.");
+                .WithMessage(Resources.CHANNEL_RESOURCE_REQUIRED);
         }
     }
 }

@@ -43,8 +43,14 @@ as
 		channelId,
 		expirationDate,
 		confirmationCode
-	from [usr].[userChannelConfirmation]
-	where userId = @userId
+	from [usr].[userChannelConfirmation] uco
+	join [usr].[userChannel] uc 
+	on
+	(
+		uc.channelMask & uco.channelId != 0 and 
+		uc.userId = uco.userId
+	)
+	where uco.userId = @userId
 
 	select dto = 'addresses'
 	select 

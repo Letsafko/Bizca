@@ -1,10 +1,9 @@
 namespace Bizca.Notification.WebApi
 {
     using Autofac.Extensions.DependencyInjection;
+    using Bizca.Core.Api.Modules.Extensions;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
-    using System.Reflection;
 
     /// <summary>
     ///  Program.
@@ -24,41 +23,18 @@ namespace Bizca.Notification.WebApi
         ///     Configures host builder.
         /// </summary>
         /// <param name="args"></param>
-        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
                 .AddAppSettingConfigurationFile()
+                .ConfigureSerilog()
                 .UseDefaultServiceProvider((context, options) =>
                 {
-                    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+                    options.ValidateScopes = context.HostingEnvironment.IsDevEnvironment();
                     options.ValidateOnBuild = true;
                 })
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory());
-        }
-
-        /// <summary>
-        ///     Add configuration settings.
-        /// </summary>
-        /// <param name="builder"></param>
-        public static IHostBuilder AddAppSettingConfigurationFile(this IHostBuilder builder)
-        {
-            return builder.ConfigureAppConfiguration(ConfigureAppSettings);
-        }
-
-        /// <summary>
-        ///     Configure settings.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="configBuilder"></param>
-        private static void ConfigureAppSettings(HostBuilderContext context, IConfigurationBuilder configBuilder)
-        {
-            configBuilder
-                .AddEnvironmentVariables()
-                .AddUserSecrets(Assembly.GetEntryAssembly())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
         }
     }
 }

@@ -1,27 +1,30 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUsersByCriteria
 {
+    using Bizca.User.Application.Properties;
     using FluentValidation;
     using System;
     public sealed class GetUsersValidator : AbstractValidator<GetUsersQuery>
     {
         public GetUsersValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(x => x.PartnerCode)
                 .NotNull()
-                .WithMessage("partnerCode is required.");
+                .WithMessage(Resources.PARTNER_CODE_REQUIRED);
 
             RuleFor(x => x.PageSize)
                 .GreaterThan(0)
-                .WithMessage("page size should be greater than zero.");
+                .WithMessage(Resources.SEARCH_PAGE_SIZE_GREATER_THAN_ZERO);
 
             RuleFor(x => x.BirthDate)
                 .Must(x => string.IsNullOrWhiteSpace(x) || DateTime.TryParse(x, out DateTime birthday))
-                .WithMessage("birthdate is invalid.");
+                .WithMessage(Resources.BIRTHDATE_INVALID);
 
             RuleFor(x => x.Direction)
-                .NotNull().WithMessage("direction is required.")
+                .NotNull()
+                .WithMessage(Resources.SEARCH_DIRECTION_REQUIRED)
                 .Must(x => x.ToLower().Equals(SearchDirection.Next) || x.ToLower().Equals(SearchDirection.Previous))
-                .WithMessage("direction should be next or previous.");
+                .WithMessage(Resources.SEARCH_DIRECTION_BAD_VALUE);
         }
     }
 }

@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\HealthChecks\**" />
+    <Content Remove="Modules\HealthChecks\**" />
+    <EmbeddedResource Remove="Modules\HealthChecks\**" />
+    <None Remove="Modules\HealthChecks\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Assets\confirmChannelCode.md" />
     <None Remove="Assets\createUser.md" />
     <None Remove="Assets\getUserByCriteria.md" />

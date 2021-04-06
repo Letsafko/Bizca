@@ -7,7 +7,7 @@
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class ChannelDoesNotExistForUserException : DomainException
+    public sealed class ChannelDoesNotExistForUserException : NotFoundDomainException
     {
         /// <inheritdoc/>
         public ChannelDoesNotExistForUserException() : this(default(string))

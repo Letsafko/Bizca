@@ -1,92 +1,89 @@
 ﻿namespace Bizca.User.Application.UseCases.CreateUser
 {
+    using Bizca.User.Application.Properties;
     using FluentValidation;
     using System;
 
     public sealed class CreateUserValidator : AbstractValidator<CreateUserCommand>
     {
-        private const string expression = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
         public CreateUserValidator()
         {
+            CascadeMode =  CascadeMode.StopOnFirstFailure;
             RuleFor(x => x.PartnerCode)
                 .NotEmpty()
-                .WithMessage("partnerCode is required.");
+                .WithMessage(Resources.PARTNER_CODE_REQUIRED);
 
             RuleFor(x => x.ExternalUserId)
                 .NotEmpty()
-                .WithMessage("externalUserId is required.");
+                .WithMessage(Resources.EXTERNAL_USERID_REQUIRED);
 
             RuleFor(x => x.Civility)
                 .NotEmpty()
-                .WithMessage("civility is required.")
+                .WithMessage(Resources.CIVILITY_REQUIRED)
                 .Must(x => int.TryParse(x, out int civilityId))
-                .WithMessage("civility is invalid.");
+                .WithMessage(Resources.CIVILITY_INVALID);
 
             RuleFor(x => x.EconomicActivity)
                 .Must(x => int.TryParse(x, out int _))
                 .When(x => !string.IsNullOrWhiteSpace(x.EconomicActivity))
-                .WithMessage("economicActivity is invalid.");
+                .WithMessage(Resources.ECONOMIC_ACTIVITY_REQUIRED);
 
             RuleFor(x => x.BirthDate)
                 .Must(x => DateTime.TryParse(x, out DateTime _))
                 .When(x => !string.IsNullOrWhiteSpace(x.BirthDate))
-                .WithMessage("birthDate is invalid.");
+                .WithMessage(Resources.BIRTHDATE_INVALID);
 
             RuleFor(x => x.BirthCountry)
-                .Matches("^[A-Za-z]{2}$")
+                .Matches(Resources.COUNTRY_CODE_REGEX)
                 .When(x => !string.IsNullOrWhiteSpace(x.BirthCountry))
-                .WithMessage("birthCountry is invalid.");
+                .WithMessage(Resources.BIRTHCOUNTRY_INVALID);
 
             RuleFor(x => x.BirthCity)
                 .MaximumLength(50)
                 .When(x => !string.IsNullOrWhiteSpace(x.BirthCity))
-                .WithMessage("birthCity is invalid.");
+                .WithMessage(Resources.BIRTHCITY_INVALID);
 
             RuleFor(x => x.Email)
-                .Matches(expression)
+                .Matches(Resources.EMAIL_REGEX)
                 .When(x => !string.IsNullOrWhiteSpace(x.Email))
-                .WithMessage("email is invalid.");
+                .WithMessage(Resources.EMAIL_INVALID);
 
             RuleFor(x => x.LastName)
                 .NotEmpty()
-                .WithMessage("lastName is required.");
+                .WithMessage(Resources.LASTNAME_REQUIRED);
 
             RuleFor(x => x.FirstName)
                 .NotEmpty()
-                .WithMessage("firstName is required.");
+                .WithMessage(Resources.FIRSTNAME_REQUIRED);
 
             RuleFor(x => x.Address.Name)
                 .MaximumLength(100)
                 .When(x => !string.IsNullOrWhiteSpace(x.Address?.Name))
-                .WithMessage("addressName is invalid.");
+                .WithMessage(Resources.ADDRESSNAME_INVALID);
 
             RuleFor(x => x.Address.ZipCode)
                 .MaximumLength(5)
                 .When(x => !string.IsNullOrWhiteSpace(x.Address?.ZipCode))
-                .WithMessage("zipCode is invalid.");
+                .WithMessage(Resources.ADDRESS_ZIPCODE_INVALID);
 
             RuleFor(x => x.Address.Street)
                 .MaximumLength(255)
                 .When(x => !string.IsNullOrWhiteSpace(x.Address?.Street))
-                .WithMessage("street is invalid.");
+                .WithMessage(Resources.ADDRESS_STREET_INVALID);
 
             When(x => x.Address != null, () =>
             {
                 RuleFor(x => x.Address.Country)
                     .NotEmpty()
-                    .WithMessage("country is required.");
-
-                RuleFor(x => x.Address.Country)
-                    .Matches("^[A-Za-z]{2}$")
-                    .WithMessage("country is invalid.");
+                    .WithMessage(Resources.COUNTRY_CODE_REQUIRED)
+                    .Matches(Resources.COUNTRY_CODE_REGEX)
+                    .WithMessage(Resources.COUNTRY_CODE_INVALID);
 
                 RuleFor(x => x.Address.City)
                     .NotEmpty()
-                    .WithMessage("city is required.");
-
-                RuleFor(x => x.Address.City)
+                    .WithMessage(Resources.CITY_REQUIRED)
                     .MaximumLength(100)
-                    .WithMessage("city is invalid.");
+                    .WithMessage(Resources.CITY_INVALID);
             });
         }
     }

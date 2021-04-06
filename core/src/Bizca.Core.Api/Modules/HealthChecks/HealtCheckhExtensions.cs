@@ -23,8 +23,11 @@
             .AddInMemoryStorage()
             .Services
             .AddHealthChecks()
+            .AddCheck<HealthCheckDatabase>(DatabaseTagName, tags: new[] { DatabaseTagName })
             .AddCheck("self", () => AppHealthy ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy());
         }
+
+        private const string DatabaseTagName = "database";
 
         public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
         {

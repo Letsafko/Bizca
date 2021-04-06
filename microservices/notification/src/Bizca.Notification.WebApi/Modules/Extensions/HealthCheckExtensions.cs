@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.WebApi.Modules.Extensions
+﻿namespace Bizca.Notification.WebApi.Modules.Extensions
 {
     using Bizca.Core.Api.Modules.HealthChecks;
     using Microsoft.Extensions.DependencyInjection;

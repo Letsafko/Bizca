@@ -7,7 +7,7 @@
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class CivilityDoesNotExistException : DomainException
+    public sealed class CivilityDoesNotExistException : NotFoundDomainException
     {
         /// <inheritdoc/>
         public CivilityDoesNotExistException() : this(default(string))

@@ -7,7 +7,7 @@
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class ChannelCodeConfirmationDoesNotExistException : DomainException
+    public sealed class ChannelCodeConfirmationDoesNotExistException : NotFoundDomainException
     {
         /// <inheritdoc/>
         public ChannelCodeConfirmationDoesNotExistException() : this(default(string))

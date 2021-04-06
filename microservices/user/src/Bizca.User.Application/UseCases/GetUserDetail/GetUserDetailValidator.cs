@@ -1,5 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
+    using Bizca.User.Application.Properties;
     using FluentValidation;
     public sealed class GetUserDetailValidator : AbstractValidator<GetUserDetailQuery>
     {
@@ -7,11 +8,11 @@
         {
             RuleFor(x => x.PartnerCode)
                 .NotNull()
-                .WithMessage("partnerCode is required.");
+                .WithMessage(Resources.PARTNER_CODE_REQUIRED);
 
             RuleFor(x => x.ExternalUserId)
                 .NotNull()
-                .WithMessage("externalUserId is required.");
+                .WithMessage(Resources.EXTERNAL_USERID_REQUIRED);
         }
     }
 }

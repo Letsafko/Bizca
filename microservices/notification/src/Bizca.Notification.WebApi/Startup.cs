@@ -5,6 +5,7 @@ namespace Bizca.Notification.WebApi
     using Bizca.Core.Api.Modules.HealthChecks;
     using Bizca.Core.Infrastructure.Database.Configuration;
     using Bizca.Notification.WebApi.Modules.Autofac;
+    using Bizca.Notification.WebApi.Modules.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -24,14 +25,18 @@ namespace Bizca.Notification.WebApi
         {
         }
 
+        private const string DatabaseScheme = "BizcaDatabase";
+
         /// <summary>
         ///     Configures services.
         /// </summary>
         /// <param name="services">service collection.</param>
         new public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<DatabaseConfiguration>(configuration.GetSection("BizcaDatabase"));
+            services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseScheme));
             base.ConfigureServices(services);
+            services.ConfigureHealthChecks()
+                    .AddControllers();
         }
 
         /// <summary>
@@ -50,11 +55,11 @@ namespace Bizca.Notification.WebApi
         /// <param name="builder"></param>
         public static void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new WebApiModule());
-            builder.RegisterModule(new DomainModule());
-            builder.RegisterModule(new MediatorModule());
             builder.RegisterModule(new InfrastructureModule());
             builder.RegisterModule(new ApplicationModule());
+            builder.RegisterModule(new MediatorModule());
+            builder.RegisterModule(new WebApiModule());
+            builder.RegisterModule(new DomainModule());
         }
     }
 }

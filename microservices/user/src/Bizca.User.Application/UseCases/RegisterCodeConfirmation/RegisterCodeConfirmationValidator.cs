@@ -1,5 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.RegisterCodeConfirmation
 {
+    using Bizca.User.Application.Properties;
     using FluentValidation;
 
     public sealed class RegisterCodeConfirmationValidator : AbstractValidator<RegisterCodeConfirmationCommand>
@@ -8,15 +9,15 @@
         {
             RuleFor(x => x.PartnerCode)
                 .NotEmpty()
-                .WithMessage("partnerCode is required.");
+                .WithMessage(Resources.PARTNER_CODE_REQUIRED);
 
             RuleFor(x => x.ExternalUserId)
                 .NotEmpty()
-                .WithMessage("externalUserId is required.");
+                .WithMessage(Resources.EXTERNAL_USERID_REQUIRED);
 
             RuleFor(x => x.ChannelType)
                 .NotNull()
-                .WithMessage("channelType is invalid.");
+                .WithMessage(Resources.CHANNEL_TYPE_INVALID);
         }
     }
 }

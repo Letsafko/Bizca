@@ -2,6 +2,6 @@
 {
     public sealed class MemoryCacheOptions
     {
-        public int? DurationInMinutes { get; set; }
+        public int DurationInMinutes { get; set; } = 24 * 60;
     }
 }

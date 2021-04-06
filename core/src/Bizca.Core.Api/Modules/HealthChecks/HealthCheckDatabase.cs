@@ -1,9 +1,12 @@
 ﻿namespace Bizca.Core.Api.Modules.HealthChecks
 {
     using Bizca.Core.Api.Modules.Extensions;
+    using Bizca.Core.Infrastructure.Database.Configuration;
     using Microsoft.Azure.Services.AppAuthentication;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Options;
     using System;
     using System.Data;
     using System.Data.SqlClient;
@@ -11,30 +14,31 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    ///     create an instance of <see cref="HealthCheckDatabase<typeparamref name="T"/>"/>
+    ///     create an instance of <see cref="HealthCheckDatabase"/>
     /// </summary>
-    public abstract class HealthCheckDatabase : IHealthCheck
+    public sealed class HealthCheckDatabase : IHealthCheck
     {
         #region fields and consts
 
-        private readonly bool useAzureIdentity;
-        private readonly string connectionString;
         private readonly IHostEnvironment environment;
+        private readonly string connectionString;
+        private readonly bool useAzureIdentity;
 
         #endregion
 
         #region constructor
 
         /// <summary>
-        /// create an instance of <see cref="HealthCheckDatabase"/>
+        ///     create an instance of <see cref="HealthCheckDatabase"/>
         /// </summary>
-        /// <param name="environment">host environnement</param>
-        /// <param name="connectionString">connection string</param>
-        protected HealthCheckDatabase(IHostEnvironment environment, string connectionString, bool useAzureIdentity = false)
+        /// <param name="provider">service provider.</param>
+        public HealthCheckDatabase(IServiceProvider provider)
         {
-            this.environment = environment;
-            this.useAzureIdentity = useAzureIdentity;
-            this.connectionString = connectionString;
+            IOptions<DatabaseConfiguration> configuration = provider.GetService<IOptions<DatabaseConfiguration>>();
+            environment = provider.GetRequiredService<IHostEnvironment>();
+
+            useAzureIdentity = configuration?.Value?.UseAzureIdentity ?? throw new MissingConfigurationException($"[{nameof(HealthCheckDatabase)}] missing useAzureIdentity.");
+            connectionString = configuration?.Value?.ConnectionString ?? throw new MissingConfigurationException($"[{nameof(HealthCheckDatabase)}] missing connectionString.");
         }
 
         #endregion
