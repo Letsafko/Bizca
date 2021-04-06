@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Core.Api.Modules.Extensions
 {
     using Microsoft.Extensions.Hosting;
-    public static class HostEnvironmentEnvExtensions
+    public static class HostEnvironmentExtensions
     {
         private const string AzureIntegration = "AzureIntegration";
         private const string AzureQualification = "AzureQualification";

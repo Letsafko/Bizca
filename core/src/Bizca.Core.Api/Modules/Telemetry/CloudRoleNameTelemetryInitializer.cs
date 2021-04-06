@@ -13,16 +13,16 @@
         /// <param name="configuration">The configuration.</param>
         public CloudRoleNameTelemetryInitializer(IConfiguration configuration)
         {
-            cloudRoleName = configuration["Api:ApplicationInsights:SystemName"];
+            cloudRoleName = configuration["Api:ApplicationInsights:ApplicationName"];
         }
 
         /// <summary>Initializes properties of the specified <see cref="T:Microsoft.ApplicationInsights.Channel.ITelemetry">ITelemetry</see> object.</summary>
         /// <param name="telemetry"></param>
         public void Initialize(ITelemetry telemetry)
         {
-            if (string.IsNullOrEmpty(cloudRoleName))
+            if (string.IsNullOrWhiteSpace(cloudRoleName))
             {
-                return;
+                throw new MissingConfigurationException("missing application name configuration.");
             }
 
             telemetry.Context.Cloud.RoleName = cloudRoleName;

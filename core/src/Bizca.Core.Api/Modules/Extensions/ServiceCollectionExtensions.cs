@@ -6,7 +6,6 @@
     using Bizca.Core.Domain.Cache;
     using Bizca.Core.Infrastructure.Cache;
     using IdentityServer4.AccessTokenValidation;
-    using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
@@ -24,112 +23,6 @@
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddSts(this IServiceCollection services, StsConfiguration stsConfig)
-        {
-            services
-                .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(stsConfig.Provider, options =>
-                {
-                    options.Authority = stsConfig.Authority;
-                    options.ApiName = stsConfig.ApiName;
-                    options.ApiSecret = stsConfig.ApiSecret;
-                    options.EnableCaching = stsConfig.EnableCaching;
-                    options.CacheDuration = stsConfig.CacheDuration;
-                });
-            return services;
-        }
-
-        public static IServiceCollection AddCache(this IServiceCollection services)
-        {
-            return
-                services
-                    .AddMemoryCache()
-                    .AddSingleton<ICacheProvider, MemoryCacheProvider>();
-        }
-
-        public static IServiceCollection AddCors(this IServiceCollection services, CorsConfigurationModel corsConfiguration)
-        {
-            return services.AddCors(options =>
-            {
-                options.AddPolicy(nameof(corsConfiguration.DefaultApiPolicy), builder =>
-                {
-                    builder
-                    .WithOrigins(corsConfiguration.DefaultApiPolicy.Origins)
-                    .WithMethods(corsConfiguration.DefaultApiPolicy.Methods)
-                    .WithHeaders(corsConfiguration.DefaultApiPolicy.Headers);
-                });
-            });
-        }
-
-        internal static IServiceCollection ConfigureServiceCollection(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddMvc()
-                .AddControllersAsServices()
-                .Services
-                .AddCache();
-
-            FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
-            if (features.Logging)
-                services.AddLogging();
-
-            if (features.Cors)
-                services.AddCors(configuration.GetCorsConfiguration());
-
-            if (features.Sts)
-                services.AddSts(configuration.GetStsConfiguration());
-
-            if (features.Versioning)
-                services.AddVersioning(configuration.GetVersioningConfiguration());
-
-            if (features.Swagger)
-                services.AddSwagger(configuration.GetSwaggerConfiguration(), opt => opt.DocumentFilter<MarkdownFileResolverFilter>());
-
-            return services;
-        }
-
-        public static IServiceCollection AddSwagger(this IServiceCollection services, SwaggerConfigurationModel swaggerConfiguration)
-        {
-            return services.AddSwagger(swaggerConfiguration, null);
-        }
-
-        public static IServiceCollection AddVersioning(this IServiceCollection services, VersioningConfigurationModel versioningConfiguration)
-        {
-            if (string.IsNullOrWhiteSpace(versioningConfiguration.RouteConstraintName))
-                throw new MissingConfigurationException(nameof(versioningConfiguration.RouteConstraintName));
-
-            void mvcOptions(MvcOptions x)
-            {
-                x.Conventions.Add(new DefaultApiVersionConvention(versioningConfiguration.RouteConstraintName));
-            }
-
-            services.Configure((Action<MvcOptions>)mvcOptions);
-            if (string.IsNullOrWhiteSpace(versioningConfiguration.Default))
-                throw new MissingConfigurationException(nameof(versioningConfiguration.Default));
-
-            services.AddApiVersioning(opts =>
-            {
-                opts.DefaultApiVersion = ApiVersion.Parse(versioningConfiguration.Default);
-                opts.AssumeDefaultVersionWhenUnspecified = true;
-                opts.ApiVersionReader = new UrlSegmentApiVersionReader();
-                opts.RouteConstraintName = versioningConfiguration.RouteConstraintName;
-            });
-            return services;
-        }
-
-        public static IServiceCollection AddApplicationInsights(this IServiceCollection services, ApplicationInsightsConfigurationModel applicationInsightsConfiguration)
-        {
-            services.AddSingleton<ITelemetryInitializer, Telemetry.CloudRoleNameTelemetryInitializer>();
-            services.AddSingleton<ITelemetryInitializer, Telemetry.CorrIdTelemetryInitializer>();
-
-            var aiOptions = new ApplicationInsightsServiceOptions
-            {
-                ApplicationVersion = applicationInsightsConfiguration.ApplicationVersion,
-                InstrumentationKey = applicationInsightsConfiguration.InstrumentationKey
-            };
-
-            return services.AddApplicationInsightsTelemetry(aiOptions);
-        }
-
         public static IServiceCollection AddSwagger(this IServiceCollection services, SwaggerConfigurationModel swaggerConfiguration, Action<SwaggerGenOptions> specificSetupAction)
         {
             if (swaggerConfiguration.Versions?.Any() != true)
@@ -180,6 +73,108 @@
             });
 
             return services;
+        }
+        public static IServiceCollection AddApplicationInsights(this IServiceCollection services, ApplicationInsightsConfigurationModel applicationInsightsConfiguration)
+        {
+            services.AddSingleton<ITelemetryInitializer, Telemetry.CloudRoleNameTelemetryInitializer>();
+            services.AddSingleton<ITelemetryInitializer, Telemetry.CorrIdTelemetryInitializer>();
+
+            //var aiOptions = new ApplicationInsightsServiceOptions
+            //{
+            //    ApplicationVersion = applicationInsightsConfiguration.ApplicationVersion,
+            //    InstrumentationKey = applicationInsightsConfiguration.InstrumentationKey
+            //};
+
+            return services.AddApplicationInsightsTelemetry(applicationInsightsConfiguration);
+        }
+        public static IServiceCollection AddVersioning(this IServiceCollection services, VersioningConfigurationModel versioningConfiguration)
+        {
+            if (string.IsNullOrWhiteSpace(versioningConfiguration.RouteConstraintName))
+                throw new MissingConfigurationException(nameof(versioningConfiguration.RouteConstraintName));
+
+            void mvcOptions(MvcOptions x)
+            {
+                x.Conventions.Add(new DefaultApiVersionConvention(versioningConfiguration.RouteConstraintName));
+            }
+
+            services.Configure((Action<MvcOptions>)mvcOptions);
+            if (string.IsNullOrWhiteSpace(versioningConfiguration.Default))
+                throw new MissingConfigurationException(nameof(versioningConfiguration.Default));
+
+            services.AddApiVersioning(opts =>
+            {
+                opts.DefaultApiVersion = ApiVersion.Parse(versioningConfiguration.Default);
+                opts.AssumeDefaultVersionWhenUnspecified = true;
+                opts.ApiVersionReader = new UrlSegmentApiVersionReader();
+                opts.RouteConstraintName = versioningConfiguration.RouteConstraintName;
+            });
+            return services;
+        }
+        public static IServiceCollection AddSwagger(this IServiceCollection services, SwaggerConfigurationModel swaggerConfiguration)
+        {
+            return services.AddSwagger(swaggerConfiguration, null);
+        }
+        internal static IServiceCollection ConfigureServiceCollection(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMvc()
+                .AddControllersAsServices()
+                .Services
+                .AddCache();
+
+            FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
+            if (features.Logging)
+                services.AddLogging();
+
+            if (features.ApplicationInsights)
+                services.AddApplicationInsights(configuration.GetApplicationInsightsConfiguration());
+
+            if (features.Cors)
+                services.AddCors(configuration.GetCorsConfiguration());
+
+            if (features.Sts)
+                services.AddSts(configuration.GetStsConfiguration());
+
+            if (features.Versioning)
+                services.AddVersioning(configuration.GetVersioningConfiguration());
+
+            if (features.Swagger)
+                services.AddSwagger(configuration.GetSwaggerConfiguration(), opt => opt.DocumentFilter<MarkdownFileResolverFilter>());
+
+            return services;
+        }
+        public static IServiceCollection AddCors(this IServiceCollection services, CorsConfigurationModel corsConfiguration)
+        {
+            return services.AddCors(options =>
+            {
+                options.AddPolicy(nameof(corsConfiguration.DefaultApiPolicy), builder =>
+                {
+                    builder
+                    .WithOrigins(corsConfiguration.DefaultApiPolicy.Origins)
+                    .WithMethods(corsConfiguration.DefaultApiPolicy.Methods)
+                    .WithHeaders(corsConfiguration.DefaultApiPolicy.Headers);
+                });
+            });
+        }
+        public static IServiceCollection AddSts(this IServiceCollection services, StsConfiguration stsConfig)
+        {
+            services
+                .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(stsConfig.Provider, options =>
+                {
+                    options.Authority = stsConfig.Authority;
+                    options.ApiName = stsConfig.ApiName;
+                    options.ApiSecret = stsConfig.ApiSecret;
+                    options.EnableCaching = stsConfig.EnableCaching;
+                    options.CacheDuration = stsConfig.CacheDuration;
+                });
+            return services;
+        }
+        public static IServiceCollection AddCache(this IServiceCollection services)
+        {
+            return
+                services
+                    .AddMemoryCache()
+                    .AddSingleton<ICacheProvider, MemoryCacheProvider>();
         }
     }
 }
