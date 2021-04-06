@@ -1,4 +1,4 @@
-﻿namespace Bizca.Core.Api.Modules.Extensions
+namespace Bizca.Core.Api.Modules.Extensions
 {
     using Bizca.Core.Api.Modules.Configuration;
     using Bizca.Core.Api.Modules.Conventions;
@@ -6,6 +6,7 @@
     using Bizca.Core.Domain.Cache;
     using Bizca.Core.Infrastructure.Cache;
     using IdentityServer4.AccessTokenValidation;
+    using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
@@ -79,13 +80,13 @@
             services.AddSingleton<ITelemetryInitializer, Telemetry.CloudRoleNameTelemetryInitializer>();
             services.AddSingleton<ITelemetryInitializer, Telemetry.CorrIdTelemetryInitializer>();
 
-            //var aiOptions = new ApplicationInsightsServiceOptions
-            //{
-            //    ApplicationVersion = applicationInsightsConfiguration.ApplicationVersion,
-            //    InstrumentationKey = applicationInsightsConfiguration.InstrumentationKey
-            //};
+            var aiOptions = new ApplicationInsightsServiceOptions
+            {
+                ApplicationVersion = applicationInsightsConfiguration.ApplicationVersion,
+                InstrumentationKey = applicationInsightsConfiguration.InstrumentationKey
+            };
 
-            return services.AddApplicationInsightsTelemetry(applicationInsightsConfiguration);
+            return services.AddApplicationInsightsTelemetry(aiOptions);
         }
         public static IServiceCollection AddVersioning(this IServiceCollection services, VersioningConfigurationModel versioningConfiguration)
         {
