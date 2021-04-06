@@ -24,18 +24,13 @@
         public void Initialize(ITelemetry telemetry)
         {
             HttpContext context = contextAccessor?.HttpContext;
-
-            if (context == null
-                || !(telemetry is ISupportProperties))
-            {
+            if (context == null || !(telemetry is ISupportProperties))
                 return;
-            }
 
             Microsoft.Extensions.Primitives.StringValues headers = context.Request.Headers[CorrIdKey];
             if (headers.Count > 0)
             {
                 System.Collections.Generic.IDictionary<string, string> properties = ((ISupportProperties)telemetry).Properties;
-
                 if (!properties.ContainsKey(CorrIdKey))
                 {
                     properties.Add(CorrIdKey,
