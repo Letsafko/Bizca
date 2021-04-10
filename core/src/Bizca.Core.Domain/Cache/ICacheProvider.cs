@@ -11,5 +11,6 @@
         bool TryAdd<T>(string cacheKey, T cacheItem) where T : class;
         T Get<T>(string cacheKey) where T : class;
         void Clear(string cacheKey);
+        void Reset();
     }
 }

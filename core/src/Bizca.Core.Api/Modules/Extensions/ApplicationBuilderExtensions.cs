@@ -17,6 +17,12 @@
             if (features.Cors)
                 app.ConfigureCors(configuration.GetCorsConfiguration());
 
+            if (features.Consul)
+            {
+                ConsulConfigurationModel consulConfiguration = configuration.GetConsulConfiguration();
+                //app.UseConsul(consulConfiguration.SystemAddress, consulConfiguration.HealthCheckEndPoint);
+            }
+
             return app;
         }
 

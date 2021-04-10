@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Api\Bizca.Core.Api.csproj" />
-    <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Application.Abstracts\Bizca.Core.Application.csproj" />
     <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Application\Bizca.Core.Application.csproj" />
     <ProjectReference Include="..\Bizca.Notification.Infrastructure\Bizca.Notification.Infrastructure.csproj" />
   </ItemGroup>

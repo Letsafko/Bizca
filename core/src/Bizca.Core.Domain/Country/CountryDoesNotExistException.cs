@@ -7,7 +7,7 @@
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class CountryDoesNotExistException : DomainException
+    public sealed class CountryDoesNotExistException : NotFoundDomainException
     {
         /// <inheritdoc/>
         public CountryDoesNotExistException() : this(default(string))

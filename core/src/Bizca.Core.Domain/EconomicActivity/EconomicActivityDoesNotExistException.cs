@@ -7,7 +7,7 @@
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class EconomicActivityDoesNotExistException : DomainException
+    public sealed class EconomicActivityDoesNotExistException : NotFoundDomainException
     {
         /// <inheritdoc/>
         public EconomicActivityDoesNotExistException() : this(default(string))

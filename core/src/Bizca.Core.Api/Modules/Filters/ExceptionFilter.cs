@@ -9,7 +9,6 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -17,9 +16,6 @@
     /// </summary>
     public sealed class ExceptionFilter : IExceptionFilter
     {
-        private readonly IHostEnvironment env;
-        private readonly ILogger<ExceptionFilter> logger;
-
         /// <summary>
         /// constructor <see cref="ExceptionFilter" />
         /// </summary>
@@ -27,64 +23,70 @@
         /// <param name="logger"></param>
         public ExceptionFilter(IHostEnvironment env, ILogger<ExceptionFilter> logger)
         {
-            this.env = env;
             this.logger = logger;
+            this.env = env;
         }
+
+        private readonly ILogger<ExceptionFilter> logger;
+        private readonly IHostEnvironment env;
 
         /// <summary>
         ///     Add details when occurs an exception.
         /// </summary>
         public void OnException(ExceptionContext context)
         {
-            BuildExceptionContext(context);
-            logger.LogError(new EventId(context.Exception.HResult), context.Exception, context.Exception.Message);
-        }
-
-        private void BuildExceptionContext(ExceptionContext context)
-        {
-            if (context == null)
+            if (context == null || context.Exception is null)
                 return;
 
             context.ExceptionHandled = true;
-            ModelStateResponse modelState;
-            switch (context.Exception)
-            {
-                case DomainException _:
-                case ValidationException _:
-                    modelState = GetErros(context.Exception);
-                    context.Result = new BadRequestObjectResult(modelState) { StatusCode = StatusCodes.Status400BadRequest };
-                    break;
-
-                default:
-                    const string errorMessage = "an error occured, contact your administrator.";
-                    modelState = new ModelStateResponse(StatusCodes.Status500InternalServerError,
-                        new string[] { errorMessage },
-                        !env.IsDevEnvironment() ? default : context.Exception);
-
-                    context.Result = new ObjectResult(modelState) { StatusCode = StatusCodes.Status500InternalServerError };
-                    break;
-            }
+            context.Result = GetModelStateResponse(env, context.Exception);
+            logger.LogError(new EventId(context.Exception.HResult), context.Exception, context.Exception.Message);
         }
 
-        private ModelStateResponse GetErros(Exception exception)
+        #region private helpers
+
+        private IActionResult GetModelStateResponse(IHostEnvironment environment, Exception exception)
         {
-            Dictionary<string, string[]> modelState = null;
-            if (exception is DomainException domainException)
+            string[] modelStateErrors;
+            int statusCode = GetStatusCode(exception);
+            if (!(exception is DomainException) && !(exception is ValidationException))
             {
-                modelState = domainException.Errors
-                    .ToLookup(x => x.PropertyName)
-                    .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray());
+                modelStateErrors = new string[] { "an error occured, contact your administrator." };
             }
             else if (exception is ValidationException validationException)
             {
-                modelState = validationException.Errors
+                modelStateErrors = validationException.Errors
                     .ToLookup(x => x.PropertyName)
-                    .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray());
+                    .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray())
+                    .SelectMany(x => x.Value)
+                    .ToArray();
+            }
+            else
+            {
+                var domainException = exception as DomainException;
+                modelStateErrors = domainException.Errors
+                    .ToLookup(x => x.PropertyName)
+                    .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray())
+                    .SelectMany(x => x.Value)
+                    .ToArray();
             }
 
-            return new ModelStateResponse(StatusCodes.Status400BadRequest,
-                         modelState.SelectMany(x => x.Value),
-                         !env.IsDevEnvironment() ? default : exception);
+            var modelState = new ModelStateResponse(statusCode,
+                modelStateErrors,
+                !environment.IsDevEnvironment() ? default : exception);
+            return new ObjectResult(modelState) { StatusCode = modelState.Status };
         }
+        private bool IsAssignableFrom<T>(object obj) where T : class
+        {
+            return !(obj is null) && typeof(T).IsAssignableFrom(obj.GetType());
+        }
+        private int GetStatusCode(object obj)
+        {
+            return IsAssignableFrom<DomainException>(obj) || IsAssignableFrom<ValidationException>(obj)
+                ? IsAssignableFrom<NotFoundDomainException>(obj) ? StatusCodes.Status404NotFound : StatusCodes.Status400BadRequest
+                : StatusCodes.Status500InternalServerError;
+        }
+
+        #endregion
     }
 }

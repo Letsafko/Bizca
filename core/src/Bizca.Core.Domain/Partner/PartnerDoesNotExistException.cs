@@ -7,7 +7,7 @@
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class PartnerDoesNotExistException : DomainException
+    public sealed class PartnerDoesNotExistException : NotFoundDomainException
     {
         /// <inheritdoc/>
         public PartnerDoesNotExistException() : this(default(string))

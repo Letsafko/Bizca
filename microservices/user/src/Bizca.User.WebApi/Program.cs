@@ -26,8 +26,8 @@ namespace Bizca.User.WebApi
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
                 .AddAppSettingConfigurationFile()
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
                 .ConfigureSerilog()
                 .UseDefaultServiceProvider((context, options) =>
                 {

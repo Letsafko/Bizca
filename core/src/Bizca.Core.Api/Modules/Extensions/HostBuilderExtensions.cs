@@ -12,7 +12,7 @@
         public static IHostBuilder ConfigureSerilog(this IHostBuilder builder, string loggingjsonpath = "logging.json")
         {
             return builder
-                    .ConfigureAppConfiguration((_, config) => config.AddJsonFile(loggingjsonpath, optional: true, reloadOnChange: true))
+                    .ConfigureAppConfiguration((_, config) => config.AddJsonFile(loggingjsonpath, optional: false, reloadOnChange: true))
                     .UseSerilog(ConfigureLogging);
         }
         public static IHostBuilder AddAppSettingConfigurationFile(this IHostBuilder builder)
@@ -28,6 +28,7 @@
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             Serilog.Debugging.SelfLog.Enable(Console.Error);
         }
+
         private static void ConfigureAppSettings(HostBuilderContext context, IConfigurationBuilder configBuilder)
         {
             configBuilder

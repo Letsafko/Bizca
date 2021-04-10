@@ -14,8 +14,8 @@
         protected readonly IConfiguration configuration;
         protected StartupExtended(IConfiguration configuration, IHostEnvironment environment)
         {
-            this.environment = environment;
             this.configuration = configuration;
+            this.environment = environment;
         }
 
         protected void ConfigureServices(IServiceCollection services)
@@ -24,10 +24,11 @@
                     .AddHttpContextAccessor()
                     .AddRouting(options => options.LowercaseUrls = true)
                     .AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)))
+                    .AddControllersAsServices()
                     .AddNewtonsoftJson(options =>
                     {
-                        options.UseCamelCasing(true);
                         options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                        options.UseCamelCasing(true);
                     });
         }
 

@@ -18,7 +18,7 @@
             Connection = connectionFactory.CreateConnection<DatabaseConfiguration>();
         }
 
-        private bool _disposed;
+        private bool disposed;
 
         #endregion
 
@@ -64,14 +64,14 @@
 
         private void Dispose(bool disposing)
         {
-            if (!_disposed && disposing)
+            if (!disposed && disposing)
             {
                 Transaction?.Dispose();
                 Connection?.Dispose();
                 Transaction = null;
                 Connection = null;
             }
-            _disposed = true;
+            disposed = true;
         }
 
         #endregion
