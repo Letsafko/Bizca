@@ -8,6 +8,7 @@ namespace Bizca.Core.Api.Modules.Extensions
     using Bizca.Core.Infrastructure.Cache;
     using IdentityServer4.AccessTokenValidation;
     using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
