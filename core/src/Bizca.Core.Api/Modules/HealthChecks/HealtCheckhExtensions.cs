@@ -10,6 +10,7 @@
 
     public static class HealtCheckhExtensions
     {
+        private const int MinimumSecondsBetweenFailure = 1 * 60;
         private const int EvaluationTimeInSeconds = 60 * 10;
         private const int MaximunHistoryEntries = 10;
         private static bool AppHealthy = true;
@@ -17,8 +18,9 @@
         {
             return services.AddHealthChecksUI(setup =>
             {
-                setup.MaximumHistoryEntriesPerEndpoint(MaximunHistoryEntries);
-                setup.SetEvaluationTimeInSeconds(EvaluationTimeInSeconds);
+                setup.SetMinimumSecondsBetweenFailureNotifications(MinimumSecondsBetweenFailure)
+                     .MaximumHistoryEntriesPerEndpoint(MaximunHistoryEntries)
+                     .SetEvaluationTimeInSeconds(EvaluationTimeInSeconds);
             })
             .AddInMemoryStorage()
             .Services

@@ -16,7 +16,7 @@ Post-Deployment Script Template
 :r .\PostDeployment\pricing.sql
 :r .\PostDeployment\civility.sql
 :r .\PostDeployment\organism.sql
-:r .\PostDeployment\procedure.sql
 :r .\PostDeployment\procedureType.sql
+:r .\PostDeployment\procedure.sql
 :r .\PostDeployment\economicActivity.sql
 :r .\PostDeployment\subscriptionStatus.sql

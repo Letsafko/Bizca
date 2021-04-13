@@ -1,8 +1,10 @@
 ﻿create table [bff].[procedure]
 (
 	[procedureId]     int not null,
-	[procedureTypeId] smallint not null,
+	[procedureTypeId] int not null,
 	[organismId]	  int not null,
+	[active]		  bit not null,
+	[procedureHref]   varchar(200) not null,
 	[creationDate]	  datetime2 not null,
     [lastUpdate]	  datetime2 not null
 )

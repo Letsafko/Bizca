@@ -4,7 +4,7 @@
 		values   (1, 'Basic'  , 'Basic'  , 1, 10, 10,  5,  5, 12)
 				,(2, 'Confort', 'Confort', 2, 20, 20, 10, 10, 12)
 				,(3, 'Prenium', 'Prenium', 3, 30, 30, 15, 15, 12)
-	) as source(pricingId, pricingCode, [description], [priority], amount, totalEmail, tolalWhatsapp, totalSms, intervalInWeeks) 
+	) as source(pricingId, pricingCode, [description], [priority], amount, totalEmail, totalWhatsapp, totalSms, intervalInWeeks) 
 	on 
 	(
 		target.pricingId = source.pricingId
@@ -15,7 +15,7 @@ when matched then
 		  , [pricingCode]	  = source.[pricingCode]	 
 		  , [amount]		  = source.[amount]		
 		  , [description]	  = source.[description]	 
-		  , [tolalWhatsapp]   = source.[tolalWhatsapp]  
+		  , [totalWhatsapp]   = source.[totalWhatsapp]  
 		  , [totalEmail]      = source.[totalEmail]     
 		  , [totalSms]        = source.[totalSms]       
 		  , [intervalInWeeks] = source.[intervalInWeeks]
@@ -28,7 +28,7 @@ when not matched by target then
 		  , [priority]
 		  , [amount]		
 		  , [description]	 
-		  , [tolalWhatsapp]  
+		  , [totalWhatsapp]  
 		  , [totalEmail]     
 		  , [totalSms]       
 		  , [intervalInWeeks]
@@ -40,7 +40,7 @@ when not matched by target then
 		  , source.[priority]
 		  , source.[amount]		
 		  , source.[description]	 
-		  , source.[tolalWhatsapp]  
+		  , source.[totalWhatsapp]  
 		  , source.[totalEmail]     
 		  , source.[totalSms]       
 		  , source.[intervalInWeeks]

@@ -1,18 +1,18 @@
 ﻿create table [bff].[subscription]
 (
 	[subscriptionId]		int identity(1,1) not null,
-	[pricingId]				smallint not null,
-	[amount]				money not null,
 	[subscriptionStatusId]  smallint not null,
 	[externalUserId]	    varchar(20) not null,
 	[procedureId]			int not null,
+	[pricingId]				smallint not null,
+	[amount]				money not null,
 	[firstName]		        nvarchar(100) not null,
 	[lastName]		        nvarchar(100) not null,
 	[phoneNumber]	        nvarchar(50) not null,
 	[whatsapp]		        nvarchar(50) null,
 	[email]			        nvarchar(50) not null,
 	[whatsappCounter]       int null,
-	[tolalWhatsapp]         int null,
+	[totalWhatsapp]         int null,
 	[emailCounter]          int not null,
 	[totalEmail]            int not null,
 	[smsCounter]            int not null,
@@ -47,7 +47,7 @@ go
 alter table [bff].[subscription] add constraint [chk_subscription_whatsappCounter] check ( [whatsappCounter] is null or [whatsappCounter] >= 0)
 go
 
-alter table [bff].[subscription] add constraint [chk_subscription_totalWhatsapp] check ( [tolalWhatsapp] is null or [tolalWhatsapp] > 0)
+alter table [bff].[subscription] add constraint [chk_subscription_totalWhatsapp] check ( [totalWhatsapp] is null or [totalWhatsapp] > 0)
 go
 
 alter table [bff].[subscription] add constraint [chk_subscription_emailCounter] check ( [emailCounter] >= 0)
@@ -69,4 +69,7 @@ create index [ix_subscription_subscriptionStatusId] on [bff].[subscription] ([su
 go
 
 create index [ix_subscription_procedureId] on [bff].[subscription] ([procedureId])
+go
+
+create index [ix_subscription_pricingId] on [bff].[subscription] ([pricingId])
 go

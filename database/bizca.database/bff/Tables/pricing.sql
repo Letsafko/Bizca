@@ -5,7 +5,7 @@
 	[priority]		    smallint not null,
 	[amount]			money not null,
 	[description]	    varchar(100) not null,
-	[tolalWhatsapp]     int null,
+	[totalWhatsapp]     int null,
 	[totalEmail]        int not null,
 	[totalSms]          int not null,
 	[intervalInWeeks]   smallint not null,
@@ -23,7 +23,7 @@ go
 alter table [bff].[pricing] add constraint [df_pricing_lastUpdate] default getutcdate() for [lastUpdate]
 go
 
-alter table [bff].[pricing] add constraint [chk_pricing_totalWhatsapp] check ( [tolalWhatsapp] is null or [tolalWhatsapp] > 0)
+alter table [bff].[pricing] add constraint [chk_pricing_totalWhatsapp] check ( [totalWhatsapp] is null or [totalWhatsapp] > 0)
 go
 
 alter table [bff].[pricing] add constraint [chk_pricing_intervalInWeeks] check ( [intervalInWeeks] > 0)

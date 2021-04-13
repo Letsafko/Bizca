@@ -1,7 +1,7 @@
 ﻿create table [bff].[procedureType]
 (
-	[procedureTypeId]  smallint not null,
-	[description]	   varchar(150) not null,
+	[procedureTypeId]  int not null,
+	[description]	   varchar(200) not null,
 	[creationDate]	   datetime2 not null,
     [lastUpdate]	   datetime2 not null
 )
