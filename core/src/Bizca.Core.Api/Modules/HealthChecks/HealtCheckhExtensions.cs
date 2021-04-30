@@ -62,6 +62,14 @@
                 });
             });
 
+            app.Map("/isAlive", appBuilder =>
+            {
+                appBuilder.Run(async context =>
+                {
+                    await context.Response.WriteAsync("healthy").ConfigureAwait(false);
+                });
+            });
+
             return app;
         }
     }

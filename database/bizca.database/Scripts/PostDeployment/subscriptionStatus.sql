@@ -1,9 +1,10 @@
 ﻿merge into [bff].[subscriptionStatus] as target
 	using 
 	(
-		values   (1,'Deactivated','Deactivated')
-				,(2,'Expired','Expired')
-				,(3,'Active','Active')
+		values   (1,'Pending','Pending')
+				,(2,'Activated','Activated')
+		        ,(3,'Deactivated','Deactivated')
+				,(4,'Expired','Expired')
 	) as source(subscriptionStatusId, subscriptionStatusCode, subscriptionStatusName) 
 	on 
 	(
@@ -12,6 +13,7 @@
 when matched then 
 	update
 		set subscriptionStatusName = source.subscriptionStatusName,
+			subscriptionStatusCode = source.subscriptionStatusCode,
 			lastUpdate  = getutcdate()
 when not matched by target then
 	insert

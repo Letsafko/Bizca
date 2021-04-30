@@ -136,15 +136,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{395E8673-F94
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{25E2B4AD-C826-4643-8800-F38DFA9FDDBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Bff.WebApi", "facade\bff\src\Bizca.Bff.WebApi\Bizca.Bff.WebApi.csproj", "{8E2F19F6-63B2-439E-9D51-758764A1168F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Bff.WebApi", "facade\bff\src\Bizca.Bff.WebApi\Bizca.Bff.WebApi.csproj", "{8E2F19F6-63B2-439E-9D51-758764A1168F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Bff.Infrastructure", "facade\bff\src\Bizca.Bff.Infrastructure\Bizca.Bff.Infrastructure.csproj", "{0611CC5B-0C44-4DEA-B76D-4A2295FB06E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Bff.Infrastructure", "facade\bff\src\Bizca.Bff.Infrastructure\Bizca.Bff.Infrastructure.csproj", "{0611CC5B-0C44-4DEA-B76D-4A2295FB06E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{5F244B59-EE36-4470-8572-5AFADBD3AB07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Bff.Domain", "facade\bff\src\Bizca.Bff.Domain\Bizca.Bff.Domain.csproj", "{65593520-E3CD-4726-8D71-F88166C26E95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Bff.Domain", "facade\bff\src\Bizca.Bff.Domain\Bizca.Bff.Domain.csproj", "{65593520-E3CD-4726-8D71-F88166C26E95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Bff.Application", "facade\bff\src\Bizca.Bff.Application\Bizca.Bff.Application.csproj", "{AF1C45D5-60EE-4F34-B266-ECC2B0C50ADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Bff.Application", "facade\bff\src\Bizca.Bff.Application\Bizca.Bff.Application.csproj", "{AF1C45D5-60EE-4F34-B266-ECC2B0C50ADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Bff.Application.Test", "facade\bff\test\Bizca.Bff.Application.Test\Bizca.Bff.Application.Test.csproj", "{C67E3C40-8684-49B1-9B18-1A08DCF32ED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -270,6 +272,10 @@ Global
 		{AF1C45D5-60EE-4F34-B266-ECC2B0C50ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1C45D5-60EE-4F34-B266-ECC2B0C50ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1C45D5-60EE-4F34-B266-ECC2B0C50ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C67E3C40-8684-49B1-9B18-1A08DCF32ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C67E3C40-8684-49B1-9B18-1A08DCF32ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C67E3C40-8684-49B1-9B18-1A08DCF32ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C67E3C40-8684-49B1-9B18-1A08DCF32ED8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -326,6 +332,7 @@ Global
 		{5F244B59-EE36-4470-8572-5AFADBD3AB07} = {395E8673-F94A-407B-B7A0-45C112126D12}
 		{65593520-E3CD-4726-8D71-F88166C26E95} = {5F244B59-EE36-4470-8572-5AFADBD3AB07}
 		{AF1C45D5-60EE-4F34-B266-ECC2B0C50ADC} = {5F244B59-EE36-4470-8572-5AFADBD3AB07}
+		{C67E3C40-8684-49B1-9B18-1A08DCF32ED8} = {25E2B4AD-C826-4643-8800-F38DFA9FDDBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D7BB865-F57C-4290-8D7B-3D1CFD483CDE}
