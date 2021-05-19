@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.Domain.Referentials.Pricing.ValueObjects
+﻿namespace Bizca.Bff.Domain.Referentials.Bundle.ValueObjects
 {
     using Bizca.Core.Domain;
     public class Priority : Enumeration

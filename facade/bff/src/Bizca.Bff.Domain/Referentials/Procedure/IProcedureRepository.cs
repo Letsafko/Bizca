@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     public interface IProcedureRepository
     {
+        Task<Procedure> GetProcedureByTypeIdAndCodeInseeAsync(int procedureTypeId, string codeInsee);
         Task<IEnumerable<Procedure>> GetProceduresAsync();
-        Task<Procedure> GetProcedureByIdAsync(int id);
     }
 }

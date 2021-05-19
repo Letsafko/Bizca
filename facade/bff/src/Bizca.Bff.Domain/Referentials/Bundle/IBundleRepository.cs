@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.Domain.Referentials.Pricing
+﻿namespace Bizca.Bff.Domain.Referentials.Bundle
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

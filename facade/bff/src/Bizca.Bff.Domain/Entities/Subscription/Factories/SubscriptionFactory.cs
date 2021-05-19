@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription.Factories
 {
-    using Bizca.Bff.Domain.Referentials.Pricing;
+    using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using System;
     using System.Threading.Tasks;
@@ -8,18 +8,18 @@
     public sealed class SubscriptionFactory : ISubscriptionFactory
     {
         private readonly IProcedureRepository procedureRepository;
-        private readonly IBundleRepository pricingRepository;
+        private readonly IBundleRepository bundleRepository;
         public SubscriptionFactory(IProcedureRepository procedureRepository,
-            IBundleRepository pricingRepository)
+            IBundleRepository bundleRepository)
         {
             this.procedureRepository = procedureRepository;
-            this.pricingRepository = pricingRepository;
+            this.bundleRepository = bundleRepository;
         }
 
-        public Task<Subscription> BuildAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<SubscriptionDto> BuildAsync(string externalUserId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public Task<Subscription> CreateAsync(SubscriptionRequest request)
         {

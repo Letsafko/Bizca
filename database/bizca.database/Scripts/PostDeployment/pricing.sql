@@ -7,7 +7,7 @@
 	) as source(pricingId, pricingCode, [description], [priority], amount, totalEmail, totalWhatsapp, totalSms, intervalInWeeks) 
 	on 
 	(
-		target.pricingId = source.pricingId
+		target.BundleId = source.BundleId
 	)
 when matched then 
 	update

@@ -20,7 +20,7 @@
         {
             string cacheKey = GetCacheKey(civilityId);
             Civility cachedReponse = cache.Get<Civility>(cacheKey);
-            return cachedReponse ?? await cache.GetAsync(cacheKey, Semaphore, () => decorated.GetByIdAsync(civilityId)).ConfigureAwait(false);
+            return cachedReponse ?? await cache.GetAsync(cacheKey, Semaphore, () => decorated.GetByIdAsync(civilityId));
         }
 
         private string GetCacheKey(object value)

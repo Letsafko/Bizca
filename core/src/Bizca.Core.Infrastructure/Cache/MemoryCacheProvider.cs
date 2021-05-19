@@ -28,12 +28,12 @@
 
             try
             {
-                await semaphore.WaitAsync().ConfigureAwait(false);
+                await semaphore.WaitAsync();
                 cachedReponse = Get<T>(cacheKey);
                 if (cachedReponse != null)
                     return cachedReponse;
 
-                cachedReponse = await func().ConfigureAwait(false);
+                cachedReponse = await func();
                 TryAdd(cacheKey, cachedReponse);
             }
             finally

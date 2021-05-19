@@ -1,6 +1,9 @@
-﻿namespace Bizca.Bff.Domain.Entities.Subscription.Enumerations
+﻿namespace Bizca.Bff.Domain.Enumerations
 {
-    internal enum ChannelConfirmationStatus
+    using System;
+
+    [Flags]
+    public enum ChannelConfirmationStatus
     {
         None = 0,
         PhoneNumberConfirmed = 1,

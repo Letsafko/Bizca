@@ -1,6 +1,9 @@
-﻿namespace Bizca.Bff.Domain.Entities.Subscription.Enumerations
+﻿namespace Bizca.Bff.Domain.Enumerations
 {
-    internal enum ChannelActivationStatus
+    using System;
+
+    [Flags]
+    public enum ChannelActivationStatus
     {
         None = 0,
         PhoneNumberActivated = 1,
