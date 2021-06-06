@@ -1,9 +1,13 @@
 namespace Bizca.Bff.WebApi
 {
     using Autofac;
+    using Bizca.Bff.Domain.Wrappers.Users;
+    using Bizca.Bff.Infrastructure.Wrappers;
+    using Bizca.Bff.Infrastructure.Wrappers.Users;
     using Bizca.Bff.WebApi.Modules.Autofac;
     using Bizca.Bff.WebApi.Modules.Extensions;
     using Bizca.Core.Api;
+    using Bizca.Core.Api.Modules.Extensions;
     using Bizca.Core.Api.Modules.HealthChecks;
     using Bizca.Core.Infrastructure.Database.Configuration;
     using Microsoft.AspNetCore.Builder;
@@ -33,6 +37,7 @@ namespace Bizca.Bff.WebApi
         /// <param name="services">service collection.</param>
         new public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClientBase<IUserWrapper, UserWrapper, UserSettings>(configuration.GetSection($"Dependencies:{nameof(UserSettings)}"), NamedHttpClients.ApiUserClientName);
             services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseScheme));
             base.ConfigureServices(services);
             services.ConfigureHealthChecks()

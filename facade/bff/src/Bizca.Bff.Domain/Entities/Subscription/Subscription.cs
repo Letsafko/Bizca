@@ -4,6 +4,7 @@
     using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
     using Bizca.Bff.Domain.Entities.Subscription.SubscriptionState;
     using Bizca.Bff.Domain.Referentials.Bundle;
+    using Bizca.Bff.Domain.Referentials.Bundle.ValueObjects;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Core.Domain;
     using System;
@@ -12,6 +13,7 @@
         public Subscription(UserSubscription userSubscription,
             Procedure procedure,
             Bundle bundle,
+            Money price,
             SubscriptionSettings subscriptionSettings,
             SubscriptionStatus subscriptionStatus = SubscriptionStatus.Pending)
         {
@@ -20,6 +22,7 @@
             Procedure = procedure ?? throw new ArgumentNullException(nameof(procedure));
             SubscriptionState = GetSubscriptionState(subscriptionStatus);
             Bundle = bundle;
+            Price = price;
         }
 
         public ISubscriptionState SubscriptionState { get; private set; }
@@ -27,6 +30,7 @@
         public UserSubscription UserSubscription { get; }
         public Procedure Procedure { get; }
         public Bundle Bundle { get; }
+        public Money Price { get; }
 
         internal void SetSubscriptionState(ISubscriptionState subscriptionState)
         {

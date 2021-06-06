@@ -4,6 +4,10 @@
     using Bizca.Bff.Domain.Entities.User.Exceptions;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
+    using Bizca.Bff.Domain.Referentials.Bundle;
+    using Bizca.Bff.Domain.Referentials.Bundle.ValueObjects;
+    using Bizca.Bff.Domain.Referentials.Procedure;
+    using Bizca.Bff.Domain.Referentials.Procedure.ValueObjects;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -39,33 +43,38 @@
             }
 
             UserProfile userProfile = GetUserProfile(user);
-            return new User(new UserIdentifier(externalUserId, partnerCode), 
-                userProfile, 
+            return new User((int)user.userId,
+                new UserIdentifier(externalUserId, partnerCode),
+                userProfile,
                 subscriptionsAlreadyCreated);
         }
         public User Create(UserRequest request)
         {
             UserIdentifier userIdentifier = GetUserIdentifier(request);
             UserProfile userProfile = GetUserProfile(request);
-            return new User
-            (
-                userIdentifier, 
-                userProfile
-            );
+            var user = new User(0, userIdentifier, userProfile);
+            user.RegisterNewChannelCodeConfirmation(request.ExternalUserId, ChannelType.Email);
+            return user;
         }
 
         #region private helpers
 
         private async Task<(dynamic user, IEnumerable<dynamic> subscriptions)> GetEntitiesAsync(string externalUserId)
         {
-            Task<IEnumerable<dynamic>> subscriptionsTask = subscriptionRepository.GetSubscriptionsAsync(externalUserId);
-            Task<dynamic> userTask = userRepository.GetAsync(externalUserId);
-            await Task.WhenAll(subscriptionsTask, userTask);
+            Dictionary<ResultName, IEnumerable<dynamic>> entities = await userRepository.GetAsync(externalUserId);
             return
             (
-                userTask.Result,
-                subscriptionsTask.Result
+                entities[ResultName.User].FirstOrDefault(),
+                entities[ResultName.Subscriptions]
             );
+        }
+        private UserSubscription GetUserSubscription(dynamic subscription)
+        {
+            return new UserSubscription(subscription.firstName,
+                subscription.lastName,
+                subscription.phoneNumber,
+                subscription.whatsapp,
+                subscription.email);
         }
         private UserIdentifier GetUserIdentifier(UserRequest request)
         {
@@ -73,7 +82,22 @@
         }
         private Subscription GetSubscription(dynamic subscription)
         {
-            return null;
+            UserSubscription UserSubscription = GetUserSubscription(subscription);
+            Procedure procedure = GetProcedure(subscription);
+            Bundle bundle = GetBundle(subscription);
+            var money = new Money((decimal)subscription.amount);
+            var subscriptionSettings = new SubscriptionSettings((int)subscription.whatsappCounter,
+                (int)subscription.emailCounter,
+                (int)subscription.smsCounter,
+                (int)subscription.totalWhatsapp,
+                (int)subscription.totalEmail,
+                (int)subscription.totalSms);
+
+            return new Subscription(UserSubscription,
+                procedure,
+                bundle,
+                money,
+                subscriptionSettings);
         }
         private UserProfile GetUserProfile(UserRequest request)
         {
@@ -84,19 +108,49 @@
                 request.Whatsapp,
                 request.Email);
         }
-        
+        private Procedure GetProcedure(dynamic subscription)
+        {
+            var procedureType = new ProcedureType((int)subscription.procedureTypeId, 
+                subscription.procedureTypeLabel);
+
+            var organism = new Organism(subscription.codeInsee,
+                    subscription.organismName,
+                    subscription.organismHref);
+
+            return new Procedure(procedureType,
+                organism,
+                subscription.procedureHref);
+        }
         private UserProfile GetUserProfile(dynamic user)
         {
-            var userProfile = new UserProfile((Civility)user.civility,
+            var userProfile = new UserProfile((Civility)user.civilityId,
                 user.firstName,
                 user.lastName,
                 user.phoneNumber,
                 user.whatsapp,
                 user.email);
 
-            userProfile.SetChannelConfirmationStatus((ChannelConfirmationStatus)user.ChannelConfirmationStatus);
-            userProfile.SetChannelActivationStatus((ChannelActivationStatus)user.ChannelActivationStatus);
+            userProfile.SetChannelConfirmationStatus((ChannelConfirmationStatus)user.channelConfirmationStatus);
+            userProfile.SetChannelActivationStatus((ChannelActivationStatus)user.channelActivationStatus);
             return userProfile;
+        }
+        private Bundle GetBundle(dynamic subscription)
+        {
+            var bundleIdentifier = new BundleIdentifier((int)subscription.bundleId,
+                subscription.bundleCode,
+                subscription.bundleLabel);
+
+            var bundleSettings = new BundleSettings((int)subscription.intervalInWeeks,
+                (int)subscription.bundleTotalWhatsapp,
+                (int)subscription.bundleTotalEmail,
+                (int)subscription.bundleTotalSms);
+
+            var priority = Priority.GetById((int)subscription.priority);
+            var money = new Money((decimal)subscription.price);
+            return new Bundle(bundleIdentifier,
+                bundleSettings,
+                priority,
+                money);
         }
 
         #endregion

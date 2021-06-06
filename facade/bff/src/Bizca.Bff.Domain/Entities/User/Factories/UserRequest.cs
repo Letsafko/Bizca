@@ -3,14 +3,35 @@
     using Bizca.Bff.Domain.Enumerations;
     public sealed class UserRequest
     {
-        public string EconomicActivity { get; set; }
-        public string ExternalUserId { get; set; }
-        public string PartnerCode { get; set; }
-        public string PhoneNumber { get; set; }
-        public Civility Civility { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Whatsapp { get; set; }
-        public string Email { get; set; }
+        public UserRequest(string externalUserId,
+            string partnerCode, 
+            Civility civility,
+            string economicActivity,
+            string phoneNumber,
+            string firstName,
+            string lastName,
+            string whatsapp,
+            string email)
+        {
+            EconomicActivity = economicActivity;
+            ExternalUserId = externalUserId;
+            PartnerCode = partnerCode;
+            PhoneNumber = phoneNumber;
+            FirstName = firstName;
+            Civility = civility;
+            LastName = lastName;
+            Whatsapp = whatsapp;
+            Email = email;
+        }
+
+        public string EconomicActivity { get; }
+        public string ExternalUserId { get; }
+        public string PartnerCode { get; }
+        public string PhoneNumber { get; }
+        public Civility Civility { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
+        public string Whatsapp { get; }
+        public string Email { get; }
     }
 }

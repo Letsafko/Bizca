@@ -169,7 +169,7 @@
     <value>economicActivity is invalid.</value>
   </data>
   <data name="ECONOMIC_ACTIVITY_REQUIRED" xml:space="preserve">
-    <value>economicActivity is invalid.</value>
+    <value>economicActivity is required.</value>
   </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
     <value>email is invalid.</value>

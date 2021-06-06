@@ -2,7 +2,7 @@
 (
 	[subscriptionId]		int identity(1,1) not null,
 	[subscriptionStatusId]  smallint not null,
-	[externalUserId]	    varchar(20) not null,
+	[userId]				int not null,
 	[procedureId]			int not null,
 	[bundleId]				smallint not null,
 	[amount]				money not null,
@@ -36,6 +36,9 @@ alter table [bff].[subscription] add constraint [fk_subscription_procedureId] fo
 go
 
 alter table [bff].[subscription] add constraint [fk_subscription_pricingId] foreign key ([bundleId]) references [bff].[bundle]( [bundleId] )
+go
+
+alter table [bff].[subscription] add constraint [fk_subscription_userId] foreign key ([userId]) references [bff].[user] ( [userId] )
 go
 
 alter table [bff].[subscription] add constraint [df_subscription_creationDate] default getutcdate() for [creationDate]
@@ -72,4 +75,7 @@ create index [ix_subscription_procedureId] on [bff].[subscription] ([procedureId
 go
 
 create index [ix_subscription_bundleId] on [bff].[subscription] ([bundleId])
+go
+
+create index [ix_subscription_userId] on [bff].[subscription]([userId])
 go

@@ -184,10 +184,10 @@
     <None Include="Scripts\PostDeployment\subscriptionStatus.sql" />
     <Build Include="Security\bff.sql" />
     <Build Include="bff\Tables\organism.sql" />
-    <Build Include="bff\Tables\pricing.sql" />
     <Build Include="bff\Tables\procedure.sql" />
     <Build Include="bff\Tables\procedureType.sql" />
     <Build Include="bff\Tables\subscription.sql" />
     <Build Include="bff\Tables\subscriptionStatus.sql" />
+    <Build Include="bff\Tables\bundle.sql" />
   </ItemGroup>
 </Project>

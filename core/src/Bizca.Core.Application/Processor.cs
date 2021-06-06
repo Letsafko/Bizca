@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Core.Application
 {
     using Bizca.Core.Application.Commands;
-    using Bizca.Core.Application.Events;
     using Bizca.Core.Application.Queries;
+    using Bizca.Core.Domain;
     using MediatR;
     using System.Threading.Tasks;
 
