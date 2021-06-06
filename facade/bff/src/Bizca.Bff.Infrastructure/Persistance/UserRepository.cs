@@ -55,7 +55,7 @@
             {
                 confirmationStatus = (short)user.UserProfile.ChannelConfirmationStatus,
                 activationStatus = (short)user.UserProfile.ChannelActivationStatus,
-                externalUserId = user.UserIdentifier.ExternalUserId.ToString(),
+                externalUserId = user.UserIdentifier.ExternalUserId,
                 civilityId = (byte)user.UserProfile.Civility,
                 phoneNumber = user.UserProfile.PhoneNumber,
                 firstName = user.UserProfile.FirstName,
@@ -78,7 +78,7 @@
             {
                 confirmationStatus = (short)user.UserProfile.ChannelConfirmationStatus,
                 activationStatus = (short)user.UserProfile.ChannelActivationStatus,
-                externalUserId = user.UserIdentifier.ExternalUserId.ToString(),
+                externalUserId = user.UserIdentifier.ExternalUserId,
                 civilityId = (byte)user.UserProfile.Civility,
                 phoneNumber = user.UserProfile.PhoneNumber,
                 firstName = user.UserProfile.FirstName,

@@ -41,7 +41,7 @@ go
 alter table [bff].[bundle] add constraint [chk_bundle_amount] check ( [amount] > 0)
 go
 
-create unique index [ix_bundle_pricingCode] on [bff].[bundle] ([bundleCode])
+create unique index [ix_bundle_bundleCode] on [bff].[bundle] ([bundleCode])
 go
 
 create unique index [ix_bundle_priority] on [bff].[bundle] ([priority])

@@ -1,18 +1,18 @@
-﻿merge into [bff].[pricing] as target
+﻿merge into [bff].[bundle] as target
 	using 
 	(
 		values   (1, 'Basic'  , 'Basic'  , 1, 10, 10,  5,  5, 12)
 				,(2, 'Confort', 'Confort', 2, 20, 20, 10, 10, 12)
 				,(3, 'Prenium', 'Prenium', 3, 30, 30, 15, 15, 12)
-	) as source(pricingId, pricingCode, [description], [priority], amount, totalEmail, totalWhatsapp, totalSms, intervalInWeeks) 
+	) as source(bundleId, bundleCode, [description], [priority], amount, totalEmail, totalWhatsapp, totalSms, intervalInWeeks) 
 	on 
 	(
 		target.BundleId = source.BundleId
 	)
 when matched then 
 	update
-		set [pricingId]       = source.[pricingId]      
-		  , [pricingCode]	  = source.[pricingCode]	 
+		set [bundleId]        = source.[bundleId]      
+		  , [bundleCode]	  = source.[bundleCode]	 
 		  , [amount]		  = source.[amount]		
 		  , [description]	  = source.[description]	 
 		  , [totalWhatsapp]   = source.[totalWhatsapp]  
@@ -23,8 +23,8 @@ when matched then
 when not matched by target then
 	insert
 	(
-		    [pricingId]      
-		  , [pricingCode]
+		    [bundleId]      
+		  , [bundleCode]
 		  , [priority]
 		  , [amount]		
 		  , [description]	 
@@ -35,8 +35,8 @@ when not matched by target then
 	)
 	values
 	(
-		    source.[pricingId]      
-		  , source.[pricingCode]	 
+		    source.[bundleId]      
+		  , source.[bundleCode]	 
 		  , source.[priority]
 		  , source.[amount]		
 		  , source.[description]	 
