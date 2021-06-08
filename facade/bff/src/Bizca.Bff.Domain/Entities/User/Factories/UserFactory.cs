@@ -43,10 +43,13 @@
             }
 
             UserProfile userProfile = GetUserProfile(user);
-            return new User((int)user.userId,
+            var userBuild = new User((int)user.userId,
                 new UserIdentifier(externalUserId, partnerCode),
                 userProfile,
                 subscriptionsAlreadyCreated);
+
+            userBuild.SetRowVersion((byte[])user.rowversion);
+            return userBuild;
         }
         public User Create(UserRequest request)
         {

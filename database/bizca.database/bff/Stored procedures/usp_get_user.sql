@@ -19,7 +19,8 @@ begin
 		, [whatsapp]			        
 		, [email]						
 		, [channelConfirmationStatus] 
-		, [channelActivationStatus]   
+		, [channelActivationStatus] 
+		, [rowversion]
 	from [bff].[user]
 	where [userId] = @userId
 

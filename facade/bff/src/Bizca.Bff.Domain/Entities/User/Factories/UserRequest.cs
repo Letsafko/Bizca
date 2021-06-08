@@ -5,7 +5,7 @@
     {
         public UserRequest(string externalUserId,
             string partnerCode, 
-            Civility civility,
+            string civility,
             string economicActivity,
             string phoneNumber,
             string firstName,
@@ -18,7 +18,7 @@
             PartnerCode = partnerCode;
             PhoneNumber = phoneNumber;
             FirstName = firstName;
-            Civility = civility;
+            Civility = (Civility)int.Parse(civility);
             LastName = lastName;
             Whatsapp = whatsapp;
             Email = email;

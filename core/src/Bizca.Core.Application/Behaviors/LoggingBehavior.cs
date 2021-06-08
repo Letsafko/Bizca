@@ -21,7 +21,7 @@
             IDictionary<string, string> dicoProperties = ReflectionHelpers.Populate(request);
             using (LogContext.Push(new AggregateLogEnricher(dicoProperties)))
             {
-                _logger.LogDebug("handling request {@event}.", request);
+                _logger.LogDebug("handling request {@request}.", request);
 
                 TResponse response = await next();
 

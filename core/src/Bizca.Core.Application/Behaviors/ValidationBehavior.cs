@@ -21,19 +21,23 @@
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            string typeName = request.GetType().Name;
-            logger.LogDebug($"validating {typeName}");
-
             IValidator validator = validatorFactory.GetValidator(typeof(TRequest));
-            ValidationResult result = validator.Validate(new ValidationContext<TRequest>(request));
-            if (result?.IsValid == false)
+            if(validator != null)
             {
-                IList<ValidationFailure> failures = result.Errors;
-                logger.LogError($"validation errors - {typeName} - request: {@request} - errors: {@failures}");
-                throw new ValidationException(failures);
-            }
+                string typeName = request.GetType().Name;
+                logger.LogDebug($"validating {typeName}");
 
-            logger.LogDebug($"{typeName} validated");
+                ValidationResult result = validator.Validate(new ValidationContext<TRequest>(request));
+                if (result?.IsValid == false)
+                {
+                    IList<ValidationFailure> failures = result.Errors;
+                    logger.LogError($"validation errors - {typeName} - request: {@request} - errors: {@failures}");
+                    throw new ValidationException(failures);
+                }
+
+                logger.LogDebug($"{typeName} validated");
+            }
+            
             return await next().ConfigureAwait(false);
         }
     }

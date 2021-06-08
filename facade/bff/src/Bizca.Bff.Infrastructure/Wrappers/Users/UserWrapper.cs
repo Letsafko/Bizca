@@ -15,7 +15,7 @@
         {
         }
 
-        private const string ApiVersion = "v1.0";
+        private const string ApiVersion = "api/v1.0";
         public async Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request, IDictionary headers = null)
         {
             return await SendAsync<UserCreatedResponse>(HttpMethod.Post, $"{ApiVersion}/{request.PartnerCode}/users", request, headers);

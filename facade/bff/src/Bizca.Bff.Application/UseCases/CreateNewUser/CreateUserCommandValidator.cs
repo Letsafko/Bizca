@@ -17,7 +17,9 @@
                 .WithMessage(Resources.EXTERNAL_USERID_REQUIRED);
 
             RuleFor(x => x.Civility)
-                .IsInEnum()
+                .NotEmpty()
+                .WithMessage(Resources.CIVILITY_REQUIRED)
+                .Must(x => int.TryParse(x, out int civilityId))
                 .WithMessage(Resources.CIVILITY_INVALID);
 
             RuleFor(x => x.EconomicActivity)

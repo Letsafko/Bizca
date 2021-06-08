@@ -1,6 +1,7 @@
 ﻿create table [bff].[subscription]
 (
 	[subscriptionId]		int identity(1,1) not null,
+	[subscriptionCode]      uniqueidentifier not null,
 	[subscriptionStatusId]  smallint not null,
 	[userId]				int not null,
 	[procedureId]			int not null,
@@ -69,6 +70,9 @@ alter table [bff].[subscription] add constraint [chk_subscription_amount] check 
 go
 
 create index [ix_subscription_subscriptionStatusId] on [bff].[subscription] ([subscriptionStatusId])
+go
+
+create unique index [ix_subscription_subscriptionCode] on [bff].[subscription] ([subscriptionCode])
 go
 
 create index [ix_subscription_procedureId] on [bff].[subscription] ([procedureId])

@@ -6,7 +6,7 @@
             string partnerCode,
             string firstName,
             string lastName,
-            string civility,
+            int civility,
             string phoneNumber,
             string whatsapp,
             string email)
@@ -27,7 +27,7 @@
         public string PhoneNumber { get; }
         public string FirstName { get; }
         public string LastName { get; }
-        public string Civility { get; }
+        public int Civility { get; }
         public string Whatsapp { get; }
         public string Email { get; }
     }

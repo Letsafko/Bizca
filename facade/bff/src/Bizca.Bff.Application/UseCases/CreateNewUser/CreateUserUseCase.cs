@@ -59,7 +59,7 @@
                 user.UserIdentifier.PartnerCode,
                 user.UserProfile.FirstName,
                 user.UserProfile.LastName,
-                user.UserProfile.Civility.ToString(),
+                (int)user.UserProfile.Civility,
                 user.UserProfile.PhoneNumber,
                 user.UserProfile.Whatsapp,
                 user.UserProfile.Email);
