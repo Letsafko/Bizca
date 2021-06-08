@@ -45,7 +45,7 @@ begin
 		, [beginDate]	            
 		, [endDate]               
 	from [bff].[subscription] s
-	outer apply fn_getById_procedure(s.procedureId) p
+	outer apply fn_getById_procedure(s.procedureTypeId, s.organismId) p
 	outer apply fn_getById_bundle(s.bundleId) b
 	where [userId] = @userId
 

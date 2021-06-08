@@ -4,7 +4,8 @@
 	[subscriptionCode]      uniqueidentifier not null,
 	[subscriptionStatusId]  smallint not null,
 	[userId]				int not null,
-	[procedureId]			int not null,
+	[procedureTypeId]		int not null,
+	[organismId]			int not null,
 	[bundleId]				smallint not null,
 	[amount]				money not null,
 	[firstName]		        nvarchar(100) not null,
@@ -30,13 +31,13 @@ go
 alter table [bff].[subscription] add constraint [pk_subscription] primary key clustered ( [subscriptionId] asc)
 go
 
+alter table [bff].[subscription] add constraint [fk_subscription_procedureTypeId_organismId] foreign key([procedureTypeId], [organismId]) references [bff].[procedure]( [procedureTypeId], [organismId])
+go
+
 alter table [bff].[subscription] add constraint [fk_subscription_subscriptionStatusId] foreign key ([subscriptionStatusId]) references [bff].[subscriptionStatus] ([subscriptionStatusId])
 go
 
-alter table [bff].[subscription] add constraint [fk_subscription_procedureId] foreign key ([procedureId]) references [bff].[procedure] ( [procedureId] )
-go
-
-alter table [bff].[subscription] add constraint [fk_subscription_pricingId] foreign key ([bundleId]) references [bff].[bundle]( [bundleId] )
+alter table [bff].[subscription] add constraint [fk_subscription_bundleId] foreign key ([bundleId]) references [bff].[bundle]( [bundleId] )
 go
 
 alter table [bff].[subscription] add constraint [fk_subscription_userId] foreign key ([userId]) references [bff].[user] ( [userId] )
@@ -69,13 +70,13 @@ go
 alter table [bff].[subscription] add constraint [chk_subscription_amount] check ( [amount] > 0)
 go
 
+create index [ix_subscription_procedureTypeId_organismId] on [bff].[subscription] ( [procedureTypeId], [organismId] )
+go
+
 create index [ix_subscription_subscriptionStatusId] on [bff].[subscription] ([subscriptionStatusId])
 go
 
 create unique index [ix_subscription_subscriptionCode] on [bff].[subscription] ([subscriptionCode])
-go
-
-create index [ix_subscription_procedureId] on [bff].[subscription] ([procedureId])
 go
 
 create index [ix_subscription_bundleId] on [bff].[subscription] ([bundleId])

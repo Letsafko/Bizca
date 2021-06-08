@@ -1,6 +1,5 @@
 ﻿create table [bff].[procedure]
 (
-	[procedureId]     int not null,
 	[procedureTypeId] int not null,
 	[organismId]	  int not null,
 	[active]		  bit not null,
@@ -10,7 +9,7 @@
 )
 go
 
-alter table [bff].[procedure] add constraint [pk_procedure] primary key clustered ( [procedureId] asc)
+alter table [bff].[procedure] add constraint [pk_procedure] primary key clustered ( [procedureTypeId], [organismId])
 go
 
 alter table [bff].[procedure] add constraint [fk_procedure_procedureTypeId] foreign key([procedureTypeId]) references [bff].[procedureType]( [procedureTypeId] )
@@ -23,9 +22,6 @@ alter table [bff].[procedure] add constraint [df_procedure_creationDate] default
 go
 
 alter table [bff].[procedure] add constraint [df_procedure_lastUpdate] default getutcdate() for [lastUpdate]
-go
-
-create unique index [ix_procedure_procedureTypeId_organismId] on [bff].[procedure] ( [procedureTypeId], [organismId] )
 go
 
 create index [ix_procedure_procedureTypeId] on [bff].[procedure] ( [procedureTypeId] )

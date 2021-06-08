@@ -10,13 +10,15 @@
     using System;
     public sealed class Subscription : Entity
     {
-        public Subscription(UserSubscription userSubscription,
+        public Subscription(Guid subscriptionCode,
+            UserSubscription userSubscription,
             Procedure procedure,
             Bundle bundle,
             Money price,
             SubscriptionSettings subscriptionSettings,
             SubscriptionStatus subscriptionStatus = SubscriptionStatus.Pending)
         {
+            SubscriptionCode = subscriptionCode;
             SubscriptionSettings = subscriptionSettings ?? throw new ArgumentNullException(nameof(subscriptionSettings));
             UserSubscription = userSubscription ?? throw new ArgumentNullException(nameof(userSubscription));
             Procedure = procedure ?? throw new ArgumentNullException(nameof(procedure));
@@ -25,6 +27,7 @@
             Price = price;
         }
 
+        public Guid SubscriptionCode { get; }
         public ISubscriptionState SubscriptionState { get; private set; }
         public SubscriptionSettings SubscriptionSettings { get; }
         public UserSubscription UserSubscription { get; }
