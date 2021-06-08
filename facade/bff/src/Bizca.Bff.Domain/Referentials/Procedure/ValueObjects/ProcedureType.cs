@@ -13,6 +13,7 @@
         }
         protected override IEnumerable<object> GetAtomicValues()
         {
+            yield return Label;
             yield return Id;
         }
     }

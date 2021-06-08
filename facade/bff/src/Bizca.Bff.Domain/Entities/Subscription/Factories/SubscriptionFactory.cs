@@ -16,12 +16,7 @@
             this.bundleRepository = bundleRepository;
         }
 
-        //public Task<SubscriptionDto> BuildAsync(string externalUserId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public Task<Subscription> CreateAsync(SubscriptionRequest request)
+        public async Task<Subscription> CreateAsync(SubscriptionRequest request)
         {
             throw new NotImplementedException();
         }

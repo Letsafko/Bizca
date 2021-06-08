@@ -2,6 +2,8 @@
 {
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.User;
+    using Bizca.Bff.Domain.Referentials.Bundle;
+    using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Infrastructure.Persistance;
     using Bizca.Bff.Infrastructure.Wrappers.Users;
@@ -31,6 +33,8 @@
         private void LoadRepositories(ContainerBuilder builder)
         {
             builder.RegisterType<SubscriptionRepository>().As<ISubscriptionRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ProcedureRepository>().As<IProcedureRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<BundleRepository>().As<IBundleRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
         }
         private void LoadWrappers(ContainerBuilder builder)

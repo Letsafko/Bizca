@@ -44,7 +44,7 @@
                     if (response.Content != null)
                     {
                         string responseLog = await response.Content.ReadAsStringAsync();
-                        logger.LogDebug(responseLog);
+                        logger.LogDebug($"[Response]= {responseLog}");
                         return JsonConvert.DeserializeObject<T>(responseLog);
                     }
                     return default;

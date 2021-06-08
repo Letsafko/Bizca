@@ -1,11 +1,8 @@
-﻿create function [bff].[fn_getById_bundle]
-(
-	@bundleId int
-)
-returns table
+﻿create procedure [bff].[usp_getAll_bundle]
 as
-return
-    select top 1 
+begin
+	
+	 select
 		  bundleId
 		, bundleCode
 		, description bundleLabel
@@ -15,5 +12,8 @@ return
 		, totalEmail    [bundleTotalEmail]
 		, totalSms      [bundleTotalSms]
 		, totalWhatsapp [bundleTotalWhatsapp]
+		, [description]
 	from [bff].[bundle]
-	where bundleId = @bundleId
+
+end
+
