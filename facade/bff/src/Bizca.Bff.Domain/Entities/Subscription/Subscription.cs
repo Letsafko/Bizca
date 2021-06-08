@@ -8,6 +8,9 @@
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Core.Domain;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public sealed class Subscription : Entity
     {
         public Subscription(Guid subscriptionCode,
@@ -23,6 +26,7 @@
             UserSubscription = userSubscription ?? throw new ArgumentNullException(nameof(userSubscription));
             Procedure = procedure ?? throw new ArgumentNullException(nameof(procedure));
             SubscriptionState = GetSubscriptionState(subscriptionStatus);
+            CheckSum = ComputeCheckSum();
             Bundle = bundle;
             Price = price;
         }
@@ -32,6 +36,7 @@
         public SubscriptionSettings SubscriptionSettings { get; }
         public UserSubscription UserSubscription { get; }
         public Procedure Procedure { get; }
+        internal int CheckSum { get; }
         public Bundle Bundle { get; }
         public Money Price { get; }
 
@@ -79,6 +84,20 @@
                 SubscriptionStatus.Pending => new Pending(this),
                 _ => throw new UnSupportedSubscriptionStatusException("subscription status is not supported.")
             };
+        }
+        private IEnumerable<object> GetAtomicValues()
+        {
+            yield return UserSubscription.PhoneNumber?.Trim();
+            yield return UserSubscription.Whatsapp?.Trim();
+            yield return UserSubscription.Email?.Trim();
+            yield return Procedure.ProcedureType.Id;
+            yield return Procedure.Organism.Id;
+        }
+        private int ComputeCheckSum()
+        {
+            return GetAtomicValues()
+                .Select(x => x?.GetHashCode() ?? 0)
+                .Aggregate((x, y) => x ^ y);
         }
 
         #endregion

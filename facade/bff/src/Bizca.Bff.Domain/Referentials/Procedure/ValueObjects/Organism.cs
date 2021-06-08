@@ -7,13 +7,16 @@
         public string OrganismName { get; }
         public string OrganismHref { get; }
         public string CodeInsee { get; }
-        public Organism(string codeInsee,
+        public int Id { get; }
+        public Organism(int id,
+            string codeInsee,
             string organismName,
             string organismHref)
         {
             OrganismName = organismName;
             OrganismHref = organismHref;
             CodeInsee    = codeInsee;
+            Id = id;
         }
 
         protected override IEnumerable<object> GetAtomicValues()

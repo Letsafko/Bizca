@@ -17,11 +17,12 @@
         }
 
         private const string upsertSubscriptionStoredProcedure = "[bff].[usp_upsert_subscription]";
-        private const string subscriptionUdt = "[bff].[subscriptions]";
+        private const string subscriptionUdt = "[bff].[subscriptionsUdt]";
         public async Task<bool> UpsertAsync(int userId, IEnumerable<Subscription> subscriptions)
         {
             var parameters = new
             {
+                userId,
                 subscriptions = subscriptions.ToDataTable(userId, subscriptionUdt)
             };
 

@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription
 {
+    using Bizca.Core.Domain.Exceptions;
     using System;
     public sealed class SubscriptionSettings
     {
@@ -19,14 +20,14 @@
             int totalEmail,
             int totalSms)
         {
-            WhatsappCounter = !(whatsappCounter < 0) ? whatsappCounter : throw new ArgumentException(nameof(whatsappCounter));
-            TotalWhatsapp = !(totalWhatsapp < 0) ? totalWhatsapp : throw new ArgumentException(nameof(totalWhatsapp));
+            WhatsappCounter = !(whatsappCounter < 0) ? whatsappCounter : throw new DomainException($"{nameof(whatsappCounter)} should be greater than zero.");
+            TotalWhatsapp = !(totalWhatsapp < 0) ? totalWhatsapp : throw new DomainException($"{nameof(whatsappCounter)} should be greater than zero.");
 
-            EmailCounter = !(emailCounter < 0) ? emailCounter : throw new ArgumentException(nameof(emailCounter));
-            TotalEmail = !(totalEmail < 0) ? totalEmail : throw new ArgumentException(nameof(totalEmail));
+            EmailCounter = !(emailCounter < 0) ? emailCounter : throw new DomainException($"{nameof(emailCounter)} should be greater than zero.");
+            TotalEmail = !(totalEmail < 0) ? totalEmail : throw new DomainException($"{nameof(totalEmail)} should be greater than zero.");
 
-            SmsCounter = !(smsCounter < 0) ? smsCounter : throw new ArgumentException(nameof(smsCounter));
-            TotalSms = !(totalSms < 0) ? totalSms : throw new ArgumentException(nameof(totalSms));
+            SmsCounter = !(smsCounter < 0) ? smsCounter : throw new DomainException($"{nameof(smsCounter)} should be greater than zero.");
+            TotalSms = !(totalSms < 0) ? totalSms : throw new DomainException($"{nameof(totalSms)} should be greater than zero.");
         }
 
         internal void SetBeginDate(DateTime beginDate)

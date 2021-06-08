@@ -27,7 +27,8 @@ begin
 	select dto = 'subscriptions'
 	select 
 		  [subscriptionId]		
-		, [subscriptionStatusId]				
+		, [subscriptionStatusId]
+		, [subscriptionCode]
 		, [amount]				
 		, [firstName]		        
 		, [lastName]		        
@@ -43,7 +44,9 @@ begin
 		, [activatedChannelMask]  
 		, [confirmedChannelMask]  
 		, [beginDate]	            
-		, [endDate]               
+		, [endDate]             
+		, b.*
+		, p.*
 	from [bff].[subscription] s
 	outer apply fn_getById_procedure(s.procedureTypeId, s.organismId) p
 	outer apply fn_getById_bundle(s.bundleId) b

@@ -11,16 +11,17 @@
         public static DataTable ToDataTable(this IEnumerable<Subscription> subscriptions, int userId, string typeName)
         {
             var dt = new DataTable(typeName);
-            dt.Columns.Add(SubscriptionColumns.UserId, typeof(int));
-            dt.Columns.Add(SubscriptionColumns.SubscriptionStatusId, typeof(int));
             dt.Columns.Add(SubscriptionColumns.SubscriptionId, typeof(int));
-            dt.Columns.Add(SubscriptionColumns.ProcedureId, typeof(int));
-            dt.Columns.Add(SubscriptionColumns.Amount, typeof(decimal));
+            dt.Columns.Add(SubscriptionColumns.SubscriptionCode, typeof(string));
+            dt.Columns.Add(SubscriptionColumns.SubscriptionStatusId, typeof(int));
+            dt.Columns.Add(SubscriptionColumns.ProcedureTypeId, typeof(int));
+            dt.Columns.Add(SubscriptionColumns.OrganismId, typeof(int));
             dt.Columns.Add(SubscriptionColumns.BundleId, typeof(int));
+            dt.Columns.Add(SubscriptionColumns.Amount, typeof(decimal));
 
-            dt.Columns.Add(SubscriptionColumns.PhoneNumber, typeof(string));
             dt.Columns.Add(SubscriptionColumns.FirstName, typeof(string));
             dt.Columns.Add(SubscriptionColumns.LastName, typeof(string));
+            dt.Columns.Add(SubscriptionColumns.PhoneNumber, typeof(string));
             dt.Columns.Add(SubscriptionColumns.Whatsapp, typeof(string));
             dt.Columns.Add(SubscriptionColumns.Email, typeof(string));
 
@@ -34,24 +35,25 @@
             dt.Columns.Add(SubscriptionColumns.ActivatedChannelMask, typeof(int));
             dt.Columns.Add(SubscriptionColumns.ConfirmedChannelMask, typeof(int));
 
-            dt.Columns.Add(SubscriptionColumns.BeginDate, typeof(DateTime?));
-            dt.Columns.Add(SubscriptionColumns.EndDate, typeof(DateTime?));
+            dt.Columns.Add(SubscriptionColumns.BeginDate, typeof(DateTime));
+            dt.Columns.Add(SubscriptionColumns.EndDate, typeof(DateTime));
             subscriptions
                 ?.ToList()
                 .ForEach(x =>
                 {
                     dt.Rows.Add
                     (
-                        userId,
-                        (int)x.SubscriptionState.Status,
                         x.Id,
+                        x.SubscriptionCode.ToString(),
+                        (int)x.SubscriptionState.Status,
                         x.Procedure.ProcedureType.Id,
-                        x.Price.Amount,
+                        x.Procedure.Organism.Id,
                         x.Bundle.BundleIdentifier.Id,
+                        x.Price.Amount,
 
-                        x.UserSubscription.PhoneNumber,
                         x.UserSubscription.FirstName,
                         x.UserSubscription.LastName,
+                        x.UserSubscription.PhoneNumber,
                         x.UserSubscription.Whatsapp,
                         x.UserSubscription.Email,
 
@@ -77,8 +79,10 @@
         {
             public const string UserId               = "userId";
             public const string SubscriptionStatusId = "subscriptionStatusId";
+            public const string SubscriptionCode     = "subscriptionCode";
             public const string SubscriptionId       = "subscriptionId";
-            public const string ProcedureId          = "procedureId";
+            public const string ProcedureTypeId      = "procedureTypeId";
+            public const string OrganismId           = "organismId";
             public const string BundleId             = "bundleId";
 
             public const string Amount               = "amount";

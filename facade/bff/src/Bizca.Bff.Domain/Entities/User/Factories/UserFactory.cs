@@ -117,7 +117,8 @@
             var procedureType = new ProcedureType((int)subscription.procedureTypeId, 
                 subscription.procedureTypeLabel);
 
-            var organism = new Organism(subscription.codeInsee,
+            var organism = new Organism((int)subscription.organismId,
+                    subscription.codeInsee,
                     subscription.organismName,
                     subscription.organismHref);
 

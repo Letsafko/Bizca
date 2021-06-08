@@ -1,9 +1,11 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User
 {
+    using Bizca.Bff.Domain.Entities.Enumerations.Subscription;
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Exceptions;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -44,11 +46,34 @@
         }
         public void AddSubscription(Subscription.Subscription subscription)
         {
+            if (!IsSubscriptionAllowedToBeAdd(subscription))
+            {
+                var failure = new DomainFailure("subscription with same checksum already exists.", nameof(subscription));
+                throw new DomainException(new List<DomainFailure> { failure });
+            }
+
             subscriptions.Add(subscription);
         }
         internal void SetRowVersion(byte[] value)
         {
             rowVersion = value;
+        }
+
+        #endregion
+
+        #region private helpers
+
+        private bool IsSubscriptionAllowedToBeAdd(Subscription.Subscription subscription)
+        {
+            foreach (Subscription.Subscription subscr in subscriptions)
+            {
+                if(subscr.CheckSum == subscription.CheckSum && 
+                   subscr.SubscriptionState.Status != SubscriptionStatus.Expired)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         #endregion

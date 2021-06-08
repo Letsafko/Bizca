@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Autofac
 {
+    using Bizca.Bff.Domain.Entities.Subscription.Factories;
     using Bizca.Bff.Domain.Entities.User.Factories;
     using global::Autofac;
 
@@ -14,6 +15,7 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<SubscriptionFactory>().As<ISubscriptionFactory>();
             builder.RegisterType<UserFactory>().As<IUserFactory>();
         }
     }

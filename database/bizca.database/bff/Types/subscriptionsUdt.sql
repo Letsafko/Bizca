@@ -1,9 +1,10 @@
-﻿create type [bff].[subscriptions] as table
+﻿create type [bff].[subscriptionsUdt] as table
 (
-	[subscriptionId]		int identity(1,1) not null,
+	[subscriptionId]		int not null,
+	[subscriptionCode]      uniqueidentifier not null,
 	[subscriptionStatusId]  smallint not null,
-	[userId]				int not null,
-	[procedureId]			int not null,
+	[procedureTypeId]		int not null,
+	[organismId]			int not null,
 	[bundleId]				smallint not null,
 	[amount]				money not null,
 	[firstName]		        nvarchar(100) not null,
@@ -20,5 +21,7 @@
 	[activatedChannelMask]  smallint not null,
 	[confirmedChannelMask]  smallint not null,
     [beginDate]	            datetime2 null,
-    [endDate]               datetime2 null
+    [endDate]               datetime2 null,
+	primary key ([subscriptionId]),
+	index ix_udt_subscriptions_subscriptionCode ([subscriptionCode])
 )

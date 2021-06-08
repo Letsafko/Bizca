@@ -44,7 +44,15 @@
 
         private CreateSubscriptionCommand GetCreateSubscriptionCommand(CreateSubscription subscription)
         {
-            return new CreateSubscriptionCommand(subscription.ExternalUserId);
+            return new CreateSubscriptionCommand(subscription.ExternalUserId,
+                subscription.CodeInsee,
+                subscription.ProcedureTypeId,
+                subscription.BundleId,
+                subscription.FirstName,
+                subscription.LastName,
+                subscription.PhoneNumber,
+                subscription.Whatsapp,
+                subscription.Email);
         }
     }
 }

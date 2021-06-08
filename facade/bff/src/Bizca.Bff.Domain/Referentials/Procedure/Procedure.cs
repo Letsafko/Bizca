@@ -14,7 +14,7 @@
             Organism organism,
             string procedureHref)
         {
-            ProcedureHref = string.IsNullOrWhiteSpace(procedureHref) ? procedureHref : throw new ArgumentNullException(nameof(procedureHref));
+            ProcedureHref = !string.IsNullOrWhiteSpace(procedureHref) ? procedureHref : throw new ArgumentNullException(nameof(procedureHref));
             ProcedureType = procedureType ?? throw new ArgumentNullException(nameof(procedureType));
             Organism      = organism ?? throw new ArgumentNullException(nameof(organism));
         }
