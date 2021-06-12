@@ -96,7 +96,8 @@
                 (int)subscription.totalEmail,
                 (int)subscription.totalSms);
 
-            return new Subscription(subscription.subscriptionCode,
+            return new Subscription((int)subscription.subscriptionId,
+                subscription.subscriptionCode,
                 UserSubscription,
                 procedure,
                 bundle,

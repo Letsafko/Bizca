@@ -1,9 +1,9 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription
 {
     /// <summary>
-    ///     Create subscription.
+    ///     Update subscription.
     /// </summary>
-    public sealed class CreateSubscription
+    public sealed class UpdateSubscription
     {
         /// <summary>
         ///     Gets or sets user identifier.

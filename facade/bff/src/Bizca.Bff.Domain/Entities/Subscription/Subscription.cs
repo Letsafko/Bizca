@@ -13,7 +13,8 @@
 
     public sealed class Subscription : Entity
     {
-        public Subscription(Guid subscriptionCode,
+        public Subscription(int id,
+            Guid subscriptionCode,
             UserSubscription userSubscription,
             Procedure procedure,
             Bundle bundle,
@@ -29,6 +30,7 @@
             CheckSum = ComputeCheckSum();
             Bundle = bundle;
             Price = price;
+            Id = id;
         }
 
         public Guid SubscriptionCode { get; }

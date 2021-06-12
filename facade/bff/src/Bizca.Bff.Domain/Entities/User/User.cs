@@ -47,13 +47,15 @@
         public void AddSubscription(Subscription.Subscription subscription)
         {
             if (!IsSubscriptionAllowedToBeAdd(subscription))
-            {
-                var failure = new DomainFailure("subscription with same checksum already exists.", nameof(subscription));
-                throw new DomainException(new List<DomainFailure> { failure });
-            }
+                throw new DomainException(nameof(subscription), "subscription with same checksum already exists.");
 
             subscriptions.Add(subscription);
         }
+        public void UpdateSubscription(string subscriptionCode)
+        {
+
+        }
+
         internal void SetRowVersion(byte[] value)
         {
             rowVersion = value;

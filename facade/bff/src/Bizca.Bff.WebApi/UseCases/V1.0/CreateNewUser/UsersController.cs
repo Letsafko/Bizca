@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateNewUser
 {
     using Bizca.Bff.Application.UseCases.CreateNewUser;
+    using Bizca.Bff.WebApi.Properties;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
     using Microsoft.AspNetCore.Mvc;
@@ -29,29 +30,29 @@
         /// <summary>
         ///     Creates a new user.
         /// </summary>
-        /// <param name="input">channel confirmation code input.</param>
+        /// <param name="user">channel confirmation code input.</param>
         /// <remarks>/Assets/createUser.md</remarks>
         [HttpPost]
         //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateUserResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> CreateUserAsync([Required][FromBody] CreateUser input)
+        public async Task<IActionResult> CreateUserAsync([Required][FromBody] CreateUser user)
         {
-            CreateUserCommand command = GetCreateUserCommand(input);
+            CreateUserCommand command = GetCreateUserCommand(user);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return new OkObjectResult(true);
             //return presenter.ViewModel;
         }
 
-        private CreateUserCommand GetCreateUserCommand(CreateUser input)
+        private CreateUserCommand GetCreateUserCommand(CreateUser user)
         {
-            return new CreateUserCommand(input.ExternalUserId,
-            input.PartnerCode,
-            input.Civility,
-            input.PhoneNumber,
-            input.FirstName,
-            input.LastName,
-            input.Whatsapp,
-            input.Email);
+            return new CreateUserCommand(user.ExternalUserId,
+                Resources.PartnerCode,
+                user.Civility,
+                user.PhoneNumber,
+                user.FirstName,
+                user.LastName,
+                user.Whatsapp,
+                user.Email);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription
 {
-    using Bizca.Bff.Application.UseCases.CreateSubscription;
+    using Bizca.Bff.Application.UseCases.UpdateSubscription;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
     using Microsoft.AspNetCore.Mvc;
@@ -27,24 +27,26 @@
         }
 
         /// <summary>
-        ///     Creates a new subscription for an user.
+        ///     Updates subscription of an user.
         /// </summary>
+        /// <param name="reference">subscription code identifier.</param>
         /// <param name="subscription">subscription.</param>
         /// <remarks>/Assets/createSubscription.md</remarks>
-        [HttpPost]
+        [HttpPut("{reference}")]
         //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateUserResponse))]
-        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> CreateSubscriptionAsync([Required][FromBody] CreateSubscription subscription)
+        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
+        public async Task<IActionResult> UpdateSubscriptionAsync([Required] string reference, [Required][FromBody] UpdateSubscription subscription)
         {
-            CreateSubscriptionCommand command = GetCreateSubscriptionCommand(subscription);
+            UpdateSubscriptionCommand command = GetUpdateSubscriptionCommand(reference, subscription);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return new OkObjectResult(true);
             //return presenter.ViewModel;
         }
 
-        private CreateSubscriptionCommand GetCreateSubscriptionCommand(CreateSubscription subscription)
+        private UpdateSubscriptionCommand GetUpdateSubscriptionCommand(string reference, UpdateSubscription subscription)
         {
-            return new CreateSubscriptionCommand(subscription.ExternalUserId,
+            return new UpdateSubscriptionCommand(subscription.ExternalUserId,
+                reference,
                 subscription.CodeInsee,
                 subscription.ProcedureTypeId,
                 subscription.BundleId,

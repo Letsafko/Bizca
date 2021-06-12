@@ -131,6 +131,9 @@
     <Folder Include="usr\Types" />
     <Folder Include="bff" />
     <Folder Include="bff\Tables" />
+    <Folder Include="bff\Functions" />
+    <Folder Include="bff\Stored procedures" />
+    <Folder Include="bff\Types" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ref\Tables\partner.sql" />
@@ -189,5 +192,17 @@
     <Build Include="bff\Tables\subscription.sql" />
     <Build Include="bff\Tables\subscriptionStatus.sql" />
     <Build Include="bff\Tables\bundle.sql" />
+    <Build Include="bff\Functions\fn_getById_bundle.sql" />
+    <Build Include="bff\Functions\fn_getById_procedure.sql" />
+    <Build Include="bff\Stored procedures\usp_create_user.sql" />
+    <Build Include="bff\Stored procedures\usp_get_user.sql" />
+    <Build Include="bff\Stored procedures\usp_getAll_bundle.sql" />
+    <Build Include="bff\Stored procedures\usp_getAll_procedure.sql" />
+    <Build Include="bff\Stored procedures\usp_getById_bundle.sql" />
+    <Build Include="bff\Stored procedures\usp_getByIdAndCodeInsee_procedure.sql" />
+    <Build Include="bff\Stored procedures\usp_update_user.sql" />
+    <Build Include="bff\Stored procedures\usp_upsert_subscription.sql" />
+    <Build Include="bff\Types\subscriptionsUdt.sql" />
+    <Build Include="bff\Tables\user.sql" />
   </ItemGroup>
 </Project>
