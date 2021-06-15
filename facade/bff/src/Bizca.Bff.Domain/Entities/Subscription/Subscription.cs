@@ -45,7 +45,7 @@
 
         internal void SetSubscriptionState(ISubscriptionState subscriptionState)
         {
-            if(SubscriptionState != subscriptionState)
+            if (SubscriptionState != subscriptionState)
             {
                 SubscriptionState = subscriptionState;
             }

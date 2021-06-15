@@ -4,7 +4,7 @@
 
     public sealed class GetUserSubscriptionDetailsQuery : IQuery
     {
-        public GetUserSubscriptionDetailsQuery(string externalUserId, 
+        public GetUserSubscriptionDetailsQuery(string externalUserId,
             string subscriptionCode)
         {
             SubscriptionCode = subscriptionCode;

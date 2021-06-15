@@ -4,7 +4,7 @@
     public sealed class UserRequest
     {
         public UserRequest(string externalUserId,
-            string partnerCode, 
+            string partnerCode,
             string civility,
             string economicActivity,
             string phoneNumber,

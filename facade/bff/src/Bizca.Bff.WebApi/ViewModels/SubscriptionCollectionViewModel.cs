@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    internal sealed  class SubscriptionCollectionViewModel : List<SubscriptionViewModel>
+    internal sealed class SubscriptionCollectionViewModel : List<SubscriptionViewModel>
     {
     }
 }

@@ -27,8 +27,8 @@
 
         private const string createUserStoredProcedure = "[bff].[usp_create_user]";
         private const string updateUserStoredProcedure = "[bff].[usp_update_user]";
-        private const string getUserStoredProcedure    = "[bff].[usp_get_user]";
-        public async Task<User> GetAsync(string externalUserId) 
+        private const string getUserStoredProcedure = "[bff].[usp_get_user]";
+        public async Task<User> GetAsync(string externalUserId)
         {
             var parameters = new
             {
@@ -51,7 +51,7 @@
             UserProfile userProfile = GetUserProfile(user);
             var userIdentifier = new UserIdentifier((int)user.userId, externalUserId);
             var userBuild = new User((int)user.userId, userIdentifier, userProfile);
-            
+
             if (subscriptions?.Any() == true)
             {
                 foreach (dynamic subscription in subscriptions)
@@ -77,7 +77,7 @@
                 lastName = user.UserProfile.LastName,
                 whatsapp = user.UserProfile.Whatsapp,
                 email = user.UserProfile.Email,
-                rowversion = user.GetRowVersion()       
+                rowversion = user.GetRowVersion()
             };
 
             return await unitOfWork.Connection
@@ -218,8 +218,8 @@
         }
         private Money GetMoney(dynamic subscription)
         {
-            return subscription.bundleId is null 
-                ? default 
+            return subscription.bundleId is null
+                ? default
                 : new Money((decimal)subscription.amount);
         }
 

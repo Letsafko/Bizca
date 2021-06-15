@@ -22,7 +22,7 @@
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             IValidator validator = validatorFactory.GetValidator(typeof(TRequest));
-            if(validator != null)
+            if (validator != null)
             {
                 string typeName = request.GetType().Name;
                 logger.LogDebug($"validating {typeName}");
@@ -37,7 +37,7 @@
 
                 logger.LogDebug($"{typeName} validated");
             }
-            
+
             return await next().ConfigureAwait(false);
         }
     }

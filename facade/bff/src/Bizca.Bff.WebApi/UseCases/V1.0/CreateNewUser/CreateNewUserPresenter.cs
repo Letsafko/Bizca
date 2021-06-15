@@ -12,7 +12,7 @@
         ///     Create new user view model.
         /// </summary>
         public IActionResult ViewModel { get; private set; } = new NoContentResult();
-        
+
         /// <summary>
         ///     Standard output.
         /// </summary>

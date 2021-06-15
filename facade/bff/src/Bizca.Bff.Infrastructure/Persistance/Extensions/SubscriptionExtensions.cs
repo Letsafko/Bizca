@@ -77,32 +77,32 @@
 
         private static class SubscriptionColumns
         {
-            public const string UserId               = "userId";
+            public const string UserId = "userId";
             public const string SubscriptionStatusId = "subscriptionStatusId";
-            public const string SubscriptionCode     = "subscriptionCode";
-            public const string SubscriptionId       = "subscriptionId";
-            public const string ProcedureTypeId      = "procedureTypeId";
-            public const string OrganismId           = "organismId";
-            public const string BundleId             = "bundleId";
+            public const string SubscriptionCode = "subscriptionCode";
+            public const string SubscriptionId = "subscriptionId";
+            public const string ProcedureTypeId = "procedureTypeId";
+            public const string OrganismId = "organismId";
+            public const string BundleId = "bundleId";
 
-            public const string Amount               = "amount";
-            public const string FirstName            = "firstName";
-            public const string LastName             = "lastName";
-            public const string PhoneNumber          = "phoneNumber";
-            public const string Whatsapp             = "whatsapp";
-            public const string Email                = "email";
+            public const string Amount = "amount";
+            public const string FirstName = "firstName";
+            public const string LastName = "lastName";
+            public const string PhoneNumber = "phoneNumber";
+            public const string Whatsapp = "whatsapp";
+            public const string Email = "email";
 
-            public const string WhatsappCounter      = "whatsappCounter";
-            public const string TotalWhatsapp        = "totalWhatsapp";
-            public const string EmailCounter         = "emailCounter";
-            public const string TotalEmail           = "totalEmail";
-            public const string SmsCounter           = "smsCounter";
-            public const string TotalSms             = "totalSms";
+            public const string WhatsappCounter = "whatsappCounter";
+            public const string TotalWhatsapp = "totalWhatsapp";
+            public const string EmailCounter = "emailCounter";
+            public const string TotalEmail = "totalEmail";
+            public const string SmsCounter = "smsCounter";
+            public const string TotalSms = "totalSms";
 
             public const string ActivatedChannelMask = "activatedChannelMask";
             public const string ConfirmedChannelMask = "confirmedChannelMask";
-            public const string BeginDate            = "beginDate";
-            public const string EndDate              = "endDate";
+            public const string BeginDate = "beginDate";
+            public const string EndDate = "endDate";
         }
     }
 }

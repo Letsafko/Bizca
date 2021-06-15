@@ -4,7 +4,7 @@
     internal sealed class BundleViewModel
     {
         public BundleViewModel(string name,
-            decimal amount, 
+            decimal amount,
             int remainingSms,
             int remainingEmail)
         {

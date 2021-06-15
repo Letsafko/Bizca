@@ -37,7 +37,7 @@
 
         public UserIdentifier UserIdentifier { get; }
         public UserProfile UserProfile { get; }
-        
+
         public byte[] GetRowVersion()
         {
             return rowVersion;
@@ -49,14 +49,14 @@
         public void UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode);
-            if(subscription is null)
+            if (subscription is null)
             {
-                throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference."); 
+                throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.");
             }
 
             if (!IsSubscriptionAllowedToBeUpdated(subscription.SubscriptionState.Status))
             {
-                throw new SubscriptionCannotBeUpdatedException(nameof(subscription.SubscriptionState), 
+                throw new SubscriptionCannotBeUpdatedException(nameof(subscription.SubscriptionState),
                     $"subscription status {subscription.SubscriptionState.Status} does not allowed changes.");
             }
 
@@ -93,7 +93,7 @@
         {
             foreach (Subscription subscr in subscriptions)
             {
-                if(subscr.CheckSum == subscription.CheckSum && 
+                if (subscr.CheckSum == subscription.CheckSum &&
                    subscr.SubscriptionState.Status != SubscriptionStatus.Expired)
                 {
                     return false;

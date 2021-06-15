@@ -42,10 +42,10 @@
                     bundle.BundleSettings.TotalSms);
             }
 
-            var userSubscription = new UserSubscription(request.FirstName, 
-                request.LastName, 
-                request.PhoneNumber, 
-                request.Whatsapp, 
+            var userSubscription = new UserSubscription(request.FirstName,
+                request.LastName,
+                request.PhoneNumber,
+                request.Whatsapp,
                 request.Email);
 
             return new Subscription(SubscriptionInitialId,
@@ -65,7 +65,7 @@
             var bundleTask = Task.FromResult<Bundle>(default);
             if (request.BundleId.HasValue)
             {
-                bundleTask  = bundleRepository.GetBundleByIdAsync(request.BundleId.Value);
+                bundleTask = bundleRepository.GetBundleByIdAsync(request.BundleId.Value);
             }
             await Task.WhenAll(bundleTask, procedureTask);
             return

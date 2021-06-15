@@ -38,7 +38,7 @@
         public BirthDateIsMandatoryException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
         {
         }
-        
+
         /// <inheritdoc/>
         private BirthDateIsMandatoryException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
         {

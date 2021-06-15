@@ -15,16 +15,16 @@
         /// </summary>
         public UserDetailModel(GetUserDetail user)
         {
-            Channels         =  user.Channels.Count == 0 ? default : user.Channels.Select(x => new ChannelModel(x));
-            Address          =  user.Address == null ? default : new AddressModel(user.Address);
-            EconomicActivity =  user.EconomicActivity;
-            ExternalUserId   =  user.ExternalUserId;
-            BirthCountry     =  user.BirthCountry;
-            BirthDate        =  user.BirthDate;
-            FirstName        =  user.FirstName;
-            BirthCity        =  user.BirthCity;
-            LastName         =  user.LastName;
-            Civility         =  user.Civility;
+            Channels = user.Channels.Count == 0 ? default : user.Channels.Select(x => new ChannelModel(x));
+            Address = user.Address == null ? default : new AddressModel(user.Address);
+            EconomicActivity = user.EconomicActivity;
+            ExternalUserId = user.ExternalUserId;
+            BirthCountry = user.BirthCountry;
+            BirthDate = user.BirthDate;
+            FirstName = user.FirstName;
+            BirthCity = user.BirthCity;
+            LastName = user.LastName;
+            Civility = user.Civility;
         }
 
         /// <summary>

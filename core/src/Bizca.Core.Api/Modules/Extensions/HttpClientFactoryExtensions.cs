@@ -17,8 +17,8 @@
         /// <typeparam name="TOption">Agent configuration</typeparam>
         /// <param name="services"> service collection</param>
         /// <param name="httpMessageHandler">custom http message handler.</param>
-        public static IServiceCollection AddHttpClientBase<TClient, TImplementation, TOption>(this IServiceCollection services, 
-            IConfigurationSection section, 
+        public static IServiceCollection AddHttpClientBase<TClient, TImplementation, TOption>(this IServiceCollection services,
+            IConfigurationSection section,
             string httpClientName = null)
             where TClient : class
             where TImplementation : class, TClient

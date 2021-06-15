@@ -44,8 +44,8 @@
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ModelStateResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
-        public async Task<IActionResult> UpdateSubscriptionAsync([Required] string externalUserId, 
-            [Required] string reference, 
+        public async Task<IActionResult> UpdateSubscriptionAsync([Required] string externalUserId,
+            [Required] string reference,
             [Required][FromBody] UpdateSubscription subscription)
         {
             UpdateSubscriptionCommand command = GetUpdateSubscriptionCommand(externalUserId, reference, subscription);
@@ -53,7 +53,7 @@
             return presenter.ViewModel;
         }
 
-        private UpdateSubscriptionCommand GetUpdateSubscriptionCommand(string externalUserId, 
+        private UpdateSubscriptionCommand GetUpdateSubscriptionCommand(string externalUserId,
             string subscriptionCode,
             UpdateSubscription subscription)
         {

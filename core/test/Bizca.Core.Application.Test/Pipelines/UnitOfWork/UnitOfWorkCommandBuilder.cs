@@ -34,7 +34,7 @@
             return this;
         }
 
-        internal UnitOfWorkCommandBuilder DelegateReturnResponse()  
+        internal UnitOfWorkCommandBuilder DelegateReturnResponse()
         {
             pipelineBehaviourDelegate.Invoke().Returns(Unit.Value);
             return this;

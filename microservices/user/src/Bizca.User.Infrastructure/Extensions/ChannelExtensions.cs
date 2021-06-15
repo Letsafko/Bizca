@@ -45,7 +45,7 @@
             primaryKeys[0] = dt.Columns[ChannelColumns.ChannelValue];
             dt.PrimaryKey = primaryKeys;
 
-            foreach(Channel channel in channels ?? new List<Channel>())
+            foreach (Channel channel in channels ?? new List<Channel>())
             {
                 if (dt.Rows.Contains(channel.ChannelValue))
                 {

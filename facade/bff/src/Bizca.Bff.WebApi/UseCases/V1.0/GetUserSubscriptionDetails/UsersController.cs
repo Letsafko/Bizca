@@ -43,7 +43,7 @@
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ModelStateResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
-        public async Task<IActionResult> GetUserSubscriptionDetailsAsync([Required] string externalUserId, 
+        public async Task<IActionResult> GetUserSubscriptionDetailsAsync([Required] string externalUserId,
             [Required] string reference)
         {
             var query = new GetUserSubscriptionDetailsQuery(externalUserId, reference);

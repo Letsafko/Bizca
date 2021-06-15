@@ -41,11 +41,11 @@
 
         public async Task<IEnumerable<Bundle>> GetBundlesAsync()
         {
-           IEnumerable<dynamic> results = await unitOfWork.Connection
-                .QueryAsync(getBundlesStoredProcedure,
-                    transaction: unitOfWork.Transaction,
-                    commandType: CommandType.StoredProcedure)
-                .ConfigureAwait(false);
+            IEnumerable<dynamic> results = await unitOfWork.Connection
+                 .QueryAsync(getBundlesStoredProcedure,
+                     transaction: unitOfWork.Transaction,
+                     commandType: CommandType.StoredProcedure)
+                 .ConfigureAwait(false);
 
             if (results?.Any() != true)
             {

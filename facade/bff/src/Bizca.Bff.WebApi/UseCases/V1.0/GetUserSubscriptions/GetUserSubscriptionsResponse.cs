@@ -9,12 +9,12 @@
     {
         public GetUserSubscriptionsResponse(IEnumerable<Subscription> subscriptions)
         {
-            if(subscriptions?.Any() == true)
+            if (subscriptions?.Any() == true)
             {
                 Subscriptions = new SubscriptionCollectionViewModel();
                 foreach (Subscription sub in subscriptions)
                 {
-                     Subscriptions.Add(new SubscriptionViewModel(sub));
+                    Subscriptions.Add(new SubscriptionViewModel(sub));
                 }
             }
         }

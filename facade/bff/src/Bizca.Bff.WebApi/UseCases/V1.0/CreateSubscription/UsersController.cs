@@ -42,7 +42,7 @@
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> CreateSubscriptionAsync([Required] string externalUserId, 
+        public async Task<IActionResult> CreateSubscriptionAsync([Required] string externalUserId,
             [Required][FromBody] CreateSubscription subscription)
         {
             CreateSubscriptionCommand command = GetCreateSubscriptionCommand(externalUserId, subscription);

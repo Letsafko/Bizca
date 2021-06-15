@@ -58,7 +58,7 @@
                     Convert.FromBase64String(password.PasswordHash),
                     Convert.FromBase64String(password.SecurityStamp));
 
-            if(authenticated)
+            if (authenticated)
             {
                 authenticateUserOutput.Ok(user);
                 return Unit.Value;

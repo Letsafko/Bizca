@@ -36,7 +36,7 @@
             UserRequest userRequest = GetUserRequest(request);
             User user = userFactory.Create(userRequest);
             await userRepository.AddAsync(user);
-            
+
             UserToCreateRequest userToCreateRequest = MapTo(user);
             UserCreatedResponse response = await userAgent.CreateUserAsync(userToCreateRequest);
 

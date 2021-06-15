@@ -7,7 +7,7 @@
     public interface IEventService
     {
         ICollection<IEvent> Events { get; }
-        void Enqueue(IEnumerable<IEvent> events); 
+        void Enqueue(IEnumerable<IEvent> events);
         Task DequeueAsync();
     }
 }

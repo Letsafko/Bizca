@@ -63,9 +63,9 @@
         private Procedure GetProcedure(dynamic result)
         {
             var procedureType = new ProcedureType((int)result.procedureTypeId, result.procedureTypeLabel);
-            var organism = new Organism((int)result.organismId, 
-                result.codeInsee, 
-                result.organismName, 
+            var organism = new Organism((int)result.organismId,
+                result.codeInsee,
+                result.organismName,
                 result.organismHref);
             return new Procedure(procedureType,
                 organism,

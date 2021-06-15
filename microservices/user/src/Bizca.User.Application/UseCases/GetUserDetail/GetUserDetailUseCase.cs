@@ -89,7 +89,7 @@
                 .WithBirthDate(result.birthDate?.ToString("yyyy-MM-dd"))
                 .WithEconomicActivity(economicActivity?.EconomicActivityCode);
 
-            if(address != null)
+            if (address != null)
             {
                 builder.WithAddress(address.addressId,
                    address.active,

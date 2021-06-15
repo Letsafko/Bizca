@@ -119,7 +119,7 @@ namespace Bizca.Core.Api.Modules.Extensions
         {
             services.AddSingleton<ITelemetryInitializer, CloudRoleNameTelemetryInitializer>();
             services.AddSingleton<ITelemetryInitializer, CorrIdTelemetryInitializer>();
-            
+
             applicationInsightsConfiguration.EnableActiveTelemetryConfigurationSetup = true;
             applicationInsightsConfiguration.EnableAdaptiveSampling = false;
             return services.AddApplicationInsightsTelemetry(applicationInsightsConfiguration)

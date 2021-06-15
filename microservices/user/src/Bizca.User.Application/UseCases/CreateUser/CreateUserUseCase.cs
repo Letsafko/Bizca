@@ -73,7 +73,7 @@
 
         private async Task<Address> GetAddressAsync(Partner partner, CreateUserCommand request)
         {
-            if(request.Address is null)
+            if (request.Address is null)
             {
                 return null;
             }

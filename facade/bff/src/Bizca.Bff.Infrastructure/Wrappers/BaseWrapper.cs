@@ -28,7 +28,7 @@
             using (var request = new HttpRequestMessage(httpMethod, new Uri(requestUrl, UriKind.Relative)))
             {
                 request.AddHeaders(metadata);
-                if(httpMethod == HttpMethod.Post || httpMethod == HttpMethod.Patch || httpMethod == HttpMethod.Put)
+                if (httpMethod == HttpMethod.Post || httpMethod == HttpMethod.Patch || httpMethod == HttpMethod.Put)
                 {
                     if (content != null)
                     {

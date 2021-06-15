@@ -15,7 +15,7 @@
         {
             OrganismName = organismName;
             OrganismHref = organismHref;
-            CodeInsee    = codeInsee;
+            CodeInsee = codeInsee;
             Id = id;
         }
 

@@ -24,7 +24,7 @@
                 ?.ToList()
                 ?? new List<PropertyInfo>();
 
-            foreach(PropertyInfo param in parameters)
+            foreach (PropertyInfo param in parameters)
             {
                 OpenApiParameter openApiParameter = operation.Parameters.SingleOrDefault(x => param.Name.Equals(x.Name, StringComparison.OrdinalIgnoreCase));
                 if (openApiParameter is null)
