@@ -10,16 +10,16 @@
     {
         public UpdateUserResponse(UpdateUserDto user)
         {
-            Address           =  user.Address == null ? default : new AddressModel(user.Address);
-            Channels          =  user.Channels?.Select(x => new ChannelModel(x));
-            EconomicActivity  =  user.EconomicActivity;
-            ExternalUserId    =  user.ExternalUserId;
-            BirthCountry      =  user.BirthCountry;
-            BirthCity         =  user.BirthCity;
-            BirthDate         =  user.BirthDate;
-            FirstName         =  user.FirstName;
-            LastName          =  user.LastName;
-            Civility          =  user.Civility;
+            Address = user.Address == null ? default : new AddressModel(user.Address);
+            Channels = user.Channels?.Select(x => new ChannelModel(x));
+            EconomicActivity = user.EconomicActivity;
+            ExternalUserId = user.ExternalUserId;
+            BirthCountry = user.BirthCountry;
+            BirthCity = user.BirthCity;
+            BirthDate = user.BirthDate;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Civility = user.Civility;
         }
 
         /// <summary>

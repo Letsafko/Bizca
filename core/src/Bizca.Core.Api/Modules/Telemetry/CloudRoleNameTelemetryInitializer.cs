@@ -13,8 +13,10 @@
         /// <param name="configuration">The configuration.</param>
         public CloudRoleNameTelemetryInitializer(IConfiguration configuration)
         {
-            cloudRoleName = configuration["Api:ApplicationInsights:ApplicationName"];
+            cloudRoleName = configuration[ApplicationNameScheme];
         }
+
+        private const string ApplicationNameScheme = "Api:ApplicationInsights:ApplicationName";
 
         /// <summary>Initializes properties of the specified <see cref="T:Microsoft.ApplicationInsights.Channel.ITelemetry">ITelemetry</see> object.</summary>
         /// <param name="telemetry"></param>

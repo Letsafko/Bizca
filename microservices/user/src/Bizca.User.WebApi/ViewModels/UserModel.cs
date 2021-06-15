@@ -17,16 +17,16 @@
         /// </summary>
         public UserModel(GetUsers user)
         {
-            Channels         =  user.Channels.Count == 0 ? default : user.Channels.Select(x => new ChannelModel(x));
-            Address          =  user.Address == null ? default : new AddressModel(user.Address);
-            BirthCountry     =  user.BirthCountry?.CountryCode;
-            EconomicActivity =  user.EconomicActivity;
-            ExternalUserId   =  user.ExternalUserId;
-            FirstName        =  user.FirstName;
-            BirthCity        =  user.BirthCity;
-            BirthDate        =  user.BirthDate;
-            LastName         =  user.LastName;
-            Civility         =  user.Civility;
+            Channels = user.Channels.Count == 0 ? default : user.Channels.Select(x => new ChannelModel(x));
+            Address = user.Address == null ? default : new AddressModel(user.Address);
+            BirthCountry = user.BirthCountry?.CountryCode;
+            EconomicActivity = user.EconomicActivity;
+            ExternalUserId = user.ExternalUserId;
+            FirstName = user.FirstName;
+            BirthCity = user.BirthCity;
+            BirthDate = user.BirthDate;
+            LastName = user.LastName;
+            Civility = user.Civility;
         }
 
         /// <summary>
@@ -35,17 +35,17 @@
         /// <param name="user"></param>
         public UserModel(User user)
         {
-            Address address   =  user.Profile.Addresses.SingleOrDefault(x => x.Active);
-            Channels          =  user.Profile.Channels.Count == 0 ? default : user.Profile.Channels.Select(x => new ChannelModel(x));
-            Address           =  address is null ? default : new AddressModel(address);
-            EconomicActivity  =  user.Profile.EconomicActivity?.EconomicActivityCode;
-            ExternalUserId    =  user.UserIdentifier.ExternalUserId.ToString();
-            BirthCountry      =  user.Profile.BirthCountry?.CountryCode;
-            Civility          =  user.Profile.Civility.CivilityCode;
-            BirthDate         =  user.Profile.BirthDate?.ToString();
-            FirstName         =  user.Profile.FirstName;
-            BirthCity         =  user.Profile.BirthCity;
-            LastName          =  user.Profile.LastName;
+            Address address = user.Profile.Addresses.SingleOrDefault(x => x.Active);
+            Channels = user.Profile.Channels.Count == 0 ? default : user.Profile.Channels.Select(x => new ChannelModel(x));
+            Address = address is null ? default : new AddressModel(address);
+            EconomicActivity = user.Profile.EconomicActivity?.EconomicActivityCode;
+            ExternalUserId = user.UserIdentifier.ExternalUserId.ToString();
+            BirthCountry = user.Profile.BirthCountry?.CountryCode;
+            Civility = user.Profile.Civility.CivilityCode;
+            BirthDate = user.Profile.BirthDate?.ToString();
+            FirstName = user.Profile.FirstName;
+            BirthCity = user.Profile.BirthCity;
+            LastName = user.Profile.LastName;
         }
 
         /// <summary>

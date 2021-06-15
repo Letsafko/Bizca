@@ -63,7 +63,7 @@
                 .WithWhatsapp(input.Whatsapp)
                 .WithPhoneNumber(input.PhoneNumber);
 
-            if(input.Address != null)
+            if (input.Address != null)
             {
                 builder.WithAddress(input.Address?.Street, input.Address?.City, input.Address?.ZipCode, input.Address?.Country, input.Address?.Name);
             }

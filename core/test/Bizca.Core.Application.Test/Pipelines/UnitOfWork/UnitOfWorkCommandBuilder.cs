@@ -2,6 +2,7 @@
 {
     using Bizca.Core.Application.Behaviors;
     using Bizca.Core.Application.Commands;
+    using Bizca.Core.Application.Services;
     using Bizca.Core.Domain;
     using MediatR;
     using NSubstitute;
@@ -10,19 +11,21 @@
 
     internal sealed class UnitOfWorkCommandBuilder
     {
-        public readonly IUnitOfWork unitOfWork;
         public readonly RequestHandlerDelegate<Unit> pipelineBehaviourDelegate;
+        public readonly IEventService eventService;
+        public readonly IUnitOfWork unitOfWork;
 
         private UnitOfWorkCommandBuilder()
         {
-            unitOfWork = Substitute.For<IUnitOfWork>();
             pipelineBehaviourDelegate = Substitute.For<RequestHandlerDelegate<Unit>>();
+            eventService = Substitute.For<IEventService>();
+            unitOfWork = Substitute.For<IUnitOfWork>();
         }
 
         internal static UnitOfWorkCommandBuilder Instance => new UnitOfWorkCommandBuilder();
         internal UnitOfWorkCommandBehavior<TCommand> Build<TCommand>() where TCommand : ICommand
         {
-            return new UnitOfWorkCommandBehavior<TCommand>(unitOfWork);
+            return new UnitOfWorkCommandBehavior<TCommand>(unitOfWork, eventService);
         }
 
         internal UnitOfWorkCommandBuilder DelegateThrowException()

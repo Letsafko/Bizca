@@ -47,32 +47,24 @@
 
         private IActionResult GetModelStateResponse(IHostEnvironment environment, Exception exception)
         {
-            string[] modelStateErrors;
+            string modelStateError;
             int statusCode = GetStatusCode(exception);
             if (!(exception is DomainException) && !(exception is ValidationException))
             {
-                modelStateErrors = new string[] { "an error occured, contact your administrator." };
+                modelStateError = "an error occured, contact your administrator.";
             }
             else if (exception is ValidationException validationException)
             {
-                modelStateErrors = validationException.Errors
-                    .ToLookup(x => x.PropertyName)
-                    .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray())
-                    .SelectMany(x => x.Value)
-                    .ToArray();
+                modelStateError = validationException.Errors.FirstOrDefault()?.ErrorMessage;
             }
             else
             {
                 var domainException = exception as DomainException;
-                modelStateErrors = domainException.Errors
-                    .ToLookup(x => x.PropertyName)
-                    .ToDictionary(x => x.Key, y => y.Select(z => z.ErrorMessage).ToArray())
-                    .SelectMany(x => x.Value)
-                    .ToArray();
+                modelStateError = domainException.Errors.FirstOrDefault()?.ErrorMessage;
             }
 
             var modelState = new ModelStateResponse(statusCode,
-                modelStateErrors,
+                modelStateError,
                 !environment.IsDevEnvironment() ? default : exception);
             return new ObjectResult(modelState) { StatusCode = modelState.Status };
         }

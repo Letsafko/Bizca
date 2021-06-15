@@ -24,7 +24,15 @@
         ///     Creates a new DomainException
         /// </summary>
         /// <param name="message"></param>
-        public DomainException(string message) : this(message, new List<DomainFailure> { new DomainFailure(message) } )
+        public DomainException(string message) : this(message, new List<DomainFailure> { new DomainFailure(message) })
+        {
+        }
+
+        /// <summary>
+        ///     Creates a new DomainException
+        /// </summary>
+        /// <param name="message"></param>
+        public DomainException(string propertyName, string message) : this(message, new List<DomainFailure> { new DomainFailure(message, propertyName) })
         {
         }
 

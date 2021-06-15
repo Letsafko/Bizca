@@ -7,8 +7,6 @@ namespace Bizca.Core.Api.Modules.Extensions
     using Bizca.Core.Domain.Cache;
     using Bizca.Core.Infrastructure.Cache;
     using IdentityServer4.AccessTokenValidation;
-    using Microsoft.ApplicationInsights;
-    using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
@@ -30,22 +28,34 @@ namespace Bizca.Core.Api.Modules.Extensions
         {
             FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
             if (features.Logging)
+            {
                 services.AddLogging();
+            }
 
             if (features.ApplicationInsights)
+            {
                 services.AddApplicationInsights(configuration.GetApplicationInsightsConfiguration());
+            }
 
             if (features.Cors)
+            {
                 services.AddCors(configuration.GetCorsConfiguration());
+            }
 
             if (features.Sts)
+            {
                 services.AddSts(configuration.GetStsConfiguration());
+            }
 
             if (features.Versioning)
+            {
                 services.AddVersioning(configuration.GetVersioningConfiguration());
+            }
 
             if (features.Swagger)
+            {
                 services.AddSwagger(configuration.GetSwaggerConfiguration(), opt => opt.DocumentFilter<MarkdownFileResolverFilter>());
+            }
 
             return services.AddCache();
         }
@@ -55,7 +65,9 @@ namespace Bizca.Core.Api.Modules.Extensions
         private static IServiceCollection AddSwagger(this IServiceCollection services, SwaggerConfigurationModel swaggerConfiguration, Action<SwaggerGenOptions> specificSetupAction)
         {
             if (swaggerConfiguration.Versions?.Any() != true)
+            {
                 throw new MissingConfigurationException(nameof(swaggerConfiguration.Versions));
+            }
 
             services.AddSwaggerGen(x =>
             {
@@ -107,20 +119,18 @@ namespace Bizca.Core.Api.Modules.Extensions
         {
             services.AddSingleton<ITelemetryInitializer, CloudRoleNameTelemetryInitializer>();
             services.AddSingleton<ITelemetryInitializer, CorrIdTelemetryInitializer>();
-            services.AddScoped<ITelemetryService>(_ =>
-            {
-                var telemetryClient = new TelemetryClient(new TelemetryConfiguration(applicationInsightsConfiguration.InstrumentationKey));
-                return new ApplicationInsightsTelemetryService(telemetryClient);
-            });
 
             applicationInsightsConfiguration.EnableActiveTelemetryConfigurationSetup = true;
             applicationInsightsConfiguration.EnableAdaptiveSampling = false;
-            return services.AddApplicationInsightsTelemetry(applicationInsightsConfiguration);
+            return services.AddApplicationInsightsTelemetry(applicationInsightsConfiguration)
+                           .AddSingleton<ITelemetryService, ApplicationInsightsTelemetryService>();
         }
         private static IServiceCollection AddVersioning(this IServiceCollection services, VersioningConfigurationModel versioningConfiguration)
         {
             if (string.IsNullOrWhiteSpace(versioningConfiguration.RouteConstraintName))
+            {
                 throw new MissingConfigurationException(nameof(versioningConfiguration.RouteConstraintName));
+            }
 
             void mvcOptions(MvcOptions x)
             {
@@ -129,7 +139,9 @@ namespace Bizca.Core.Api.Modules.Extensions
 
             services.Configure((Action<MvcOptions>)mvcOptions);
             if (string.IsNullOrWhiteSpace(versioningConfiguration.Default))
+            {
                 throw new MissingConfigurationException(nameof(versioningConfiguration.Default));
+            }
 
             services.AddApiVersioning(opts =>
             {

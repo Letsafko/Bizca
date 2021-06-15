@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Core.Application.Behaviors
 {
     using Bizca.Core.Application.Commands;
+    using Bizca.Core.Application.Services;
     using Bizca.Core.Domain;
     using MediatR;
     using System;
@@ -10,25 +11,27 @@
     public class UnitOfWorkCommandBehavior<TCommand> : IPipelineBehavior<TCommand, Unit>
         where TCommand : ICommand
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public UnitOfWorkCommandBehavior(IUnitOfWork unitOfWork)
+        private readonly IEventService eventService;
+        private readonly IUnitOfWork unitOfWork;
+        public UnitOfWorkCommandBehavior(IUnitOfWork unitOfWork, IEventService eventService)
         {
-            _unitOfWork = unitOfWork;
+            this.eventService = eventService;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken, RequestHandlerDelegate<Unit> next)
         {
-            _unitOfWork.Begin();
+            unitOfWork.Begin();
             try
             {
                 Unit result = await next().ConfigureAwait(false);
-                _unitOfWork.Commit();
+                await eventService.DequeueAsync();
+                unitOfWork.Commit();
                 return result;
             }
             catch (Exception)
             {
-                _unitOfWork.Rollback();
+                unitOfWork.Rollback();
                 throw;
             }
         }

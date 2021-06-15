@@ -22,8 +22,8 @@
 
         #endregion
 
-        public IDbConnection Connection { get; private set; }
         public IDbTransaction Transaction { get; private set; }
+        public IDbConnection Connection { get; private set; }
 
         public void Rollback()
         {

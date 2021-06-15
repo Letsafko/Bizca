@@ -129,6 +129,11 @@
     <Folder Include="usr\Full text" />
     <Folder Include="usr\Functions" />
     <Folder Include="usr\Types" />
+    <Folder Include="bff" />
+    <Folder Include="bff\Tables" />
+    <Folder Include="bff\Functions" />
+    <Folder Include="bff\Stored procedures" />
+    <Folder Include="bff\Types" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ref\Tables\partner.sql" />
@@ -175,5 +180,29 @@
     <Build Include="usr\Types\passwords.sql" />
     <Build Include="usr\Stored procedures\usp_isExists_channel.sql" />
     <Build Include="usr\Stored procedures\usp_getByPartnerAndChannel_user.sql" />
+    <None Include="Scripts\PostDeployment\organism.sql" />
+    <None Include="Scripts\PostDeployment\pricing.sql" />
+    <None Include="Scripts\PostDeployment\procedure.sql" />
+    <None Include="Scripts\PostDeployment\procedureType.sql" />
+    <None Include="Scripts\PostDeployment\subscriptionStatus.sql" />
+    <Build Include="Security\bff.sql" />
+    <Build Include="bff\Tables\organism.sql" />
+    <Build Include="bff\Tables\procedure.sql" />
+    <Build Include="bff\Tables\procedureType.sql" />
+    <Build Include="bff\Tables\subscription.sql" />
+    <Build Include="bff\Tables\subscriptionStatus.sql" />
+    <Build Include="bff\Tables\bundle.sql" />
+    <Build Include="bff\Functions\fn_getById_bundle.sql" />
+    <Build Include="bff\Functions\fn_getById_procedure.sql" />
+    <Build Include="bff\Stored procedures\usp_create_user.sql" />
+    <Build Include="bff\Stored procedures\usp_get_user.sql" />
+    <Build Include="bff\Stored procedures\usp_getAll_bundle.sql" />
+    <Build Include="bff\Stored procedures\usp_getAll_procedure.sql" />
+    <Build Include="bff\Stored procedures\usp_getById_bundle.sql" />
+    <Build Include="bff\Stored procedures\usp_getByIdAndCodeInsee_procedure.sql" />
+    <Build Include="bff\Stored procedures\usp_update_user.sql" />
+    <Build Include="bff\Stored procedures\usp_upsert_subscription.sql" />
+    <Build Include="bff\Types\subscriptionsUdt.sql" />
+    <Build Include="bff\Tables\user.sql" />
   </ItemGroup>
 </Project>

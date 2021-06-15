@@ -214,7 +214,7 @@ namespace Bizca.User.Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to economicActivity is invalid..
+        ///   Looks up a localized string similar to economicActivity is required..
         /// </summary>
         public static string ECONOMIC_ACTIVITY_REQUIRED {
             get {

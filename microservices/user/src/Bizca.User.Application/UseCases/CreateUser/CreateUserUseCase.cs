@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.CreateUser
 {
     using Bizca.Core.Application.Commands;
+    using Bizca.Core.Application.Services;
     using Bizca.Core.Domain.Partner;
     using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates;
@@ -31,7 +32,8 @@
             IUserRepository userRepository,
             IChannelRepository channelRepository,
             IAddressRepository addressRepository,
-            IReferentialService referentialService)
+            IReferentialService referentialService,
+            IEventService eventService)
         {
             this.referentialService = referentialService;
             this.addressRepository = addressRepository;
@@ -71,7 +73,7 @@
 
         private async Task<Address> GetAddressAsync(Partner partner, CreateUserCommand request)
         {
-            if(request.Address is null)
+            if (request.Address is null)
             {
                 return null;
             }

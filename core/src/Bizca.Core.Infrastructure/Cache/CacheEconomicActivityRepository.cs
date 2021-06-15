@@ -2,7 +2,6 @@
 {
     using Bizca.Core.Domain.Cache;
     using Bizca.Core.Domain.EconomicActivity;
-    using System.Threading;
     using System.Threading.Tasks;
 
     public sealed class CacheEconomicActivityRepository : IEconomicActivityRepository
@@ -15,12 +14,10 @@
             this.cache = cache;
         }
 
-        private static readonly SemaphoreSlim Semaphore = new SemaphoreSlim(1, 1);
         public async Task<EconomicActivity> GetByIdAsync(int economicActivityId)
         {
             string cacheKey = GetCacheKey(economicActivityId);
-            EconomicActivity cachedReponse = cache.Get<EconomicActivity>(cacheKey);
-            return cachedReponse ?? await cache.GetAsync(cacheKey, Semaphore, () => decorated.GetByIdAsync(economicActivityId)).ConfigureAwait(false);
+            return await cache.GetOrCreateAsync(cacheKey, () => decorated.GetByIdAsync(economicActivityId));
         }
 
         private string GetCacheKey(object value)

@@ -7,4 +7,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="externalUserId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="e6255751-3636-42bd-ab0c-7e8738abb9a0" ChangeDateTime="04/13/2021 17:02:20">
+    <Property Name="ElementName" Value="[bff].[pricing].[tolalWhatsapp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[bff].[pricing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="totalWhatsapp" />
+  </Operation>
 </Operations>

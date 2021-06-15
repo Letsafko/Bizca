@@ -16,7 +16,7 @@
         /// </summary>
         public GetUserDetailResponse(GetUserDetail userDetail)
         {
-            Address = userDetail.Address is null ? default  : new AddressModel(userDetail.Address);
+            Address = userDetail.Address is null ? default : new AddressModel(userDetail.Address);
             Channels = userDetail.Channels?.Select(x => new ChannelModel(x));
             EconomicActivity = userDetail.EconomicActivity;
             ExternalUserId = userDetail.ExternalUserId;

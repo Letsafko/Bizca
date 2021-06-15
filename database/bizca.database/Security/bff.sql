@@ -1,0 +1,1 @@
+﻿create schema [bff] authorization [dbo]

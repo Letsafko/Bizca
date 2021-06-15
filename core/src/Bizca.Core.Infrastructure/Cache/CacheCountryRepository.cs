@@ -2,7 +2,6 @@
 {
     using Bizca.Core.Domain.Cache;
     using Bizca.Core.Domain.Country;
-    using System.Threading;
     using System.Threading.Tasks;
 
     public sealed class CacheCountryRepository : ICountryRepository
@@ -15,20 +14,16 @@
             this.cache = cache;
         }
 
-        private static readonly SemaphoreSlim Semaphore = new SemaphoreSlim(1, 1);
-
         public async Task<Country> GetByCodeAsync(string countryCode)
         {
             string cacheKey = GetCacheKey(countryCode);
-            Country cachedReponse = cache.Get<Country>(cacheKey);
-            return cachedReponse ?? await cache.GetAsync(cacheKey, Semaphore, () => decorated.GetByCodeAsync(countryCode)).ConfigureAwait(false);
+            return await cache.GetOrCreateAsync(cacheKey, () => decorated.GetByCodeAsync(countryCode));
         }
 
         public async Task<Country> GetByIdAsync(int countryId)
         {
             string cacheKey = GetCacheKey(countryId);
-            Country cachedReponse = cache.Get<Country>(cacheKey);
-            return cachedReponse ?? await cache.GetAsync(cacheKey, Semaphore, () => decorated.GetByIdAsync(countryId)).ConfigureAwait(false);
+            return await cache.GetOrCreateAsync(cacheKey, () => decorated.GetByIdAsync(countryId));
         }
 
         private string GetCacheKey(object value)
