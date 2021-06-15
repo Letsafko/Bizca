@@ -2,9 +2,9 @@
 {
     public sealed class ChannelResponse
     {
-        public string ChannelValue { get; }
-        public string ChannelType { get; }
-        public bool Confirmed { get; }
-        public bool Active { get; }
+        public string ChannelValue { get; set; }
+        public string ChannelType { get; set; }
+        public bool Confirmed { get; set; }
+        public bool Active { get; set; }
     }
 }

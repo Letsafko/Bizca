@@ -25,18 +25,22 @@
         public async Task<Subscription> CreateAsync(SubscriptionRequest request)
         {
             (Bundle bundle, Procedure procedure) = await GetEntities(request);
-            if (bundle is null)
-                throw new BundleDoesNotExistException($"bundle::{request.BundleId} does not exist.");
+            if (request.BundleId.HasValue && bundle is null)
+                throw new BundleDoesNotExistException($"bundle::{request.BundleId.Value} does not exist.");
 
             if (procedure is null)
                 throw new ProcedureDoesNotExistException($"procedureType::{request.ProcedureTypeId} with codeInsee::{request.CodeInsee} does not exist.");
 
-            var subscriptionSettings = new SubscriptionSettings(WhatsappInitialCounter,
-                EmailInitialCounter,
-                SmsInitialCounter,
-                bundle.BundleSettings.TotalWhatsapp,
-                bundle.BundleSettings.TotalEmail,
-                bundle.BundleSettings.TotalSms);
+            SubscriptionSettings subscriptionSettings = null;
+            if (bundle != null)
+            {
+                subscriptionSettings = new SubscriptionSettings(WhatsappInitialCounter,
+                    EmailInitialCounter,
+                    SmsInitialCounter,
+                    bundle.BundleSettings.TotalWhatsapp,
+                    bundle.BundleSettings.TotalEmail,
+                    bundle.BundleSettings.TotalSms);
+            }
 
             var userSubscription = new UserSubscription(request.FirstName, 
                 request.LastName, 
@@ -49,14 +53,20 @@
                 userSubscription,
                 procedure,
                 bundle,
-                bundle.Price,
+                bundle?.Price,
                 subscriptionSettings);
         }
+
+        #region private helpers
 
         private async Task<(Bundle bundle, Procedure procedure)> GetEntities(SubscriptionRequest request)
         {
             Task<Procedure> procedureTask = procedureRepository.GetProcedureByTypeIdAndCodeInseeAsync(request.ProcedureTypeId, request.CodeInsee);
-            Task<Bundle> bundleTask = bundleRepository.GetBundleByIdAsync(request.BundleId);
+            var bundleTask = Task.FromResult<Bundle>(default);
+            if (request.BundleId.HasValue)
+            {
+                bundleTask  = bundleRepository.GetBundleByIdAsync(request.BundleId.Value);
+            }
             await Task.WhenAll(bundleTask, procedureTask);
             return
             (
@@ -64,5 +74,7 @@
                 procedureTask.Result
             );
         }
+
+        #endregion
     }
 }

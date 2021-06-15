@@ -29,7 +29,7 @@
             };
 
             dynamic result = await unitOfWork.Connection
-                .QueryFirstAsync(getProcedureByTypeIdAndCodeInseeStoredProcedure,
+                .QueryFirstOrDefaultAsync(getProcedureByTypeIdAndCodeInseeStoredProcedure,
                     parameters,
                     unitOfWork.Transaction,
                     commandType: CommandType.StoredProcedure)

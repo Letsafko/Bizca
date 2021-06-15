@@ -28,7 +28,7 @@
             };
 
             dynamic result = await unitOfWork.Connection
-                .QueryFirstAsync(getBundleByIdStoredProcedure,
+                .QueryFirstOrDefaultAsync(getBundleByIdStoredProcedure,
                     parameters,
                     unitOfWork.Transaction,
                     commandType: CommandType.StoredProcedure)

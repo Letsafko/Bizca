@@ -6,11 +6,6 @@
     public sealed class CreateSubscription
     {
         /// <summary>
-        ///     Gets or sets user identifier.
-        /// </summary>
-        public string ExternalUserId { get; set; }
-
-        /// <summary>
         ///     Gets or sets organism code insee.
         /// </summary>
         public string CodeInsee { get; set; }
@@ -18,12 +13,12 @@
         /// <summary>
         ///     Gets or sets procedure type identifier.
         /// </summary>
-        public int ProcedureTypeId { get; set; }
+        public string ProcedureTypeId { get; set; }
 
         /// <summary>
         ///     Gets or sets bundle identifier.
         /// </summary>
-        public int BundleId { get; set; }
+        public string BundleId { get; set; }
 
         /// <summary>
         ///     Gets or sets user subscription phone number.

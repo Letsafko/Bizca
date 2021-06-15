@@ -1,23 +1,25 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User.ValueObjects
 {
+    using Bizca.Bff.Domain.Properties;
     using Bizca.Core.Domain;
     using System.Collections.Generic;
 
     public sealed class UserIdentifier : ValueObject
     {
-        public UserIdentifier(string externalUserId, string partnerCode)
+        public UserIdentifier(int userId, string externalUserId)
         {
             ExternalUserId = externalUserId;
-            PartnerCode = partnerCode;
+            UserId = userId;
         }
 
+        public string PartnerCode { get; } = Resources.PartnerCode;
         public string ExternalUserId { get; }
-        public string PartnerCode { get; }
+        public int UserId { get; }
 
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return ExternalUserId;
-            yield return PartnerCode;
+            yield return UserId;
         }
     }
 }

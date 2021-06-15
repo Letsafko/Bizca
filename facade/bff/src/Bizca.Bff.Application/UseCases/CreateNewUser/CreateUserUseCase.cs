@@ -13,15 +13,18 @@
 
     public sealed class CreateUserUseCase : ICommandHandler<CreateUserCommand>
     {
+        private readonly ICreateNewUserOutput createUserOutput;
         private readonly IUserRepository userRepository;
         private readonly IEventService eventService;
         private readonly IUserFactory userFactory;
         private readonly IUserWrapper userAgent;
         public CreateUserUseCase(IUserFactory userFactory,
+            ICreateNewUserOutput createUserOutput,
             IUserRepository userRepository,
             IEventService eventService,
             IUserWrapper userAgent)
         {
+            this.createUserOutput = createUserOutput;
             this.userRepository = userRepository;
             this.eventService = eventService;
             this.userFactory = userFactory;
@@ -32,13 +35,26 @@
         {
             UserRequest userRequest = GetUserRequest(request);
             User user = userFactory.Create(userRequest);
-            if (await userRepository.AddAsync(user))
-            {
-                UserToCreateRequest userToCreateRequest = MapTo(user);
-                UserCreatedResponse response = await userAgent.CreateUserAsync(userToCreateRequest);
-                eventService.Enqueue(user.UserEvents);
-            }
+            await userRepository.AddAsync(user);
+            
+            UserToCreateRequest userToCreateRequest = MapTo(user);
+            UserCreatedResponse response = await userAgent.CreateUserAsync(userToCreateRequest);
+
+            CreateNewUserDto newUserDto = MapTo(response);
+            eventService.Enqueue(user.UserEvents);
+            createUserOutput.Ok(newUserDto);
             return Unit.Value;
+        }
+
+        #region private helpers
+
+        private CreateNewUserDto MapTo(UserCreatedResponse response)
+        {
+            return new CreateNewUserDto(response.ExternalUserId,
+                response.FirstName,
+                response.LastName,
+                response.Civility,
+                response.Channels);
         }
 
         private UserRequest GetUserRequest(CreateUserCommand request)
@@ -64,5 +80,7 @@
                 user.UserProfile.Whatsapp,
                 user.UserProfile.Email);
         }
+
+        #endregion
     }
 }

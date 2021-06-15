@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUNDLE_INVALID" xml:space="preserve">
+    <value>bundle is invalid.</value>
+  </data>
   <data name="CIVILITY_INVALID" xml:space="preserve">
     <value>civility is invalid.</value>
   </data>
   <data name="CIVILITY_REQUIRED" xml:space="preserve">
     <value>civility is required.</value>
+  </data>
+  <data name="CODE_INSEE_REQUIRED" xml:space="preserve">
+    <value>code insee is required.</value>
   </data>
   <data name="ECONOMIC_ACTIVITY_INVALID" xml:space="preserve">
     <value>economicActivity is invalid.</value>
@@ -146,5 +152,17 @@
   </data>
   <data name="PARTNER_CODE_REQUIRED" xml:space="preserve">
     <value>partnerCode is required.</value>
+  </data>
+  <data name="PHONENUMBER_REQUIRED" xml:space="preserve">
+    <value>phoneNumber is required.</value>
+  </data>
+  <data name="PROCEDURE_TYPE_INVALID" xml:space="preserve">
+    <value>procedure type is invalid.</value>
+  </data>
+  <data name="PROCEDURE_TYPE_REQUIRED" xml:space="preserve">
+    <value>procedure type is required.</value>
+  </data>
+  <data name="SUBSCRIPTION_CODE_REQUIRED" xml:space="preserve">
+    <value>subscription code is required.</value>
   </data>
 </root>

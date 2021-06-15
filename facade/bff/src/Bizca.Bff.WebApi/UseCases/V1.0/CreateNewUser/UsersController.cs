@@ -2,8 +2,11 @@
 {
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.WebApi.Properties;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
@@ -16,15 +19,18 @@
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
+        private readonly CreateNewUserPresenter presenter;
         private readonly IProcessor processor;
 
         /// <summary>
         ///     Create an instance of <see cref="UsersController"/>
         /// </summary>
+        /// <param name="presenter"></param>
         /// <param name="processor"></param>
-        public UsersController(IProcessor processor)
+        public UsersController(CreateNewUserPresenter presenter, IProcessor processor)
         {
             this.processor = processor;
+            this.presenter = presenter;
         }
 
         /// <summary>
@@ -33,14 +39,14 @@
         /// <param name="user">channel confirmation code input.</param>
         /// <remarks>/Assets/createUser.md</remarks>
         [HttpPost]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateUserResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserViewModel))]  
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]  
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
         public async Task<IActionResult> CreateUserAsync([Required][FromBody] CreateUser user)
         {
             CreateUserCommand command = GetCreateUserCommand(user);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
-            return new OkObjectResult(true);
-            //return presenter.ViewModel;
+            return presenter.ViewModel;
         }
 
         private CreateUserCommand GetCreateUserCommand(CreateUser user)

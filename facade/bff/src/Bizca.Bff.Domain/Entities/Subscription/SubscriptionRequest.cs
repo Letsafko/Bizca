@@ -5,7 +5,7 @@
         public SubscriptionRequest(string externalUserId,
             string codeInsee,
             int procedureTypeId,
-            int bundleId,
+            int? bundleId,
             string firstName,
             string lastName,
             string phoneNumber,
@@ -41,7 +41,7 @@
         /// <summary>
         ///     Gets or sets bundle identifier.
         /// </summary>
-        public int BundleId { get; }
+        public int? BundleId { get; }
 
         /// <summary>
         ///     Gets or sets user subscription phone number.

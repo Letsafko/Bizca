@@ -61,6 +61,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to bundle is invalid..
+        /// </summary>
+        internal static string BUNDLE_INVALID {
+            get {
+                return ResourceManager.GetString("BUNDLE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to civility is invalid..
         /// </summary>
         internal static string CIVILITY_INVALID {
@@ -75,6 +84,15 @@ namespace Bizca.Bff.Application.Properties {
         internal static string CIVILITY_REQUIRED {
             get {
                 return ResourceManager.GetString("CIVILITY_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to code insee is required..
+        /// </summary>
+        internal static string CODE_INSEE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CODE_INSEE_REQUIRED", resourceCulture);
             }
         }
         
@@ -147,6 +165,42 @@ namespace Bizca.Bff.Application.Properties {
         internal static string PARTNER_CODE_REQUIRED {
             get {
                 return ResourceManager.GetString("PARTNER_CODE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to phoneNumber is required..
+        /// </summary>
+        internal static string PHONENUMBER_REQUIRED {
+            get {
+                return ResourceManager.GetString("PHONENUMBER_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to procedure type is invalid..
+        /// </summary>
+        internal static string PROCEDURE_TYPE_INVALID {
+            get {
+                return ResourceManager.GetString("PROCEDURE_TYPE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to procedure type is required..
+        /// </summary>
+        internal static string PROCEDURE_TYPE_REQUIRED {
+            get {
+                return ResourceManager.GetString("PROCEDURE_TYPE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to subscription code is required..
+        /// </summary>
+        internal static string SUBSCRIPTION_CODE_REQUIRED {
+            get {
+                return ResourceManager.GetString("SUBSCRIPTION_CODE_REQUIRED", resourceCulture);
             }
         }
     }

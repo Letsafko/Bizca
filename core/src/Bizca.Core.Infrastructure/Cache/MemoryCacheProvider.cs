@@ -72,7 +72,6 @@
         {
             return new MemoryCacheEntryOptions()
               .SetAbsoluteExpiration(cacheDuration)
-              .SetSlidingExpiration(cacheDuration)
               .SetPriority(CacheItemPriority.Normal)
               .AddExpirationToken(new CancellationChangeToken(cancellationTokenSource.Token));
         }

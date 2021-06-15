@@ -3,7 +3,7 @@
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.Subscription.Factories;
     using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Entities.User.Factories;
+    using Bizca.Bff.Domain.Entities.User.Exceptions;
     using Bizca.Core.Application.Commands;
     using MediatR;
     using System.Threading;
@@ -11,46 +11,49 @@
 
     public sealed class CreateSubscriptionUseCase : ICommandHandler<CreateSubscriptionCommand>
     {
+        private readonly ICreateSubscriptionOutput createSubscriptionOutput;
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly ISubscriptionFactory subscriptionFactory;
-        private readonly IUserFactory userFactory;
+        private readonly IUserRepository userRepository;
         public CreateSubscriptionUseCase(ISubscriptionRepository subscriptionRepository,
+            ICreateSubscriptionOutput createSubscriptionOutput,
             ISubscriptionFactory subscriptionFactory,
-            IUserFactory userFactory)
+            IUserRepository userRepository)
         {
+            this.createSubscriptionOutput = createSubscriptionOutput;
             this.subscriptionRepository = subscriptionRepository;
             this.subscriptionFactory = subscriptionFactory;
-            this.userFactory = userFactory;
+            this.userRepository = userRepository;
         }
 
         public async Task<Unit> Handle(CreateSubscriptionCommand command, CancellationToken cancellationToken)
         {
-            (Subscription subscription, User user) = await GetEntities(command);
+            User user = await userRepository.GetAsync(command.ExternalUserId);
+            if (user is null)
+            {
+                throw new UserDoesNotExistException($"user {command.ExternalUserId} does not exist.");
+            }
+
+            Subscription subscription = await GetSubscriptionAsync(command);
             user.AddSubscription(subscription);
-            await subscriptionRepository.UpsertAsync(user.Id, user.Subscriptions);
+            await subscriptionRepository.UpsertAsync(user.UserIdentifier.UserId, user.Subscriptions);
+            createSubscriptionOutput.Ok(subscription);
             return Unit.Value;
         }
 
         #region private helpers
 
-        private async Task<(Subscription subscription, User user)> GetEntities(CreateSubscriptionCommand command)
+        private async Task<Subscription> GetSubscriptionAsync(CreateSubscriptionCommand command)
         {
             SubscriptionRequest request = GetSubscriptionRequest(command);
-            Task<Subscription> subscriptionTask = subscriptionFactory.CreateAsync(request);
-            Task<User> userTask = userFactory.BuildAsync(request.ExternalUserId);
-            await Task.WhenAll(userTask, subscriptionTask);
-            return
-            (
-                subscriptionTask.Result,
-                userTask.Result
-            );
+            return await subscriptionFactory.CreateAsync(request);
         }
         private SubscriptionRequest GetSubscriptionRequest(CreateSubscriptionCommand command)
         {
             return new SubscriptionRequest(command.ExternalUserId,
                 command.CodeInsee,
-                command.ProcedureTypeId,
-                command.BundleId,
+                int.Parse(command.ProcedureTypeId),
+                string.IsNullOrWhiteSpace(command.BundleId) ? default(int?) : int.Parse(command.BundleId),
                 command.FirstName,
                 command.LastName,
                 command.PhoneNumber,

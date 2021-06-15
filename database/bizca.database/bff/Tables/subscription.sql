@@ -6,8 +6,8 @@
 	[userId]				int not null,
 	[procedureTypeId]		int not null,
 	[organismId]			int not null,
-	[bundleId]				smallint not null,
-	[amount]				money not null,
+	[bundleId]				smallint null,
+	[amount]				money null,
 	[firstName]		        nvarchar(100) not null,
 	[lastName]		        nvarchar(100) not null,
 	[phoneNumber]	        nvarchar(50) not null,
@@ -15,10 +15,10 @@
 	[email]			        nvarchar(50) not null,
 	[whatsappCounter]       int null,
 	[totalWhatsapp]         int null,
-	[emailCounter]          int not null,
-	[totalEmail]            int not null,
-	[smsCounter]            int not null,
-	[totalSms]              int not null,
+	[emailCounter]          int null,
+	[totalEmail]            int null,
+	[smsCounter]            int null,
+	[totalSms]              int null,
 	[activatedChannelMask]  smallint not null,
 	[confirmedChannelMask]  smallint not null,
     [beginDate]	            datetime2 null,
@@ -55,19 +55,19 @@ go
 alter table [bff].[subscription] add constraint [chk_subscription_totalWhatsapp] check ( [totalWhatsapp] is null or [totalWhatsapp] > 0)
 go
 
-alter table [bff].[subscription] add constraint [chk_subscription_emailCounter] check ( [emailCounter] >= 0)
+alter table [bff].[subscription] add constraint [chk_subscription_emailCounter] check ( [emailCounter] is null or [emailCounter] >= 0)
 go
 
-alter table [bff].[subscription] add constraint [chk_subscription_totalEmail] check ( [totalEmail] > 0)
+alter table [bff].[subscription] add constraint [chk_subscription_totalEmail] check ( [totalEmail] is null or [totalEmail] > 0)
 go
 
-alter table [bff].[subscription] add constraint [chk_subscription_smsCounter] check ( [smsCounter] >= 0)
+alter table [bff].[subscription] add constraint [chk_subscription_smsCounter] check ( [smsCounter] is null or [smsCounter] >= 0)
 go
 
-alter table [bff].[subscription] add constraint [chk_subscription_totalSms] check ( [totalSms] > 0)
+alter table [bff].[subscription] add constraint [chk_subscription_totalSms] check ( [totalSms] is null or [totalSms] > 0)
 go
 
-alter table [bff].[subscription] add constraint [chk_subscription_amount] check ( [amount] > 0)
+alter table [bff].[subscription] add constraint [chk_subscription_amount] check ( [amount] is null or [amount] > 0)
 go
 
 create index [ix_subscription_procedureTypeId_organismId] on [bff].[subscription] ( [procedureTypeId], [organismId] )

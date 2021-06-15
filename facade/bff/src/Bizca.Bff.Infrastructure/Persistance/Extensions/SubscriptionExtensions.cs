@@ -48,8 +48,8 @@
                         (int)x.SubscriptionState.Status,
                         x.Procedure.ProcedureType.Id,
                         x.Procedure.Organism.Id,
-                        x.Bundle.BundleIdentifier.Id,
-                        x.Price.Amount,
+                        x.Bundle?.BundleIdentifier?.Id,
+                        x.Price?.Amount,
 
                         x.UserSubscription.FirstName,
                         x.UserSubscription.LastName,
@@ -57,18 +57,18 @@
                         x.UserSubscription.Whatsapp,
                         x.UserSubscription.Email,
 
-                        x.SubscriptionSettings.WhatsappCounter,
-                        x.SubscriptionSettings.TotalWhatsapp,
-                        x.SubscriptionSettings.EmailCounter,
-                        x.SubscriptionSettings.TotalEmail,
-                        x.SubscriptionSettings.SmsCounter,
-                        x.SubscriptionSettings.TotalSms,
+                        x.SubscriptionSettings?.WhatsappCounter,
+                        x.SubscriptionSettings?.TotalWhatsapp,
+                        x.SubscriptionSettings?.EmailCounter,
+                        x.SubscriptionSettings?.TotalEmail,
+                        x.SubscriptionSettings?.SmsCounter,
+                        x.SubscriptionSettings?.TotalSms,
 
                         (int)x.UserSubscription.ChannelActivationStatus,
                         (int)x.UserSubscription.ChannelConfirmationStatus,
 
-                        x.SubscriptionSettings.BeginDate,
-                        x.SubscriptionSettings.EndDate
+                        x.SubscriptionSettings?.BeginDate,
+                        x.SubscriptionSettings?.EndDate
                     );
                 });
 

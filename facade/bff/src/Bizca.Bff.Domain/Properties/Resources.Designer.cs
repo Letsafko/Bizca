@@ -61,6 +61,15 @@ namespace Bizca.Bff.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bizca.
+        /// </summary>
+        internal static string PartnerCode {
+            get {
+                return ResourceManager.GetString("PartnerCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to change operation status from {0} to {1} is unauthorized..
         /// </summary>
         internal static string SUBSCRIPTION_STATUS_OPERATION_UNAUTHORIZED {

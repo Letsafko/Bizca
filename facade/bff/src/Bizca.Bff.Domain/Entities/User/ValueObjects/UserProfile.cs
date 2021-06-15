@@ -11,8 +11,12 @@
             string lastName,
             string phoneNumber,
             string whatsapp,
-            string email)
+            string email,
+            ChannelConfirmationStatus channelConfirmationStatus,
+            ChannelActivationStatus channelActivationStatus)
         {
+            ChannelConfirmationStatus = channelConfirmationStatus;
+            ChannelActivationStatus = channelActivationStatus;
             PhoneNumber = phoneNumber;
             FirstName = firstName;
             LastName = lastName;
@@ -21,8 +25,8 @@
             Email = email;
         }
 
-        public ChannelConfirmationStatus ChannelConfirmationStatus { get; internal set; }
-        public ChannelActivationStatus ChannelActivationStatus { get; internal set; }
+        public ChannelConfirmationStatus ChannelConfirmationStatus { get; }
+        public ChannelActivationStatus ChannelActivationStatus { get; }
         public string PhoneNumber { get; }
         public Civility Civility { get; }
         public string FirstName { get; }
@@ -41,19 +45,5 @@
             yield return Civility;
             yield return Email;
         }
-
-        #region internal helpers
-
-        internal void SetChannelConfirmationStatus(ChannelConfirmationStatus channelConfirmationStatus)
-        {
-            ChannelConfirmationStatus |= channelConfirmationStatus;
-        }
-
-        internal void SetChannelActivationStatus(ChannelActivationStatus channelActivationStatus)
-        {
-            ChannelActivationStatus |= channelActivationStatus;
-        }
-
-        #endregion
     }
 }

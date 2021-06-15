@@ -46,8 +46,8 @@
         protected bool IsSubscriptionPending(Subscription subscription)
         {
             return subscription.Bundle is null ||
-                   (!subscription.SubscriptionSettings.BeginDate.HasValue &&
-                    !subscription.SubscriptionSettings.EndDate.HasValue);
+                  !subscription.SubscriptionSettings.BeginDate.HasValue ||
+                  !subscription.SubscriptionSettings.EndDate.HasValue;
         }
         protected bool IsSubscriptionExpired(Subscription subscription)
         {

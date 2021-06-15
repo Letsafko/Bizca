@@ -5,8 +5,8 @@
     {
         public CreateSubscriptionCommand(string externalUserId,
             string codeInsee,
-            int procedureTypeId,
-            int bundleId,
+            string procedureTypeId,
+            string bundleId,
             string firstName,
             string lastName,
             string phoneNumber,
@@ -25,9 +25,9 @@
         }
 
         public string ExternalUserId { get; }
-        public int ProcedureTypeId { get; }
+        public string ProcedureTypeId { get; }
         public string CodeInsee { get; }
-        public int BundleId { get; }
+        public string BundleId { get; }
         public string PhoneNumber { get; }
         public string FirstName { get; }
         public string LastName { get; }

@@ -23,24 +23,25 @@
             SubscriptionStatus subscriptionStatus = SubscriptionStatus.Pending)
         {
             SubscriptionCode = subscriptionCode;
-            SubscriptionSettings = subscriptionSettings ?? throw new ArgumentNullException(nameof(subscriptionSettings));
             UserSubscription = userSubscription ?? throw new ArgumentNullException(nameof(userSubscription));
             Procedure = procedure ?? throw new ArgumentNullException(nameof(procedure));
             SubscriptionState = GetSubscriptionState(subscriptionStatus);
+            SubscriptionSettings = subscriptionSettings;
             CheckSum = ComputeCheckSum();
             Bundle = bundle;
             Price = price;
             Id = id;
         }
 
+        private const int NumberOfDaysInWeek = 7;
         public Guid SubscriptionCode { get; }
+        public SubscriptionSettings SubscriptionSettings { get; private set; }
         public ISubscriptionState SubscriptionState { get; private set; }
-        public SubscriptionSettings SubscriptionSettings { get; }
         public UserSubscription UserSubscription { get; }
-        public Procedure Procedure { get; }
+        public Procedure Procedure { get; private set; }
+        public Bundle Bundle { get; private set; }
+        public Money Price { get; private set; }
         internal int CheckSum { get; }
-        public Bundle Bundle { get; }
-        public Money Price { get; }
 
         internal void SetSubscriptionState(ISubscriptionState subscriptionState)
         {
@@ -49,19 +50,33 @@
                 SubscriptionState = subscriptionState;
             }
         }
-        internal void SetBeginDate(DateTime beginDate)
+        internal void SetSubscriptionSettings(Bundle bundle)
         {
-            SubscriptionSettings.SetBeginDate(beginDate);
-            SubscriptionState.StatusChangeCheck();
+            if (bundle != null)
+            {
+                SubscriptionSettings = new SubscriptionSettings(SubscriptionSettings?.WhatsappCounter ?? 0,
+                    SubscriptionSettings?.EmailCounter ?? 0,
+                    SubscriptionSettings?.SmsCounter ?? 0,
+                    bundle.BundleSettings.TotalWhatsapp,
+                    bundle.BundleSettings.TotalEmail,
+                    bundle.BundleSettings.TotalSms);
+            }
         }
-        internal void SetEndDate(DateTime endDate)
+        internal void SetProcedure(Procedure procedure)
         {
-            SubscriptionSettings.SetEndDate(endDate);
-            SubscriptionState.StatusChangeCheck();
+            Procedure = procedure;
         }
-        internal void SetSubscriptionId(int id)
+        internal void SetBundle(Bundle bundle)
         {
-            Id = id;
+            if (bundle != null)
+            {
+                Price = bundle.Price;
+                Bundle = bundle;
+
+                DateTime now = DateTime.UtcNow;
+                SetEndDate(now.AddDays(bundle.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek));
+                SetBeginDate(now);
+            }
         }
         internal void UnFreeze()
         {
@@ -94,6 +109,16 @@
             yield return UserSubscription.Email?.Trim();
             yield return Procedure.ProcedureType.Id;
             yield return Procedure.Organism.Id;
+        }
+        private void SetBeginDate(DateTime beginDate)
+        {
+            SubscriptionSettings.SetBeginDate(beginDate);
+            SubscriptionState.StatusChangeCheck();
+        }
+        private void SetEndDate(DateTime endDate)
+        {
+            SubscriptionSettings.SetEndDate(endDate);
+            SubscriptionState.StatusChangeCheck();
         }
         private int ComputeCheckSum()
         {
