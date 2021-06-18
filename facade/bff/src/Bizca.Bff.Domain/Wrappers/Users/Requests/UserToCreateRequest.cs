@@ -21,7 +21,6 @@
             Email = email;
         }
 
-        public string EconomicActivity { get; }
         public string ExternalUserId { get; }
         public string PartnerCode { get; }
         public string PhoneNumber { get; }

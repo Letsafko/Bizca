@@ -1,18 +1,40 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
+    using Bizca.Bff.Domain.Referentials.Bundle;
+    using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
     internal sealed class BundleViewModel
     {
-        public BundleViewModel(string name,
-            decimal amount,
-            int remainingSms,
-            int remainingEmail)
+        public BundleViewModel(Bundle bundle)
         {
-            RemainingEmail = remainingEmail;
-            RemainingSms = remainingSms;
-            Amount = amount;
-            Name = name;
+            TotalEmail = bundle.BundleSettings.TotalEmail;
+            TotalSms = bundle.BundleSettings.TotalSms;
+            BundleId = bundle.BundleIdentifier.Id;
+            Name = bundle.BundleIdentifier.Label;
+            Code = bundle.BundleIdentifier.Code;
+            Amount = bundle.Price.Amount;
         }
+
+        /// <summary>
+        ///     Bundle identifier.
+        /// </summary>
+        [Required]
+        [JsonProperty("identifier")]
+        public int BundleId { get; }
+
+        /// <summary>
+        ///     Bundle description.
+        /// </summary>
+        [Required]
+        [JsonProperty("description")]
+        public string Name { get; }
+
+        /// <summary>
+        ///     Bundle code.
+        /// </summary>
+        [Required]
+        [JsonProperty("code")]
+        public string Code { get; }
 
         /// <summary>
         ///     Bundle amount
@@ -21,21 +43,15 @@
         public decimal Amount { get; }
 
         /// <summary>
-        ///     Bundle name
+        ///     Total email balance.
         /// </summary>
         [Required]
-        public string Name { get; }
+        public int TotalEmail { get; }
 
         /// <summary>
-        ///     Remaing email balance.
+        ///     Total sms balance.
         /// </summary>
         [Required]
-        public int RemainingEmail { get; }
-
-        /// <summary>
-        ///     Remaining sms balance.
-        /// </summary>
-        [Required]
-        public int RemainingSms { get; }
+        public int TotalSms { get; }
     }
 }

@@ -16,7 +16,6 @@
         public AggregateLogEnricher(IDictionary<string, string> context)
         {
             if (context is null) throw new ArgumentNullException(nameof(context));
-            if (context.Count == 0) throw new ArgumentException($"{nameof(context)} could not be empty");
             this.context = context;
         }
 

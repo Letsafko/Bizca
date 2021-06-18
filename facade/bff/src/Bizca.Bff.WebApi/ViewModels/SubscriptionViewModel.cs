@@ -10,21 +10,19 @@
         {
             if (subscription.Bundle != null && subscription.SubscriptionSettings != null)
             {
-                int remaingEmail = subscription.SubscriptionSettings.TotalEmail - subscription.SubscriptionSettings.EmailCounter;
-                int remaingSms = subscription.SubscriptionSettings.TotalSms - subscription.SubscriptionSettings.SmsCounter;
-                Bundle = new BundleViewModel(subscription.Bundle.BundleIdentifier.Label,
-                    subscription.Price.Amount,
-                    remaingSms,
-                    remaingEmail);
-
+                Bundle = subscription.Bundle.BundleIdentifier.Code;
+                Amount = subscription.Bundle.Price.Amount;
+                RemainingEmail = subscription.SubscriptionSettings.TotalEmail - subscription.SubscriptionSettings.EmailCounter;
+                RemainingSms = subscription.SubscriptionSettings.TotalSms - subscription.SubscriptionSettings.SmsCounter;
                 BeginDate = subscription.SubscriptionSettings.BeginDate;
                 EndDate = subscription.SubscriptionSettings.EndDate;
             }
 
-            Procedure = new ProcedureViewModel(subscription.Procedure.ProcedureType.Label,
+            Procedure = new ProcedureViewModel(subscription.Procedure.Organism.OrganismName,
+                subscription.Procedure.Organism.CodeInsee,
+                new ProcedureTypeViewModel(subscription.Procedure.ProcedureType.Id,
                 subscription.Procedure.ProcedureHref,
-                subscription.Procedure.Organism.OrganismName,
-                subscription.Procedure.Organism.CodeInsee);
+                subscription.Procedure.ProcedureType.Label));
 
             Status = subscription.SubscriptionState.Status.ToString();
             Reference = subscription.SubscriptionCode.ToString();
@@ -43,9 +41,24 @@
         public string Reference { get; }
 
         /// <summary>
-        ///     Bundle.
+        ///     Bundle amount
         /// </summary>
-        public BundleViewModel Bundle { get; }
+        public decimal? Amount { get; }
+
+        /// <summary>
+        ///     Bundle name
+        /// </summary>
+        public string Bundle { get; }
+
+        /// <summary>
+        ///     Remaing email balance.
+        /// </summary>
+        public int? RemainingEmail { get; }
+
+        /// <summary>
+        ///     Remaining sms balance.
+        /// </summary>
+        public int? RemainingSms { get; }
 
         /// <summary>
         ///     Procedure.

@@ -2,11 +2,15 @@
 {
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.Application.UseCases.CreateSubscription;
+    using Bizca.Bff.Application.UseCases.GetBundles;
+    using Bizca.Bff.Application.UseCases.GetProcedures;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
     using Bizca.Bff.WebApi.UseCases.V10.CreateNewUser;
     using Bizca.Bff.WebApi.UseCases.V10.CreateSubscription;
+    using Bizca.Bff.WebApi.UseCases.V10.GetBundles;
+    using Bizca.Bff.WebApi.UseCases.V10.GetProcedures;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptions;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription;
@@ -23,9 +27,15 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<GetBundlesPresenter>().InstancePerLifetimeScope();
+            builder.Register<IGetBundlesOutput>(x => x.Resolve<GetBundlesPresenter>()).InstancePerLifetimeScope();
+
             builder.RegisterType<CreateNewUserPresenter>().InstancePerLifetimeScope();
             builder.Register<ICreateNewUserOutput>(x => x.Resolve<CreateNewUserPresenter>()).InstancePerLifetimeScope();
 
+            builder.RegisterType<GetProceduresPresenter>().InstancePerLifetimeScope();
+            builder.Register<IGetProceduresOutput>(x => x.Resolve<GetProceduresPresenter>()).InstancePerLifetimeScope();
+            
             builder.RegisterType<CreateSubscriptionPresenter>().InstancePerLifetimeScope();
             builder.Register<ICreateSubscriptionOutput>(x => x.Resolve<CreateSubscriptionPresenter>()).InstancePerLifetimeScope();
 
