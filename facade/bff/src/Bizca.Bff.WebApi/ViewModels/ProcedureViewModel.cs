@@ -3,22 +3,14 @@
     using System.ComponentModel.DataAnnotations;
     internal sealed class ProcedureViewModel
     {
-        public ProcedureViewModel(string procedureName,
-            string procedureHref,
-            string organismName,
-            string codeInsee)
+        public ProcedureViewModel(string organismName,
+            string codeInsee,
+            ProcedureTypeViewModel procedureType)
         {
-            ProcedureName = procedureName;
-            ProcedureHref = procedureHref;
+            ProcedureType = procedureType;
             OrganismName = organismName;
             CodeInsee = codeInsee;
         }
-
-        /// <summary>
-        ///     Procedure name.
-        /// </summary>
-        [Required]
-        public string ProcedureName { get; }
 
         /// <summary>
         ///     Organism name.
@@ -33,9 +25,9 @@
         public string CodeInsee { get; }
 
         /// <summary>
-        ///     Procedure link form.
+        ///     Procedure type.
         /// </summary>
         [Required]
-        public string ProcedureHref { get; }
+        public ProcedureTypeViewModel ProcedureType { get; }
     }
 }
