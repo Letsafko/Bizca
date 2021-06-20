@@ -5,7 +5,7 @@
     using System.Collections.Generic;
 
     [Serializable]
-    public sealed class SubscriptionDoesNotExistException : DomainException
+    public sealed class SubscriptionDoesNotExistException : NotFoundDomainException
     {
         /// <inheritdoc/>
         public SubscriptionDoesNotExistException() : this(default(string))

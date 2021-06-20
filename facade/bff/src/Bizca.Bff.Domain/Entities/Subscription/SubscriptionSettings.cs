@@ -6,7 +6,7 @@
     {
         public DateTime? BeginDate { get; private set; }
         public DateTime? EndDate { get; private set; }
-        public bool IsFreeze { get; private set; }
+        public bool? IsFreeze { get; private set; }
         public int TotalWhatsapp { get; }
         public int TotalEmail { get; }
         public int TotalSms { get; }
@@ -45,7 +45,8 @@
         }
         internal void UnFreeze()
         {
-            IsFreeze = false;
+            if(IsFreeze.HasValue)
+                IsFreeze = false;
         }
         internal void Freeze()
         {

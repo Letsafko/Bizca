@@ -36,12 +36,16 @@
         protected bool IsSubscriptionDesactivated(Subscription subscription)
         {
             return IsSubscriptionActive(subscription) &&
-                   Subscription.SubscriptionSettings.IsFreeze;
+                   Subscription.SubscriptionSettings.IsFreeze.HasValue &&
+                   Subscription.SubscriptionSettings.IsFreeze.Value;
         }
         protected bool IsSubscriptionActivated(Subscription subscription)
         {
             return IsSubscriptionActive(subscription) &&
-                   !Subscription.SubscriptionSettings.IsFreeze;
+                    (
+                        !Subscription.SubscriptionSettings.IsFreeze.HasValue ||
+                        !Subscription.SubscriptionSettings.IsFreeze.Value
+                    );
         }
         protected bool IsSubscriptionPending(Subscription subscription)
         {

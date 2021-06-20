@@ -10,12 +10,11 @@
 
     public sealed class UserWrapper : BaseWrapper, IUserWrapper
     {
-        public UserWrapper(IHttpClientFactory httpClientFactory,
-            ILogger<UserWrapper> logger) : base(logger, httpClientFactory, NamedHttpClients.ApiUserClientName)
+        public UserWrapper(IHttpClientFactory httpClientFactory, ILogger<UserWrapper> logger) 
+            : base(logger, httpClientFactory, NamedHttpClients.ApiUserClientName)
         {
         }
-
-        private const string ApiVersion = "api/v1.0";
+        
         public async Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request, IDictionary headers = null)
         {
             return await SendAsync<UserCreatedResponse>(HttpMethod.Post, $"{ApiVersion}/{request.PartnerCode}/users", request, headers);
