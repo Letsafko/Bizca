@@ -6,7 +6,8 @@
     {
         public User Create(UserRequest request)
         {
-            var userIdentifier = new UserIdentifier(0, request.ExternalUserId);
+            const int userId = 0;
+            var userIdentifier = new UserIdentifier(userId, request.ExternalUserId);
             var userProfile = new UserProfile(request.Civility,
                 request.FirstName,
                 request.LastName,
@@ -16,8 +17,8 @@
                 ChannelConfirmationStatus.None,
                 ChannelActivationStatus.None);
 
-            var user = new User(0, userIdentifier, userProfile);
-            user.RegisterNewChannelCodeConfirmation(request.ExternalUserId, ChannelType.Email);
+            var user = new User(userId, userIdentifier, userProfile);
+            user.RegisterSendConfirmationEmailEvent(request.ExternalUserId, request.Email);
             return user;
         }
     }

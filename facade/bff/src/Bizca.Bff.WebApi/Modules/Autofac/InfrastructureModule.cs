@@ -4,9 +4,11 @@
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
+    using Bizca.Bff.Domain.Wrappers.Notification;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Infrastructure.Cache;
     using Bizca.Bff.Infrastructure.Persistance;
+    using Bizca.Bff.Infrastructure.Wrappers.Notifications;
     using Bizca.Bff.Infrastructure.Wrappers.Users;
     using Bizca.Core.Domain;
     using Bizca.Core.Infrastructure;
@@ -45,6 +47,7 @@
         }
         private void LoadWrappers(ContainerBuilder builder)
         {
+            builder.RegisterType<NotificationWrapper>().As<INotificationWrapper>();
             builder.RegisterType<UserWrapper>().As<IUserWrapper>();
         }
     }

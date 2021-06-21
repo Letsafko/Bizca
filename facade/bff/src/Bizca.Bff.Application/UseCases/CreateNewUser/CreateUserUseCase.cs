@@ -72,7 +72,6 @@
         private UserToCreateRequest MapTo(User user)
         {
             return new UserToCreateRequest(user.UserIdentifier.ExternalUserId,
-                user.UserIdentifier.PartnerCode,
                 user.UserProfile.FirstName,
                 user.UserProfile.LastName,
                 (int)user.UserProfile.Civility,

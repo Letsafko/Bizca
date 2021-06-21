@@ -41,6 +41,7 @@ namespace Bizca.Bff.WebApi
         /// <param name="services">service collection.</param>
         new public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SmtpSettings>(configuration.GetSection($"Api:Dependencies:Smtp"));
             services.AddHttpClientBase<INotificationWrapper, NotificationWrapper, NotificationSettings>(configuration.GetSection($"Api:Dependencies:{nameof(NotificationSettings)}"), NamedHttpClients.ApiNotificationClientName);
             services.AddHttpClientBase<IUserWrapper, UserWrapper, UserSettings>(configuration.GetSection($"Api:Dependencies:{nameof(UserSettings)}"), NamedHttpClients.ApiUserClientName);
             services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseScheme));

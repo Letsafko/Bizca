@@ -25,7 +25,7 @@
 
                 TResponse response = await next();
 
-                _logger.LogDebug("request {@requestType} handled.", request.GetType().Name);
+                _logger.LogDebug($"request {request.GetType().Name} handled.");
                 return response;
             }
         }

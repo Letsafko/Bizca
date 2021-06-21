@@ -27,9 +27,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Wrappers\Notification\Responses\" />
-    <Folder Include="Wrappers\Notification\Requests\" />
-  </ItemGroup>
-
 </Project>

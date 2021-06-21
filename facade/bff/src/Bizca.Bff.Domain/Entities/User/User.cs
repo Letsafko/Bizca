@@ -5,7 +5,6 @@
     using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
-    using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Core.Domain;
@@ -65,9 +64,9 @@
             subscription.SetBundle(bundle);
         }
 
-        public void RegisterNewChannelCodeConfirmation(string externalUserId, ChannelType channelType)
+        public void RegisterSendConfirmationEmailEvent(string externalUserId, string email)
         {
-            userEvents.Add(new RegisterChannelNotification(externalUserId, channelType));
+            userEvents.Add(new SendConfirmationEmalNotification(externalUserId, email));
         }
         public Subscription GetSubscriptionByCode(string subscriptionCode)
         {

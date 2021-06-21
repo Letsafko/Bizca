@@ -1,9 +1,10 @@
-﻿namespace Bizca.Bff.Domain.Wrappers.Users.Requests
+﻿using Bizca.Bff.Domain.Properties;
+
+namespace Bizca.Bff.Domain.Wrappers.Users.Requests
 {
     public sealed class UserToCreateRequest
     {
         public UserToCreateRequest(string externalUserId,
-            string partnerCode,
             string firstName,
             string lastName,
             int civility,
@@ -12,7 +13,6 @@
             string email)
         {
             ExternalUserId = externalUserId;
-            PartnerCode = partnerCode;
             PhoneNumber = phoneNumber;
             FirstName = firstName;
             LastName = lastName;
@@ -22,7 +22,7 @@
         }
 
         public string ExternalUserId { get; }
-        public string PartnerCode { get; }
+        public string PartnerCode { get; } = Resources.PartnerCode;
         public string PhoneNumber { get; }
         public string FirstName { get; }
         public string LastName { get; }
