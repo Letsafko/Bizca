@@ -9,9 +9,9 @@
     using System.Threading.Tasks;
     public class BaseWrapper
     {
-        private readonly ILogger<BaseWrapper> logger;
+        private readonly ILogger logger;
         private readonly HttpClient httpClient;
-        internal BaseWrapper(ILogger<BaseWrapper> logger, IHttpClientFactory httpClientFactory, string httpClientName)
+        internal BaseWrapper(ILogger logger, IHttpClientFactory httpClientFactory, string httpClientName)
         {
             if (string.IsNullOrWhiteSpace(httpClientName))
                 throw new ArgumentNullException(nameof(httpClientName));
@@ -20,6 +20,7 @@
             this.logger = logger;
         }
 
+        protected virtual string ApiVersion { get; set; } = "api/v1.0";
         internal async Task<T> SendAsync<T>(HttpMethod httpMethod, string requestUrl, object content = null, IDictionary metadata = null)
         {
             if (string.IsNullOrWhiteSpace(requestUrl))

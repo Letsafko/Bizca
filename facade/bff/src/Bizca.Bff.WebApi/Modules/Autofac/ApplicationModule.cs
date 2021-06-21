@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Autofac
 {
     using Bizca.Bff.Application.UseCases.CreateNewUser;
+    using Bizca.Bff.Application.UseCases.SendConfirmationEmail;
     using Bizca.Core.Application.Behaviors;
     using Bizca.Core.Application.Services;
     using global::Autofac;
@@ -17,6 +18,7 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterAssemblyTypes(typeof(SendConfirmationEmailUseCase).Assembly).AsClosedTypesOf(typeof(INotificationHandler<>));
             builder.RegisterAssemblyTypes(typeof(CreateUserUseCase).Assembly).AsClosedTypesOf(typeof(IRequestHandler<,>));
             builder.RegisterGeneric(typeof(UnitOfWorkCommandBehavior<>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));

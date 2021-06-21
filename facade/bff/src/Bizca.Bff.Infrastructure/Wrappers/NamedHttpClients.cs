@@ -2,6 +2,7 @@
 {
     public static class NamedHttpClients
     {
+        public const string ApiNotificationClientName = "ApiNotification";
         public const string ApiUserClientName = "ApiUser";
     }
 }

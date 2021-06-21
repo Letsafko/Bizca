@@ -27,7 +27,6 @@
             Procedure = procedure ?? throw new ArgumentNullException(nameof(procedure));
             SubscriptionState = GetSubscriptionState(subscriptionStatus);
             SubscriptionSettings = subscriptionSettings;
-            CheckSum = ComputeCheckSum();
             Bundle = bundle;
             Price = price;
             Id = id;
@@ -41,7 +40,7 @@
         public Procedure Procedure { get; private set; }
         public Bundle Bundle { get; private set; }
         public Money Price { get; private set; }
-        internal int CheckSum { get; }
+        internal int CheckSum => ComputeCheckSum();
 
         internal void SetSubscriptionState(ISubscriptionState subscriptionState)
         {

@@ -7,7 +7,8 @@
 
     public interface IUserWrapper
     {
-        Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest userRequest, IDictionary metadata = null);
-        Task<UserUpdatedResponse> UpdateUserAsync(UserToUpdateRequest userRequest, IDictionary metadata = null);
+        Task<UserConfirmationCodeResponse> RegisterChannelConfirmationCodeAsync(string externalUserId, RegisterUserConfirmationCodeRequest request, IDictionary headers = null);
+        Task<UserUpdatedResponse> UpdateUserAsync(string externalUserId, UserToUpdateRequest request, IDictionary headers = null);
+        Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request, IDictionary headers = null);
     }
 }

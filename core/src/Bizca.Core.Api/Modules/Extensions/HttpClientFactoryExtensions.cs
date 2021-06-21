@@ -9,8 +9,7 @@
     {
         /// <summary>
         ///     Use to inject http client to specific class
-        ///     Note that all classes in call stack shoulb be injected as transient
-        ///     For now, it only be set the baseAddress
+        ///     Note that all classes in call stack should be injected as transient
         /// </summary>
         /// <typeparam name="TClient">Interface</typeparam>
         /// <typeparam name="TImplementation">Implementation</typeparam>

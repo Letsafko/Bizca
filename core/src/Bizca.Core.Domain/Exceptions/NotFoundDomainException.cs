@@ -22,6 +22,11 @@
         }
 
         /// <inheritdoc/>
+        public NotFoundDomainException(string propertyName, string message) : this(message, new List<DomainFailure> { new DomainFailure(message, propertyName) })
+        {
+        }
+
+        /// <inheritdoc/>
         public NotFoundDomainException(string message, Exception innerException) : base(message, innerException)
         {
         }
