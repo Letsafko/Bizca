@@ -32,9 +32,9 @@
         private static void ConfigureAppSettings(HostBuilderContext context, IConfigurationBuilder configBuilder)
         {
             configBuilder
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables()
-                .AddUserSecrets(Assembly.GetEntryAssembly())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                .AddUserSecrets(Assembly.GetEntryAssembly());
         }
 
         #endregion

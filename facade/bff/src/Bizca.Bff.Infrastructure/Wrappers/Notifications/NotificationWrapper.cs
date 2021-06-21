@@ -26,7 +26,14 @@
                 smtpClient.Credentials = new NetworkCredential(smtpSettings.UserName, smtpSettings.Password);
                 smtpClient.EnableSsl = true;
 
-                var mailMessage = new MailMessage(request.From, request.To, request.Subject, request.Body);
+                var from = new MailAddress(request.From, "Bizca");
+                var to = new MailAddress(request.To, request.To);
+                var mailMessage = new MailMessage(from, to)
+                {
+                    Subject = request.Subject,
+                    Body = request.Body,
+                    IsBodyHtml = true
+                };
                 await smtpClient.SendMailAsync(mailMessage);
             }
         }
