@@ -15,10 +15,18 @@
         {
         }
 
-        public async Task<UserConfirmationCodeResponse> RegisterChannelConfirmationCodeAsync(string externalUserId, RegisterUserConfirmationCodeRequest request, IDictionary headers = null)
+        public async Task<RegisterUserConfirmationCodeResponse> RegisterChannelConfirmationCodeAsync(string externalUserId, RegisterUserConfirmationCodeRequest request, IDictionary headers = null)
+        {
+            return await SendAsync<RegisterUserConfirmationCodeResponse>(HttpMethod.Post,
+                $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}/channel/code/register",
+                request,
+                headers);
+        }
+
+        public async Task<UserConfirmationCodeResponse> ConfirmUserChannelCodeAsync(string externalUserId, UserConfirmationCodeRequest request, IDictionary headers = null)
         {
             return await SendAsync<UserConfirmationCodeResponse>(HttpMethod.Post,
-                $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}/channel/code/register",
+                $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}/channel/code/confirm",
                 request,
                 headers);
         }
@@ -38,5 +46,6 @@
                 request,
                 headers);
         }
+
     }
 }

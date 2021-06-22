@@ -30,7 +30,7 @@
         public async Task Handle(SendConfirmationEmalNotification notification, CancellationToken cancellationToken)
         {
             var CodeConfirmationRequest = new RegisterUserConfirmationCodeRequest(ChannelType.Email);
-            UserConfirmationCodeResponse CodeConfirmationResponse = await userAgent.RegisterChannelConfirmationCodeAsync(notification.ExternalUserId,
+            RegisterUserConfirmationCodeResponse CodeConfirmationResponse = await userAgent.RegisterChannelConfirmationCodeAsync(notification.ExternalUserId,
                 CodeConfirmationRequest);
 
             string htmlContent = GetHtmlContent(notification.ExternalUserId, CodeConfirmationResponse);
@@ -45,7 +45,7 @@
             await notificationAgent.SendConfirmationEmail(request);
         }
 
-        private string GetHtmlContent(string externalUserId, UserConfirmationCodeResponse response)
+        private string GetHtmlContent(string externalUserId, RegisterUserConfirmationCodeResponse response)
         {
             string concatStr = $"{response.Resource}:{externalUserId}:{response.ConfirmationCode}";
             byte[] bytes = Encoding.UTF8.GetBytes(concatStr);

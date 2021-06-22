@@ -70,6 +70,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to channel type is invalid..
+        /// </summary>
+        internal static string CHANNEL_TYPE_INVALID {
+            get {
+                return ResourceManager.GetString("CHANNEL_TYPE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to civility is invalid..
         /// </summary>
         internal static string CIVILITY_INVALID {
@@ -93,6 +102,15 @@ namespace Bizca.Bff.Application.Properties {
         internal static string CODE_INSEE_REQUIRED {
             get {
                 return ResourceManager.GetString("CODE_INSEE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to confirmation code is required..
+        /// </summary>
+        internal static string CONFIRMATION_CODE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CONFIRMATION_CODE_REQUIRED", resourceCulture);
             }
         }
         

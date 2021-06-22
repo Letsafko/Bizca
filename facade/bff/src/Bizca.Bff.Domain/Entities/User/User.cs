@@ -5,6 +5,7 @@
     using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
+    using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Core.Domain;
@@ -45,6 +46,10 @@
 
         #region aggregate helpers
 
+        public void RegisterSendConfirmationEmailEvent(string externalUserId, string email, string fullName)
+        {
+            userEvents.Add(new SendConfirmationEmalNotification(externalUserId, email, fullName));
+        }
         public void UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode);
@@ -63,10 +68,19 @@
             subscription.SetProcedure(procedure);
             subscription.SetBundle(bundle);
         }
-
-        public void RegisterSendConfirmationEmailEvent(string externalUserId, string email, string fullName)
+        public void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
         {
-            userEvents.Add(new SendConfirmationEmalNotification(externalUserId, email, fullName));
+            if (UserProfile is null)
+                return;
+
+            UserProfile.SetChannelConfirmationStatus(confirmationStatus);
+        }
+        public void SetChannelActivationStatus(ChannelActivationStatus activationStatus)
+        {
+            if (UserProfile is null)
+                return;
+
+            UserProfile.SetChannelActivationStatus(activationStatus);
         }
         public Subscription GetSubscriptionByCode(string subscriptionCode)
         {
