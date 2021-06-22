@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Autofac
 {
+    using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.Application.UseCases.CreateSubscription;
     using Bizca.Bff.Application.UseCases.GetBundles;
@@ -7,6 +8,7 @@
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
+    using Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode;
     using Bizca.Bff.WebApi.UseCases.V10.CreateNewUser;
     using Bizca.Bff.WebApi.UseCases.V10.CreateSubscription;
     using Bizca.Bff.WebApi.UseCases.V10.GetBundles;
@@ -32,6 +34,9 @@
 
             builder.RegisterType<CreateNewUserPresenter>().InstancePerLifetimeScope();
             builder.Register<ICreateNewUserOutput>(x => x.Resolve<CreateNewUserPresenter>()).InstancePerLifetimeScope();
+            
+            builder.RegisterType<ConfirmChannelCodePresenter>().InstancePerLifetimeScope();
+            builder.Register<IConfirmChannelCodeOutput>(x => x.Resolve<ConfirmChannelCodePresenter>()).InstancePerLifetimeScope();
 
             builder.RegisterType<GetProceduresPresenter>().InstancePerLifetimeScope();
             builder.Register<IGetProceduresOutput>(x => x.Resolve<GetProceduresPresenter>()).InstancePerLifetimeScope();

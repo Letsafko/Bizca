@@ -50,7 +50,7 @@
 
             UserProfile userProfile = GetUserProfile(user);
             var userIdentifier = new UserIdentifier((int)user.userId, externalUserId);
-            var userBuild = new User((int)user.userId, userIdentifier, userProfile);
+            var userBuild = new User((int)user.userId, userIdentifier, userProfile, (byte[])user.rowversion);
 
             if (subscriptions?.Any() == true)
             {
