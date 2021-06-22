@@ -10,24 +10,33 @@
 
     public sealed class UserWrapper : BaseWrapper, IUserWrapper
     {
-        public UserWrapper(IHttpClientFactory httpClientFactory, ILogger<UserWrapper> logger) 
+        public UserWrapper(IHttpClientFactory httpClientFactory, ILogger<UserWrapper> logger)
             : base(logger, httpClientFactory, NamedHttpClients.ApiUserClientName)
         {
         }
 
         public async Task<UserConfirmationCodeResponse> RegisterChannelConfirmationCodeAsync(string externalUserId, RegisterUserConfirmationCodeRequest request, IDictionary headers = null)
         {
-            return await SendAsync<UserConfirmationCodeResponse>(HttpMethod.Post, $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}/channel/code/register", request, headers);
+            return await SendAsync<UserConfirmationCodeResponse>(HttpMethod.Post,
+                $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}/channel/code/register",
+                request,
+                headers);
         }
-        
+
         public async Task<UserUpdatedResponse> UpdateUserAsync(string externalUserId, UserToUpdateRequest request, IDictionary headers = null)
         {
-            return await SendAsync<UserUpdatedResponse>(HttpMethod.Put, $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}", request, headers);
+            return await SendAsync<UserUpdatedResponse>(HttpMethod.Put,
+                $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}",
+                request,
+                headers);
         }
-        
+
         public async Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request, IDictionary headers = null)
         {
-            return await SendAsync<UserCreatedResponse>(HttpMethod.Post, $"{ApiVersion}/{request.PartnerCode}/users", request, headers);
+            return await SendAsync<UserCreatedResponse>(HttpMethod.Post,
+                $"{ApiVersion}/{request.PartnerCode}/users",
+                request,
+                headers);
         }
     }
 }

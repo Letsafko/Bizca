@@ -20,7 +20,7 @@
             this.logger = logger;
         }
 
-        protected virtual string ApiVersion { get; set; } = "api/v1.0";
+        protected virtual string ApiVersion { get; } = "api/v1.0";
         internal async Task<T> SendAsync<T>(HttpMethod httpMethod, string requestUrl, object content = null, IDictionary metadata = null)
         {
             if (string.IsNullOrWhiteSpace(requestUrl))

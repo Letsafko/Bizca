@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.Infrastructure.Wrappers.Notifications
+﻿namespace Bizca.Bff.Infrastructure.Wrappers.Notifications.Configurations
 {
     using Bizca.Core.Infrastructure;
     using System;

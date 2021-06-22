@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Core.Infrastructure
 {
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System.Collections;
     using System.Net.Http;
     using System.Text;
@@ -9,6 +10,7 @@
         public const string JsonMediaType = "application/json";
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
             NullValueHandling = NullValueHandling.Ignore
         };
 

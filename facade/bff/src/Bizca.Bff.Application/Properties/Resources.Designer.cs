@@ -115,6 +115,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bienvenue chez Bizca! Confirmons ton adresse email..
+        /// </summary>
+        internal static string EMAIL_CONFIRMATION_SUBJECT {
+            get {
+                return ResourceManager.GetString("EMAIL_CONFIRMATION_SUBJECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to email is invalid..
         /// </summary>
         internal static string EMAIL_INVALID {

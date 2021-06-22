@@ -18,7 +18,8 @@
                 ChannelActivationStatus.None);
 
             var user = new User(userId, userIdentifier, userProfile);
-            user.RegisterSendConfirmationEmailEvent(request.ExternalUserId, request.Email);
+            string fullName = $"{request.FirstName} {request.LastName}";
+            user.RegisterSendConfirmationEmailEvent(request.ExternalUserId, request.Email, fullName);
             return user;
         }
     }

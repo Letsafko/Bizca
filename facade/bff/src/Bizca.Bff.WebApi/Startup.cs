@@ -6,6 +6,7 @@ namespace Bizca.Bff.WebApi
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Infrastructure.Wrappers;
     using Bizca.Bff.Infrastructure.Wrappers.Notifications;
+    using Bizca.Bff.Infrastructure.Wrappers.Notifications.Configurations;
     using Bizca.Bff.Infrastructure.Wrappers.Users;
     using Bizca.Bff.WebApi.Modules.Autofac;
     using Bizca.Bff.WebApi.Modules.Extensions;
@@ -33,6 +34,9 @@ namespace Bizca.Bff.WebApi
         {
         }
 
+        private static readonly string SendInBlueSheme = $"Api:Dependencies:{nameof(NotificationSettings)}";
+        private static readonly string ApiUserScheme = $"Api:Dependencies:{nameof(UserSettings)}";
+        private readonly string SendInBlueApiKey = $"{SendInBlueSheme}:ApiKey";
         private const string DatabaseScheme = "BizcaDatabase";
 
         /// <summary>
@@ -41,9 +45,19 @@ namespace Bizca.Bff.WebApi
         /// <param name="services">service collection.</param>
         new public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<SmtpSettings>(configuration.GetSection($"Api:Dependencies:Smtp"));
-            services.AddHttpClientBase<INotificationWrapper, NotificationWrapper, NotificationSettings>(configuration.GetSection($"Api:Dependencies:{nameof(NotificationSettings)}"), NamedHttpClients.ApiNotificationClientName);
-            services.AddHttpClientBase<IUserWrapper, UserWrapper, UserSettings>(configuration.GetSection($"Api:Dependencies:{nameof(UserSettings)}"), NamedHttpClients.ApiUserClientName);
+            services
+                .AddTransient(_ => new AuthorisationDelegateHandler(configuration.GetValue<string>(SendInBlueApiKey)))
+                .AddHttpClientBase<INotificationWrapper,
+                        NotificationWrapper,
+                        NotificationSettings>(configuration.GetSection(SendInBlueSheme),
+                        NamedHttpClients.ApiNotificationClientName)
+                    .AddHttpMessageHandler(provider => provider.GetRequiredService<AuthorisationDelegateHandler>());
+
+            services.AddHttpClientBase<IUserWrapper,
+                        UserWrapper,
+                        UserSettings>(configuration.GetSection(ApiUserScheme),
+                        NamedHttpClients.ApiUserClientName);
+
             services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseScheme));
             base.ConfigureServices(services);
             services.ConfigureHealthChecks()

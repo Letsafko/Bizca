@@ -1,9 +1,11 @@
 ﻿namespace Bizca.Bff.Domain.Wrappers.Notification
 {
     using Bizca.Bff.Domain.Wrappers.Notification.Requests;
+    using Bizca.Bff.Domain.Wrappers.Notification.Responses;
+    using System.Collections;
     using System.Threading.Tasks;
     public interface INotificationWrapper
     {
-        Task SendConfirmationEmail(TransactionalEmailRequest request);
+        Task<TransactionalEmailResponse> SendConfirmationEmail(TransactionalEmailRequest request, IDictionary headers = null);
     }
 }
