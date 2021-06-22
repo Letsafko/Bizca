@@ -4,6 +4,7 @@
     using Bizca.Core.Application.Queries;
     using MediatR;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -21,7 +22,8 @@
         public async Task<Unit> Handle(GetProceduresQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<Procedure> procedures = await procedureRepository.GetProceduresAsync();
-            output.Ok(procedures);
+            var dicoProcedures = procedures.GroupBy(x => x.Organism).ToDictionary(x => x.Key, y => y.AsEnumerable());
+            output.Ok(dicoProcedures);
             return Unit.Value;
         }
     }

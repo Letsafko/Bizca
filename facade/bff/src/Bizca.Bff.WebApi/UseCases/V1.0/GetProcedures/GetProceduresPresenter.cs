@@ -2,6 +2,7 @@
 {
     using Bizca.Bff.Application.UseCases.GetProcedures;
     using Bizca.Bff.Domain.Referentials.Procedure;
+    using Bizca.Bff.Domain.Referentials.Procedure.ValueObjects;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
 
@@ -19,7 +20,7 @@
         ///     Standard output.
         /// </summary>
         /// <param name="procedures"></param>
-        public void Ok(IEnumerable<Procedure> procedures)
+        public void Ok(Dictionary<Organism, IEnumerable<Procedure>> procedures)
         {
             ViewModel = new OkObjectResult(new GetProceduresResponse(procedures));
         }
