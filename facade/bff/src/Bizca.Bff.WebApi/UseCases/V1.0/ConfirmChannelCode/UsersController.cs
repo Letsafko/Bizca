@@ -40,7 +40,7 @@
         /// <param name="confirmChannel">channel code confirmation</param>
         /// <remarks>/Assets/createUser.md</remarks>
         [HttpPost("{externalUserId}/channel/code/confirm")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConfirmationCodeViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
         public async Task<IActionResult> ConfirmChannelCodeAsync([Required] string externalUserId, [Required][FromBody] ConfirmChannelCode confirmChannel)
