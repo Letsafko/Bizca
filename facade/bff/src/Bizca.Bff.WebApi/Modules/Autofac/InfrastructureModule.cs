@@ -37,7 +37,7 @@
         {
             builder.RegisterType<SubscriptionRepository>().As<ISubscriptionRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
-            
+
             builder.RegisterType<ProcedureRepository>().As<IProcedureRepository>().InstancePerLifetimeScope();
             builder.RegisterDecorator<CacheProcedureRepository, IProcedureRepository>();
 

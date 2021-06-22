@@ -8,7 +8,7 @@
     {
         public GetBundlesResponse(IEnumerable<Bundle> bundles)
         {
-            foreach(Bundle bundle in bundles)
+            foreach (Bundle bundle in bundles)
             {
                 Add(new BundleViewModel(bundle));
             }

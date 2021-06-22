@@ -20,7 +20,7 @@
             string cacheKey = GetCacheKey($"{codeInsee}_{procedureTypeId}");
             return await cache.GetOrCreateAsync
             (
-                cacheKey, 
+                cacheKey,
                 () => decorated.GetProcedureByTypeIdAndCodeInseeAsync(procedureTypeId, codeInsee)
             );
         }

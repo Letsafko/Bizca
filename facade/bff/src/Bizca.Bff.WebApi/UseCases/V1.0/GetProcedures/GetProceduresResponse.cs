@@ -7,7 +7,7 @@
     {
         public GetProceduresResponse(IEnumerable<Procedure> procedures)
         {
-            foreach(Procedure proc in procedures)
+            foreach (Procedure proc in procedures)
             {
                 Add(new ProcedureViewModel(proc.Organism.OrganismName,
                     proc.Organism.CodeInsee,

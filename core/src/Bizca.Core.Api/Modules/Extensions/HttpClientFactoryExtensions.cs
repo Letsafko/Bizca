@@ -16,7 +16,7 @@
         /// <typeparam name="TOption">Agent configuration</typeparam>
         /// <param name="services"> service collection</param>
         /// <param name="httpMessageHandler">custom http message handler.</param>
-        public static IServiceCollection AddHttpClientBase<TClient, TImplementation, TOption>(this IServiceCollection services,
+        public static IHttpClientBuilder AddHttpClientBase<TClient, TImplementation, TOption>(this IServiceCollection services,
             IConfigurationSection section,
             string httpClientName = null)
             where TClient : class
@@ -31,8 +31,7 @@
                             client.BaseAddress = option.BaseAddress;
                             if (option.Timeout.HasValue)
                                 client.Timeout = option.Timeout.Value;
-                        })
-                    .Services;
+                        });
         }
     }
 }

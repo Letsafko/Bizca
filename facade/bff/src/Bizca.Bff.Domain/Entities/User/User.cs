@@ -64,9 +64,9 @@
             subscription.SetBundle(bundle);
         }
 
-        public void RegisterSendConfirmationEmailEvent(string externalUserId, string email)
+        public void RegisterSendConfirmationEmailEvent(string externalUserId, string email, string fullName)
         {
-            userEvents.Add(new SendConfirmationEmalNotification(externalUserId, email));
+            userEvents.Add(new SendConfirmationEmalNotification(externalUserId, email, fullName));
         }
         public Subscription GetSubscriptionByCode(string subscriptionCode)
         {

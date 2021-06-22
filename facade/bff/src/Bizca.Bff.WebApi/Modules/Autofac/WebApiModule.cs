@@ -35,7 +35,7 @@
 
             builder.RegisterType<GetProceduresPresenter>().InstancePerLifetimeScope();
             builder.Register<IGetProceduresOutput>(x => x.Resolve<GetProceduresPresenter>()).InstancePerLifetimeScope();
-            
+
             builder.RegisterType<CreateSubscriptionPresenter>().InstancePerLifetimeScope();
             builder.Register<ICreateSubscriptionOutput>(x => x.Resolve<CreateSubscriptionPresenter>()).InstancePerLifetimeScope();
 
