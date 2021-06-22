@@ -25,14 +25,31 @@
             Email = email;
         }
 
-        public ChannelConfirmationStatus ChannelConfirmationStatus { get; }
-        public ChannelActivationStatus ChannelActivationStatus { get; }
+        public ChannelConfirmationStatus ChannelConfirmationStatus { get; internal set; }
+        public ChannelActivationStatus ChannelActivationStatus { get; internal set; }
         public string PhoneNumber { get; }
         public Civility Civility { get; }
         public string FirstName { get; }
         public string LastName { get; }
         public string Whatsapp { get; }
         public string Email { get; }
+
+        internal void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
+        {
+            if (!ChannelConfirmationStatus.HasFlag(confirmationStatus))
+            {
+                ChannelConfirmationStatus |= confirmationStatus;
+            }
+
+        }
+
+        internal void SetChannelActivationStatus(ChannelActivationStatus activationStatus)
+        {
+            if (!ChannelActivationStatus.HasFlag(activationStatus))
+            {
+                ChannelActivationStatus |= activationStatus;
+            }
+        }
 
         protected override IEnumerable<object> GetAtomicValues()
         {
