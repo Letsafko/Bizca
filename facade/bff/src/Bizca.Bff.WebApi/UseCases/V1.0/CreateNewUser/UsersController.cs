@@ -39,8 +39,9 @@
         /// <param name="user">channel confirmation code input.</param>
         /// <remarks>/Assets/createUser.md</remarks>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserViewModel))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
         public async Task<IActionResult> CreateUserAsync([Required][FromBody] CreateUser user)
         {

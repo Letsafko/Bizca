@@ -1,19 +1,16 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetProcedures
 {
     using Bizca.Bff.Domain.Referentials.Procedure;
+    using Bizca.Bff.Domain.Referentials.Procedure.ValueObjects;
     using Bizca.Bff.WebApi.ViewModels;
     using System.Collections.Generic;
-    internal sealed class GetProceduresResponse : List<ProcedureViewModel>
+    internal sealed class GetProceduresResponse : List<OrganismViewModel>
     {
-        public GetProceduresResponse(IEnumerable<Procedure> procedures)
+        public GetProceduresResponse(Dictionary<Organism, IEnumerable<Procedure>> procedures)
         {
-            foreach (Procedure proc in procedures)
+            foreach (KeyValuePair<Organism, IEnumerable<Procedure>> proc in procedures)
             {
-                Add(new ProcedureViewModel(proc.Organism.OrganismName,
-                    proc.Organism.CodeInsee,
-                    new ProcedureTypeViewModel(proc.ProcedureType.Id,
-                        proc.ProcedureHref,
-                        proc.ProcedureType.Label)));
+                Add(new OrganismViewModel(proc.Key, proc.Value));
             }
         }
     }
