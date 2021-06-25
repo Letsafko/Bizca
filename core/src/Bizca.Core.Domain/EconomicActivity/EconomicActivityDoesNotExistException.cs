@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class EconomicActivityDoesNotExistException : NotFoundDomainException
+    public sealed class EconomicActivityDoesNotExistException : ResourceNotFoundException
     {
-        /// <inheritdoc/>
-        public EconomicActivityDoesNotExistException() : this(default(string))
+        public EconomicActivityDoesNotExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public EconomicActivityDoesNotExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public EconomicActivityDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public EconomicActivityDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public EconomicActivityDoesNotExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public EconomicActivityDoesNotExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public EconomicActivityDoesNotExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public EconomicActivityDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private EconomicActivityDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public EconomicActivityDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public EconomicActivityDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

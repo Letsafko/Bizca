@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
     public sealed class AddressStreetIsMandatoryException : DomainException
     {
-        /// <inheritdoc/>
-        public AddressStreetIsMandatoryException() : this(default(string))
+        public AddressStreetIsMandatoryException()
         {
         }
 
-        /// <inheritdoc/>
-        public AddressStreetIsMandatoryException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public AddressStreetIsMandatoryException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public AddressStreetIsMandatoryException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public AddressStreetIsMandatoryException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public AddressStreetIsMandatoryException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public AddressStreetIsMandatoryException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public AddressStreetIsMandatoryException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private AddressStreetIsMandatoryException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public AddressStreetIsMandatoryException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public AddressStreetIsMandatoryException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

@@ -49,7 +49,7 @@
         {
             string modelStateError;
             int statusCode = GetStatusCode(exception);
-            if (!(exception is DomainException) && !(exception is ValidationException))
+            if (!(exception is DomainException) && !(exception is ResourceNotFoundException) && !(exception is ValidationException))
             {
                 modelStateError = "an error occured, contact your administrator.";
             }
@@ -57,16 +57,21 @@
             {
                 modelStateError = validationException.Errors.FirstOrDefault()?.ErrorMessage;
             }
-            else
+            else if (exception is DomainException domainException)
             {
-                var domainException = exception as DomainException;
                 modelStateError = domainException.Errors.FirstOrDefault()?.ErrorMessage;
             }
+            else
+            {
+                modelStateError = (exception as ResourceNotFoundException).Errors.FirstOrDefault()?.ErrorMessage;
+            }
 
-            var modelState = new ModelStateResponse(statusCode,
-                modelStateError,
-                !environment.IsDevEnvironment() ? default : exception);
-            return new ObjectResult(modelState) { StatusCode = modelState.Status };
+            Exception stackStrace = !environment.IsDevEnvironment() ? default : exception;
+            var modelState = new ModelStateResponse(statusCode, modelStateError, stackStrace);
+            return new ObjectResult(modelState)
+            {
+                StatusCode = modelState.Status 
+            };
         }
         private bool IsAssignableFrom<T>(object obj) where T : class
         {
@@ -75,8 +80,8 @@
         private int GetStatusCode(object obj)
         {
             return IsAssignableFrom<DomainException>(obj) || IsAssignableFrom<ValidationException>(obj)
-                ? IsAssignableFrom<NotFoundDomainException>(obj) ? StatusCodes.Status404NotFound : StatusCodes.Status400BadRequest
-                : StatusCodes.Status500InternalServerError;
+                ? StatusCodes.Status400BadRequest
+                : (IsAssignableFrom<ResourceNotFoundException>(obj) ? StatusCodes.Status404NotFound : StatusCodes.Status500InternalServerError);
         }
 
         #endregion

@@ -106,8 +106,8 @@
             yield return UserSubscription.PhoneNumber?.Trim();
             yield return UserSubscription.Whatsapp?.Trim();
             yield return UserSubscription.Email?.Trim();
+            yield return Procedure.Organism.CodeInsee;
             yield return Procedure.ProcedureType.Id;
-            yield return Procedure.Organism.Id;
         }
         private void SetBeginDate(DateTime beginDate)
         {
@@ -121,9 +121,9 @@
         }
         private int ComputeCheckSum()
         {
-            return GetAtomicValues()
-                .Select(x => x?.GetHashCode() ?? 0)
-                .Aggregate((x, y) => x ^ y);
+            IEnumerable<object> values = GetAtomicValues().Where(x => x != null);
+            return values.Select(x => x.GetHashCode())
+                         .Aggregate((x, y) => x ^ y);
         }
 
         #endregion

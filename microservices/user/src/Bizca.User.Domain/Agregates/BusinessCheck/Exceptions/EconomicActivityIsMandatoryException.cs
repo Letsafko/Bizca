@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
     public sealed class EconomicActivityIsMandatoryException : DomainException
     {
-        /// <inheritdoc/>
-        public EconomicActivityIsMandatoryException() : this(default(string))
+        public EconomicActivityIsMandatoryException()
         {
         }
 
-        /// <inheritdoc/>
-        public EconomicActivityIsMandatoryException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public EconomicActivityIsMandatoryException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public EconomicActivityIsMandatoryException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public EconomicActivityIsMandatoryException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public EconomicActivityIsMandatoryException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public EconomicActivityIsMandatoryException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public EconomicActivityIsMandatoryException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private EconomicActivityIsMandatoryException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public EconomicActivityIsMandatoryException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public EconomicActivityIsMandatoryException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

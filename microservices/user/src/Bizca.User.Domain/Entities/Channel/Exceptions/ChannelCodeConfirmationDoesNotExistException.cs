@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class ChannelCodeConfirmationDoesNotExistException : NotFoundDomainException
+    public sealed class ChannelCodeConfirmationDoesNotExistException : ResourceNotFoundException
     {
-        /// <inheritdoc/>
-        public ChannelCodeConfirmationDoesNotExistException() : this(default(string))
+        public ChannelCodeConfirmationDoesNotExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public ChannelCodeConfirmationDoesNotExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public ChannelCodeConfirmationDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public ChannelCodeConfirmationDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public ChannelCodeConfirmationDoesNotExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public ChannelCodeConfirmationDoesNotExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public ChannelCodeConfirmationDoesNotExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public ChannelCodeConfirmationDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private ChannelCodeConfirmationDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public ChannelCodeConfirmationDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public ChannelCodeConfirmationDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

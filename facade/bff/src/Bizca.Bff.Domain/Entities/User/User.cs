@@ -19,9 +19,10 @@
         public User(int id,
             UserIdentifier userIdentifier,
             UserProfile userProfile,
+            List<Subscription> subscriptions = null,
             byte[] rowVersion = null)
         {
-            subscriptions = new List<Subscription>();
+            this.subscriptions = subscriptions ?? new List<Subscription>();
             userEvents = new List<IEvent>();
             UserIdentifier = userIdentifier;
             UserProfile = userProfile;
@@ -30,7 +31,7 @@
         }
 
         public IReadOnlyCollection<Subscription> Subscriptions => subscriptions.ToList();
-        private readonly ICollection<Subscription> subscriptions;
+        private readonly List<Subscription> subscriptions;
 
         public IReadOnlyCollection<IEvent> UserEvents => userEvents.ToList();
         private readonly ICollection<IEvent> userEvents;
@@ -55,7 +56,7 @@
             Subscription subscription = GetSubscriptionByCode(subscriptionCode);
             if (subscription is null)
             {
-                throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.");
+                throw new ResourceNotFoundException(nameof(subscription), "no subscription found for the given reference.");
             }
 
             if (!IsSubscriptionAllowedToBeUpdated(subscription.SubscriptionState.Status))
@@ -85,6 +86,10 @@
         public Subscription GetSubscriptionByCode(string subscriptionCode)
         {
             return subscriptions.FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, StringComparison.OrdinalIgnoreCase));
+        }
+        public void RemoveSubscriptionsWithSameCheckSum(int checksum)
+        {
+            subscriptions.RemoveAll(x => x.CheckSum == checksum && x.SubscriptionState.Status == SubscriptionStatus.Pending);
         }
         public void AddSubscription(Subscription subscription)
         {

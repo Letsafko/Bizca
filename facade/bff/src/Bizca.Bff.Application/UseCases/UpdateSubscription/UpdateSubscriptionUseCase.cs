@@ -48,6 +48,7 @@
                 throw new ProcedureDoesNotExistException($"procedureType::{command.ProcedureTypeId} with codeInsee::{command.CodeInsee} does not exist.");
 
             user.UpdateSubscription(command.SubscriptionCode, bundle, procedure);
+            //user.RemoveSubscriptionsWithSameCheckSum(command.SubscriptionCode);
             await subscriptionRepository.UpsertAsync(user.UserIdentifier.UserId, user.Subscriptions);
 
             Subscription subscription = user.GetSubscriptionByCode(command.SubscriptionCode);

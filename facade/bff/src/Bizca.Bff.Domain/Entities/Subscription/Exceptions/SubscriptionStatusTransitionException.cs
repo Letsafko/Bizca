@@ -3,42 +3,32 @@
     using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     [Serializable]
     public sealed class SubscriptionStatusTransitionException : DomainException
     {
-        /// <inheritdoc/>
-        public SubscriptionStatusTransitionException() : this(default(string))
+        public SubscriptionStatusTransitionException()
         {
         }
 
-        /// <inheritdoc/>
-        public SubscriptionStatusTransitionException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public SubscriptionStatusTransitionException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public SubscriptionStatusTransitionException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public SubscriptionStatusTransitionException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public SubscriptionStatusTransitionException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public SubscriptionStatusTransitionException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public SubscriptionStatusTransitionException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private SubscriptionStatusTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public SubscriptionStatusTransitionException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public SubscriptionStatusTransitionException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

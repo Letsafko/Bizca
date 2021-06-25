@@ -6,10 +6,10 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    ///     an exception that represents business error
+    ///     A business exception that represents resource not found.
     /// </summary>
     [Serializable]
-    public class DomainException : Exception
+    public class ResourceNotFoundException : Exception
     {
         /// <summary>
         ///     Domain failure errors
@@ -17,42 +17,42 @@
         public IEnumerable<DomainFailure> Errors { get; }
 
         /// <inheritdoc/>
-        public DomainException() : base()
+        public ResourceNotFoundException() : base()
         {
         }
 
         /// <inheritdoc/>
-        public DomainException(string message, Exception innerException) 
+        public ResourceNotFoundException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        ///     Creates a new DomainException
+        ///     Creates a new instance of <see cref="ResourceNotFoundException"/>
         /// </summary>
         /// <param name="errors"></param>
-        public DomainException(IEnumerable<DomainFailure> errors) : base(BuildErrorMessage(errors))
+        public ResourceNotFoundException(IEnumerable<DomainFailure> errors) : base(BuildErrorMessage(errors))
         {
             Errors = errors;
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="DomainException"/> 
+        ///     Creates a new instance of <see cref="ResourceNotFoundException"/> 
         /// </summary>
         /// <param name="message"></param>
-        public DomainException(string message) : this(new List<DomainFailure> { new DomainFailure(message) })
+        public ResourceNotFoundException(string message) : this(new List<DomainFailure> { new DomainFailure(message) })
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="DomainException"/> 
+        ///     Creates a new instance of <see cref="ResourceNotFoundException"/> 
         /// </summary>
         /// <param name="message"></param>
-        public DomainException(string message, string propertyName) : this(new List<DomainFailure> { new DomainFailure(message, propertyName) })
+        public ResourceNotFoundException(string message, string propertyName) : this(new List<DomainFailure> { new DomainFailure(message, propertyName) })
         {
         }
 
-        protected DomainException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected ResourceNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             Errors = info.GetValue("errors", typeof(IEnumerable<DomainFailure>)) as IEnumerable<DomainFailure>;
         }

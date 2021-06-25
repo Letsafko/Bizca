@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
     public sealed class UserAlreadyExistException : DomainException
     {
-        /// <inheritdoc/>
-        public UserAlreadyExistException() : this(default(string))
+        public UserAlreadyExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public UserAlreadyExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public UserAlreadyExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public UserAlreadyExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public UserAlreadyExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public UserAlreadyExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public UserAlreadyExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public UserAlreadyExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private UserAlreadyExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public UserAlreadyExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public UserAlreadyExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

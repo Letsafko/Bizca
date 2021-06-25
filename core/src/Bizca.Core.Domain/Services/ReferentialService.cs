@@ -84,7 +84,7 @@
                 ?? (!throwError ? default(EconomicActivity) : throw GetDomainException<EconomicActivityDoesNotExistException>(nameof(economicActivity), economicActivity));
         }
 
-        private TException GetDomainException<TException>(string propertyName, object propertyValue) where TException : DomainException
+        private TException GetDomainException<TException>(string propertyName, object propertyValue) where TException : ResourceNotFoundException
         {
             var failure = new DomainFailure($"{propertyValue} does not exist.",
                     propertyName,

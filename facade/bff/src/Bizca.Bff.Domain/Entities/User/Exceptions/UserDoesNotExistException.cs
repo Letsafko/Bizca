@@ -3,41 +3,31 @@
     using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
-    public sealed class UserDoesNotExistException : NotFoundDomainException
+    public sealed class UserDoesNotExistException : ResourceNotFoundException
     {
-        /// <inheritdoc/>
-        public UserDoesNotExistException() : this(default(string))
+        public UserDoesNotExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public UserDoesNotExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public UserDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public UserDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public UserDoesNotExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public UserDoesNotExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public UserDoesNotExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public UserDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private UserDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public UserDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public UserDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

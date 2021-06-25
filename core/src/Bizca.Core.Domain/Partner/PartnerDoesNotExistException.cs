@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class PartnerDoesNotExistException : NotFoundDomainException
+    public sealed class PartnerDoesNotExistException : ResourceNotFoundException
     {
-        /// <inheritdoc/>
-        public PartnerDoesNotExistException() : this(default(string))
+        public PartnerDoesNotExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public PartnerDoesNotExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public PartnerDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public PartnerDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public PartnerDoesNotExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public PartnerDoesNotExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public PartnerDoesNotExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public PartnerDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private PartnerDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public PartnerDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public PartnerDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
