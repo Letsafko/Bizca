@@ -34,7 +34,7 @@
 
             builder.RegisterType<CreateNewUserPresenter>().InstancePerLifetimeScope();
             builder.Register<ICreateNewUserOutput>(x => x.Resolve<CreateNewUserPresenter>()).InstancePerLifetimeScope();
-            
+
             builder.RegisterType<ConfirmChannelCodePresenter>().InstancePerLifetimeScope();
             builder.Register<IConfirmChannelCodeOutput>(x => x.Resolve<ConfirmChannelCodePresenter>()).InstancePerLifetimeScope();
 

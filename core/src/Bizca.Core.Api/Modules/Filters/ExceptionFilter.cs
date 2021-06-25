@@ -70,7 +70,7 @@
             var modelState = new ModelStateResponse(statusCode, modelStateError, stackStrace);
             return new ObjectResult(modelState)
             {
-                StatusCode = modelState.Status 
+                StatusCode = modelState.Status
             };
         }
         private bool IsAssignableFrom<T>(object obj) where T : class

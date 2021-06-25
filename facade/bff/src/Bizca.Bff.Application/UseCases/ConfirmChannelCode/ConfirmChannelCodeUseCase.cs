@@ -15,7 +15,7 @@
         private readonly IConfirmChannelCodeOutput output;
         private readonly IUserRepository userRepository;
         private readonly IUserWrapper userAgent;
-        public ConfirmChannelCodeUseCase(IUserRepository userRepository, 
+        public ConfirmChannelCodeUseCase(IUserRepository userRepository,
             IConfirmChannelCodeOutput output,
             IUserWrapper userAgent)
         {

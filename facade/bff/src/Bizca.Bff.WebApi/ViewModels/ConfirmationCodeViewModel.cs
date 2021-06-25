@@ -26,7 +26,7 @@
         ///     Whether is confirmed.
         /// </summary>
         public bool Confirmed { get; }
-        
+
         /// <summary>
         ///  Channel resource value.
         /// </summary>

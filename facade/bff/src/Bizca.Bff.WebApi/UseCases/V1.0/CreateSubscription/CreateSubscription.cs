@@ -36,11 +36,6 @@
         public string LastName { get; set; }
 
         /// <summary>
-        ///     Gets or sets user subscription whatsapp number.
-        /// </summary>
-        public string Whatsapp { get; set; }
-
-        /// <summary>
         ///     Gets or sets user subscription email.
         /// </summary>
         public string Email { get; set; }

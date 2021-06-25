@@ -51,12 +51,12 @@
         {
             userEvents.Add(new SendConfirmationEmalNotification(externalUserId, email, fullName));
         }
-        public void UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
+        public Subscription UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode);
             if (subscription is null)
             {
-                throw new ResourceNotFoundException(nameof(subscription), "no subscription found for the given reference.");
+                throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.");
             }
 
             if (!IsSubscriptionAllowedToBeUpdated(subscription.SubscriptionState.Status))
@@ -65,9 +65,9 @@
                     $"subscription status {subscription.SubscriptionState.Status} does not allowed changes.");
             }
 
-            subscription.SetSubscriptionSettings(bundle);
-            subscription.SetProcedure(procedure);
-            subscription.SetBundle(bundle);
+            subscription.UpdateSubscription(bundle, procedure);
+            RemoveSubscriptionsWithSameCheckSum(subscription);
+            return subscription;
         }
         public void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
         {
@@ -87,9 +87,11 @@
         {
             return subscriptions.FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, StringComparison.OrdinalIgnoreCase));
         }
-        public void RemoveSubscriptionsWithSameCheckSum(int checksum)
+        public void RemoveSubscriptionsWithSameCheckSum(Subscription subscription)
         {
-            subscriptions.RemoveAll(x => x.CheckSum == checksum && x.SubscriptionState.Status == SubscriptionStatus.Pending);
+            subscriptions.RemoveAll(x => x.CheckSum == subscription.CheckSum
+                && x.SubscriptionState.Status == SubscriptionStatus.Pending
+                && x.SubscriptionCode != subscription.SubscriptionCode);
         }
         public void AddSubscription(Subscription subscription)
         {

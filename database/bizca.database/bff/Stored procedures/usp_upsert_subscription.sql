@@ -3,6 +3,13 @@
 	@subscriptions [bff].[subscriptionsUdt] readonly
 as
 begin
+
+	delete s
+	from [bff].[subscription] s
+	left join @subscriptions c on c.subscriptionId = s.subscriptionId
+	where s.userId = @userId and
+	      c.subscriptionId is null
+
 	update s
 	set   s.[subscriptionStatusId]  = udt.[subscriptionStatusId]  
 		, s.[procedureTypeId]		= udt.[procedureTypeId]		

@@ -3,7 +3,7 @@
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Bff.Domain.Referentials.Procedure.ValueObjects;
     using System.Collections.Generic;
-    internal sealed  class OrganismViewModel
+    internal sealed class OrganismViewModel
     {
         public OrganismViewModel(Organism organism, IEnumerable<Procedure> procedures)
         {
