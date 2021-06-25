@@ -42,39 +42,32 @@
         public Money Price { get; private set; }
         internal int CheckSum => ComputeCheckSum();
 
-        internal void SetSubscriptionState(ISubscriptionState subscriptionState)
+        internal void UpdateSubscription(Bundle bundle, Procedure procedure)
         {
-            if (SubscriptionState != subscriptionState)
-            {
-                SubscriptionState = subscriptionState;
-            }
-        }
-        internal void SetSubscriptionSettings(Bundle bundle)
-        {
+            Procedure = procedure;
             if (bundle != null)
             {
+                Bundle = bundle;
+                Price = bundle.Price;
                 SubscriptionSettings = new SubscriptionSettings(SubscriptionSettings?.WhatsappCounter ?? 0,
                     SubscriptionSettings?.EmailCounter ?? 0,
                     SubscriptionSettings?.SmsCounter ?? 0,
                     bundle.BundleSettings.TotalWhatsapp,
                     bundle.BundleSettings.TotalEmail,
                     bundle.BundleSettings.TotalSms);
+
+                DateTime beginDate = DateTime.UtcNow;
+                DateTime endDate = beginDate.AddDays(bundle.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
+
+                SetEndDate(endDate);
+                SetBeginDate(beginDate);
             }
         }
-        internal void SetProcedure(Procedure procedure)
+        internal void SetSubscriptionState(ISubscriptionState subscriptionState)
         {
-            Procedure = procedure;
-        }
-        internal void SetBundle(Bundle bundle)
-        {
-            if (bundle != null)
+            if (SubscriptionState != subscriptionState)
             {
-                Price = bundle.Price;
-                Bundle = bundle;
-
-                DateTime now = DateTime.UtcNow;
-                SetEndDate(now.AddDays(bundle.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek));
-                SetBeginDate(now);
+                SubscriptionState = subscriptionState;
             }
         }
         internal void UnFreeze()
@@ -106,9 +99,16 @@
             yield return UserSubscription.PhoneNumber?.Trim();
             yield return UserSubscription.Whatsapp?.Trim();
             yield return UserSubscription.Email?.Trim();
+            yield return Procedure.Organism.CodeInsee;
             yield return Procedure.ProcedureType.Id;
-            yield return Procedure.Organism.Id;
         }
+        private int ComputeCheckSum()
+        {
+            IEnumerable<object> values = GetAtomicValues().Where(x => x != null);
+            return values.Select(x => x.GetHashCode())
+                         .Aggregate((x, y) => x ^ y);
+        }
+
         private void SetBeginDate(DateTime beginDate)
         {
             SubscriptionSettings.SetBeginDate(beginDate);
@@ -119,13 +119,6 @@
             SubscriptionSettings.SetEndDate(endDate);
             SubscriptionState.StatusChangeCheck();
         }
-        private int ComputeCheckSum()
-        {
-            return GetAtomicValues()
-                .Select(x => x?.GetHashCode() ?? 0)
-                .Aggregate((x, y) => x ^ y);
-        }
-
         #endregion
     }
 }

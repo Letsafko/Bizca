@@ -3,42 +3,32 @@
     using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     [Serializable]
-    public sealed class ProcedureDoesNotExistException : NotFoundDomainException
+    public sealed class ProcedureDoesNotExistException : ResourceNotFoundException
     {
-        /// <inheritdoc/>
-        public ProcedureDoesNotExistException() : this(default(string))
+        public ProcedureDoesNotExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public ProcedureDoesNotExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public ProcedureDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public ProcedureDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public ProcedureDoesNotExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public ProcedureDoesNotExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public ProcedureDoesNotExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public ProcedureDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private ProcedureDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public ProcedureDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public ProcedureDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

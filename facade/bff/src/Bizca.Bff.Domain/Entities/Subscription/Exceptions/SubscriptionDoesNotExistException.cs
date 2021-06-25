@@ -3,47 +3,32 @@
     using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     [Serializable]
-    public sealed class SubscriptionDoesNotExistException : NotFoundDomainException
+    public sealed class SubscriptionDoesNotExistException : ResourceNotFoundException
     {
-        /// <inheritdoc/>
-        public SubscriptionDoesNotExistException() : this(default(string))
+        public SubscriptionDoesNotExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public SubscriptionDoesNotExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public SubscriptionDoesNotExistException(string propertyName, string message) : base(propertyName, message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public SubscriptionDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public SubscriptionDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public SubscriptionDoesNotExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public SubscriptionDoesNotExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public SubscriptionDoesNotExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public SubscriptionDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private SubscriptionDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public SubscriptionDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public SubscriptionDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

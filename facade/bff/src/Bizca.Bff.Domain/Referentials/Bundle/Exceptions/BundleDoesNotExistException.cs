@@ -3,42 +3,32 @@
     using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     [Serializable]
-    public sealed class BundleDoesNotExistException : NotFoundDomainException
+    public sealed class BundleDoesNotExistException : ResourceNotFoundException
     {
-        /// <inheritdoc/>
-        public BundleDoesNotExistException() : this(default(string))
+        public BundleDoesNotExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public BundleDoesNotExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public BundleDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public BundleDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public BundleDoesNotExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public BundleDoesNotExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public BundleDoesNotExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public BundleDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private BundleDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public BundleDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public BundleDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

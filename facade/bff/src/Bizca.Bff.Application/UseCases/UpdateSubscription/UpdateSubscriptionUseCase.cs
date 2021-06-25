@@ -47,10 +47,8 @@
             if (procedure is null)
                 throw new ProcedureDoesNotExistException($"procedureType::{command.ProcedureTypeId} with codeInsee::{command.CodeInsee} does not exist.");
 
-            user.UpdateSubscription(command.SubscriptionCode, bundle, procedure);
+            Subscription subscription = user.UpdateSubscription(command.SubscriptionCode, bundle, procedure);
             await subscriptionRepository.UpsertAsync(user.UserIdentifier.UserId, user.Subscriptions);
-
-            Subscription subscription = user.GetSubscriptionByCode(command.SubscriptionCode);
             subscriptionOutput.Ok(subscription);
             return Unit.Value;
         }

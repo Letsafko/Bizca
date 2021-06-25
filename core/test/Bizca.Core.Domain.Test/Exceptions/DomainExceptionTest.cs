@@ -2,7 +2,9 @@
 {
     using Bizca.Core.Domain.Exceptions;
     using NFluent;
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Xunit;
 
     public sealed class DomainExceptionTest
@@ -36,11 +38,11 @@
         public void Ctor_domainfailures_init_message_and_errors()
         {
             //act
-            var exception = new DomainException(expected, erros);
+            var exception = new DomainException(erros);
 
             //assert
             Check.That(exception.Errors).CountIs(1);
-            Check.That(exception.Message).Equals(expected);
+            Check.That(exception.Message).Equals(BuildErrorMessage(erros));
             Check.That(exception.Errors).HasFieldsWithSameValues(erros);
             Check.That(exception.Errors).InheritsFrom<IEnumerable<DomainFailure>>();
         }
@@ -68,6 +70,12 @@
             //assert  
             Check.That(exception.Message).Equals(expected);
             Check.That(exception.InnerException).HasFieldsWithSameValues(expectedInnerException);
+        }
+
+        private static string BuildErrorMessage(IEnumerable<DomainFailure> errors)
+        {
+            IEnumerable<string> arr = errors.Select(x => $"{Environment.NewLine} -- {x.PropertyName}: {x.ErrorMessage}");
+            return string.Concat(arr);
         }
     }
 }

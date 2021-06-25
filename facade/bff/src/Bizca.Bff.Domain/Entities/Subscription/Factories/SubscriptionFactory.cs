@@ -1,9 +1,8 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription.Factories
 {
     using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.Domain.Referentials.Bundle.Exceptions;
     using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Bff.Domain.Referentials.Procedure.Exceptions;
+    using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Threading.Tasks;
 
@@ -26,10 +25,10 @@
         {
             (Bundle bundle, Procedure procedure) = await GetEntities(request);
             if (request.BundleId.HasValue && bundle is null)
-                throw new BundleDoesNotExistException($"bundle::{request.BundleId.Value} does not exist.");
+                throw new ResourceNotFoundException($"bundle::{request.BundleId.Value} does not exist.");
 
             if (procedure is null)
-                throw new ProcedureDoesNotExistException($"procedureType::{request.ProcedureTypeId} with codeInsee::{request.CodeInsee} does not exist.");
+                throw new ResourceNotFoundException($"procedureType::{request.ProcedureTypeId} with codeInsee::{request.CodeInsee} does not exist.");
 
             SubscriptionSettings subscriptionSettings = null;
             if (bundle != null)

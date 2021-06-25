@@ -27,4 +27,10 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\User\Exceptions\" />
+    <Folder Include="Referentials\Bundle\Exceptions\" />
+    <Folder Include="Referentials\Procedure\Exceptions\" />
+  </ItemGroup>
+
 </Project>

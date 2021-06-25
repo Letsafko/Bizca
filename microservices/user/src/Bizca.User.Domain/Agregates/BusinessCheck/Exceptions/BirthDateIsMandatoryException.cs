@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
     public sealed class BirthDateIsMandatoryException : DomainException
     {
-        /// <inheritdoc/>
-        public BirthDateIsMandatoryException() : this(default(string))
+        public BirthDateIsMandatoryException()
         {
         }
 
-        /// <inheritdoc/>
-        public BirthDateIsMandatoryException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public BirthDateIsMandatoryException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public BirthDateIsMandatoryException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public BirthDateIsMandatoryException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public BirthDateIsMandatoryException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public BirthDateIsMandatoryException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public BirthDateIsMandatoryException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private BirthDateIsMandatoryException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public BirthDateIsMandatoryException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public BirthDateIsMandatoryException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

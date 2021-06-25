@@ -19,9 +19,10 @@
         public User(int id,
             UserIdentifier userIdentifier,
             UserProfile userProfile,
+            List<Subscription> subscriptions = null,
             byte[] rowVersion = null)
         {
-            subscriptions = new List<Subscription>();
+            this.subscriptions = subscriptions ?? new List<Subscription>();
             userEvents = new List<IEvent>();
             UserIdentifier = userIdentifier;
             UserProfile = userProfile;
@@ -30,7 +31,7 @@
         }
 
         public IReadOnlyCollection<Subscription> Subscriptions => subscriptions.ToList();
-        private readonly ICollection<Subscription> subscriptions;
+        private readonly List<Subscription> subscriptions;
 
         public IReadOnlyCollection<IEvent> UserEvents => userEvents.ToList();
         private readonly ICollection<IEvent> userEvents;
@@ -50,7 +51,7 @@
         {
             userEvents.Add(new SendConfirmationEmalNotification(externalUserId, email, fullName));
         }
-        public void UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
+        public Subscription UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode);
             if (subscription is null)
@@ -64,9 +65,9 @@
                     $"subscription status {subscription.SubscriptionState.Status} does not allowed changes.");
             }
 
-            subscription.SetSubscriptionSettings(bundle);
-            subscription.SetProcedure(procedure);
-            subscription.SetBundle(bundle);
+            subscription.UpdateSubscription(bundle, procedure);
+            RemoveSubscriptionsWithSameCheckSum(subscription);
+            return subscription;
         }
         public void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
         {
@@ -85,6 +86,12 @@
         public Subscription GetSubscriptionByCode(string subscriptionCode)
         {
             return subscriptions.FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, StringComparison.OrdinalIgnoreCase));
+        }
+        public void RemoveSubscriptionsWithSameCheckSum(Subscription subscription)
+        {
+            subscriptions.RemoveAll(x => x.CheckSum == subscription.CheckSum
+                && x.SubscriptionState.Status == SubscriptionStatus.Pending
+                && x.SubscriptionCode != subscription.SubscriptionCode);
         }
         public void AddSubscription(Subscription subscription)
         {

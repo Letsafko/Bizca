@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
     public sealed class AddressIsMandatoryException : DomainException
     {
-        /// <inheritdoc/>
-        public AddressIsMandatoryException() : this(default(string))
+        public AddressIsMandatoryException()
         {
         }
 
-        /// <inheritdoc/>
-        public AddressIsMandatoryException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public AddressIsMandatoryException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public AddressIsMandatoryException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public AddressIsMandatoryException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public AddressIsMandatoryException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public AddressIsMandatoryException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public AddressIsMandatoryException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private AddressIsMandatoryException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public AddressIsMandatoryException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public AddressIsMandatoryException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

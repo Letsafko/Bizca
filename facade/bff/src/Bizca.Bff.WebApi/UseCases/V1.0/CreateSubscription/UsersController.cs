@@ -59,7 +59,7 @@
                 subscription.FirstName,
                 subscription.LastName,
                 subscription.PhoneNumber,
-                subscription.Whatsapp,
+                null,
                 subscription.Email);
         }
     }

@@ -110,8 +110,7 @@
                 ?? throw new ChannelCodeConfirmationDoesNotExistException(new List<DomainFailure>
                 {
                     new DomainFailure($"{codeConfirmation} does not exist.",
-                            nameof(codeConfirmation),
-                            typeof(ChannelCodeConfirmationDoesNotExistException))
+                            nameof(codeConfirmation))
                 });
         }
 
@@ -127,8 +126,7 @@
             if (!confirmed)
             {
                 var failure = new DomainFailure($"{channelConfirmation.CodeConfirmation} has expired.",
-                    nameof(channelConfirmation.CodeConfirmation),
-                    typeof(ChannelCodeConfirmationHasExpiredUserException));
+                    nameof(channelConfirmation.CodeConfirmation));
 
                 throw new ChannelCodeConfirmationHasExpiredUserException(new List<DomainFailure> { failure });
             }
@@ -159,9 +157,7 @@
             if (channel is null && throwError)
             {
                 var failure = new DomainFailure($"channel::{channelType.Code} requested does not exist.",
-                    nameof(channelType),
-                    typeof(ChannelDoesNotExistForUserException));
-
+                    nameof(channelType));
                 throw new ChannelDoesNotExistForUserException(new List<DomainFailure> { failure });
             }
 
@@ -179,8 +175,7 @@
             if (channel is null && throwError)
             {
                 var failure = new DomainFailure($"channel requested for {channelValue} does not exist.",
-                    nameof(channelValue),
-                    typeof(ChannelDoesNotExistForUserException));
+                    nameof(channelValue));
 
                 throw new ChannelDoesNotExistForUserException(new List<DomainFailure> { failure });
             }

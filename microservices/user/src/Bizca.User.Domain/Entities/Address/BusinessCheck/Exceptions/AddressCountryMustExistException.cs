@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
     public sealed class AddressCountryMustExistException : DomainException
     {
-        /// <inheritdoc/>
-        public AddressCountryMustExistException() : this(default(string))
+        public AddressCountryMustExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public AddressCountryMustExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public AddressCountryMustExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public AddressCountryMustExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public AddressCountryMustExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public AddressCountryMustExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public AddressCountryMustExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public AddressCountryMustExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private AddressCountryMustExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public AddressCountryMustExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public AddressCountryMustExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

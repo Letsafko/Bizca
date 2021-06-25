@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
-
-namespace Bizca.Bff.WebApi.ViewModels
+﻿namespace Bizca.Bff.WebApi.ViewModels
 {
+    using System.ComponentModel.DataAnnotations;
     /// <summary>
     ///     Procedure type view model.
     /// </summary>
@@ -11,37 +9,34 @@ namespace Bizca.Bff.WebApi.ViewModels
         /// <summary>
         ///     Creates an instance of <see cref="ProcedureTypeViewModel"/>
         /// </summary>
-        /// <param name="procedureTypeId">procedure type identifier</param>
-        /// <param name="procedureHref">procedure link form.</param>
-        /// <param name="procedureTypeLabel">procedure type label</param>
-        public ProcedureTypeViewModel(int procedureTypeId,
-            string procedureHref,
-            string procedureTypeLabel)
+        /// <param name="idenitifier">procedure type identifier</param>
+        /// <param name="href">procedure link form.</param>
+        /// <param name="description">procedure type label</param>
+        public ProcedureTypeViewModel(int idenitifier,
+            string href,
+            string description)
         {
-            ProcedureTypeLabel = procedureTypeLabel;
-            ProcedureTypeId = procedureTypeId;
-            ProcedureHref = procedureHref;
+            Description = description;
+            Identifier = idenitifier;
+            Href = href;
         }
 
         /// <summary>
         ///     Procedure type label.
         /// </summary>
         [Required]
-        [JsonProperty("description")]
-        public string ProcedureTypeLabel { get; }
+        public string Description { get; }
 
         /// <summary>
         ///     Procedure link form.
         /// </summary>
         [Required]
-        [JsonProperty("href")]
-        public string ProcedureHref { get; }
+        public string Href { get; }
 
         /// <summary>
         ///     Procedure type identifier.
         /// </summary>
         [Required]
-        [JsonProperty("identifier")]
-        public int ProcedureTypeId { get; }
+        public int Identifier { get; }
     }
 }

@@ -30,12 +30,6 @@
         /// </summary>
         public string Civility { get; set; }
 
-
-        /// <summary>
-        ///     Gets or sets user whatsapp number.
-        /// </summary>
-        public string Whatsapp { get; set; }
-
         /// <summary>
         ///     Gets or sets user email.
         /// </summary>

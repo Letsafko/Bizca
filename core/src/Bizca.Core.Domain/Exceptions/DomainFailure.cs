@@ -15,7 +15,7 @@
         /// <summary>
         ///     creates a new business failure.
         /// </summary>
-        public DomainFailure(string errorMessage) : this(errorMessage, null)
+        public DomainFailure(string errorMessage) : this(errorMessage, "property")
         {
         }
 

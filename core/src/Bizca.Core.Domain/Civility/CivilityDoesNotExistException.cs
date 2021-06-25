@@ -4,43 +4,33 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
 
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public sealed class CivilityDoesNotExistException : NotFoundDomainException
+    public sealed class CivilityDoesNotExistException : ResourceNotFoundException
     {
-        /// <inheritdoc/>
-        public CivilityDoesNotExistException() : this(default(string))
+        public CivilityDoesNotExistException()
         {
         }
 
-        /// <inheritdoc/>
-        public CivilityDoesNotExistException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public CivilityDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public CivilityDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public CivilityDoesNotExistException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public CivilityDoesNotExistException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public CivilityDoesNotExistException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public CivilityDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private CivilityDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public CivilityDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public CivilityDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

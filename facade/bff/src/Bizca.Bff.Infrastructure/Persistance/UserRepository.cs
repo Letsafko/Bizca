@@ -42,7 +42,7 @@
                             commandType: CommandType.StoredProcedure)
                     .ConfigureAwait(false);
 
-            (dynamic user, IEnumerable<dynamic> subscriptions) = GetEntities(gridReader);
+            (dynamic user, IEnumerable<dynamic> dynamycSsubscriptions) = GetEntities(gridReader);
             if (user is null)
             {
                 return default;
@@ -50,17 +50,8 @@
 
             UserProfile userProfile = GetUserProfile(user);
             var userIdentifier = new UserIdentifier((int)user.userId, externalUserId);
-            var userBuild = new User((int)user.userId, userIdentifier, userProfile, (byte[])user.rowversion);
-
-            if (subscriptions?.Any() == true)
-            {
-                foreach (dynamic subscription in subscriptions)
-                {
-                    Subscription subscriptionToAdd = GetSubscription(subscription);
-                    userBuild.AddSubscription(subscriptionToAdd);
-                }
-            }
-
+            IEnumerable<Subscription> subscriptions = BuildSubscriptions(dynamycSsubscriptions);
+            var userBuild = new User((int)user.userId, userIdentifier, userProfile, subscriptions?.ToList(), (byte[])user.rowversion);
             return userBuild;
         }
 
@@ -133,6 +124,28 @@
                 result[ResultName.Subscriptions]
             );
         }
+        private IEnumerable<Subscription> BuildSubscriptions(IEnumerable<dynamic> subscriptions)
+        {
+            if (subscriptions?.Any() == true)
+            {
+                foreach (dynamic subscription in subscriptions)
+                {
+                    SubscriptionSettings subscriptionSettings = GetSubscriptionSettings(subscription);
+                    UserSubscription UserSubscription = GetUserSubscription(subscription);
+                    Procedure procedure = GetProcedure(subscription);
+                    Bundle bundle = GetBundle(subscription);
+                    Money money = GetMoney(subscription);
+                    yield return new Subscription((int)subscription.subscriptionId,
+                        subscription.subscriptionCode,
+                        UserSubscription,
+                        procedure,
+                        bundle,
+                        money,
+                        subscriptionSettings,
+                        (SubscriptionStatus)subscription.subscriptionStatusId);
+                }
+            }
+        }
         private SubscriptionSettings GetSubscriptionSettings(dynamic subscription)
         {
             return subscription.bundleId is null
@@ -154,35 +167,15 @@
                 subscription.whatsapp,
                 subscription.email);
         }
-        private Subscription GetSubscription(dynamic subscription)
-        {
-            SubscriptionSettings subscriptionSettings = GetSubscriptionSettings(subscription);
-            UserSubscription UserSubscription = GetUserSubscription(subscription);
-            Procedure procedure = GetProcedure(subscription);
-            Bundle bundle = GetBundle(subscription);
-            Money money = GetMoney(subscription);
-            return new Subscription((int)subscription.subscriptionId,
-                subscription.subscriptionCode,
-                UserSubscription,
-                procedure,
-                bundle,
-                money,
-                subscriptionSettings,
-                (SubscriptionStatus)subscription.subscriptionStatusId);
-        }
         private Procedure GetProcedure(dynamic subscription)
         {
-            var procedureType = new ProcedureType((int)subscription.procedureTypeId,
-                subscription.procedureTypeLabel);
-
+            var procedureType = new ProcedureType((int)subscription.procedureTypeId, subscription.procedureTypeLabel);
             var organism = new Organism((int)subscription.organismId,
                     subscription.codeInsee,
                     subscription.organismName,
                     subscription.organismHref);
 
-            return new Procedure(procedureType,
-                organism,
-                subscription.procedureHref);
+            return new Procedure(procedureType, organism, subscription.procedureHref);
         }
         private UserProfile GetUserProfile(dynamic user)
         {

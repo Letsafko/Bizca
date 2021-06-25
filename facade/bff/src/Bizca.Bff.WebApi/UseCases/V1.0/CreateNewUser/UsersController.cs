@@ -58,7 +58,7 @@
                 user.PhoneNumber,
                 user.FirstName,
                 user.LastName,
-                user.Whatsapp,
+                null,
                 user.Email);
         }
     }

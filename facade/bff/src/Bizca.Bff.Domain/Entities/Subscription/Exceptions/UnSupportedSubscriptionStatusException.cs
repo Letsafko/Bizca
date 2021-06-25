@@ -3,42 +3,32 @@
     using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     [Serializable]
     public sealed class UnSupportedSubscriptionStatusException : DomainException
     {
-        /// <inheritdoc/>
-        public UnSupportedSubscriptionStatusException() : this(default(string))
+        public UnSupportedSubscriptionStatusException()
         {
         }
 
-        /// <inheritdoc/>
-        public UnSupportedSubscriptionStatusException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public UnSupportedSubscriptionStatusException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <inheritdoc/>
         public UnSupportedSubscriptionStatusException(IEnumerable<DomainFailure> errors) : base(errors)
         {
         }
 
-        /// <inheritdoc/>
-        public UnSupportedSubscriptionStatusException(string message, IEnumerable<DomainFailure> errors) : base(message, errors)
+        public UnSupportedSubscriptionStatusException(string message) : base(message)
         {
         }
 
-        /// <inheritdoc/>
-        public UnSupportedSubscriptionStatusException(string message, IEnumerable<DomainFailure> errors, bool appendDefaultMessage) : base(message, errors, appendDefaultMessage)
+        public UnSupportedSubscriptionStatusException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
-        private UnSupportedSubscriptionStatusException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        public UnSupportedSubscriptionStatusException(string message, string propertyName) : base(message, propertyName)
+        {
+        }
+
+        public UnSupportedSubscriptionStatusException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
