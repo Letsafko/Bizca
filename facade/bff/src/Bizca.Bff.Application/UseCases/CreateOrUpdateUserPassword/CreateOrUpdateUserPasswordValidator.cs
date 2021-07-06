@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
+﻿namespace Bizca.Bff.Application.UseCases.CreateOrUpdateUserPassword
 {
     using Bizca.Bff.Application.Properties;
     using FluentValidation;
-    public sealed class AuthenticateUserValidator : AbstractValidator<AuthenticateUserQuery>
+    public sealed class CreateOrUpdateUserPasswordValidator : AbstractValidator<CreateOrUpdateUserPasswordCommand>
     {
-        public AuthenticateUserValidator()
+        public CreateOrUpdateUserPasswordValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(x => x.Password)

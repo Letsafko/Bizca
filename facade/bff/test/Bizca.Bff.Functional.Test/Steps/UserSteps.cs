@@ -29,7 +29,7 @@
         public async Task WhenPartnerCreatesThroughApi(string userKey)
         {
             var request = (CreateUser)scenarioContext[userKey];
-            using(HttpClient httpClient = host.CreateClient())
+            using (HttpClient httpClient = host.CreateClient())
             {
                 HttpResponseMessage response = await httpClient.PostAsync($"api/v1.0/users", request.GetHttpContent());
                 scenarioContext.Add(nameof(response), response);

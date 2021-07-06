@@ -47,6 +47,14 @@
                 headers);
         }
 
+        public async Task<UserPasswordResponse> CreateOrUpdateUserPasswordAsync(UserPasswordRequest request, IDictionary headers = null)
+        {
+            return await SendAsync<UserPasswordResponse>(HttpMethod.Post,
+               $"{ApiVersion}/{request.PartnerCode}/users/password",
+               request,
+               headers);
+        }
+
         public async Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request, IDictionary headers = null)
         {
             return await SendAsync<UserCreatedResponse>(HttpMethod.Post,
