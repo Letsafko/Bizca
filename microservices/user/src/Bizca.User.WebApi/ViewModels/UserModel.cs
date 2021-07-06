@@ -10,7 +10,7 @@
     /// <summary>
     ///     Gets user model.
     /// </summary>
-    public sealed class UserModel
+    public class UserModel
     {
         /// <summary>
         ///     Create instance of user model.

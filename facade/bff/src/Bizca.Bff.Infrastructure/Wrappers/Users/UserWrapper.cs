@@ -39,6 +39,14 @@
                 headers);
         }
 
+        public async Task<AuthenticateUserResponse> AutehticateUserAsync(AuthenticateUserRequest request, IDictionary headers = null)
+        {
+            return await SendAsync<AuthenticateUserResponse>(HttpMethod.Post,
+                $"{ApiVersion}/{request.PartnerCode}/users/authenticate",
+                request,
+                headers);
+        }
+
         public async Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request, IDictionary headers = null)
         {
             return await SendAsync<UserCreatedResponse>(HttpMethod.Post,
@@ -46,6 +54,5 @@
                 request,
                 headers);
         }
-
     }
 }

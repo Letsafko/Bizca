@@ -1,19 +1,19 @@
-﻿namespace Bizca.User.WebApi.UseCases.V1.AuthenticateUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser
 {
-    using Bizca.User.WebApi.ViewModels;
+    using Bizca.Bff.Application.UseCases.AuthenticateUser;
+    using Bizca.Bff.WebApi.ViewModels;
     using System.ComponentModel.DataAnnotations;
-    using User = Domain.Agregates.User;
 
     /// <summary>
-    ///     Update password response.
+    ///     Authenticate user response
     /// </summary>
-    public sealed class AuthenticateUserResponse : UserModel
+    internal sealed class AuthenticateUserResponse : UserViewModel
     {
         /// <summary>
         ///     Creates an instance of <see cref="AuthenticateUserResponse"/>
         /// </summary>
-        /// <param name="user"></param>
-        public AuthenticateUserResponse(User user) : base(user)
+        /// <param name="userDto"></param>
+        public AuthenticateUserResponse(AuthenticateUserDto userDto) : base(userDto)
         {
             Authenticated = true;
         }

@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
+﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
 {
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
     using System.Collections.Generic;
-    public sealed class CreateNewUserDto
+    public sealed class AuthenticateUserDto
     {
-        public CreateNewUserDto(string externalUserId,
+        public AuthenticateUserDto(string externalUserId,
             string firstName,
             string lastName,
             string civility,

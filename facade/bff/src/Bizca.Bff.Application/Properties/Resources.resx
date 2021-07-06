@@ -162,6 +162,9 @@
   <data name="PARTNER_CODE_REQUIRED" xml:space="preserve">
     <value>partnerCode is required.</value>
   </data>
+  <data name="PASSWORD_REQUIRED" xml:space="preserve">
+    <value>password is required.</value>
+  </data>
   <data name="PHONENUMBER_REQUIRED" xml:space="preserve">
     <value>phoneNumber is required.</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="PROCEDURE_TYPE_REQUIRED" xml:space="preserve">
     <value>procedure type is required.</value>
+  </data>
+  <data name="RESOURCE_LOGIN_REQUIRED" xml:space="preserve">
+    <value>resource login is required.</value>
   </data>
   <data name="SUBSCRIPTION_CODE_REQUIRED" xml:space="preserve">
     <value>subscription code is required.</value>

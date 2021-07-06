@@ -6,6 +6,7 @@
     {
         public ConfirmChannelCodeValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(x => x.PartnerCode)
                 .NotEmpty()
                 .WithMessage(Resources.PARTNER_CODE_REQUIRED);

@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Autofac
 {
+    using Bizca.Bff.Application.UseCases.AuthenticateUser;
     using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.Application.UseCases.CreateSubscription;
@@ -8,6 +9,7 @@
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
+    using Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser;
     using Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode;
     using Bizca.Bff.WebApi.UseCases.V10.CreateNewUser;
     using Bizca.Bff.WebApi.UseCases.V10.CreateSubscription;
@@ -31,6 +33,9 @@
         {
             builder.RegisterType<GetBundlesPresenter>().InstancePerLifetimeScope();
             builder.Register<IGetBundlesOutput>(x => x.Resolve<GetBundlesPresenter>()).InstancePerLifetimeScope();
+
+            builder.RegisterType<AuthenticateUserPresenter>().InstancePerLifetimeScope();
+            builder.Register<IAuthenticateUserOutput>(x => x.Resolve<AuthenticateUserPresenter>()).InstancePerLifetimeScope();
 
             builder.RegisterType<CreateNewUserPresenter>().InstancePerLifetimeScope();
             builder.Register<ICreateNewUserOutput>(x => x.Resolve<CreateNewUserPresenter>()).InstancePerLifetimeScope();
