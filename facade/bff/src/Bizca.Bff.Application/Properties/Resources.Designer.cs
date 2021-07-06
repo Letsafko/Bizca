@@ -196,6 +196,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to password is required..
+        /// </summary>
+        internal static string PASSWORD_REQUIRED {
+            get {
+                return ResourceManager.GetString("PASSWORD_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to phoneNumber is required..
         /// </summary>
         internal static string PHONENUMBER_REQUIRED {
@@ -219,6 +228,15 @@ namespace Bizca.Bff.Application.Properties {
         internal static string PROCEDURE_TYPE_REQUIRED {
             get {
                 return ResourceManager.GetString("PROCEDURE_TYPE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to resource login is required..
+        /// </summary>
+        internal static string RESOURCE_LOGIN_REQUIRED {
+            get {
+                return ResourceManager.GetString("RESOURCE_LOGIN_REQUIRED", resourceCulture);
             }
         }
         
