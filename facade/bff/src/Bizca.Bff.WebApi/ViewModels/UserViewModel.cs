@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.ViewModels
+namespace Bizca.Bff.WebApi.ViewModels
 {
     using Bizca.Bff.Application.UseCases.AuthenticateUser;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
@@ -21,7 +21,7 @@
             FirstName = newUserDto.FirstName;
             Civility = newUserDto.Civility;
             LastName = newUserDto.LastName;
-            Channels = newUserDto.Channels.Select(x => new ChannelViewModel(x.ChannelType,
+            Channels = newUserDto.Channels.Select(x => new ChannelViewModel(x.ChannelValue,
                 x.ChannelType,
                 x.Confirmed,
                 x.Active));
@@ -37,7 +37,7 @@
             FirstName = userDto.FirstName;
             Civility = userDto.Civility;
             LastName = userDto.LastName;
-            Channels = userDto.Channels.Select(x => new ChannelViewModel(x.ChannelType,
+            Channels = userDto.Channels.Select(x => new ChannelViewModel(x.ChannelValue,
                 x.ChannelType,
                 x.Confirmed,
                 x.Active));
