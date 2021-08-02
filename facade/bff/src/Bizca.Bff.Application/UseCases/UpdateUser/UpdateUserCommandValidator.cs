@@ -1,13 +1,13 @@
-﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
+﻿namespace Bizca.Bff.Application.UseCases.UpdateUser
 {
     using Bizca.Bff.Application.Properties;
     using Bizca.Bff.Domain.Enumerations;
     using FluentValidation;
     using System;
 
-    public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+    public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {
-        public CreateUserCommandValidator()
+        public UpdateUserCommandValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(x => x.PartnerCode)
@@ -16,18 +16,14 @@
 
             RuleFor(x => x.ExternalUserId)
                 .NotEmpty()
-                .WithMessage(Resources.EXTERNAL_USERID_REQUIRED);
+                .WithMessage(Resources.EXTERNAL_USERID_REQUIRED)
+                .MaximumLength(20)
+                .WithMessage(Resources.EXTERNAL_USERID_MAXIMUM_LENGTH_EXCEED);
 
             RuleFor(x => x.Civility)
-                .NotEmpty()
-                .WithMessage(Resources.CIVILITY_REQUIRED)
                 .Must(x => Enum.IsDefined(typeof(Civility), x))
+                .When(x => !string.IsNullOrWhiteSpace(x.Civility))
                 .WithMessage(Resources.CIVILITY_INVALID);
-
-            RuleFor(x => x.EconomicActivity)
-                .Must(x => int.TryParse(x, out int _))
-                .When(x => !string.IsNullOrWhiteSpace(x.EconomicActivity))
-                .WithMessage(Resources.ECONOMIC_ACTIVITY_INVALID);
 
             RuleFor(x => x.Email)
                 .Matches(Resources.EMAIL_REGEX)
@@ -35,12 +31,14 @@
                 .WithMessage(Resources.EMAIL_INVALID);
 
             RuleFor(x => x.LastName)
-                .NotEmpty()
-                .WithMessage(Resources.LASTNAME_REQUIRED);
+                .MaximumLength(100)
+                .When(x => !string.IsNullOrWhiteSpace(x.LastName))
+                .WithMessage(Resources.LASTNAME_MAXIMUN_LENGTH_EXCEED);
 
             RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .WithMessage(Resources.FIRSTNAME_REQUIRED);
+                .MaximumLength(100)
+                .When(x => !string.IsNullOrWhiteSpace(x.FirstName))
+                .WithMessage(Resources.FIRSTNAME_MAXIMUN_LENGTH_EXCEED);
         }
     }
 }

@@ -4,6 +4,7 @@
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
     using Bizca.Bff.Domain.Entities.User.Events;
+    using Bizca.Bff.Domain.Entities.User.Factories;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Referentials.Bundle;
@@ -83,15 +84,23 @@
 
             UserProfile.SetChannelActivationStatus(activationStatus);
         }
-        public Subscription GetSubscriptionByCode(string subscriptionCode)
-        {
-            return subscriptions.FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, StringComparison.OrdinalIgnoreCase));
-        }
         public void RemoveSubscriptionsWithSameCheckSum(Subscription subscription)
         {
             subscriptions.RemoveAll(x => x.CheckSum == subscription.CheckSum
                 && x.SubscriptionState.Status == SubscriptionStatus.Pending
                 && x.SubscriptionCode != subscription.SubscriptionCode);
+        }
+        public void RegisterUserCreatedEvent(UserCreatedNotification userCreated)
+        {
+            userEvents.Add(userCreated);
+        }
+        public void RegisterUserUpdatedEvent(UserUpdatedNotification userUpdated)
+        {
+            userEvents.Add(userUpdated);
+        }
+        public Subscription GetSubscriptionByCode(string subscriptionCode)
+        {
+            return subscriptions.FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, StringComparison.OrdinalIgnoreCase));
         }
         public void AddSubscription(Subscription subscription)
         {
@@ -100,11 +109,63 @@
 
             subscriptions.Add(subscription);
         }
+        public void UpdateUser(Civility? civility,
+            string firstName,
+            string lastName,
+            string phoneNumber,
+            string whatsapp,
+            string email)
+        {
+            UserProfile.FirstName = !string.IsNullOrWhiteSpace(firstName) ? firstName : UserProfile.FirstName;
+            UserProfile.LastName = !string.IsNullOrWhiteSpace(lastName) ? lastName : UserProfile.LastName;
+            UserProfile.Civility = civility ?? UserProfile.Civility;
+
+            if(!string.IsNullOrWhiteSpace(phoneNumber) &&
+               !phoneNumber.Equals(UserProfile.PhoneNumber, StringComparison.OrdinalIgnoreCase))
+            {
+                UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
+                UserProfile.PhoneNumber = phoneNumber;
+            }
+
+            if (!string.IsNullOrWhiteSpace(whatsapp) &&
+               !whatsapp.Equals(UserProfile.Whatsapp, StringComparison.OrdinalIgnoreCase))
+            {
+                UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.WhatsappConfirmed);
+                UserProfile.Whatsapp = whatsapp;
+            }
+
+            if (!string.IsNullOrWhiteSpace(email) &&
+               !email.Equals(UserProfile.Email, StringComparison.OrdinalIgnoreCase))
+            {
+                UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
+                UserProfile.Email = email;
+            }
+        }
 
         #endregion
 
         #region private helpers
 
+        private ChannelStatus SetChannelConfirmationStatus(ChannelStatus channelStatus, ChannelConfirmationStatus confirmationStatus)
+        {
+            if (!channelStatus.ChannelConfirmationStatus.HasFlag(confirmationStatus))
+            {
+                var channelConfirmationStatus = channelStatus.ChannelConfirmationStatus | confirmationStatus;
+                return new ChannelStatus(channelConfirmationStatus,
+                    channelStatus.ChannelActivationStatus);
+            }
+            return channelStatus;
+        }
+        private ChannelStatus SetChannelActivationStatus(ChannelStatus channelStatus, ChannelActivationStatus activationStatus)
+        {
+            if (!channelStatus.ChannelActivationStatus.HasFlag(activationStatus))
+            {
+                var channelActivationStatus = channelStatus.ChannelActivationStatus | activationStatus;
+                return new ChannelStatus(channelStatus.ChannelConfirmationStatus,
+                    channelActivationStatus);
+            }
+            return channelStatus;
+        }
         private bool IsSubscriptionAllowedToBeUpdated(SubscriptionStatus subscriptionStatus)
         {
             return subscriptionStatus == SubscriptionStatus.Pending;

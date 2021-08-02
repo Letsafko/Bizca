@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
     using System;
     using System.Linq;
 
@@ -66,11 +67,11 @@
                 modelStateError = (exception as ResourceNotFoundException).Errors.FirstOrDefault()?.ErrorMessage;
             }
 
-            Exception stackStrace = !environment.IsDevEnvironment() ? default : exception;
-            var modelState = new ModelStateResponse(statusCode, modelStateError, stackStrace);
+            var error = !environment.IsDevEnvironment() ? modelStateError : JsonConvert.SerializeObject(exception);
+            var modelState = new ModelStateResponse(statusCode, error);
             return new ObjectResult(modelState)
             {
-                StatusCode = modelState.Status
+                StatusCode = modelState.ErrorCode
             };
         }
         private bool IsAssignableFrom<T>(object obj) where T : class

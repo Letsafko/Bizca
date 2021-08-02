@@ -1,7 +1,7 @@
 namespace Bizca.Core.Infrastructure.Test
 {
     using Bizca.Core.Infrastructure;
-    using Bizca.Core.Infrastructure.Abstracts.Configuration;
+    using Bizca.Core.Infrastructure.Configuration;
     using NFluent;
     using NSubstitute;
     using System;

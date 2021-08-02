@@ -10,6 +10,7 @@
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
+    using Bizca.Bff.Application.UseCases.UpdateUser;
     using Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser;
     using Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode;
     using Bizca.Bff.WebApi.UseCases.V10.CreateNewUser;
@@ -20,6 +21,7 @@
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptions;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription;
+    using Bizca.Bff.WebApi.UseCases.V10.UpdateUser;
     using global::Autofac;
 
     /// <summary>
@@ -33,6 +35,9 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<UpdateUserPresenter>().InstancePerLifetimeScope();
+            builder.Register<IUpdateUserOutput>(x => x.Resolve<UpdateUserPresenter>()).InstancePerLifetimeScope();
+
             builder.RegisterType<GetBundlesPresenter>().InstancePerLifetimeScope();
             builder.Register<IGetBundlesOutput>(x => x.Resolve<GetBundlesPresenter>()).InstancePerLifetimeScope();
 

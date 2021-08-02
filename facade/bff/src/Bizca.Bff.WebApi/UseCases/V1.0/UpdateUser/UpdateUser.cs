@@ -1,15 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateNewUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateUser
 {
     /// <summary>
-    ///     Create an user.
+    ///     Updates an user
     /// </summary>
-    public sealed class CreateUser
+    public sealed class UpdateUser
     {
-        /// <summary>
-        ///     Gets or sets user identifier.
-        /// </summary>
-        public string ExternalUserId { get; set; }
-
         /// <summary>
         ///     Gets or sets user phone number.
         /// </summary>

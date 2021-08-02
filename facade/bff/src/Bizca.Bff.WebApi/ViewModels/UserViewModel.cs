@@ -2,6 +2,8 @@ namespace Bizca.Bff.WebApi.ViewModels
 {
     using Bizca.Bff.Application.UseCases.AuthenticateUser;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
+    using Bizca.Bff.Application.UseCases.UpdateUser;
+    using Bizca.Bff.Domain.Entities.User;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -11,6 +13,22 @@ namespace Bizca.Bff.WebApi.ViewModels
     /// </summary>
     internal class UserViewModel
     {
+        /// <summary>
+        ///     Creates an instance of <see cref="UserViewModel"/>
+        /// </summary>
+        /// <param name="user"></param>
+        public UserViewModel(UpdateUserDto user)
+        {
+            ExternalUserId = user.ExternalUserId;
+            Civility = user.Civility.ToString();
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Channels = user.Channels.Select(x => new ChannelViewModel(x.ChannelValue,
+                x.ChannelType,
+                x.Confirmed,
+                x.Active));
+        }
+
         /// <summary>
         ///     Creates an instance of <see cref="UserViewModel"/>
         /// </summary>

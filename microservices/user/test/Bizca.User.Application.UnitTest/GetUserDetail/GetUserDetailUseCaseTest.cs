@@ -2,10 +2,11 @@
 {
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Partner;
+    using Bizca.Core.Domain.Services;
     using Bizca.Core.Support.Test;
     using Bizca.Core.Support.Test.Builders;
-    using Bizca.User.Application.UseCases.GetUser.Common;
-    using Bizca.User.Application.UseCases.GetUser.Detail;
+    using Bizca.User.Application.UseCases.GetUserDetail;
+    using Bizca.User.Application.UseCases.GetUsersByCriteria;
     using Bizca.User.Domain.Agregates.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using NFluent;
@@ -21,14 +22,14 @@
         [ClassData(typeof(GetUserDetailUseCaseDataSetup))]
         public void OneOfArgumentIsNull_ThrowArgumentNullException((IGetUserDetailOutput output,
             IUserRepository userRepository,
-            IPartnerRepository partnerRepository) tuple)
+            IReferentialService referentialService) tuple)
         {
             Check.ThatCode(() =>
             {
                 GetUserDetailUseCaseBuilder.Instance
                     .WithOutputPort(tuple.output)
                     .WithUserRepository(tuple.userRepository)
-                    .WithPartnerRepository(tuple.partnerRepository)
+                    .WithPartnerRepository(tuple.referentialService)
                     .Build();
             })
             .Throws<ArgumentNullException>();
@@ -44,7 +45,6 @@
 
             //act
             await builder.Build().Handle(request, default).ConfigureAwait(false);
-            builder.WithArgumentOutputCapture(argCapture);
             var expected = new KeyValuePair<string, string[]>(nameof(request.PartnerCode),
                 new string[] { $"partner::{request.PartnerCode} is invalid." });
 
@@ -77,7 +77,7 @@
         {
             //arrange
             dynamic user = GetDynamicUser();
-            var argCapture = new ArgCapture<GetUserDto>();
+            var argCapture = new ArgCapture<GetUserDetail>();
             var request = new GetUserDetailQuery("test", "bizca");
             GetUserDetailUseCaseBuilder builder = GetUserDetailUseCaseBuilder.Instance
                             .WithGetPartnerByCode(PartnerBuilder.Instance.Build())
@@ -88,8 +88,8 @@
             builder.WithArgumentOkCapture(argCapture);
 
             //assert
-            GetUserDto userDto = BuildDto(user);
-            Check.That(argCapture[0]).IsInstanceOf<GetUserDto>();
+            GetUserDetail userDto = BuildDto(user);
+            Check.That(argCapture[0]).IsInstanceOf<GetUserDetail>();
             Check.That(userDto).HasFieldsWithSameValues(argCapture[0]);
         }
 
@@ -118,9 +118,9 @@
             user.economicActivityCode = "Craftsman";
             return user;
         }
-        private GetUserDto BuildDto(dynamic result)
+        private GetUsers BuildDto(dynamic result)
         {
-            return GetUserBuilder.Instance
+            return GetUsersBuilder.Instance
                 .WithUserId(result.userId)
                 .WithUserCode(result.userCode.ToString())
                 .WithExternalUserId(result.externalUserId)
@@ -144,18 +144,18 @@
     {
         private IGetUserDetailOutput output;
         private IUserRepository userRepository;
-        private IPartnerRepository partnerRepository;
+        private IReferentialService referentialService;
         private GetUserDetailUseCaseBuilder()
         {
             output = Substitute.For<IGetUserDetailOutput>();
             userRepository = Substitute.For<IUserRepository>();
-            partnerRepository = Substitute.For<IPartnerRepository>();
+            referentialService = Substitute.For<IReferentialService>();
         }
 
         internal static GetUserDetailUseCaseBuilder Instance => new GetUserDetailUseCaseBuilder();
         internal GetUserDetailUseCase Build()
         {
-            return new GetUserDetailUseCase(output, partnerRepository, userRepository);
+            return new GetUserDetailUseCase(referentialService, userRepository, output);
         }
 
         internal GetUserDetailUseCaseBuilder WithOutputPort(IGetUserDetailOutput output)
@@ -168,30 +168,24 @@
             this.userRepository = userRepository;
             return this;
         }
-        internal GetUserDetailUseCaseBuilder WithPartnerRepository(IPartnerRepository partnerRepository)
+        internal GetUserDetailUseCaseBuilder WithPartnerRepository(IReferentialService referentialService)
         {
-            this.partnerRepository = partnerRepository;
+            this.referentialService = referentialService;
             return this;
         }
 
         internal GetUserDetailUseCaseBuilder WithGetPartnerByCode(Partner partner)
         {
-            partnerRepository.GetByCodeAsync(Arg.Any<string>())
-                .Returns(partner);
+            referentialService.GetPartnerByCodeAsync(Arg.Any<string>()).Returns(partner);
             return this;
         }
-        internal GetUserDetailUseCaseBuilder WithGetUserByPartnerIdAndExternalUserId(DynamicDictionary user)
+        internal GetUserDetailUseCaseBuilder WithGetUserByPartnerIdAndExternalUserId(Dictionary<ResultName, IEnumerable<dynamic>> result)
         {
-            userRepository.GetByIdAsync(Arg.Any<int>(), Arg.Any<string>())
-                .Returns(user);
+            userRepository.GetByPartnerIdAndExternalUserIdAsync(Arg.Any<int>(), Arg.Any<string>())
+                .Returns(result);
             return this;
         }
-        internal GetUserDetailUseCaseBuilder WithArgumentOutputCapture(ArgCapture<Notification> argNotification)
-        {
-            output.Received(1).Invalid(argNotification.Capture());
-            return this;
-        }
-        internal GetUserDetailUseCaseBuilder WithArgumentOkCapture(ArgCapture<GetUserDto> argDto)
+        internal GetUserDetailUseCaseBuilder WithArgumentOkCapture(ArgCapture<GetUserDetail> argDto)
         {
             output.Received(1).Ok(argDto.Capture());
             return this;
@@ -218,12 +212,12 @@
             ViewModel = new BadRequestObjectResult(notification.Errors);
         }
 
-        public void NotFound()
+        public void NotFound(string message)
         {
-            ViewModel = new NotFoundResult();
+            ViewModel = new NotFoundObjectResult(message);
         }
 
-        public void Ok(GetUserDto userDetail)
+        public void Ok(GetUserDetail userDetail)
         {
             ViewModel = new OkResult();
         }

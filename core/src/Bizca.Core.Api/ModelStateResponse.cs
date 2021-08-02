@@ -3,20 +3,16 @@
     using Newtonsoft.Json;
     public sealed class ModelStateResponse
     {
-        public ModelStateResponse(int status, string errorMessage, object stackstrace = null)
+        public ModelStateResponse(int status, string errorMessage)
         {
             ErrorMessage = errorMessage;
-            StackTrace = stackstrace;
-            Status = status;
+            ErrorCode = status;
         }
 
-        [JsonProperty("stacktrace", NullValueHandling = NullValueHandling.Ignore)]
-        public object StackTrace { get; }
-
         [JsonProperty("error")]
-        public string ErrorMessage { get; }
+        public object ErrorMessage { get; }
 
-        [JsonProperty("status")]
-        public int Status { get; }
+        [JsonProperty("code")]
+        public int ErrorCode { get; }
     }
 }

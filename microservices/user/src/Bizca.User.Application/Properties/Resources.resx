@@ -177,11 +177,20 @@
   <data name="EMAIL_REGEX" xml:space="preserve">
     <value>^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</value>
   </data>
+  <data name="EXTERNAL_USERID_MAXIMUM_LENGTH_EXCEED" xml:space="preserve">
+    <value>external user Identifier maximun length exceed.</value>
+  </data>
   <data name="EXTERNAL_USERID_REQUIRED" xml:space="preserve">
     <value>externalUserId is required.</value>
   </data>
+  <data name="FIRSTNAME_MAXIMUN_LENGTH_EXCEED" xml:space="preserve">
+    <value>firstname maximun length exceed.</value>
+  </data>
   <data name="FIRSTNAME_REQUIRED" xml:space="preserve">
     <value>firstName is required.</value>
+  </data>
+  <data name="LASTNAME_MAXIMUN_LENGTH_EXCEED" xml:space="preserve">
+    <value>lastname maximun length exceed.</value>
   </data>
   <data name="LASTNAME_REQUIRED" xml:space="preserve">
     <value>lastName is required.</value>

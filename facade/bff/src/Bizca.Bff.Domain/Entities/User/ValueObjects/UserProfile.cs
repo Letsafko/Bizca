@@ -27,12 +27,12 @@
 
         public ChannelConfirmationStatus ChannelConfirmationStatus { get; internal set; }
         public ChannelActivationStatus ChannelActivationStatus { get; internal set; }
-        public string PhoneNumber { get; }
-        public Civility Civility { get; }
-        public string FirstName { get; }
-        public string LastName { get; }
-        public string Whatsapp { get; }
-        public string Email { get; }
+        public string PhoneNumber { get; internal set; }
+        public Civility Civility { get; internal set; }
+        public string FirstName { get; internal set; }
+        public string LastName { get; internal set; }
+        public string Whatsapp { get; internal set; }
+        public string Email { get; internal set; }
 
         internal void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
         {
@@ -40,7 +40,14 @@
             {
                 ChannelConfirmationStatus |= confirmationStatus;
             }
+        }
 
+        internal void RemoveChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
+        {
+            if (ChannelConfirmationStatus.HasFlag(confirmationStatus))
+            {
+                ChannelConfirmationStatus -= confirmationStatus;
+            }
         }
 
         internal void SetChannelActivationStatus(ChannelActivationStatus activationStatus)
@@ -48,6 +55,13 @@
             if (!ChannelActivationStatus.HasFlag(activationStatus))
             {
                 ChannelActivationStatus |= activationStatus;
+            }
+        }
+        internal void RemoveChannelActivationStatus(ChannelActivationStatus activationStatus)
+        {
+            if (ChannelActivationStatus.HasFlag(activationStatus))
+            {
+                ChannelActivationStatus -= activationStatus;
             }
         }
 
