@@ -1,0 +1,28 @@
+﻿namespace Bizca.Bff.Application.UseCases.GetUsers
+{
+    using Bizca.Core.Application.Queries;
+    public sealed class GetUsersQuery : IQuery
+    {
+        public GetUsersQuery(string partnerCode,
+            string externalUserId,
+            string phoneNumber,
+            string email,
+            string firstName,
+            string lastName)
+        {
+            ExternalUserId = externalUserId;
+            PartnerCode = partnerCode;
+            PhoneNumber = phoneNumber;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+        }
+
+        public string ExternalUserId { get; }
+        public string PhoneNumber { get; }
+        public string PartnerCode { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
+        public string Email { get; }
+    }
+}

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Wrappers.Users.Responses
 {
     using System.Collections.Generic;
-    public sealed class UserCreatedResponse
+    public sealed class UserResponse
     {
         public IEnumerable<ChannelResponse> Channels { get; set; }
         public string ExternalUserId { get; set; }

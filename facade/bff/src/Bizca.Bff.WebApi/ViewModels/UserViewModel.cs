@@ -2,6 +2,7 @@ namespace Bizca.Bff.WebApi.ViewModels
 {
     using Bizca.Bff.Application.UseCases.AuthenticateUser;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
+    using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.Application.UseCases.UpdateUser;
     using Bizca.Bff.Domain.Entities.User;
     using System.Collections.Generic;
@@ -50,6 +51,22 @@ namespace Bizca.Bff.WebApi.ViewModels
         /// </summary>
         /// <param name="userDto"></param>
         public UserViewModel(AuthenticateUserDto userDto)
+        {
+            ExternalUserId = userDto.ExternalUserId;
+            FirstName = userDto.FirstName;
+            Civility = userDto.Civility;
+            LastName = userDto.LastName;
+            Channels = userDto.Channels.Select(x => new ChannelViewModel(x.ChannelValue,
+                x.ChannelType,
+                x.Confirmed,
+                x.Active));
+        }
+
+        /// <summary>
+        ///     Creates an instance of <see cref="UserViewModel"/>
+        /// </summary>
+        /// <param name="userDto"></param>
+        public UserViewModel(GetUserDto userDto)
         {
             ExternalUserId = userDto.ExternalUserId;
             FirstName = userDto.FirstName;

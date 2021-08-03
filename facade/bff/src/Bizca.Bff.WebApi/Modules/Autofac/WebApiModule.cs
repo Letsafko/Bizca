@@ -7,6 +7,7 @@
     using Bizca.Bff.Application.UseCases.CreateSubscription;
     using Bizca.Bff.Application.UseCases.GetBundles;
     using Bizca.Bff.Application.UseCases.GetProcedures;
+    using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
@@ -18,6 +19,7 @@
     using Bizca.Bff.WebApi.UseCases.V10.CreateSubscription;
     using Bizca.Bff.WebApi.UseCases.V10.GetBundles;
     using Bizca.Bff.WebApi.UseCases.V10.GetProcedures;
+    using Bizca.Bff.WebApi.UseCases.V10.GetUsers;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptions;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription;
@@ -35,6 +37,9 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<GetUsersPresenter>().InstancePerLifetimeScope();
+            builder.Register<IGetUsersOutput>(x => x.Resolve<GetUsersPresenter>()).InstancePerLifetimeScope();
+
             builder.RegisterType<UpdateUserPresenter>().InstancePerLifetimeScope();
             builder.Register<IUpdateUserOutput>(x => x.Resolve<UpdateUserPresenter>()).InstancePerLifetimeScope();
 
