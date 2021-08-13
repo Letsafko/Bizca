@@ -54,7 +54,7 @@
             var userBuild = new User((int)user.userId, 
                 userIdentifier, 
                 userProfile,
-                (Role)user.role,
+                (Role)user.roleId,
                 subscriptions?.ToList(), 
                 (byte[])user.rowversion);
             return userBuild;
