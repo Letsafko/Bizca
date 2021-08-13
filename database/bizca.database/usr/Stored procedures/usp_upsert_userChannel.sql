@@ -28,8 +28,8 @@ begin
 		, [value]
 		, active
 		, confirmed
-		, getutcdate()
-		, getutcdate()
+		, getdate()
+		, getdate()
 	from @channels
 
 end

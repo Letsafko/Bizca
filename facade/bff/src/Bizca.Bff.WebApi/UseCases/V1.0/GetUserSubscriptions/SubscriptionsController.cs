@@ -16,14 +16,14 @@
     [ApiVersion("1.0")]
     [Route("api/v{version:api-version}/[controller]")]
     [ApiController]
-    public sealed class UsersController : ControllerBase
+    public sealed class SubscriptionsController : ControllerBase
     {
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="SubscriptionsController"/>
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
-        public UsersController(GetUserSubscriptionsPresenter presenter, IProcessor processor)
+        public SubscriptionsController(GetUserSubscriptionsPresenter presenter, IProcessor processor)
         {
             this.processor = processor;
             this.presenter = presenter;

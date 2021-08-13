@@ -21,7 +21,7 @@
             RuleFor(x => x.Civility)
                 .NotEmpty()
                 .WithMessage(Resources.CIVILITY_REQUIRED)
-                .Must(x => Enum.IsDefined(typeof(Civility), x))
+                .Must(x => Enum.TryParse<Civility>(x, true, out var civility))
                 .WithMessage(Resources.CIVILITY_INVALID);
 
             RuleFor(x => x.EconomicActivity)

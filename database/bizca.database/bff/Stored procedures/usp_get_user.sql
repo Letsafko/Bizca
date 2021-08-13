@@ -10,7 +10,8 @@ begin
 
 	select dto = 'user'
 	select 
-		  [userId]		            
+		  [userId]		        
+		, [roleId]
 		, [externalUserId]	        
 		, [civilityId]	            
 		, [firstName]				    
@@ -29,7 +30,8 @@ begin
 		  [subscriptionId]		
 		, [subscriptionStatusId]
 		, [subscriptionCode]
-		, [amount]				
+		, [amount]			
+		, [isFreeze]
 		, [firstName]		        
 		, [lastName]		        
 		, [whatsappCounter]       

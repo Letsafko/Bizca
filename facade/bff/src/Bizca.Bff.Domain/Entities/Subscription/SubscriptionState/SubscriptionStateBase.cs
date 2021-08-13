@@ -56,7 +56,7 @@
         protected bool IsSubscriptionExpired(Subscription subscription)
         {
             return subscription.SubscriptionSettings.EndDate.HasValue &&
-                   DateTime.UtcNow.CompareTo(Subscription.SubscriptionSettings.EndDate) > 0;
+                   DateTime.Now.CompareTo(Subscription.SubscriptionSettings.EndDate) > 0;
         }
 
         #endregion
@@ -68,8 +68,8 @@
             return !(subscription.Bundle is null) &&
                    subscription.SubscriptionSettings.BeginDate.HasValue &&
                    subscription.SubscriptionSettings.EndDate.HasValue &&
-                   DateTime.UtcNow.CompareTo(Subscription.SubscriptionSettings.BeginDate) > 0 &&
-                   DateTime.UtcNow.CompareTo(Subscription.SubscriptionSettings.EndDate) < 0;
+                   DateTime.Now.CompareTo(Subscription.SubscriptionSettings.BeginDate) > 0 &&
+                   DateTime.Now.CompareTo(Subscription.SubscriptionSettings.EndDate) < 0;
         }
 
         #endregion

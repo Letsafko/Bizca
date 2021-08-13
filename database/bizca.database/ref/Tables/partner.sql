@@ -11,10 +11,10 @@ go
 alter table [ref].[partner] add constraint [pk_partner] primary key clustered ([partnerId] asc)
 go
 
-alter table [ref].[partner] add constraint [df_partner_creationDate] default getutcdate() for [creationDate]
+alter table [ref].[partner] add constraint [df_partner_creationDate] default getdate() for [creationDate]
 go
 
-alter table [ref].[partner] add constraint [df_partner_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [ref].[partner] add constraint [df_partner_lastUpdate] default getdate() for [lastUpdate]
 go
 
 create unique index [ix_partnerCode] on [ref].[partner] ([partnerCode])

@@ -1,7 +1,9 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
 {
     using Bizca.Bff.Domain.Entities.User;
+    using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.Factories;
+    using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
@@ -36,11 +38,12 @@
             UserRequest userRequest = GetUserRequest(request);
             User user = userFactory.Create(userRequest);
             await userRepository.AddAsync(user);
+            user.RegisterUserCreatedEvent(new UserCreatedNotification(request.ExternalUserId));
 
             UserToCreateRequest userToCreateRequest = MapTo(user);
             UserCreatedResponse response = await userAgent.CreateUserAsync(userToCreateRequest);
+            CreateNewUserDto newUserDto = MapTo(request.Role, response);
 
-            CreateNewUserDto newUserDto = MapTo(response);
             eventService.Enqueue(user.UserEvents);
             createUserOutput.Ok(newUserDto);
             return Unit.Value;
@@ -48,12 +51,13 @@
 
         #region private helpers
 
-        private CreateNewUserDto MapTo(UserCreatedResponse response)
+        private CreateNewUserDto MapTo(Role role, UserCreatedResponse response)
         {
             return new CreateNewUserDto(response.ExternalUserId,
                 response.FirstName,
                 response.LastName,
                 response.Civility,
+                role,
                 response.Channels);
         }
 
@@ -67,7 +71,8 @@
             request.FirstName,
             request.LastName,
             request.Whatsapp,
-            request.Email);
+            request.Email,
+            request.Role);
         }
         private UserToCreateRequest MapTo(User user)
         {

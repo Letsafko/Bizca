@@ -41,7 +41,6 @@
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
         public async Task<IActionResult> CreateUserAsync([Required][FromBody] CreateUser user)
         {

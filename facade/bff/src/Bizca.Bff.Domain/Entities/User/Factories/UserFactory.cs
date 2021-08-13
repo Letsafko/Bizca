@@ -17,7 +17,7 @@
                 ChannelConfirmationStatus.None,
                 ChannelActivationStatus.None);
 
-            var user = new User(userId, userIdentifier, userProfile);
+            var user = new User(userId, userIdentifier, userProfile, request.Role);
             string fullName = $"{request.FirstName} {request.LastName}";
             user.RegisterSendConfirmationEmailEvent(request.ExternalUserId, request.Email, fullName);
             return user;

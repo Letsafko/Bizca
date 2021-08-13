@@ -13,6 +13,7 @@
 	[phoneNumber]	        nvarchar(50) not null,
 	[whatsapp]		        nvarchar(50) null,
 	[email]			        nvarchar(50) not null,
+	[isFreeze]				bit null,
 	[whatsappCounter]       int null,
 	[totalWhatsapp]         int null,
 	[emailCounter]          int null,
@@ -43,10 +44,10 @@ go
 alter table [bff].[subscription] add constraint [fk_subscription_userId] foreign key ([userId]) references [bff].[user] ( [userId] )
 go
 
-alter table [bff].[subscription] add constraint [df_subscription_creationDate] default getutcdate() for [creationDate]
+alter table [bff].[subscription] add constraint [df_subscription_creationDate] default getdate() for [creationDate]
 go
 
-alter table [bff].[subscription] add constraint [df_subscription_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [bff].[subscription] add constraint [df_subscription_lastUpdate] default getdate() for [lastUpdate]
 go
 
 alter table [bff].[subscription] add constraint [chk_subscription_whatsappCounter] check ( [whatsappCounter] is null or [whatsappCounter] >= 0)

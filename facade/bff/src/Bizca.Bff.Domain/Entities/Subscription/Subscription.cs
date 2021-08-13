@@ -56,7 +56,7 @@
                     bundle.BundleSettings.TotalEmail,
                     bundle.BundleSettings.TotalSms);
 
-                DateTime beginDate = DateTime.UtcNow;
+                DateTime beginDate = DateTime.Now;
                 DateTime endDate = beginDate.AddDays(bundle.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
 
                 SetEndDate(endDate);

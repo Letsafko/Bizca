@@ -9,13 +9,12 @@
     using System.Data;
     using System.Linq;
     using System.Threading.Tasks;
-
     public sealed class BundleRepository : IBundleRepository
     {
         private readonly IUnitOfWork unitOfWork;
         public BundleRepository(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork; 
         }
 
         private const string getBundleByIdStoredProcedure = "bff.usp_getById_bundle";

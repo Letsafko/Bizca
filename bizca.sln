@@ -148,7 +148,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Bff.Application", "fa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Bff.Application.Test", "facade\bff\test\Bizca.Bff.Application.Test\Bizca.Bff.Application.Test.csproj", "{C67E3C40-8684-49B1-9B18-1A08DCF32ED8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizca.Bff.Functional.Test", "facade\bff\test\Bizca.Bff.Functional.Test\Bizca.Bff.Functional.Test.csproj", "{06C163C3-5B59-47FE-A155-6AC2AB4335F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Bff.Functional.Test", "facade\bff\test\Bizca.Bff.Functional.Test\Bizca.Bff.Functional.Test.csproj", "{06C163C3-5B59-47FE-A155-6AC2AB4335F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

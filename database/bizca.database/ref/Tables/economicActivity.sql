@@ -11,10 +11,10 @@ go
 alter table [ref].[economicActivity] add constraint [pk_economicActivity] primary key clustered ( [economicActivityId] asc)
 go
 
-alter table [ref].[economicActivity] add constraint [df_economicActivity_creationDate] default getutcdate() for [creationDate]
+alter table [ref].[economicActivity] add constraint [df_economicActivity_creationDate] default getdate() for [creationDate]
 go
 
-alter table [ref].[economicActivity] add constraint [df_economicActivity_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [ref].[economicActivity] add constraint [df_economicActivity_lastUpdate] default getdate() for [lastUpdate]
 go
 
 create unique index [ix_economicActivityCode] on [ref].[economicActivity] ([economicActivityCode] asc)

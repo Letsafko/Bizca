@@ -14,10 +14,10 @@ go
 alter table [usr].[userChannel] add constraint [pk_userChannel] primary key clustered ( [userId], [channelMask] )
 go
 
-alter table [usr].[userChannel] add constraint [df_userChannel_creationDate] default getutcdate() for [creationDate]
+alter table [usr].[userChannel] add constraint [df_userChannel_creationDate] default getdate() for [creationDate]
 go
 
-alter table [usr].[userChannel] add constraint [df_userChannel_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [usr].[userChannel] add constraint [df_userChannel_lastUpdate] default getdate() for [lastUpdate]
 go
 
 alter table [usr].[userChannel] add constraint [fk_userChannel_partnerId] foreign key ([partnerId]) references [ref].[partner]([partnerId]) 

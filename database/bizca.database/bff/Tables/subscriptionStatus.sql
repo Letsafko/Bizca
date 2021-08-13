@@ -11,10 +11,10 @@ go
 alter table [bff].[subscriptionStatus] add constraint [pk_subscriptionStatus] primary key clustered ( [subscriptionStatusId] asc)
 go
 
-alter table [bff].[subscriptionStatus] add constraint [df_subscriptionStatus_creationDate] default getutcdate() for [creationDate]
+alter table [bff].[subscriptionStatus] add constraint [df_subscriptionStatus_creationDate] default getdate() for [creationDate]
 go
 
-alter table [bff].[subscriptionStatus] add constraint [df_subscriptionStatus_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [bff].[subscriptionStatus] add constraint [df_subscriptionStatus_lastUpdate] default getdate() for [lastUpdate]
 go
 
 create unique index [ix_subscriptionStatus_subscriptionStatusCode] on [bff].[subscriptionStatus] ([subscriptionStatusCode])

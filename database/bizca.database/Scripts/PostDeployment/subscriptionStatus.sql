@@ -14,7 +14,7 @@ when matched then
 	update
 		set subscriptionStatusName = source.subscriptionStatusName,
 			subscriptionStatusCode = source.subscriptionStatusCode,
-			lastUpdate  = getutcdate()
+			lastUpdate  = getdate()
 when not matched by target then
 	insert
 	(

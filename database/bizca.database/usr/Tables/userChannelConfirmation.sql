@@ -11,7 +11,7 @@ go
 alter table [usr].[userChannelConfirmation] add constraint [pk_userChannelConfirmation] primary key clustered ( [userId], [channelId], [creationDate] asc)
 go
 
-alter table [usr].[userChannelConfirmation] add constraint [df_userChannelConfirmation_creationDate] default getutcdate() for [creationDate]
+alter table [usr].[userChannelConfirmation] add constraint [df_userChannelConfirmation_creationDate] default getdate() for [creationDate]
 go
 
 alter table [usr].[userChannelConfirmation] add constraint [fk_userChannelConfirmation_channelId] foreign key ([channelId]) references [ref].[channel]([channelId]) 

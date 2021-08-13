@@ -1,6 +1,7 @@
 ﻿create procedure [bff].[usp_create_user]
 	  @externalUserId	  varchar(20) 
 	, @civilityId	      smallint 
+	, @roleId		      smallint 
 	, @firstName		  nvarchar(100) 
 	, @lastName			  nvarchar(100)
 	, @phoneNumber        nvarchar(20)
@@ -15,6 +16,7 @@ begin
 	(
 		  [externalUserId]	         
 		, [civilityId]	             
+		, [roleId]	             
 		, [firstName]				 
 		, [lastName]		
 		, [phoneNumber]	
@@ -29,7 +31,8 @@ begin
 	values
 	(
 		  @externalUserId		 
-		, @civilityId			 
+		, @civilityId	
+		, @roleId
 		, @firstName		 
 		, @lastName		
 		, @phoneNumber
@@ -37,8 +40,8 @@ begin
 		, @email
 		, @confirmationStatus   		
 		, @activationStatus			
-		, getutcdate()
-		, getutcdate()
+		, getdate()
+		, getdate()
 	)
 
 end

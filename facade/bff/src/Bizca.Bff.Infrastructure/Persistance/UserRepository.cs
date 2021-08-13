@@ -51,7 +51,12 @@
             UserProfile userProfile = GetUserProfile(user);
             var userIdentifier = new UserIdentifier((int)user.userId, externalUserId);
             IEnumerable<Subscription> subscriptions = BuildSubscriptions(dynamycSsubscriptions);
-            var userBuild = new User((int)user.userId, userIdentifier, userProfile, subscriptions?.ToList(), (byte[])user.rowversion);
+            var userBuild = new User((int)user.userId, 
+                userIdentifier, 
+                userProfile,
+                (Role)user.role,
+                subscriptions?.ToList(), 
+                (byte[])user.rowversion);
             return userBuild;
         }
 
@@ -68,6 +73,7 @@
                 lastName = user.UserProfile.LastName,
                 whatsapp = user.UserProfile.Whatsapp,
                 email = user.UserProfile.Email,
+                roleId = (int)user.Role,
                 rowversion = user.GetRowVersion()
             };
 
@@ -91,6 +97,7 @@
                 lastName = user.UserProfile.LastName,
                 whatsapp = user.UserProfile.Whatsapp,
                 email = user.UserProfile.Email,
+                roleId = (int)user.Role
             };
 
             return await unitOfWork.Connection
@@ -157,7 +164,8 @@
                     (int)subscription.totalEmail,
                     (int)subscription.totalSms,
                     subscription.beginDate,
-                    subscription.endDate);
+                    subscription.endDate,
+                    subscription.isFreeze);
         }
         private UserSubscription GetUserSubscription(dynamic subscription)
         {

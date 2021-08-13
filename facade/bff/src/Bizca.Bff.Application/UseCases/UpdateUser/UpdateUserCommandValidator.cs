@@ -21,7 +21,7 @@
                 .WithMessage(Resources.EXTERNAL_USERID_MAXIMUM_LENGTH_EXCEED);
 
             RuleFor(x => x.Civility)
-                .Must(x => Enum.IsDefined(typeof(Civility), x))
+                .Must(x => Enum.TryParse<Civility>(x, true, out var civility))
                 .When(x => !string.IsNullOrWhiteSpace(x.Civility))
                 .WithMessage(Resources.CIVILITY_INVALID);
 

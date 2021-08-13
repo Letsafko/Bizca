@@ -45,7 +45,7 @@
                     ? Enum.Parse<Civility>(request.Civility) 
                     : default(Civility?);
 
-            user.UpdateUser(civility,
+            user.UpdateUserProfile(civility,
                 request.FirstName,
                 request.LastName,
                 request.PhoneNumber,
@@ -57,7 +57,7 @@
             var response  = await userAgent.UpdateUserAsync(request.ExternalUserId, userToUpdateRequest);
             
             eventService.Enqueue(user.UserEvents);
-            var updateUserDto = MapTo(response);
+            var updateUserDto = MapTo(user.Role, response);
             updateUserOutput.Ok(updateUserDto);
             return Unit.Value;
         }
@@ -73,12 +73,13 @@
             request.Whatsapp,
             request.Email);
         }
-        private UpdateUserDto MapTo(UserUpdatedResponse response)
+        private UpdateUserDto MapTo(Role role, UserUpdatedResponse response)
         {
             return new UpdateUserDto(response.ExternalUserId,
                 response.FirstName,
                 response.LastName,
                 response.Civility,
+                role,
                 response.Channels);
         }
 

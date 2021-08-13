@@ -15,7 +15,7 @@ when matched then
 	update
 		set procedureHref   = source.procedureHref,
 			active          = source.active,
-			lastUpdate      = getutcdate()
+			lastUpdate      = getdate()
 when not matched by target then
 	insert
 	(

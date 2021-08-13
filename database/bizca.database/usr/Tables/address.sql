@@ -16,10 +16,10 @@ go
 alter table [usr].[address] add constraint [pk_address] primary key clustered ( [addressId] )
 go
 
-alter table [usr].[address] add constraint [df_address_creationDate] default getutcdate() for [creationDate]
+alter table [usr].[address] add constraint [df_address_creationDate] default getdate() for [creationDate]
 go
 
-alter table [usr].[address] add constraint [df_address_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [usr].[address] add constraint [df_address_lastUpdate] default getdate() for [lastUpdate]
 go
 
 alter table [usr].[address] add constraint [df_address_active] default 0 for [active]

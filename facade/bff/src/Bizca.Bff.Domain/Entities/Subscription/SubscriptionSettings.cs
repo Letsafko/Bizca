@@ -20,7 +20,8 @@
             int totalEmail,
             int totalSms,
             DateTime? beginDate = null,
-            DateTime? endDate = null)
+            DateTime? endDate = null,
+            bool? isFreeze = null)
         {
             WhatsappCounter = !(whatsappCounter < 0) ? whatsappCounter : throw new DomainException($"{nameof(whatsappCounter)} should be greater than zero.");
             TotalWhatsapp = !(totalWhatsapp < 0) ? totalWhatsapp : throw new DomainException($"{nameof(whatsappCounter)} should be greater than zero.");
@@ -31,6 +32,7 @@
             SmsCounter = !(smsCounter < 0) ? smsCounter : throw new DomainException($"{nameof(smsCounter)} should be greater than zero.");
             TotalSms = !(totalSms < 0) ? totalSms : throw new DomainException($"{nameof(totalSms)} should be greater than zero.");
 
+            IsFreeze = isFreeze;
             BeginDate = beginDate;
             EndDate = endDate;
         }

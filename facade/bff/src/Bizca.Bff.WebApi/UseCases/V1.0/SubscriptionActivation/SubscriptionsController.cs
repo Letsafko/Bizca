@@ -1,6 +1,8 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails
+﻿namespace Bizca.Bff.WebApi.UseCases.V10.SubscriptionActivation
 {
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
+    using Bizca.Bff.Application.UseCases.SubscriptionActivation;
+    using Bizca.Bff.WebApi.Properties;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api;
     using Bizca.Core.Api.Modules.Conventions;
@@ -11,43 +13,49 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    ///     Creates subscription controller.
+    ///     Activates or desactivates subscription controller.
     /// </summary>
     [ApiVersion("1.0")]
     [Route("api/v{version:api-version}/[controller]")]
     [ApiController]
-    public sealed class UsersController : ControllerBase
+    public sealed class SubscriptionsController : ControllerBase
     {
-        private readonly GetUserSubscriptionDetailsPresenter presenter;
+        private readonly SubscriptionActivationPresenter presenter;
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="SubscriptionsController"/>
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
-        public UsersController(GetUserSubscriptionDetailsPresenter presenter, IProcessor processor)
+        public SubscriptionsController(SubscriptionActivationPresenter presenter, IProcessor processor)
         {
             this.processor = processor;
             this.presenter = presenter;
         }
 
         /// <summary>
-        ///     Retrieve user subscription details.
+        ///     Activates or desactivates a subscription.
         /// </summary>
         /// <param name="externalUserId">user identifier</param>
         /// <param name="reference">subscription code</param>
-        /// <remarks>/Assets/createSubscription.md</remarks>
-        [HttpGet("{externalUserId}/subscriptions/{reference}")]
+        /// <param name="activation">subscription activation</param>
+        /// <remarks>/Assets/activateOrDesacticateSubscription.md</remarks>
+        [HttpPatch("{externalUserId}/subscriptions/{reference}/activation")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ModelStateResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
-        public async Task<IActionResult> GetUserSubscriptionDetailsAsync([Required] string externalUserId,
-            [Required] string reference)
+        public async Task<IActionResult> ActivateOrDesacticateSubscriptionAsync([Required] string externalUserId,
+            [Required] string reference, 
+            [Required][FromBody] SubscriptionActivation activation)
         {
-            var query = new GetUserSubscriptionDetailsQuery(externalUserId, reference);
-            await processor.ProcessQueryAsync(query).ConfigureAwait(false);
+            var command = new SubscriptionActivationCommand(Resources.PartnerCode,
+                externalUserId, 
+                reference,
+                activation.Freeze);
+
+            await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return presenter.ViewModel;
         }
     }

@@ -44,7 +44,7 @@
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
-        public async Task<IActionResult> CreateUserAsync([Required] string externalUserId, 
+        public async Task<IActionResult> UpdateUserAsync([Required] string externalUserId, 
             [Required][FromBody] UpdateUser user)
         {
             var command = GetUpdateUserCommand(externalUserId, user);

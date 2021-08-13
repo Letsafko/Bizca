@@ -4,7 +4,6 @@
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
     using Bizca.Bff.Domain.Entities.User.Events;
-    using Bizca.Bff.Domain.Entities.User.Factories;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Referentials.Bundle;
@@ -20,6 +19,7 @@
         public User(int id,
             UserIdentifier userIdentifier,
             UserProfile userProfile,
+            Role role,
             List<Subscription> subscriptions = null,
             byte[] rowVersion = null)
         {
@@ -28,6 +28,7 @@
             UserIdentifier = userIdentifier;
             UserProfile = userProfile;
             SetRowVersion(rowVersion);
+            Role = role;
             Id = id;
         }
 
@@ -39,6 +40,7 @@
 
         public UserIdentifier UserIdentifier { get; }
         public UserProfile UserProfile { get; }
+        public Role Role { get; }
 
         public byte[] GetRowVersion()
         {
@@ -54,12 +56,7 @@
         }
         public Subscription UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
         {
-            Subscription subscription = GetSubscriptionByCode(subscriptionCode);
-            if (subscription is null)
-            {
-                throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.");
-            }
-
+            Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
             if (!IsSubscriptionAllowedToBeUpdated(subscription.SubscriptionState.Status))
             {
                 throw new SubscriptionCannotBeUpdatedException(nameof(subscription.SubscriptionState),
@@ -69,6 +66,16 @@
             subscription.UpdateSubscription(bundle, procedure);
             RemoveSubscriptionsWithSameCheckSum(subscription);
             return subscription;
+        }
+        public Subscription GetSubscriptionByCode(string subscriptionCode, bool throwError = false)
+        {
+            var subscription = subscriptions
+                .FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, 
+                    StringComparison.OrdinalIgnoreCase));
+
+            return throwError && subscription is null
+                ? throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.")
+                : subscription;
         }
         public void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
         {
@@ -98,9 +105,17 @@
         {
             userEvents.Add(userUpdated);
         }
-        public Subscription GetSubscriptionByCode(string subscriptionCode)
+        public Subscription DesactivateSubscription(string subscriptionCode)
         {
-            return subscriptions.FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, StringComparison.OrdinalIgnoreCase));
+            Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
+            subscription.UnFreeze();
+            return subscription;
+        }
+        public Subscription ActivateSubscription(string subscriptionCode)
+        {
+            Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
+            subscription.Freeze();
+            return subscription;
         }
         public void AddSubscription(Subscription subscription)
         {
@@ -109,7 +124,7 @@
 
             subscriptions.Add(subscription);
         }
-        public void UpdateUser(Civility? civility,
+        public void UpdateUserProfile(Civility? civility,
             string firstName,
             string lastName,
             string phoneNumber,

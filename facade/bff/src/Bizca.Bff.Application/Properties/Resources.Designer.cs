@@ -70,6 +70,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à channel resource is required..
+        /// </summary>
+        internal static string CHANNEL_RESOURCE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CHANNEL_RESOURCE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à channel type is invalid..
         /// </summary>
         internal static string CHANNEL_TYPE_INVALID {
@@ -196,6 +205,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à invalid data input.
+        /// </summary>
+        internal static string INVALID_DATA_INPUT {
+            get {
+                return ResourceManager.GetString("INVALID_DATA_INPUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à lastname maximun length exceed..
         /// </summary>
         internal static string LASTNAME_MAXIMUN_LENGTH_EXCEED {
@@ -273,6 +291,15 @@ namespace Bizca.Bff.Application.Properties {
         internal static string SUBSCRIPTION_CODE_REQUIRED {
             get {
                 return ResourceManager.GetString("SUBSCRIPTION_CODE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à value cannot be null or empty.
+        /// </summary>
+        internal static string VALUE_CANNOT_BE_NULL_OR_EMPTY {
+            get {
+                return ResourceManager.GetString("VALUE_CANNOT_BE_NULL_OR_EMPTY", resourceCulture);
             }
         }
     }

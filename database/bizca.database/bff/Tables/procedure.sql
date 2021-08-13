@@ -18,10 +18,10 @@ go
 alter table [bff].[procedure] add constraint [fk_procedure_organismId] foreign key([organismId]) references [bff].[organism]( [organismId] )
 go
 
-alter table [bff].[procedure] add constraint [df_procedure_creationDate] default getutcdate() for [creationDate]
+alter table [bff].[procedure] add constraint [df_procedure_creationDate] default getdate() for [creationDate]
 go
 
-alter table [bff].[procedure] add constraint [df_procedure_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [bff].[procedure] add constraint [df_procedure_lastUpdate] default getdate() for [lastUpdate]
 go
 
 create index [ix_procedure_procedureTypeId] on [bff].[procedure] ( [procedureTypeId] )

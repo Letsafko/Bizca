@@ -19,7 +19,7 @@ when matched then
 		  , [totalEmail]      = source.[totalEmail]     
 		  , [totalSms]        = source.[totalSms]       
 		  , [intervalInWeeks] = source.[intervalInWeeks]
-		  , lastUpdate        = getutcdate()
+		  , lastUpdate        = getdate()
 when not matched by target then
 	insert
 	(

@@ -3,27 +3,29 @@
     using Bizca.Bff.Application.UseCases.AuthenticateUser;
     using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
-    using Bizca.Bff.Application.UseCases.CreateOrUpdateUserPassword;
     using Bizca.Bff.Application.UseCases.CreateSubscription;
     using Bizca.Bff.Application.UseCases.GetBundles;
     using Bizca.Bff.Application.UseCases.GetProcedures;
     using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
+    using Bizca.Bff.Application.UseCases.SubscriptionActivation;
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
     using Bizca.Bff.Application.UseCases.UpdateUser;
+    using Bizca.Bff.Application.UseCases.UpsertPassword;
     using Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser;
     using Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode;
     using Bizca.Bff.WebApi.UseCases.V10.CreateNewUser;
-    using Bizca.Bff.WebApi.UseCases.V10.CreateOrUpdateUserPassword;
     using Bizca.Bff.WebApi.UseCases.V10.CreateSubscription;
     using Bizca.Bff.WebApi.UseCases.V10.GetBundles;
     using Bizca.Bff.WebApi.UseCases.V10.GetProcedures;
     using Bizca.Bff.WebApi.UseCases.V10.GetUsers;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptions;
+    using Bizca.Bff.WebApi.UseCases.V10.SubscriptionActivation;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateUser;
+    using Bizca.Bff.WebApi.UseCases.V10.UpsertPassword;
     using global::Autofac;
 
     /// <summary>
@@ -37,6 +39,12 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<SubscriptionActivationPresenter>().InstancePerLifetimeScope();
+            builder.Register<ISubscriptionActivationOutput>(x => x.Resolve<SubscriptionActivationPresenter>()).InstancePerLifetimeScope();
+
+            builder.RegisterType<UpsertPasswordPresenter>().InstancePerLifetimeScope();
+            builder.Register<IUpsertPasswordOutput>(x => x.Resolve<UpsertPasswordPresenter>()).InstancePerLifetimeScope();
+
             builder.RegisterType<GetUsersPresenter>().InstancePerLifetimeScope();
             builder.Register<IGetUsersOutput>(x => x.Resolve<GetUsersPresenter>()).InstancePerLifetimeScope();
 
@@ -48,9 +56,6 @@
 
             builder.RegisterType<AuthenticateUserPresenter>().InstancePerLifetimeScope();
             builder.Register<IAuthenticateUserOutput>(x => x.Resolve<AuthenticateUserPresenter>()).InstancePerLifetimeScope();
-
-            builder.RegisterType<CreateOrUpdateUserPasswordPresenter>().InstancePerLifetimeScope();
-            builder.Register<ICreateOrUpdateUserPasswordOutput>(x => x.Resolve<CreateOrUpdateUserPasswordPresenter>()).InstancePerLifetimeScope();
 
             builder.RegisterType<CreateNewUserPresenter>().InstancePerLifetimeScope();
             builder.Register<ICreateNewUserOutput>(x => x.Resolve<CreateNewUserPresenter>()).InstancePerLifetimeScope();
