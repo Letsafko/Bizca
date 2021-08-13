@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateNewUser
 {
     /// <summary>
-    ///     Create user.
+    ///     Create an user.
     /// </summary>
     public sealed class CreateUser
     {

@@ -172,7 +172,7 @@ when matched then
 	update
 		set countryCode = source.countryCode,
 			description = source.description,
-			lastUpdate  = getutcdate()
+			lastUpdate  = getdate()
 when not matched by target then
 	insert
 	(

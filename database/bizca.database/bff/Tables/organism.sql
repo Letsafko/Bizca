@@ -12,10 +12,10 @@ go
 alter table [bff].[organism] add constraint [pk_organism] primary key clustered ( [organismId] asc)
 go
 
-alter table [bff].[organism] add constraint [df_organism_creationDate] default getutcdate() for [creationDate]
+alter table [bff].[organism] add constraint [df_organism_creationDate] default getdate() for [creationDate]
 go
 
-alter table [bff].[organism] add constraint [df_organism_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [bff].[organism] add constraint [df_organism_lastUpdate] default getdate() for [lastUpdate]
 go
 
 create unique index [ix_organism_codeInsee] on [bff].[organism] ([codeInsee])

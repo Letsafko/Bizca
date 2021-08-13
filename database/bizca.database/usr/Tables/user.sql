@@ -21,10 +21,10 @@ go
 alter table [usr].[user] add constraint [pk_user] primary key clustered ( [userId] asc)
 go
 
-alter table [usr].[user] add constraint [df_user_creationDate] default getutcdate() for [creationDate]
+alter table [usr].[user] add constraint [df_user_creationDate] default getdate() for [creationDate]
 go
 
-alter table [usr].[user] add constraint [df_user_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [usr].[user] add constraint [df_user_lastUpdate] default getdate() for [lastUpdate]
 go
 
 alter table [usr].[user] add constraint [df_user_active] default 0 for [active]

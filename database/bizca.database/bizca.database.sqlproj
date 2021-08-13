@@ -204,5 +204,9 @@
     <Build Include="bff\Stored procedures\usp_upsert_subscription.sql" />
     <Build Include="bff\Types\subscriptionsUdt.sql" />
     <Build Include="bff\Tables\user.sql" />
+    <Build Include="bff\Tables\role.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PostDeployment\role.sql" />
   </ItemGroup>
 </Project>

@@ -11,7 +11,8 @@
             string firstName,
             string lastName,
             string whatsapp,
-            string email)
+            string email,
+            Role role)
         {
             EconomicActivity = economicActivity;
             ExternalUserId = externalUserId;
@@ -22,6 +23,7 @@
             LastName = lastName;
             Whatsapp = whatsapp;
             Email = email;
+            Role = role;
         }
 
         public string EconomicActivity { get; }
@@ -33,5 +35,6 @@
         public string LastName { get; }
         public string Whatsapp { get; }
         public string Email { get; }
+        public Role Role { get; }
     }
 }

@@ -12,7 +12,7 @@ go
 alter table [usr].[password] add constraint [pk_password] primary key clustered ( [passwordId] )
 go
 
-alter table [usr].[password] add constraint [df_password_creationDate] default getutcdate() for [creationDate]
+alter table [usr].[password] add constraint [df_password_creationDate] default getdate() for [creationDate]
 go
 
 alter table [usr].[password] add constraint [df_password_active] default 0 for [active]

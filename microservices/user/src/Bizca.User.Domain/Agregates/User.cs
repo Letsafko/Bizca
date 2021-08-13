@@ -75,7 +75,7 @@
             if (channelConfirmation is null)
             {
                 string randomCode = ChannelCodeConfirmationGenerator.GetCodeConfirmation(UserIdentifier.Partner.Settings.ChannelCodeConfirmationLength);
-                DateTime expirationDate = DateTime.UtcNow.AddMinutes(UserIdentifier.Partner.Settings.ChannelCodeConfirmationExpirationDelay);
+                DateTime expirationDate = DateTime.Now.AddMinutes(UserIdentifier.Partner.Settings.ChannelCodeConfirmationExpirationDelay);
                 channelConfirmation = new ChannelConfirmation(randomCode, expirationDate);
             }
             channel.AddNewCodeConfirmation(channelConfirmation);

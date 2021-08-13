@@ -22,7 +22,7 @@ begin
 			, u.[birthDate]		       = @birthDate
 			, u.[birthCountryId]	   = @birthCountryId
 			, u.[economicActivityId]   = @economicActivityId
-			, u.[lastUpdate]		   = getutcdate()
+			, u.[lastUpdate]		   = getdate()
 	output inserted.userId
 	from [usr].[user] u
 	where externalUserId = @externalUserId and 

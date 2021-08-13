@@ -8,7 +8,7 @@ return
     select top 1 
 		  bundleId
 		, bundleCode
-		, description bundleLabel
+		, description	[bundleLabel]
 		, [priority]
 		, amount        [price]
 		, intervalInWeeks

@@ -8,7 +8,7 @@ when matched then
 	update
 		set partnerCode = source.partnerCode,
 			description = source.description,
-			lastUpdate	= getutcdate()
+			lastUpdate	= getdate()
 when not matched by target then
 	insert
 	(

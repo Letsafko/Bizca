@@ -10,7 +10,7 @@
 when matched then 
 	update
 		set channelCode = source.channelCode,
-			lastUpdate  = getutcdate()
+			lastUpdate  = getdate()
 when not matched by target then
 	insert
 	(

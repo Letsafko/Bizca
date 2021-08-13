@@ -28,12 +28,7 @@
                 throw new UserDoesNotExistException($"user {request.ExternalUserId} does not exist.");
             }
 
-            Subscription subscription = user.GetSubscriptionByCode(request.SubscriptionCode);
-            if (subscription is null)
-            {
-                throw new SubscriptionDoesNotExistException(nameof(subscription), $"subscription {request.SubscriptionCode} does not exist.");
-            }
-
+            Subscription subscription = user.GetSubscriptionByCode(request.SubscriptionCode, true);
             subscriptionDetailsOutput.Ok(subscription);
             return Unit.Value;
         }

@@ -40,8 +40,8 @@ begin
 		, @birthDate   		
 		, @birthCountryId	
 		, @birthCity		
-		, getutcdate()
-		, getutcdate()
+		, getdate()
+		, getdate()
 	)
 
 end

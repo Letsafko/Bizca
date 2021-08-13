@@ -19,6 +19,7 @@
         public User(int id,
             UserIdentifier userIdentifier,
             UserProfile userProfile,
+            Role role,
             List<Subscription> subscriptions = null,
             byte[] rowVersion = null)
         {
@@ -27,6 +28,7 @@
             UserIdentifier = userIdentifier;
             UserProfile = userProfile;
             SetRowVersion(rowVersion);
+            Role = role;
             Id = id;
         }
 
@@ -38,6 +40,7 @@
 
         public UserIdentifier UserIdentifier { get; }
         public UserProfile UserProfile { get; }
+        public Role Role { get; }
 
         public byte[] GetRowVersion()
         {
@@ -53,12 +56,7 @@
         }
         public Subscription UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
         {
-            Subscription subscription = GetSubscriptionByCode(subscriptionCode);
-            if (subscription is null)
-            {
-                throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.");
-            }
-
+            Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
             if (!IsSubscriptionAllowedToBeUpdated(subscription.SubscriptionState.Status))
             {
                 throw new SubscriptionCannotBeUpdatedException(nameof(subscription.SubscriptionState),
@@ -68,6 +66,16 @@
             subscription.UpdateSubscription(bundle, procedure);
             RemoveSubscriptionsWithSameCheckSum(subscription);
             return subscription;
+        }
+        public Subscription GetSubscriptionByCode(string subscriptionCode, bool throwError = false)
+        {
+            var subscription = subscriptions
+                .FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, 
+                    StringComparison.OrdinalIgnoreCase));
+
+            return throwError && subscription is null
+                ? throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.")
+                : subscription;
         }
         public void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
         {
@@ -83,15 +91,31 @@
 
             UserProfile.SetChannelActivationStatus(activationStatus);
         }
-        public Subscription GetSubscriptionByCode(string subscriptionCode)
-        {
-            return subscriptions.FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, StringComparison.OrdinalIgnoreCase));
-        }
         public void RemoveSubscriptionsWithSameCheckSum(Subscription subscription)
         {
             subscriptions.RemoveAll(x => x.CheckSum == subscription.CheckSum
                 && x.SubscriptionState.Status == SubscriptionStatus.Pending
                 && x.SubscriptionCode != subscription.SubscriptionCode);
+        }
+        public void RegisterUserCreatedEvent(UserCreatedNotification userCreated)
+        {
+            userEvents.Add(userCreated);
+        }
+        public void RegisterUserUpdatedEvent(UserUpdatedNotification userUpdated)
+        {
+            userEvents.Add(userUpdated);
+        }
+        public Subscription DesactivateSubscription(string subscriptionCode)
+        {
+            Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
+            subscription.UnFreeze();
+            return subscription;
+        }
+        public Subscription ActivateSubscription(string subscriptionCode)
+        {
+            Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
+            subscription.Freeze();
+            return subscription;
         }
         public void AddSubscription(Subscription subscription)
         {
@@ -100,11 +124,63 @@
 
             subscriptions.Add(subscription);
         }
+        public void UpdateUserProfile(Civility? civility,
+            string firstName,
+            string lastName,
+            string phoneNumber,
+            string whatsapp,
+            string email)
+        {
+            UserProfile.FirstName = !string.IsNullOrWhiteSpace(firstName) ? firstName : UserProfile.FirstName;
+            UserProfile.LastName = !string.IsNullOrWhiteSpace(lastName) ? lastName : UserProfile.LastName;
+            UserProfile.Civility = civility ?? UserProfile.Civility;
+
+            if(!string.IsNullOrWhiteSpace(phoneNumber) &&
+               !phoneNumber.Equals(UserProfile.PhoneNumber, StringComparison.OrdinalIgnoreCase))
+            {
+                UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
+                UserProfile.PhoneNumber = phoneNumber;
+            }
+
+            if (!string.IsNullOrWhiteSpace(whatsapp) &&
+               !whatsapp.Equals(UserProfile.Whatsapp, StringComparison.OrdinalIgnoreCase))
+            {
+                UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.WhatsappConfirmed);
+                UserProfile.Whatsapp = whatsapp;
+            }
+
+            if (!string.IsNullOrWhiteSpace(email) &&
+               !email.Equals(UserProfile.Email, StringComparison.OrdinalIgnoreCase))
+            {
+                UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
+                UserProfile.Email = email;
+            }
+        }
 
         #endregion
 
         #region private helpers
 
+        private ChannelStatus SetChannelConfirmationStatus(ChannelStatus channelStatus, ChannelConfirmationStatus confirmationStatus)
+        {
+            if (!channelStatus.ChannelConfirmationStatus.HasFlag(confirmationStatus))
+            {
+                var channelConfirmationStatus = channelStatus.ChannelConfirmationStatus | confirmationStatus;
+                return new ChannelStatus(channelConfirmationStatus,
+                    channelStatus.ChannelActivationStatus);
+            }
+            return channelStatus;
+        }
+        private ChannelStatus SetChannelActivationStatus(ChannelStatus channelStatus, ChannelActivationStatus activationStatus)
+        {
+            if (!channelStatus.ChannelActivationStatus.HasFlag(activationStatus))
+            {
+                var channelActivationStatus = channelStatus.ChannelActivationStatus | activationStatus;
+                return new ChannelStatus(channelStatus.ChannelConfirmationStatus,
+                    channelActivationStatus);
+            }
+            return channelStatus;
+        }
         private bool IsSubscriptionAllowedToBeUpdated(SubscriptionStatus subscriptionStatus)
         {
             return subscriptionStatus == SubscriptionStatus.Pending;

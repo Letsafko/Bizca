@@ -1,5 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
 {
+    using Bizca.Bff.Domain.Entities.User;
+    using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
@@ -11,11 +13,14 @@
     public sealed class AuthenticateUserUseCase : IQueryHandler<AuthenticateUserQuery>
     {
         private readonly IAuthenticateUserOutput authenticateUserOutput;
+        private readonly IUserRepository userRepository;
         private readonly IUserWrapper userAgent;
         public AuthenticateUserUseCase(IUserWrapper userAgent,
+            IUserRepository userRepository,
             IAuthenticateUserOutput authenticateUserOutput)
         {
             this.authenticateUserOutput = authenticateUserOutput;
+            this.userRepository = userRepository;
             this.userAgent = userAgent;
         }
 
@@ -29,18 +34,20 @@
         {
             var request = new AuthenticateUserRequest(query.Password, query.Resource);
             AuthenticateUserResponse response = await userAgent.AutehticateUserAsync(request);
+            var user = await userRepository.GetAsync(response.ExternalUserId);
 
-            AuthenticateUserDto authenticateUser = MapTo(response);
+            AuthenticateUserDto authenticateUser = MapTo(user.Role, response);
             authenticateUserOutput.Ok(authenticateUser);
             return Unit.Value;
         }
 
-        private AuthenticateUserDto MapTo(AuthenticateUserResponse response)
+        private AuthenticateUserDto MapTo(Role role, AuthenticateUserResponse response)
         {
             return new AuthenticateUserDto(response.ExternalUserId,
                 response.FirstName,
                 response.LastName,
                 response.Civility,
+                role,
                 response.Channels);
         }
     }

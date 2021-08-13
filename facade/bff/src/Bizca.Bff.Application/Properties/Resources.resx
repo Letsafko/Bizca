@@ -120,6 +120,9 @@
   <data name="BUNDLE_INVALID" xml:space="preserve">
     <value>bundle is invalid.</value>
   </data>
+  <data name="CHANNEL_RESOURCE_REQUIRED" xml:space="preserve">
+    <value>channel resource is required.</value>
+  </data>
   <data name="CHANNEL_TYPE_INVALID" xml:space="preserve">
     <value>channel type is invalid.</value>
   </data>
@@ -150,11 +153,23 @@
   <data name="EMAIL_REGEX" xml:space="preserve">
     <value>^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</value>
   </data>
+  <data name="EXTERNAL_USERID_MAXIMUM_LENGTH_EXCEED" xml:space="preserve">
+    <value>external user Identifier maximun length exceed.</value>
+  </data>
   <data name="EXTERNAL_USERID_REQUIRED" xml:space="preserve">
     <value>externalUserId is required.</value>
   </data>
+  <data name="FIRSTNAME_MAXIMUN_LENGTH_EXCEED" xml:space="preserve">
+    <value>firstname maximun length exceed.</value>
+  </data>
   <data name="FIRSTNAME_REQUIRED" xml:space="preserve">
     <value>firstName is required.</value>
+  </data>
+  <data name="INVALID_DATA_INPUT" xml:space="preserve">
+    <value>invalid data input</value>
+  </data>
+  <data name="LASTNAME_MAXIMUN_LENGTH_EXCEED" xml:space="preserve">
+    <value>lastname maximun length exceed.</value>
   </data>
   <data name="LASTNAME_REQUIRED" xml:space="preserve">
     <value>lastName is required.</value>
@@ -179,5 +194,8 @@
   </data>
   <data name="SUBSCRIPTION_CODE_REQUIRED" xml:space="preserve">
     <value>subscription code is required.</value>
+  </data>
+  <data name="VALUE_CANNOT_BE_NULL_OR_EMPTY" xml:space="preserve">
+    <value>value cannot be null or empty</value>
   </data>
 </root>

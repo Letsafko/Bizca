@@ -17,10 +17,10 @@ go
 alter table [bff].[bundle] add constraint [pk_bundle] primary key clustered ( [bundleId] )
 go
 
-alter table [bff].[bundle] add constraint [df_bundle_creationDate] default getutcdate() for [creationDate]
+alter table [bff].[bundle] add constraint [df_bundle_creationDate] default getdate() for [creationDate]
 go
 
-alter table [bff].[bundle] add constraint [df_bundle_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [bff].[bundle] add constraint [df_bundle_lastUpdate] default getdate() for [lastUpdate]
 go
 
 alter table [bff].[bundle] add constraint [chk_bundle_totalWhatsapp] check ( [totalWhatsapp] is null or [totalWhatsapp] > 0)

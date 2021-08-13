@@ -10,10 +10,10 @@ go
 alter table [ref].[channel] add constraint [pk_channel] primary key clustered ( [channelId] asc)
 go
 
-alter table [ref].[channel] add constraint [df_channel_creationDate] default getutcdate() for [creationDate]
+alter table [ref].[channel] add constraint [df_channel_creationDate] default getdate() for [creationDate]
 go
 
-alter table [ref].[channel] add constraint [df_channel_lastUpdate] default getutcdate() for [lastUpdate]
+alter table [ref].[channel] add constraint [df_channel_lastUpdate] default getdate() for [lastUpdate]
 go
 
 create unique index [ix_channelCode] on [ref].[channel] ([channelCode] asc)

@@ -6,6 +6,7 @@
 	[procedureTypeId]		int not null,
 	[organismId]			int not null,
 	[bundleId]				smallint null,
+	[isFreeze]				bit null,
 	[amount]				money null,
 	[firstName]		        nvarchar(100) not null,
 	[lastName]		        nvarchar(100) not null,

@@ -17,6 +17,7 @@
             dt.Columns.Add(SubscriptionColumns.ProcedureTypeId, typeof(int));
             dt.Columns.Add(SubscriptionColumns.OrganismId, typeof(int));
             dt.Columns.Add(SubscriptionColumns.BundleId, typeof(int));
+            dt.Columns.Add(SubscriptionColumns.Freeze, typeof(bool));
             dt.Columns.Add(SubscriptionColumns.Amount, typeof(decimal));
 
             dt.Columns.Add(SubscriptionColumns.FirstName, typeof(string));
@@ -49,6 +50,7 @@
                         x.Procedure.ProcedureType.Id,
                         x.Procedure.Organism.Id,
                         x.Bundle?.BundleIdentifier?.Id,
+                        x.SubscriptionSettings.IsFreeze,
                         x.Price?.Amount,
 
                         x.UserSubscription.FirstName,
@@ -84,6 +86,7 @@
             public const string ProcedureTypeId = "procedureTypeId";
             public const string OrganismId = "organismId";
             public const string BundleId = "bundleId";
+            public const string Freeze = "isFreeze";
 
             public const string Amount = "amount";
             public const string FirstName = "firstName";

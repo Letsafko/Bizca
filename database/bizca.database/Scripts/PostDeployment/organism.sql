@@ -19,7 +19,7 @@ when matched then
 		set organismName = source.organismName,
 		    organismHref = source.organismHref,
 		    codeInsee    = source.codeInsee,
-			lastUpdate   = getutcdate()
+			lastUpdate   = getdate()
 when not matched by target then
 	insert
 	(
