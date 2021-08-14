@@ -108,13 +108,13 @@
         public Subscription DesactivateSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
-            subscription.UnFreeze();
+            subscription.Freeze();
             return subscription;
         }
         public Subscription ActivateSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
-            subscription.Freeze();
+            subscription.UnFreeze();
             return subscription;
         }
         public void AddSubscription(Subscription subscription)
@@ -138,7 +138,7 @@
             if(!string.IsNullOrWhiteSpace(phoneNumber) &&
                !phoneNumber.Equals(UserProfile.PhoneNumber, StringComparison.OrdinalIgnoreCase))
             {
-                UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
+                UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.PhoneNumberConfirmed);
                 UserProfile.PhoneNumber = phoneNumber;
             }
 

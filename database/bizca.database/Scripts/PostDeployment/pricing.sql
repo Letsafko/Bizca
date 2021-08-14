@@ -3,7 +3,7 @@
 	(
 		values   (1, 'Basic'  , 'Basic'  , 1, 10, 10,  5,  5, 12)
 				,(2, 'Confort', 'Confort', 2, 20, 20, 10, 10, 12)
-				,(3, 'Prenium', 'Prenium', 3, 30, 30, 15, 15, 12)
+				,(3, 'Premium', 'Prenium', 3, 30, 30, 15, 15, 12)
 	) as source(bundleId, bundleCode, [description], [priority], amount, totalEmail, totalWhatsapp, totalSms, intervalInWeeks) 
 	on 
 	(
