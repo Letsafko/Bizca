@@ -55,7 +55,8 @@
                 criteria.PhoneNumber,
                 criteria.Email,
                 criteria.FirstName,
-                criteria.LastName);
+                criteria.LastName,
+                criteria.PageSize);
         }
     }
 }

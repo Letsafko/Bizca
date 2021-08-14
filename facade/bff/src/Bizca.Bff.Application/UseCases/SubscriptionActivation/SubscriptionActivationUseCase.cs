@@ -37,11 +37,11 @@
             var isFreeze = bool.Parse(command.Freeze);
             if (!isFreeze) 
             {
-                subscription = user.DesactivateSubscription(command.SubscriptionCode);
+                subscription = user.ActivateSubscription(command.SubscriptionCode);
             }
             else
             {
-                subscription = user.ActivateSubscription(command.SubscriptionCode);
+                subscription = user.DesactivateSubscription(command.SubscriptionCode);
             }
 
             await subscriptionRepository.UpsertAsync(user.UserIdentifier.UserId, user.Subscriptions);

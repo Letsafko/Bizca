@@ -50,7 +50,7 @@
                         x.Procedure.ProcedureType.Id,
                         x.Procedure.Organism.Id,
                         x.Bundle?.BundleIdentifier?.Id,
-                        x.SubscriptionSettings.IsFreeze,
+                        x.SubscriptionSettings?.IsFreeze,
                         x.Price?.Amount,
 
                         x.UserSubscription.FirstName,

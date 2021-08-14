@@ -46,7 +46,8 @@
                 query.PhoneNumber,
                 query.Email,
                 query.FirstName,
-                query.LastName);
+                query.LastName,
+                query.PageSize);
         }
 
         #endregion
