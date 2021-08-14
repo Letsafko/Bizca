@@ -70,7 +70,7 @@
         public Subscription GetSubscriptionByCode(string subscriptionCode, bool throwError = false)
         {
             var subscription = subscriptions
-                .FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode, 
+                .FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode,
                     StringComparison.OrdinalIgnoreCase));
 
             return throwError && subscription is null
@@ -108,13 +108,19 @@
         public Subscription DesactivateSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
-            subscription.Freeze();
+            if (IsAllowedToProcessActivation(subscription.SubscriptionState.Status))
+            {
+                subscription?.Freeze();
+            }
             return subscription;
         }
         public Subscription ActivateSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
-            subscription.UnFreeze();
+            if (IsAllowedToProcessActivation(subscription.SubscriptionState.Status))
+            {
+                subscription?.UnFreeze();
+            }
             return subscription;
         }
         public void AddSubscription(Subscription subscription)
@@ -135,7 +141,7 @@
             UserProfile.LastName = !string.IsNullOrWhiteSpace(lastName) ? lastName : UserProfile.LastName;
             UserProfile.Civility = civility ?? UserProfile.Civility;
 
-            if(!string.IsNullOrWhiteSpace(phoneNumber) &&
+            if (!string.IsNullOrWhiteSpace(phoneNumber) &&
                !phoneNumber.Equals(UserProfile.PhoneNumber, StringComparison.OrdinalIgnoreCase))
             {
                 UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.PhoneNumberConfirmed);
@@ -185,6 +191,11 @@
         {
             return subscriptionStatus == SubscriptionStatus.Pending;
         }
+        private bool IsAllowedToProcessActivation(SubscriptionStatus status)
+        {
+            return status == SubscriptionStatus.Activated ||
+                   status == SubscriptionStatus.Deactivated;
+        }
         private bool IsSubscriptionAllowedToBeAdd(Subscription subscription)
         {
             foreach (Subscription subscr in subscriptions)
@@ -201,7 +212,6 @@
         {
             rowVersion = value;
         }
-
         #endregion
     }
 }
