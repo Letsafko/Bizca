@@ -20,7 +20,7 @@
         /// <param name="password">user password dto</param>
         public void Ok(UpsertPasswordDto password)
         {
-            ViewModel = new OkObjectResult(new PasswordViewModel(password.Success));
+            ViewModel = new OkObjectResult(new UserPasswordViewModel(password.Success));
         }
     }
 }

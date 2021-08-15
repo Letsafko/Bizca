@@ -40,7 +40,7 @@
         /// <param name="password">password to create or update.</param>
         /// <remarks>/Assets/upsertPassword.md</remarks>
         [HttpPatch("password")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PasswordViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPasswordViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ModelStateResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Patch))]

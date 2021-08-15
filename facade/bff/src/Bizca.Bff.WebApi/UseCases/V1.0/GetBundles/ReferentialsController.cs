@@ -36,7 +36,7 @@
         /// </summary>
         /// <remarks>/Assets/createSubscription.md</remarks>
         [HttpGet("bundles")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<BundleViewModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BundleCollectionViewModel))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]
         public async Task<IActionResult> GetBundlesAsync()
         {

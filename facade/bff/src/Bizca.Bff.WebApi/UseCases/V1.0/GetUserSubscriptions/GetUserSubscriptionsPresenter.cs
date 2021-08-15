@@ -2,6 +2,7 @@
 {
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
     using Bizca.Bff.Domain.Entities.Subscription;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
 
@@ -21,7 +22,7 @@
         /// <param name="subscriptions"></param>
         public void Ok(IEnumerable<Subscription> subscriptions)
         {
-            ViewModel = new OkObjectResult(new GetUserSubscriptionsResponse(subscriptions));
+            ViewModel = new OkObjectResult(new SubscriptionCollectionViewModel(subscriptions));
         }
     }
 }
