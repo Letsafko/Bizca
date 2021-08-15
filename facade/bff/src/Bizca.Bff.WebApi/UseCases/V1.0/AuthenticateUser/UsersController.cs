@@ -38,7 +38,7 @@
         /// <param name="authenticateUser">authenticate user</param>
         /// <remarks>/Assets/authenticateUser.md</remarks>
         [HttpPost("authenticate")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticateUserResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Edit))]

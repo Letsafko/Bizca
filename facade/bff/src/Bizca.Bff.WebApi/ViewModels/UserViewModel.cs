@@ -13,7 +13,7 @@ namespace Bizca.Bff.WebApi.ViewModels
     /// <summary>
     ///     User view model
     /// </summary>
-    internal class UserViewModel
+    public class UserViewModel
     {
         /// <summary>
         ///     Creates an instance of <see cref="UserViewModel"/>

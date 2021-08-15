@@ -1,8 +1,18 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
     using System.ComponentModel.DataAnnotations;
-    internal sealed class ChannelViewModel
+    /// <summary>
+    ///     Channel view model.
+    /// </summary>
+    public sealed class ChannelViewModel
     {
+        /// <summary>
+        ///     Creates an instance of <see cref="ChannelViewModel"/>
+        /// </summary>
+        /// <param name="channelValue">Channel value</param>
+        /// <param name="channelType">Channel type</param>
+        /// <param name="confirmed">Indicates whether channel is confirmed or not.</param>
+        /// <param name="active">Indicates whether channel is active or not.</param>
         public ChannelViewModel(string channelValue,
             string channelType,
             bool confirmed,

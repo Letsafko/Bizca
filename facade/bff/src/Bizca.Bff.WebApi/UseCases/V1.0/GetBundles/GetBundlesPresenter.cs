@@ -2,6 +2,7 @@
 {
     using Bizca.Bff.Application.UseCases.GetBundles;
     using Bizca.Bff.Domain.Referentials.Bundle;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
 
@@ -21,7 +22,7 @@
         /// <param name="bundles"></param>
         public void Ok(IEnumerable<Bundle> bundles)
         {
-            ViewModel = new OkObjectResult(new GetBundlesResponse(bundles));
+            ViewModel = new OkObjectResult(new BundleCollectionViewModel(bundles));
         }
     }
 }

@@ -39,7 +39,7 @@
         /// <param name="criteria">user criteria search.</param>
         /// <remarks>/Assets/getUserByCriteria.md</remarks>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPaginationViewModel))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]
         public async Task<IActionResult> GetUsers([Required][FromQuery] GetUsers criteria)
         {

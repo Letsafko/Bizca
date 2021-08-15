@@ -1,7 +1,6 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetProcedures
+﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetProcedures
 {
     using Bizca.Bff.Application.UseCases.GetProcedures;
-    using Bizca.Bff.WebApi.UseCases.V10.GetProcedures;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
@@ -37,7 +36,7 @@
         /// </summary>
         /// <remarks>/Assets/createSubscription.md</remarks>
         [HttpGet("procedures")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProcedureViewModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrganismCollectionViewModel))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]
         public async Task<IActionResult> GetProceduresAsync()
         {

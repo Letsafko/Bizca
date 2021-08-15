@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser
 {
     using Bizca.Bff.Application.UseCases.AuthenticateUser;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -18,7 +19,7 @@
         /// </summary>
         public void Ok(AuthenticateUserDto authenticateUser)
         {
-            ViewModel = new OkObjectResult(new AuthenticateUserResponse(authenticateUser));
+            ViewModel = new OkObjectResult(new UserViewModel(authenticateUser));
         }
     }
 }

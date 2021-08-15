@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode
 {
     using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -18,7 +19,7 @@
         /// </summary>
         public void Ok(string channelType, string channelValue, bool confirmed)
         {
-            ViewModel = new OkObjectResult(new ConfirmChannelCodeResponse(channelType, channelValue, confirmed));
+            ViewModel = new OkObjectResult(new ConfirmationCodeViewModel(channelType, channelValue, confirmed));
         }
     }
 }

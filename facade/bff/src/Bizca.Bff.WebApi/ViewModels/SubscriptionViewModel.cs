@@ -12,6 +12,8 @@
             {
                 Bundle = subscription.Bundle.BundleIdentifier.Code;
                 Amount = subscription.Bundle.Price.Amount;
+                TotalEmail = subscription.SubscriptionSettings.TotalEmail;
+                TotalSms = subscription.SubscriptionSettings.TotalSms;
                 RemainingEmail = subscription.SubscriptionSettings.TotalEmail - subscription.SubscriptionSettings.EmailCounter;
                 RemainingSms = subscription.SubscriptionSettings.TotalSms - subscription.SubscriptionSettings.SmsCounter;
                 BeginDate = subscription.SubscriptionSettings.BeginDate;
@@ -51,9 +53,29 @@
         public string Bundle { get; }
 
         /// <summary>
+        ///     Initial whatsapp balance.
+        /// </summary>
+        public int? TotalWhatsapp { get; }
+
+        /// <summary>
+        ///     Remaining whatsapp balance.
+        /// </summary>
+        public int? RemainingWhatsapp { get; }
+
+        /// <summary>
+        ///     Initial email balance.
+        /// </summary>
+        public int? TotalEmail { get; }
+
+        /// <summary>
         ///     Remaing email balance.
         /// </summary>
         public int? RemainingEmail { get; }
+
+        /// <summary>
+        ///     Initial sms balance.
+        /// </summary>
+        public int? TotalSms { get; }
 
         /// <summary>
         ///     Remaining sms balance.

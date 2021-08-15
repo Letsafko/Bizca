@@ -2,6 +2,7 @@
 {
     using Bizca.Bff.Application.UseCases.CreateSubscription;
     using Bizca.Bff.Domain.Entities.Subscription;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -20,7 +21,7 @@
         /// <param name="subscription"></param>
         public void Ok(Subscription subscription)
         {
-            ViewModel = new CreatedResult(string.Empty, new CreateSubscriptionResponse(subscription));
+            ViewModel = new CreatedResult(string.Empty, new SubscriptionViewModel(subscription));
         }
     }
 }

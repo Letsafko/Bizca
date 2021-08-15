@@ -3,13 +3,13 @@
     /// <summary>
     ///     user password.
     /// </summary>
-    public sealed class PasswordViewModel
+    public sealed class UserPasswordViewModel
     {
         /// <summary>
-        ///     Create a new instance of <see cref="PasswordViewModel"/>
+        ///     Create a new instance of <see cref="UserPasswordViewModel"/>
         /// </summary>
         /// <param name="success"></param>
-        public PasswordViewModel(bool success)
+        public UserPasswordViewModel(bool success)
         {
             Success = success;
         }

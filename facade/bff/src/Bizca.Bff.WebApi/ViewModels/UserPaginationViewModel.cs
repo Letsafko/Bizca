@@ -1,23 +1,21 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUsers
+﻿namespace Bizca.Bff.WebApi.ViewModels
 {
     using Bizca.Bff.Application.UseCases.GetUsers;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Pagination;
     using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
-    ///     Get users by criteria response.
+    ///     User pagination view model.
     /// </summary>
-    internal sealed class GetUsersResponse
+    public sealed class UserPaginationViewModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="GetUsersResponse"/>
+        ///     Creates an instance of <see cref="UserPaginationViewModel"/>
         /// </summary>
         /// <param name="pagedUsers"></param>
-        public GetUsersResponse(GetPagedUsersDto pagedUsers)
+        public UserPaginationViewModel(GetPagedUsersDto pagedUsers)
         {
-            Relations = pagedUsers.Relations?.Select(x => new PagedLink(x.Url, x.Relation));
+            Relations = pagedUsers.Relations?.Select(x => new PaginationLinkViewModel(x.Url, x.Relation));
             Users = pagedUsers.Users.Select(x => new UserViewModel(x));
         }
 
@@ -29,6 +27,6 @@
         /// <summary>
         ///     Gets relations.
         /// </summary>
-        public IEnumerable<PagedLink> Relations { get; }
+        public IEnumerable<PaginationLinkViewModel> Relations { get; }
     }
 }

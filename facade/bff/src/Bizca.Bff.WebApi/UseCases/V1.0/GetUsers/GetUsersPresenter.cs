@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUsers
 {
     using Bizca.Bff.Application.UseCases.GetUsers;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -21,7 +22,7 @@
         {
             if(!(pagedUsers is null))
             {
-                ViewModel = new OkObjectResult(new GetUsersResponse(pagedUsers));
+                ViewModel = new OkObjectResult(new UserPaginationViewModel(pagedUsers));
             }
         }
     }
