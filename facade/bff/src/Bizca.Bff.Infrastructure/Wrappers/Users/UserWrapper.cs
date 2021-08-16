@@ -19,8 +19,8 @@
         {
         }
 
-        public async Task<UsersByCriteriaResponse> GetUsersByCriteriaAsync(string partnerCode, 
-            UsersByCriteriaRequest request, 
+        public async Task<UsersByCriteriaResponse> GetUsersByCriteriaAsync(string partnerCode,
+            UsersByCriteriaRequest request,
             IDictionary headers = null)
         {
             var queryString = GetQueryString(request);
@@ -28,9 +28,18 @@
                 $"{ApiVersion}/{partnerCode}/users{queryString}",
                 metadata: headers);
         }
-        
-        public async Task<RegisterUserConfirmationCodeResponse> RegisterChannelConfirmationCodeAsync(string externalUserId, 
-            RegisterUserConfirmationCodeRequest request, 
+
+        public async Task<UserResponse> GetUserDetailsAsync(string partnerCode,
+            string externalUserId,
+            IDictionary headers = null)
+        {
+            return await SendAsync<UserResponse>(HttpMethod.Get,
+                $"{ApiVersion}/{partnerCode}/users/{externalUserId}",
+                metadata: headers);
+        }
+
+        public async Task<RegisterUserConfirmationCodeResponse> RegisterChannelConfirmationCodeAsync(string externalUserId,
+            RegisterUserConfirmationCodeRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<RegisterUserConfirmationCodeResponse>(HttpMethod.Post,
@@ -39,8 +48,8 @@
                 headers);
         }
 
-        public async Task<UserConfirmationCodeResponse> ConfirmUserChannelCodeAsync(string externalUserId, 
-            UserConfirmationCodeRequest request, 
+        public async Task<UserConfirmationCodeResponse> ConfirmUserChannelCodeAsync(string externalUserId,
+            UserConfirmationCodeRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserConfirmationCodeResponse>(HttpMethod.Post,
@@ -49,8 +58,8 @@
                 headers);
         }
 
-        public async Task<UserUpdatedResponse> UpdateUserAsync(string externalUserId, 
-            UserToUpdateRequest request, 
+        public async Task<UserUpdatedResponse> UpdateUserAsync(string externalUserId,
+            UserToUpdateRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserUpdatedResponse>(HttpMethod.Put,
@@ -59,7 +68,7 @@
                 headers);
         }
 
-        public async Task<AuthenticateUserResponse> AutehticateUserAsync(AuthenticateUserRequest request, 
+        public async Task<AuthenticateUserResponse> AutehticateUserAsync(AuthenticateUserRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<AuthenticateUserResponse>(HttpMethod.Post,
@@ -68,7 +77,7 @@
                 headers);
         }
 
-        public async Task<UserPasswordResponse> CreateOrUpdateUserPasswordAsync(UserPasswordRequest request, 
+        public async Task<UserPasswordResponse> CreateOrUpdateUserPasswordAsync(UserPasswordRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserPasswordResponse>(HttpMethod.Post,
@@ -77,7 +86,7 @@
                headers);
         }
 
-        public async Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request, 
+        public async Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserCreatedResponse>(HttpMethod.Post,

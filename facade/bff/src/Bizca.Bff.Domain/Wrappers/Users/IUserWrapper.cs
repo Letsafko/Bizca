@@ -13,6 +13,7 @@
         Task<UserUpdatedResponse> UpdateUserAsync(string externalUserId, UserToUpdateRequest request, IDictionary headers = null);
         Task<UserPasswordResponse> CreateOrUpdateUserPasswordAsync(UserPasswordRequest request, IDictionary headers = null);
         Task<AuthenticateUserResponse> AutehticateUserAsync(AuthenticateUserRequest request, IDictionary headers = null);
+        Task<UserResponse> GetUserDetailsAsync(string partnerCode, string externalUserId, IDictionary headers = null);
         Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request, IDictionary headers = null);
     }
 }

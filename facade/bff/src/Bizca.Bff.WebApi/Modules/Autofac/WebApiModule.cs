@@ -6,6 +6,7 @@
     using Bizca.Bff.Application.UseCases.CreateSubscription;
     using Bizca.Bff.Application.UseCases.GetBundles;
     using Bizca.Bff.Application.UseCases.GetProcedures;
+    using Bizca.Bff.Application.UseCases.GetUserDetails;
     using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
@@ -20,6 +21,7 @@
     using Bizca.Bff.WebApi.UseCases.V10.CreateSubscription;
     using Bizca.Bff.WebApi.UseCases.V10.GetBundles;
     using Bizca.Bff.WebApi.UseCases.V10.GetProcedures;
+    using Bizca.Bff.WebApi.UseCases.V10.GetUserDetails;
     using Bizca.Bff.WebApi.UseCases.V10.GetUsers;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptions;
@@ -41,6 +43,9 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<GetUserDetailsPresenter>().InstancePerLifetimeScope();
+            builder.Register<IGetUserDetailsOutput>(x => x.Resolve<GetUserDetailsPresenter>()).InstancePerLifetimeScope();
+
             builder.RegisterType<ReInitializedPasswordPresenter>().InstancePerLifetimeScope();
             builder.Register<IReInitializedPasswordOutput>(x => x.Resolve<ReInitializedPasswordPresenter>()).InstancePerLifetimeScope();
 
