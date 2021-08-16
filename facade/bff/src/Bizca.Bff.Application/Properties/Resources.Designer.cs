@@ -61,6 +61,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à no-reply@bizca.fr.
+        /// </summary>
+        internal static string BIZCA_NO_REPLY_EMAIL {
+            get {
+                return ResourceManager.GetString("BIZCA_NO_REPLY_EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à bundle is invalid..
         /// </summary>
         internal static string BUNDLE_INVALID {
@@ -165,6 +174,24 @@ namespace Bizca.Bff.Application.Properties {
         internal static string EMAIL_REGEX {
             get {
                 return ResourceManager.GetString("EMAIL_REGEX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Réinitialiser votre mot de passe..
+        /// </summary>
+        internal static string EMAIL_REINIT_PASSWORD_SUBJECT {
+            get {
+                return ResourceManager.GetString("EMAIL_REINIT_PASSWORD_SUBJECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à email is required.
+        /// </summary>
+        internal static string EMAIL_REQUIRED {
+            get {
+                return ResourceManager.GetString("EMAIL_REQUIRED", resourceCulture);
             }
         }
         

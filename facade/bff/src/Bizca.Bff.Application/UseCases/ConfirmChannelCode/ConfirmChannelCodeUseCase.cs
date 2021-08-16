@@ -26,7 +26,7 @@
 
         public async Task<Unit> Handle(ConfirmChannelCodeCommand request, CancellationToken cancellationToken)
         {
-            User user = await userRepository.GetAsync(request.ExternalUserId);
+            User user = await userRepository.GetByExternalUserIdAsync(request.ExternalUserId);
             user.SetChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
             await userRepository.UpdateAsync(user);
 

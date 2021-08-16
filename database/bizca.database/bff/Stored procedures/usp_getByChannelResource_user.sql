@@ -1,20 +1,23 @@
-﻿create procedure [bff].[usp_get_user]
-	@externalUserId nvarchar(20) = null,
+﻿create procedure [bff].[usp_getByChannelResource_user]
 	@email nvarchar(50) = null,
 	@phone nvarchar(20) = null
 as
 begin
 	
 	declare @userId int;
-	if @externalUserId is not null
-		select @userId = userId from [bff].[user] where externalUserId = @externalUserId
-	else if @email is not null
-		select @userId = userId from [bff].[user] where email = @email
+	if @email is not null
+	begin
+		select @userId = userId from [bff].[user] 
+		where email = @email
+	end
 	else if @phone is not null
-		select @userId = userId from [bff].[user] where phoneNumber = @phone
+	begin
+		select @userId = userId from [bff].[user] 
+		where phoneNumber = @phone
+	end
 	else
 	begin
-		raiserror ('at least one of externalUserId or email or phoneNumber should be not null', 16, 1);
+		raiserror ('at least one of email or phone should be not null', 16, 1);
 		return;
 	end
 

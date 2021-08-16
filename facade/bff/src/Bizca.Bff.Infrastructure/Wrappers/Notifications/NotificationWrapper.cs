@@ -16,7 +16,7 @@
         }
 
         protected override string ApiVersion { get; } = "v3";
-        public async Task<TransactionalEmailResponse> SendConfirmationEmail(TransactionalEmailRequest request, IDictionary headers = null)
+        public async Task<TransactionalEmailResponse> SendEmail(TransactionalEmailRequest request, IDictionary headers = null)
         {
             return await SendAsync<TransactionalEmailResponse>(HttpMethod.Post,
                 $"{ApiVersion}/smtp/email",

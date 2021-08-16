@@ -3,7 +3,9 @@
     using System.Threading.Tasks;
     public interface IUserRepository
     {
-        Task<User> GetAsync(string externalUserId);
+        Task<User> GetByExternalUserIdAsync(string externalUserId);
+        Task<User> GetByPhoneNumberAsync(string phoneNumber);
+        Task<User> GetByEmailAsync(string email);
         Task<bool> UpdateAsync(User user);
         Task<bool> AddAsync(User user);
     }

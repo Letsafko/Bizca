@@ -28,38 +28,30 @@
         private const string createUserStoredProcedure = "[bff].[usp_create_user]";
         private const string updateUserStoredProcedure = "[bff].[usp_update_user]";
         private const string getUserStoredProcedure = "[bff].[usp_get_user]";
-        public async Task<User> GetAsync(string externalUserId)
+        public async Task<User> GetByExternalUserIdAsync(string externalUserId)
         {
             var parameters = new
             {
                 externalUserId
             };
-
-            SqlMapper.GridReader gridReader = await unitOfWork.Connection
-                    .QueryMultipleAsync(getUserStoredProcedure,
-                            parameters,
-                            unitOfWork.Transaction,
-                            commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false);
-
-            (dynamic user, IEnumerable<dynamic> dynamycSsubscriptions) = GetEntities(gridReader);
-            if (user is null)
-            {
-                return default;
-            }
-
-            UserProfile userProfile = GetUserProfile(user);
-            var userIdentifier = new UserIdentifier((int)user.userId, externalUserId);
-            IEnumerable<Subscription> subscriptions = BuildSubscriptions(dynamycSsubscriptions);
-            var userBuild = new User((int)user.userId, 
-                userIdentifier, 
-                userProfile,
-                (Role)user.roleId,
-                subscriptions?.ToList(), 
-                (byte[])user.rowversion);
-            return userBuild;
+            return await BuildUserAsync(parameters);
         }
-
+        public async Task<User> GetByPhoneNumberAsync(string phoneNumber)
+        {
+            var parameters = new
+            {
+                phone = phoneNumber
+            };
+            return await BuildUserAsync(parameters);
+        }
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            var parameters = new
+            {
+                email
+            };
+            return await BuildUserAsync(parameters);
+        }
         public async Task<bool> UpdateAsync(User user)
         {
             var parameters = new
@@ -110,6 +102,32 @@
 
         #region private helpers
 
+        private async Task<User> BuildUserAsync(object parameters)
+        {
+            SqlMapper.GridReader gridReader = await unitOfWork.Connection
+                    .QueryMultipleAsync(getUserStoredProcedure,
+                            parameters,
+                            unitOfWork.Transaction,
+                            commandType: CommandType.StoredProcedure)
+                    .ConfigureAwait(false);
+
+            (dynamic user, IEnumerable<dynamic> dynamycSsubscriptions) = GetEntities(gridReader);
+            if (user is null)
+            {
+                return default;
+            }
+
+            UserProfile userProfile = GetUserProfile(user);
+            var userIdentifier = new UserIdentifier((int)user.userId, user.externalUserId);
+            IEnumerable<Subscription> subscriptions = BuildSubscriptions(dynamycSsubscriptions);
+            var userBuild = new User((int)user.userId,
+                userIdentifier,
+                userProfile,
+                (Role)user.roleId,
+                subscriptions?.ToList(),
+                (byte[])user.rowversion);
+            return userBuild;
+        }
         private (dynamic user, IEnumerable<dynamic> subscriptions) GetEntities(SqlMapper.GridReader gridReader)
         {
             var result = new Dictionary<ResultName, IEnumerable<dynamic>>();

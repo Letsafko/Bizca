@@ -4,7 +4,6 @@ namespace Bizca.Bff.WebApi.ViewModels
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.Application.UseCases.UpdateUser;
-    using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Enumerations;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

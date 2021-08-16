@@ -13,7 +13,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     public sealed class User : Entity
     {
         public User(int id,
@@ -50,10 +49,28 @@
 
         #region aggregate helpers
 
+        #region events
         public void RegisterSendConfirmationEmailEvent(string externalUserId, string email, string fullName)
         {
-            userEvents.Add(new SendConfirmationEmalNotification(externalUserId, email, fullName));
+            userEvents.Add(new SendConfirmationEmailNotification(externalUserId, email, fullName));
         }
+        public void RegisterReInitPasswordEvent(string externalUserId, string email, string fullName)
+        {
+            userEvents.Add(new ReInitPasswordNotification(externalUserId,
+                email,
+                fullName));
+        }
+        public void RegisterUserCreatedEvent(UserCreatedNotification userCreated)
+        {
+            userEvents.Add(userCreated);
+        }
+        public void RegisterUserUpdatedEvent(UserUpdatedNotification userUpdated)
+        {
+            userEvents.Add(userUpdated);
+        }
+
+        #endregion
+
         public Subscription UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
@@ -96,14 +113,6 @@
             subscriptions.RemoveAll(x => x.CheckSum == subscription.CheckSum
                 && x.SubscriptionState.Status == SubscriptionStatus.Pending
                 && x.SubscriptionCode != subscription.SubscriptionCode);
-        }
-        public void RegisterUserCreatedEvent(UserCreatedNotification userCreated)
-        {
-            userEvents.Add(userCreated);
-        }
-        public void RegisterUserUpdatedEvent(UserUpdatedNotification userUpdated)
-        {
-            userEvents.Add(userUpdated);
         }
         public Subscription DesactivateSubscription(string subscriptionCode)
         {
