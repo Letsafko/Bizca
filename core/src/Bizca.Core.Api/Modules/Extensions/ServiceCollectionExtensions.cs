@@ -10,6 +10,7 @@ namespace Bizca.Core.Api.Modules.Extensions
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.AspNetCore.Mvc.Versioning;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -85,6 +86,7 @@ namespace Bizca.Core.Api.Modules.Extensions
                     });
                 }
 
+                x.OrderActionsBy(x => x.RelativePath.Length.ToString());
                 x.AddSwaggerStsSecurity(swaggerConfiguration.StsSecurity);
                 x.AddSwaggerSecurity(swaggerConfiguration.Security);
 
@@ -110,6 +112,16 @@ namespace Bizca.Core.Api.Modules.Extensions
                     string xmlPath = Path.Combine(AppContext.BaseDirectory, documentationPath);
                     x.IncludeXmlComments(xmlPath);
                 }
+
+                x.TagActionsBy(api =>
+                {
+                    return !string.IsNullOrWhiteSpace(api.GroupName)
+                        ? (new[] { api.GroupName })
+                        : api.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor
+                        ? (new[] { controllerActionDescriptor.ControllerName })
+                        : throw new InvalidOperationException("Unable to determine tag for endpoint.");
+                });
+
                 specificSetupAction?.Invoke(x);
             });
 

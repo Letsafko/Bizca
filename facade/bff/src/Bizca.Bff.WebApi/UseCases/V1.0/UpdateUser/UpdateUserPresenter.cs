@@ -3,8 +3,6 @@
     using Bizca.Bff.Application.UseCases.UpdateUser;
     using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-
     /// <summary>
     ///     Update user presenter.
     /// </summary>

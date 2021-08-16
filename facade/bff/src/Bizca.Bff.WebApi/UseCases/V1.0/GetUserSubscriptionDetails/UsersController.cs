@@ -16,6 +16,7 @@
     [ApiVersion("1.0")]
     [Route("api/v{version:api-version}/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Subscriptions")]
     public sealed class UsersController : ControllerBase
     {
         private readonly GetUserSubscriptionDetailsPresenter presenter;

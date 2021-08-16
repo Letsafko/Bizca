@@ -1,6 +1,5 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.SubscriptionActivation
 {
-    using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.SubscriptionActivation;
     using Bizca.Bff.WebApi.Properties;
     using Bizca.Bff.WebApi.ViewModels;
@@ -18,6 +17,7 @@
     [ApiVersion("1.0")]
     [Route("api/v{version:api-version}/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Subscriptions")]
     public sealed class UsersController : ControllerBase
     {
         private readonly SubscriptionActivationPresenter presenter;
@@ -47,11 +47,11 @@
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
         public async Task<IActionResult> ActivateOrDesacticateSubscriptionAsync([Required] string externalUserId,
-            [Required] string reference, 
+            [Required] string reference,
             [Required][FromBody] SubscriptionActivation activation)
         {
             var command = new SubscriptionActivationCommand(Resources.PartnerCode,
-                externalUserId, 
+                externalUserId,
                 reference,
                 activation.Freeze);
 

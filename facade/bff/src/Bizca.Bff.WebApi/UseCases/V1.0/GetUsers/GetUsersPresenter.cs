@@ -20,7 +20,7 @@
         /// <param name="pagedUsers"></param>
         public void Ok(GetPagedUsersDto pagedUsers)
         {
-            if(!(pagedUsers is null))
+            if (!(pagedUsers is null))
             {
                 ViewModel = new OkObjectResult(new UserPaginationViewModel(pagedUsers));
             }
