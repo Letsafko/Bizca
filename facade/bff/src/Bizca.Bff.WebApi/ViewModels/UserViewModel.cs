@@ -2,6 +2,7 @@ namespace Bizca.Bff.WebApi.ViewModels
 {
     using Bizca.Bff.Application.UseCases.AuthenticateUser;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
+    using Bizca.Bff.Application.UseCases.GetUserDetails;
     using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.Application.UseCases.UpdateUser;
     using Bizca.Bff.Domain.Enumerations;
@@ -14,6 +15,23 @@ namespace Bizca.Bff.WebApi.ViewModels
     /// </summary>
     public class UserViewModel
     {
+        /// <summary>
+        ///     Creates an instance of <see cref="UserViewModel"/>
+        /// </summary>
+        /// <param name="user"></param>
+        public UserViewModel(GetUserDetailsDto user)
+        {
+            ExternalUserId = user.ExternalUserId;
+            Civility = user.Civility.ToString();
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Role = user.Role;
+            Channels = user.Channels.Select(x => new ChannelViewModel(x.ChannelValue,
+                x.ChannelType,
+                x.Confirmed,
+                x.Active));
+        }
+
         /// <summary>
         ///     Creates an instance of <see cref="UserViewModel"/>
         /// </summary>

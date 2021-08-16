@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
 {
     using Bizca.Bff.Domain.Entities.User;
+    using Bizca.Bff.Domain.Entities.User.Exceptions;
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
@@ -35,6 +36,10 @@
             var request = new AuthenticateUserRequest(query.Password, query.Resource);
             AuthenticateUserResponse response = await userAgent.AutehticateUserAsync(request);
             var user = await userRepository.GetByExternalUserIdAsync(response.ExternalUserId);
+            if (user is null)
+            {
+                throw new UserDoesNotExistException($"user {response.ExternalUserId} does not exist.");
+            }
 
             AuthenticateUserDto authenticateUser = MapTo(user.Role, response);
             authenticateUserOutput.Ok(authenticateUser);

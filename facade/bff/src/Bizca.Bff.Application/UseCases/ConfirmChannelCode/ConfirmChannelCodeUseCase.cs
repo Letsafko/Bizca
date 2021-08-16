@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.ConfirmChannelCode
 {
     using Bizca.Bff.Domain.Entities.User;
+    using Bizca.Bff.Domain.Entities.User.Exceptions;
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
@@ -27,6 +28,11 @@
         public async Task<Unit> Handle(ConfirmChannelCodeCommand request, CancellationToken cancellationToken)
         {
             User user = await userRepository.GetByExternalUserIdAsync(request.ExternalUserId);
+            if (user is null)
+            {
+                throw new UserDoesNotExistException($"user {request.ExternalUserId} does not exist.");
+            }
+
             user.SetChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
             await userRepository.UpdateAsync(user);
 
