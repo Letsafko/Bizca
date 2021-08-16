@@ -6,6 +6,6 @@
     using System.Threading.Tasks;
     public interface INotificationWrapper
     {
-        Task<TransactionalEmailResponse> SendConfirmationEmail(TransactionalEmailRequest request, IDictionary headers = null);
+        Task<TransactionalEmailResponse> SendEmail(TransactionalEmailRequest request, IDictionary headers = null);
     }
 }

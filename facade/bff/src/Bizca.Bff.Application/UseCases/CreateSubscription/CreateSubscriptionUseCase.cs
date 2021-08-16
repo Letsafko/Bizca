@@ -28,7 +28,7 @@
 
         public async Task<Unit> Handle(CreateSubscriptionCommand command, CancellationToken cancellationToken)
         {
-            User user = await userRepository.GetAsync(command.ExternalUserId);
+            User user = await userRepository.GetByExternalUserIdAsync(command.ExternalUserId);
             if (user is null)
             {
                 throw new UserDoesNotExistException($"user {command.ExternalUserId} does not exist.");

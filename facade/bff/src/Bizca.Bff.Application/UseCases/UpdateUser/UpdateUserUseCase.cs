@@ -3,7 +3,6 @@
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.Exceptions;
-    using Bizca.Bff.Domain.Entities.User.Factories;
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
@@ -34,15 +33,15 @@
 
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            User user = await userRepository.GetAsync(request.ExternalUserId);
-            if(user is null)
+            User user = await userRepository.GetByExternalUserIdAsync(request.ExternalUserId);
+            if (user is null)
             {
                 throw new UserDoesNotExistException($"user {request.ExternalUserId} does not exist.");
             }
 
             user.RegisterUserUpdatedEvent(new UserUpdatedNotification(request.ExternalUserId));
-            var civility = !string.IsNullOrWhiteSpace(request.Civility) 
-                    ? Enum.Parse<Civility>(request.Civility) 
+            var civility = !string.IsNullOrWhiteSpace(request.Civility)
+                    ? Enum.Parse<Civility>(request.Civility)
                     : default(Civility?);
 
             user.UpdateUserProfile(civility,
@@ -54,8 +53,8 @@
 
             await userRepository.UpdateAsync(user);
             var userToUpdateRequest = GetUserRequest(request);
-            var response  = await userAgent.UpdateUserAsync(request.ExternalUserId, userToUpdateRequest);
-            
+            var response = await userAgent.UpdateUserAsync(request.ExternalUserId, userToUpdateRequest);
+
             eventService.Enqueue(user.UserEvents);
             var updateUserDto = MapTo(user.Role, response);
             updateUserOutput.Ok(updateUserDto);
@@ -67,7 +66,7 @@
         private UserToUpdateRequest GetUserRequest(UpdateUserCommand request)
         {
             return new UserToUpdateRequest(request.FirstName,
-            request.LastName, 
+            request.LastName,
             request.Civility,
             request.PhoneNumber,
             request.Whatsapp,

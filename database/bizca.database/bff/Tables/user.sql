@@ -35,6 +35,12 @@ go
 create unique index [ix_user_externalUserId] on [bff].[user] ([externalUserId])
 go
 
+create unique index [ix_user_phoneNumber] on [bff].[user] ([phoneNumber])
+go
+
+create unique index [ix_user_email] on [bff].[user] ([email])
+go
+
 create index [ix_user_civilityId] on [bff].[user] ([civilityId])
 go
 

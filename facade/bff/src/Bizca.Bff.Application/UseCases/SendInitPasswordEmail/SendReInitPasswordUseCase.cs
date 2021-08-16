@@ -1,12 +1,9 @@
-﻿namespace Bizca.Bff.Application.UseCases.SendConfirmationEmail
+﻿namespace Bizca.Bff.Application.UseCases.SendReInitPassword
 {
     using Bizca.Bff.Application.Properties;
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Wrappers.Notification;
     using Bizca.Bff.Domain.Wrappers.Notification.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
     using Bizca.Core.Application.Events;
     using System;
     using System.Collections.Generic;
@@ -14,44 +11,37 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class SendConfirmationEmailUseCase : IEventHandler<SendConfirmationEmailNotification>
+    public sealed class SendReInitPasswordUseCase : IEventHandler<ReInitPasswordNotification>
     {
         private readonly INotificationWrapper notificationAgent;
-        private readonly IUserWrapper userAgent;
-        public SendConfirmationEmailUseCase(IUserWrapper userAgent,
-            INotificationWrapper notificationAgent)
+        public SendReInitPasswordUseCase(INotificationWrapper notificationAgent)
         {
             this.notificationAgent = notificationAgent;
-            this.userAgent = userAgent;
         }
 
-        public async Task Handle(SendConfirmationEmailNotification notification, CancellationToken cancellationToken)
+        public async Task Handle(ReInitPasswordNotification notification, CancellationToken cancellationToken)
         {
-            var CodeConfirmationRequest = new RegisterUserConfirmationCodeRequest(notification.ChannelType);
-            RegisterUserConfirmationCodeResponse CodeConfirmationResponse = await userAgent.RegisterChannelConfirmationCodeAsync(notification.ExternalUserId,
-                CodeConfirmationRequest);
-
-            string htmlContent = GetHtmlContent(notification.ExternalUserId, CodeConfirmationResponse);
+            string htmlContent = GetHtmlContent(notification.ExternalUserId, notification.Email);
             var sender = new MailAddressRequest(notification.PartnerCode, Resources.BIZCA_NO_REPLY_EMAIL);
             var recipient = new MailAddressRequest(notification.FullName, notification.Email);
 
             var request = new TransactionalEmailRequest(sender: sender,
                 to: new List<MailAddressRequest> { recipient },
-                subject: Resources.EMAIL_CONFIRMATION_SUBJECT,
+                subject: Resources.EMAIL_REINIT_PASSWORD_SUBJECT,
                 htmlContent: htmlContent);
 
             await notificationAgent.SendEmail(request);
         }
 
-        private string GetHtmlContent(string externalUserId, RegisterUserConfirmationCodeResponse response)
+        private string GetHtmlContent(string externalUserId, string email)
         {
-            string concatStr = $"{response.Resource}:{externalUserId}:{response.ConfirmationCode}";
+            string concatStr = $"{email}:{externalUserId}";
             byte[] bytes = Encoding.UTF8.GetBytes(concatStr);
             string base64Str = Convert.ToBase64String(bytes);
             return $"<p><span style='color: #ffffff; font-weight: normal; vertical-align: middle; background-color: #0092ff; " +
                    $"border-radius: 15px; border: 0px None #000; padding: 8px 20px 8px 20px;'> <a style='text-decoration: none; " +
                    $"color: #ffffff; font-weight: normal;' target='_blank' rel='noreferrer'" +
-                   $"href='https://integ-bizca-front.azurewebsites.net/#/create-password/{base64Str}'>Confirmer votre adresse email</a></span></p>";
+                   $"href='https://integ-bizca-front.azurewebsites.net/#/init-password/{base64Str}'>Réinitialiser votre mot de passe</a></span></p>";
         }
     }
 }

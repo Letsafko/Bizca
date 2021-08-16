@@ -22,7 +22,7 @@
 
         public async Task<Unit> Handle(GetUserSubscriptionDetailsQuery request, CancellationToken cancellationToken)
         {
-            User user = await userRepository.GetAsync(request.ExternalUserId);
+            User user = await userRepository.GetByExternalUserIdAsync(request.ExternalUserId);
             if (user is null)
             {
                 throw new UserDoesNotExistException($"user {request.ExternalUserId} does not exist.");

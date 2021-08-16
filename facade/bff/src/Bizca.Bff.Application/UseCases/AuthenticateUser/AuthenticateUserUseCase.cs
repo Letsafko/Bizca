@@ -34,7 +34,7 @@
         {
             var request = new AuthenticateUserRequest(query.Password, query.Resource);
             AuthenticateUserResponse response = await userAgent.AutehticateUserAsync(request);
-            var user = await userRepository.GetAsync(response.ExternalUserId);
+            var user = await userRepository.GetByExternalUserIdAsync(response.ExternalUserId);
 
             AuthenticateUserDto authenticateUser = MapTo(user.Role, response);
             authenticateUserOutput.Ok(authenticateUser);
