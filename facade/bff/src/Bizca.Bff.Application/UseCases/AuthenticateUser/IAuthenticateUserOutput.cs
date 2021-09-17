@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
 {
-    public interface IAuthenticateUserOutput
+    using Bizca.Core.Domain;
+    public interface IAuthenticateUserOutput : IPublicErrorOutput
     {
         void Ok(AuthenticateUserDto userDto);
     }

@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
 {
-    public interface ICreateNewUserOutput
+    using Bizca.Core.Domain;
+    public interface ICreateNewUserOutput : IPublicErrorOutput
     {
         void Ok(CreateNewUserDto newUserDto);
     }

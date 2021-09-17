@@ -23,8 +23,13 @@
         {
             var request = GetRequest(query);
             var response = await userProfileWrapper.GetUsersByCriteriaAsync(query.PartnerCode, request);
+            if (!response.Success)
+            {
+                getUsersOutput.Invalid(response);
+                return Unit.Value;
+            }
 
-            var pagedUsers = MapTo(response);
+            var pagedUsers = MapTo(response.Data);
             getUsersOutput.Ok(pagedUsers);
             return Unit.Value;
         }

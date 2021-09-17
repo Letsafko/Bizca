@@ -3,6 +3,7 @@ namespace Bizca.Core.Api.Modules.Extensions
     using Bizca.Core.Api.Modules.Configuration;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Api.Modules.Filters;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Bizca.Core.Api.Modules.Telemetry;
     using Bizca.Core.Domain.Cache;
     using Bizca.Core.Infrastructure.Cache;
@@ -58,7 +59,10 @@ namespace Bizca.Core.Api.Modules.Extensions
                 services.AddSwagger(configuration.GetSwaggerConfiguration(), opt => opt.DocumentFilter<MarkdownFileResolverFilter>());
             }
 
-            return services.AddCache();
+            return
+                services
+                    .AddCache()
+                    .AddHttpStrategies();
         }
 
         #region private helpers
@@ -201,6 +205,15 @@ namespace Bizca.Core.Api.Modules.Extensions
                 services
                     .AddMemoryCache()
                     .AddSingleton<ICacheProvider, MemoryCacheProvider>();
+        }
+        private static IServiceCollection AddHttpStrategies(this IServiceCollection services)
+        {
+            return
+                services
+                    .AddSingleton<IHttpStrategy, InternalServerErrorStrategy>()
+                    .AddSingleton<IHttpStrategy, BadRequestStrategy>()
+                    .AddSingleton<IHttpStrategy, NotFoundStrategy>()
+                    .AddSingleton<IHttpStrategyFactory, HttpStrategyFactory>();
         }
 
         #endregion

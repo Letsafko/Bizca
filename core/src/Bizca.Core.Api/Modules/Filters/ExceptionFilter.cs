@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Core.Api.Modules.Filters
 {
     using Bizca.Core.Api.Modules.Extensions;
+    using Bizca.Core.Domain;
     using Bizca.Core.Domain.Exceptions;
     using FluentValidation;
     using Microsoft.AspNetCore.Http;
@@ -67,11 +68,11 @@
                 modelStateError = (exception as ResourceNotFoundException).Errors.FirstOrDefault()?.ErrorMessage;
             }
 
-            var error = !environment.IsDevEnvironment() ? modelStateError : JsonConvert.SerializeObject(exception);
-            var modelState = new ModelStateResponse(statusCode, error);
+            var errorMessage = !environment.IsDevEnvironment() ? modelStateError : JsonConvert.SerializeObject(exception);
+            var modelState = new PublicResponse<object>(errorMessage, statusCode);
             return new ObjectResult(modelState)
             {
-                StatusCode = modelState.ErrorCode
+                StatusCode = modelState.StatusCode
             };
         }
         private bool IsAssignableFrom<T>(object obj) where T : class

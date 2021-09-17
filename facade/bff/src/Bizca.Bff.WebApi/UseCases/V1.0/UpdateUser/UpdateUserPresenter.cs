@@ -2,16 +2,21 @@
 {
     using Bizca.Bff.Application.UseCases.UpdateUser;
     using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
     /// <summary>
     ///     Update user presenter.
     /// </summary>
-    public sealed class UpdateUserPresenter : IUpdateUserOutput
+    public sealed class UpdateUserPresenter : PresenterBase, IUpdateUserOutput
     {
         /// <summary>
-        ///     Updates an user view model.
+        ///     Creates an instance of <see cref="UpdateUserPresenter"/>
         /// </summary>
-        public IActionResult ViewModel { get; private set; } = new NoContentResult();
+        /// <param name="strategyFactory"></param>
+        public UpdateUserPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)
+        {
+        }
 
         /// <summary>
         ///     Standard output.

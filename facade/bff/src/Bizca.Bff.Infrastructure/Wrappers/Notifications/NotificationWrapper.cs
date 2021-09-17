@@ -3,6 +3,7 @@
     using Bizca.Bff.Domain.Wrappers.Notification;
     using Bizca.Bff.Domain.Wrappers.Notification.Requests;
     using Bizca.Bff.Domain.Wrappers.Notification.Responses;
+    using Bizca.Core.Domain;
     using Microsoft.Extensions.Logging;
     using System.Collections;
     using System.Net.Http;
@@ -16,7 +17,7 @@
         }
 
         protected override string ApiVersion { get; } = "v3";
-        public async Task<TransactionalEmailResponse> SendEmail(TransactionalEmailRequest request, IDictionary headers = null)
+        public async Task<IPublicResponse<TransactionalEmailResponse>> SendEmail(TransactionalEmailRequest request, IDictionary headers = null)
         {
             return await SendAsync<TransactionalEmailResponse>(HttpMethod.Post,
                 $"{ApiVersion}/smtp/email",

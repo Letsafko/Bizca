@@ -9,6 +9,7 @@
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
     using Bizca.Core.Application.Commands;
     using Bizca.Core.Application.Services;
+    using Bizca.Core.Domain;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -41,8 +42,14 @@
             user.RegisterUserCreatedEvent(new UserCreatedNotification(request.ExternalUserId));
 
             UserToCreateRequest userToCreateRequest = MapTo(user);
-            UserCreatedResponse response = await userProfileAgent.CreateUserAsync(userToCreateRequest);
-            CreateNewUserDto newUserDto = MapTo(request.Role, response);
+            IPublicResponse<UserCreatedResponse> response = await userProfileAgent.CreateUserAsync(userToCreateRequest);
+            if (!response.Success)
+            {
+                createUserOutput.Invalid(response);
+                return Unit.Value;
+            }
+
+            CreateNewUserDto newUserDto = MapTo(request.Role, response.Data);
 
             eventService.Enqueue(user.UserEvents);
             createUserOutput.Ok(newUserDto);

@@ -23,9 +23,14 @@
                 command.Password,
                 command.ChannelResource);
 
-            var ressult = await userPasswordAgent.CreateOrUpdateUserPasswordAsync(userPassword);
+            var response = await userPasswordAgent.CreateOrUpdateUserPasswordAsync(userPassword);
+            if (!response.Success)
+            {
+                passwordOutput.Invalid(response);
+                return Unit.Value;
+            }
 
-            passwordOutput.Ok(new UpsertPasswordDto(ressult.Success));
+            passwordOutput.Ok(new UpsertPasswordDto(response.Data.Success));
             return Unit.Value;
         }
     }

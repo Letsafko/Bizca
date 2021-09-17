@@ -3,9 +3,9 @@
     using Bizca.Bff.Application.UseCases.GetUserDetails;
     using Bizca.Bff.WebApi.Properties;
     using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
+    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -41,7 +41,7 @@
         /// <remarks>/Assets/getUserDetails.md</remarks>
         [HttpGet("{externalUserId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ModelStateResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
         public async Task<IActionResult> GetUserDetailsAsync([Required] string externalUserId)
         {

@@ -7,6 +7,7 @@
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
     using Bizca.Core.Application.Queries;
+    using Bizca.Core.Domain;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -34,14 +35,21 @@
         public async Task<Unit> Handle(AuthenticateUserQuery query, CancellationToken cancellationToken)
         {
             var request = new AuthenticateUserRequest(query.Password, query.Resource);
-            AuthenticateUserResponse response = await userAuthenticationAgent.AuthenticateUserAsync(request);
-            var user = await userRepository.GetByExternalUserIdAsync(response.ExternalUserId);
-            if (user is null)
+            IPublicResponse<AuthenticateUserResponse> response = await userAuthenticationAgent.AuthenticateUserAsync(request);
+            if (!response.Success)
             {
-                throw new UserDoesNotExistException($"user {response.ExternalUserId} does not exist.");
+                authenticateUserOutput.Invalid(response);
+                return Unit.Value;
             }
 
-            AuthenticateUserDto authenticateUser = MapTo(user.Role, response);
+
+            var user = await userRepository.GetByExternalUserIdAsync(response.Data.ExternalUserId);
+            if (user is null)
+            {
+                throw new UserDoesNotExistException($"user {response.Data.ExternalUserId} does not exist.");
+            }
+
+            AuthenticateUserDto authenticateUser = MapTo(user.Role, response.Data);
             authenticateUserOutput.Ok(authenticateUser);
             return Unit.Value;
         }

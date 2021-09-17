@@ -3,9 +3,9 @@
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.WebApi.Properties;
     using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
+    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -40,7 +40,7 @@
         /// <remarks>/Assets/createUser.md</remarks>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
         public async Task<IActionResult> CreateUserAsync([Required][FromBody] CreateUser user)
         {

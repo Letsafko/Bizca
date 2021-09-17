@@ -3,6 +3,7 @@
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
+    using Bizca.Core.Domain;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
@@ -19,7 +20,7 @@
         {
         }
 
-        public async Task<UsersByCriteriaResponse> GetUsersByCriteriaAsync(string partnerCode,
+        public async Task<IPublicResponse<UsersByCriteriaResponse>> GetUsersByCriteriaAsync(string partnerCode,
             UsersByCriteriaRequest request,
             IDictionary headers = null)
         {
@@ -29,7 +30,7 @@
                 metadata: headers);
         }
 
-        public async Task<UserResponse> GetUserDetailsAsync(string partnerCode,
+        public async Task<IPublicResponse<UserResponse>> GetUserDetailsAsync(string partnerCode,
             string externalUserId,
             IDictionary headers = null)
         {
@@ -38,7 +39,7 @@
                 metadata: headers);
         }
 
-        public async Task<RegisterUserConfirmationCodeResponse> RegisterChannelConfirmationCodeAsync(string externalUserId,
+        public async Task<IPublicResponse<RegisterUserConfirmationCodeResponse>> RegisterChannelConfirmationCodeAsync(string externalUserId,
             RegisterUserConfirmationCodeRequest request,
             IDictionary headers = null)
         {
@@ -48,7 +49,7 @@
                 headers);
         }
 
-        public async Task<UserConfirmationCodeResponse> ConfirmUserChannelCodeAsync(string externalUserId,
+        public async Task<IPublicResponse<UserConfirmationCodeResponse>> ConfirmUserChannelCodeAsync(string externalUserId,
             UserConfirmationCodeRequest request,
             IDictionary headers = null)
         {
@@ -58,7 +59,7 @@
                 headers);
         }
 
-        public async Task<UserUpdatedResponse> UpdateUserAsync(string externalUserId,
+        public async Task<IPublicResponse<UserUpdatedResponse>> UpdateUserAsync(string externalUserId,
             UserToUpdateRequest request,
             IDictionary headers = null)
         {
@@ -68,7 +69,7 @@
                 headers);
         }
 
-        public async Task<AuthenticateUserResponse> AuthenticateUserAsync(AuthenticateUserRequest request,
+        public async Task<IPublicResponse<AuthenticateUserResponse>> AuthenticateUserAsync(AuthenticateUserRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<AuthenticateUserResponse>(HttpMethod.Post,
@@ -77,7 +78,7 @@
                 headers);
         }
 
-        public async Task<UserPasswordResponse> CreateOrUpdateUserPasswordAsync(UserPasswordRequest request,
+        public async Task<IPublicResponse<UserPasswordResponse>> CreateOrUpdateUserPasswordAsync(UserPasswordRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserPasswordResponse>(HttpMethod.Post,
@@ -86,7 +87,7 @@
                headers);
         }
 
-        public async Task<UserCreatedResponse> CreateUserAsync(UserToCreateRequest request,
+        public async Task<IPublicResponse<UserCreatedResponse>> CreateUserAsync(UserToCreateRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserCreatedResponse>(HttpMethod.Post,

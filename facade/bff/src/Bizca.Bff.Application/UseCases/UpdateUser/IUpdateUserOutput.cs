@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpdateUser
 {
-    public interface IUpdateUserOutput
+    using Bizca.Core.Domain;
+    public interface IUpdateUserOutput : IPublicErrorOutput
     {
         void Ok(UpdateUserDto user);
     }

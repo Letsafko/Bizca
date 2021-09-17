@@ -2,17 +2,22 @@
 {
     using Bizca.Bff.Application.UseCases.AuthenticateUser;
     using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     ///     Authenticate user presenter
     /// </summary>
-    public sealed class AuthenticateUserPresenter : IAuthenticateUserOutput
+    public sealed class AuthenticateUserPresenter : PresenterBase, IAuthenticateUserOutput
     {
         /// <summary>
-        ///     Authenticate user view model.
+        ///     Creates an instance of <see cref="AuthenticateUserPresenter"/>
         /// </summary>
-        public IActionResult ViewModel { get; private set; } = new NoContentResult();
+        /// <param name="strategyFactory"></param>
+        public AuthenticateUserPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)
+        {
+        }
 
         /// <summary>
         ///     Standard output.
