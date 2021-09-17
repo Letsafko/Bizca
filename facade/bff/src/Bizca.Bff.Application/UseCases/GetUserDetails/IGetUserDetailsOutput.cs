@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUserDetails
 {
-    public interface IGetUserDetailsOutput
+    using Bizca.Core.Domain;
+    public interface IGetUserDetailsOutput : IPublicErrorOutput
     {
         void Ok(GetUserDetailsDto detailsDto);
     }

@@ -2,17 +2,22 @@
 {
     using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     ///     Get users by criteria presenter.
     /// </summary>
-    public sealed class GetUsersPresenter : IGetUsersOutput
+    public sealed class GetUsersPresenter : PresenterBase, IGetUsersOutput
     {
         /// <summary>
-        ///     Get users by criteria view model.
+        ///     Creates an instance of <see cref="GetUsersPresenter"/>
         /// </summary>
-        public IActionResult ViewModel { get; private set; } = new NoContentResult();
+        /// <param name="strategyFactory"></param>
+        public GetUsersPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)
+        {
+        }
 
         /// <summary>
         ///     Standard output.

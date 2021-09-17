@@ -2,17 +2,22 @@
 {
     using Bizca.Bff.Application.UseCases.UpsertPassword;
     using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     ///     Register or update user password presenter.
     /// </summary>
-    public sealed class UpsertPasswordPresenter : IUpsertPasswordOutput
+    public sealed class UpsertPasswordPresenter : PresenterBase, IUpsertPasswordOutput
     {
         /// <summary>
-        ///     Create user password view model.
+        ///     Creates an instance of <see cref="UpsertPasswordPresenter"/>
         /// </summary>
-        public IActionResult ViewModel { get; private set; } = new NoContentResult();
+        /// <param name="strategyFactory"></param>
+        public UpsertPasswordPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)
+        {
+        }
 
         /// <summary>
         ///     Standard output.

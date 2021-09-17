@@ -2,17 +2,22 @@
 {
     using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
     using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     ///     Confirmation channel code presenter.
     /// </summary>
-    public sealed class ConfirmChannelCodePresenter : IConfirmChannelCodeOutput
+    public sealed class ConfirmChannelCodePresenter : PresenterBase, IConfirmChannelCodeOutput
     {
         /// <summary>
-        ///     Create new user view model.
+        ///     Creates an instance of <see cref="ConfirmChannelCodePresenter"/>
         /// </summary>
-        public IActionResult ViewModel { get; private set; } = new NoContentResult();
+        /// <param name="strategyFactory"></param>
+        public ConfirmChannelCodePresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)
+        {
+        }
 
         /// <summary>
         ///     Standard output.

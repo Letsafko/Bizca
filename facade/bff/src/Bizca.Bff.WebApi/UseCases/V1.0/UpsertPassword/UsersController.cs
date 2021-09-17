@@ -3,9 +3,9 @@
     using Bizca.Bff.Application.UseCases.UpsertPassword;
     using Bizca.Bff.WebApi.Properties;
     using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
+    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -41,13 +41,13 @@
         /// <remarks>/Assets/upsertPassword.md</remarks>
         [HttpPatch("password")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPasswordViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ModelStateResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ModelStateResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Patch))]
         public async Task<IActionResult> UpsertPassword([Required][FromBody] UpsertPassword password)
         {
-            var command = new UpsertPasswordCommand(Resources.PartnerCode, 
-                password.Resource, 
+            var command = new UpsertPasswordCommand(Resources.PartnerCode,
+                password.Resource,
                 password.Password);
 
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);

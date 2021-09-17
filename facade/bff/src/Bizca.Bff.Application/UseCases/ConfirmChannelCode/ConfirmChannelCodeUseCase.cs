@@ -7,21 +7,22 @@
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
     using Bizca.Core.Application.Commands;
+    using Bizca.Core.Domain;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
 
     public sealed class ConfirmChannelCodeUseCase : ICommandHandler<ConfirmChannelCodeCommand>
     {
+        private readonly IUserChannelWrapper userChanelAgent;
         private readonly IConfirmChannelCodeOutput output;
         private readonly IUserRepository userRepository;
-        private readonly IUserWrapper userAgent;
         public ConfirmChannelCodeUseCase(IUserRepository userRepository,
             IConfirmChannelCodeOutput output,
             IUserWrapper userAgent)
         {
             this.userRepository = userRepository;
-            this.userAgent = userAgent;
+            this.userChanelAgent = userAgent;
             this.output = output;
         }
 
@@ -37,8 +38,14 @@
             await userRepository.UpdateAsync(user);
 
             var confirmationCodeRequest = new UserConfirmationCodeRequest(request.ConfirmationCode, request.ChannelType);
-            UserConfirmationCodeResponse response = await userAgent.ConfirmUserChannelCodeAsync(request.ExternalUserId, confirmationCodeRequest);
-            output.Ok(response.ResourceId, response.Resource, response.Confirmed);
+            IPublicResponse<UserConfirmationCodeResponse> response = await userChanelAgent.ConfirmUserChannelCodeAsync(request.ExternalUserId, confirmationCodeRequest);
+            if (!response.Success)
+            {
+                output.Invalid(response);
+                return Unit.Value;
+            }
+
+            output.Ok(response.Data.ResourceId, response.Data.Resource, response.Data.Confirmed);
             return Unit.Value;
         }
     }

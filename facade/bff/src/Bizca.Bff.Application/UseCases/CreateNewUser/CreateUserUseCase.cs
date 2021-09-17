@@ -9,6 +9,7 @@
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
     using Bizca.Core.Application.Commands;
     using Bizca.Core.Application.Services;
+    using Bizca.Core.Domain;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,10 +17,10 @@
     public sealed class CreateUserUseCase : ICommandHandler<CreateUserCommand>
     {
         private readonly ICreateNewUserOutput createUserOutput;
+        private readonly IUserProfileWrapper userProfileAgent;
         private readonly IUserRepository userRepository;
         private readonly IEventService eventService;
         private readonly IUserFactory userFactory;
-        private readonly IUserWrapper userAgent;
         public CreateUserUseCase(IUserFactory userFactory,
             ICreateNewUserOutput createUserOutput,
             IUserRepository userRepository,
@@ -28,9 +29,9 @@
         {
             this.createUserOutput = createUserOutput;
             this.userRepository = userRepository;
+            this.userProfileAgent = userAgent;
             this.eventService = eventService;
             this.userFactory = userFactory;
-            this.userAgent = userAgent;
         }
 
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -41,8 +42,14 @@
             user.RegisterUserCreatedEvent(new UserCreatedNotification(request.ExternalUserId));
 
             UserToCreateRequest userToCreateRequest = MapTo(user);
-            UserCreatedResponse response = await userAgent.CreateUserAsync(userToCreateRequest);
-            CreateNewUserDto newUserDto = MapTo(request.Role, response);
+            IPublicResponse<UserCreatedResponse> response = await userProfileAgent.CreateUserAsync(userToCreateRequest);
+            if (!response.Success)
+            {
+                createUserOutput.Invalid(response);
+                return Unit.Value;
+            }
+
+            CreateNewUserDto newUserDto = MapTo(request.Role, response.Data);
 
             eventService.Enqueue(user.UserEvents);
             createUserOutput.Ok(newUserDto);

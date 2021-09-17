@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUsers
 {
-    public interface IGetUsersOutput
+    using Bizca.Core.Domain;
+    public interface IGetUsersOutput : IPublicErrorOutput
     {
         void Ok(GetPagedUsersDto pagedUsers);
     }

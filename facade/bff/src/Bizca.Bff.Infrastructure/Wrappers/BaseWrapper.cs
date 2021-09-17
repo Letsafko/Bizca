@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Bff.Infrastructure.Wrappers
 {
+    using Bizca.Core.Domain;
     using Bizca.Core.Infrastructure;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
@@ -21,7 +22,7 @@
         }
 
         protected virtual string ApiVersion { get; } = "api/v1.0";
-        internal async Task<T> SendAsync<T>(HttpMethod httpMethod, string requestUrl, object content = null, IDictionary metadata = null)
+        internal async Task<IPublicResponse<T>> SendAsync<T>(HttpMethod httpMethod, string requestUrl, object content = null, IDictionary metadata = null)
         {
             if (string.IsNullOrWhiteSpace(requestUrl))
                 throw new ArgumentNullException(nameof(requestUrl));
@@ -31,6 +32,7 @@
                 request.AddHeaders(metadata);
                 if (httpMethod == HttpMethod.Post || httpMethod == HttpMethod.Patch || httpMethod == HttpMethod.Put)
                 {
+
                     if (content != null)
                     {
                         request.Content = content.GetHttpContent();
@@ -41,16 +43,35 @@
 
                 using (HttpResponseMessage response = await httpClient.SendAsync(request).ConfigureAwait(false))
                 {
-                    response.EnsureSuccessStatusCode();
-                    if (response.Content != null)
-                    {
-                        string responseLog = await response.Content.ReadAsStringAsync();
-                        logger.LogDebug($"[Response]= {responseLog}");
-                        return JsonConvert.DeserializeObject<T>(responseLog);
-                    }
-                    return default;
+                    return GetResponseAndLog<T>(response);
                 }
             }
         }
+
+        #region private helpers
+
+        private IPublicResponse<T> GetResponseAndLog<T>(HttpResponseMessage httpResponseMessage)
+        {
+            string result = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                return new PublicResponse<T>(result, (int)httpResponseMessage.StatusCode);
+            }
+
+            logger.LogDebug($"[Response]= {result}");
+            return new PublicResponse<T>(null, (int)httpResponseMessage.StatusCode)
+            {
+                Data = JsonConvert.DeserializeObject<T>(result)
+            };
+        }
+        public class ErrorResponse : IPublicResponse
+        {
+            public bool Success { get; set; }
+            public object Message { get; set; }
+            public int? ErrorCode { get; set; }
+            public int StatusCode { get; set; }
+        }
+
+        #endregion
     }
 }

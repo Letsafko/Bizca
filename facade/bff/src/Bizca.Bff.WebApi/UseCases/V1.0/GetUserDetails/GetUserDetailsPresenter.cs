@@ -2,17 +2,22 @@
 {
     using Bizca.Bff.Application.UseCases.GetUserDetails;
     using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     ///     Get user details preseneter.
     /// </summary>
-    public sealed class GetUserDetailsPresenter : IGetUserDetailsOutput
+    public sealed class GetUserDetailsPresenter : PresenterBase, IGetUserDetailsOutput
     {
         /// <summary>
-        ///     User details view model.
+        ///     Creates an instance of <see cref="GetUserDetailsPresenter"/>
         /// </summary>
-        public IActionResult ViewModel { get; private set; } = new NoContentResult();
+        /// <param name="strategyFactory"></param>
+        public GetUserDetailsPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)
+        {
+        }
 
         /// <summary>
         ///     Standard output.

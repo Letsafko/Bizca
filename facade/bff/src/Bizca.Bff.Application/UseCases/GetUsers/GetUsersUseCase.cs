@@ -10,21 +10,26 @@
     using System.Threading.Tasks;
     public sealed class GetUsersUseCase : IQueryHandler<GetUsersQuery>
     {
+        private readonly IUserProfileWrapper userProfileWrapper;
         private readonly IGetUsersOutput getUsersOutput;
-        private readonly IUserWrapper userWrapper;
         public GetUsersUseCase(IUserWrapper userWrapper,
             IGetUsersOutput getUsersOutput)
         {
+            this.userProfileWrapper = userWrapper;
             this.getUsersOutput = getUsersOutput;
-            this.userWrapper = userWrapper;
         }
 
         public async Task<Unit> Handle(GetUsersQuery query, CancellationToken cancellationToken)
         {
             var request = GetRequest(query);
-            var response = await userWrapper.GetUsersByCriteriaAsync(query.PartnerCode, request);
+            var response = await userProfileWrapper.GetUsersByCriteriaAsync(query.PartnerCode, request);
+            if (!response.Success)
+            {
+                getUsersOutput.Invalid(response);
+                return Unit.Value;
+            }
 
-            var pagedUsers = MapTo(response);
+            var pagedUsers = MapTo(response.Data);
             getUsersOutput.Ok(pagedUsers);
             return Unit.Value;
         }

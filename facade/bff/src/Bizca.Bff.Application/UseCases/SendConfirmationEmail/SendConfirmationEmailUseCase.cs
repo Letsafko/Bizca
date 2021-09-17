@@ -8,6 +8,7 @@
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
     using Bizca.Bff.Domain.Wrappers.Users.Responses;
     using Bizca.Core.Application.Events;
+    using Bizca.Core.Domain;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -17,21 +18,21 @@
     public sealed class SendConfirmationEmailUseCase : IEventHandler<SendConfirmationEmailNotification>
     {
         private readonly INotificationWrapper notificationAgent;
-        private readonly IUserWrapper userAgent;
+        private readonly IUserChannelWrapper userChannelAgent;
         public SendConfirmationEmailUseCase(IUserWrapper userAgent,
             INotificationWrapper notificationAgent)
         {
             this.notificationAgent = notificationAgent;
-            this.userAgent = userAgent;
+            this.userChannelAgent = userAgent;
         }
 
         public async Task Handle(SendConfirmationEmailNotification notification, CancellationToken cancellationToken)
         {
             var CodeConfirmationRequest = new RegisterUserConfirmationCodeRequest(notification.ChannelType);
-            RegisterUserConfirmationCodeResponse CodeConfirmationResponse = await userAgent.RegisterChannelConfirmationCodeAsync(notification.ExternalUserId,
+            IPublicResponse<RegisterUserConfirmationCodeResponse> CodeConfirmationResponse = await userChannelAgent.RegisterChannelConfirmationCodeAsync(notification.ExternalUserId,
                 CodeConfirmationRequest);
 
-            string htmlContent = GetHtmlContent(notification.ExternalUserId, CodeConfirmationResponse);
+            string htmlContent = GetHtmlContent(notification.ExternalUserId, CodeConfirmationResponse.Data);
             var sender = new MailAddressRequest(notification.PartnerCode, Resources.BIZCA_NO_REPLY_EMAIL);
             var recipient = new MailAddressRequest(notification.FullName, notification.Email);
 
