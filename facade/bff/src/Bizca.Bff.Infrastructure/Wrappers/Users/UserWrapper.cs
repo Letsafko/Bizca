@@ -68,7 +68,7 @@
                 headers);
         }
 
-        public async Task<AuthenticateUserResponse> AutehticateUserAsync(AuthenticateUserRequest request,
+        public async Task<AuthenticateUserResponse> AuthenticateUserAsync(AuthenticateUserRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<AuthenticateUserResponse>(HttpMethod.Post,

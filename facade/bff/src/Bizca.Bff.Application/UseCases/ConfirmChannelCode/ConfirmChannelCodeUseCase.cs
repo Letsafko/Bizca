@@ -13,15 +13,15 @@
 
     public sealed class ConfirmChannelCodeUseCase : ICommandHandler<ConfirmChannelCodeCommand>
     {
+        private readonly IUserChannelWrapper userChanelAgent;
         private readonly IConfirmChannelCodeOutput output;
         private readonly IUserRepository userRepository;
-        private readonly IUserWrapper userAgent;
         public ConfirmChannelCodeUseCase(IUserRepository userRepository,
             IConfirmChannelCodeOutput output,
             IUserWrapper userAgent)
         {
             this.userRepository = userRepository;
-            this.userAgent = userAgent;
+            this.userChanelAgent = userAgent;
             this.output = output;
         }
 
@@ -37,7 +37,7 @@
             await userRepository.UpdateAsync(user);
 
             var confirmationCodeRequest = new UserConfirmationCodeRequest(request.ConfirmationCode, request.ChannelType);
-            UserConfirmationCodeResponse response = await userAgent.ConfirmUserChannelCodeAsync(request.ExternalUserId, confirmationCodeRequest);
+            UserConfirmationCodeResponse response = await userChanelAgent.ConfirmUserChannelCodeAsync(request.ExternalUserId, confirmationCodeRequest);
             output.Ok(response.ResourceId, response.Resource, response.Confirmed);
             return Unit.Value;
         }

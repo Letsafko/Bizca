@@ -16,10 +16,10 @@
 
     public sealed class UpdateUserUseCase : ICommandHandler<UpdateUserCommand>
     {
+        private readonly IUserProfileWrapper userProfileAgent;
         private readonly IUpdateUserOutput updateUserOutput;
         private readonly IUserRepository userRepository;
         private readonly IEventService eventService;
-        private readonly IUserWrapper userAgent;
         public UpdateUserUseCase(IUpdateUserOutput updateUserOutput,
             IUserRepository userRepository,
             IEventService eventService,
@@ -28,7 +28,7 @@
             this.updateUserOutput = updateUserOutput;
             this.userRepository = userRepository;
             this.eventService = eventService;
-            this.userAgent = userAgent;
+            this.userProfileAgent = userAgent;
         }
 
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -53,7 +53,7 @@
 
             await userRepository.UpdateAsync(user);
             var userToUpdateRequest = GetUserRequest(request);
-            var response = await userAgent.UpdateUserAsync(request.ExternalUserId, userToUpdateRequest);
+            var response = await userProfileAgent.UpdateUserAsync(request.ExternalUserId, userToUpdateRequest);
 
             eventService.Enqueue(user.UserEvents);
             var updateUserDto = MapTo(user.Role, response);

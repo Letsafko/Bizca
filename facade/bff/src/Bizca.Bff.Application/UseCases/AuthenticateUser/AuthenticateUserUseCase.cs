@@ -13,16 +13,16 @@
 
     public sealed class AuthenticateUserUseCase : IQueryHandler<AuthenticateUserQuery>
     {
+        private readonly IUserAuthenticationWrapper userAuthenticationAgent;
         private readonly IAuthenticateUserOutput authenticateUserOutput;
         private readonly IUserRepository userRepository;
-        private readonly IUserWrapper userAgent;
         public AuthenticateUserUseCase(IUserWrapper userAgent,
             IUserRepository userRepository,
             IAuthenticateUserOutput authenticateUserOutput)
         {
             this.authenticateUserOutput = authenticateUserOutput;
             this.userRepository = userRepository;
-            this.userAgent = userAgent;
+            this.userAuthenticationAgent = userAgent;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
         public async Task<Unit> Handle(AuthenticateUserQuery query, CancellationToken cancellationToken)
         {
             var request = new AuthenticateUserRequest(query.Password, query.Resource);
-            AuthenticateUserResponse response = await userAgent.AutehticateUserAsync(request);
+            AuthenticateUserResponse response = await userAuthenticationAgent.AuthenticateUserAsync(request);
             var user = await userRepository.GetByExternalUserIdAsync(response.ExternalUserId);
             if (user is null)
             {

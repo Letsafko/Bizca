@@ -16,10 +16,10 @@
     public sealed class CreateUserUseCase : ICommandHandler<CreateUserCommand>
     {
         private readonly ICreateNewUserOutput createUserOutput;
+        private readonly IUserProfileWrapper userProfileAgent;
         private readonly IUserRepository userRepository;
         private readonly IEventService eventService;
         private readonly IUserFactory userFactory;
-        private readonly IUserWrapper userAgent;
         public CreateUserUseCase(IUserFactory userFactory,
             ICreateNewUserOutput createUserOutput,
             IUserRepository userRepository,
@@ -28,9 +28,9 @@
         {
             this.createUserOutput = createUserOutput;
             this.userRepository = userRepository;
+            this.userProfileAgent = userAgent;
             this.eventService = eventService;
             this.userFactory = userFactory;
-            this.userAgent = userAgent;
         }
 
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@
             user.RegisterUserCreatedEvent(new UserCreatedNotification(request.ExternalUserId));
 
             UserToCreateRequest userToCreateRequest = MapTo(user);
-            UserCreatedResponse response = await userAgent.CreateUserAsync(userToCreateRequest);
+            UserCreatedResponse response = await userProfileAgent.CreateUserAsync(userToCreateRequest);
             CreateNewUserDto newUserDto = MapTo(request.Role, response);
 
             eventService.Enqueue(user.UserEvents);

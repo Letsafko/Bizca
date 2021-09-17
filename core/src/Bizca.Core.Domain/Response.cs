@@ -2,13 +2,16 @@
 {
     public sealed class Response<T>
     {
-        public T Value { get; }
-        public bool Success => ModelState.IsValid;
-        public Notification ModelState { get; } = new Notification();
-
-        public Response(T value)
+        public T Data { get; }
+        public int? ErrorCode { get; }
+        public int? StatusCode { get; }
+        public string ErrorMessage { get; }
+        public Response(T data, string errorMessage, int? errorCode, int? statusCode)
         {
-            Value = value;
+            ErrorMessage = errorMessage;
+            StatusCode = statusCode;
+            ErrorCode = errorCode;
+            Data = data;
         }
     }
 }

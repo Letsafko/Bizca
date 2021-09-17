@@ -12,15 +12,15 @@
 
     public sealed class GetUserDetailsUseCase : IQueryHandler<GetUserDetailsQuery>
     {
+        private readonly IUserProfileWrapper userProfileWrapper;
         private readonly IUserRepository userRepository;
         private readonly IGetUserDetailsOutput output;
-        private readonly IUserWrapper userWrapper;
         public GetUserDetailsUseCase(IUserRepository userRepository,
             IUserWrapper userWrapper,
             IGetUserDetailsOutput output)
         {
+            this.userProfileWrapper = userWrapper;
             this.userRepository = userRepository;
-            this.userWrapper = userWrapper;
             this.output = output;
         }
 
@@ -41,7 +41,7 @@
 
         private async Task<(UserResponse response, User user)> GetEntitiesAsync(string partnerCode, string externalUserId)
         {
-            var userWrapperTask = userWrapper.GetUserDetailsAsync(partnerCode, externalUserId);
+            var userWrapperTask = userProfileWrapper.GetUserDetailsAsync(partnerCode, externalUserId);
             var userLocalTask = userRepository.GetByExternalUserIdAsync(externalUserId);
             await Task.WhenAll(userLocalTask, userWrapperTask);
             return

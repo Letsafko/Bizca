@@ -10,15 +10,19 @@
         {
             //arrange
             const int value = 1;
-            const bool success = true;
+            const int errorCode = 1;
+            const int statusCode = 1;
+            const string errorMessage = "error message";
 
             //act 
-            var result = new Response<int>(value);
+            var result = new Response<int>(value, errorMessage, errorCode, statusCode);
 
             //assert
-            Check.That(result.Value).Equals(value);
-            Check.That(result.Success).Equals(success);
-            Check.That(result.Value).IsInstanceOfType(value.GetType());
+            Check.That(result.Data).Equals(value);
+            Check.That(result.ErrorCode).Equals(errorCode);
+            Check.That(result.StatusCode).Equals(statusCode);
+            Check.That(result.ErrorMessage).Equals(errorMessage);
+            Check.That(result.Data).IsInstanceOfType(value.GetType());
         }
     }
 }

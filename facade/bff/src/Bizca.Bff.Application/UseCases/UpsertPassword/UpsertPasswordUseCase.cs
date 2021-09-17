@@ -8,22 +8,22 @@
     using System.Threading.Tasks;
     public sealed class UpsertPasswordUseCase : ICommandHandler<UpsertPasswordCommand>
     {
+        private readonly IUserPasswordWrapper userPasswordAgent;
         private readonly IUpsertPasswordOutput passwordOutput;
-        private readonly IUserWrapper userAgent;
         public UpsertPasswordUseCase(IUpsertPasswordOutput passwordOutput,
             IUserWrapper userAgent)
         {
             this.passwordOutput = passwordOutput;
-            this.userAgent = userAgent;
+            this.userPasswordAgent = userAgent;
         }
 
         public async Task<Unit> Handle(UpsertPasswordCommand command, CancellationToken cancellationToken)
         {
             var userPassword = new UserPasswordRequest(command.PartnerCode,
-                command.Password, 
+                command.Password,
                 command.ChannelResource);
 
-            var ressult = await userAgent.CreateOrUpdateUserPasswordAsync(userPassword);
+            var ressult = await userPasswordAgent.CreateOrUpdateUserPasswordAsync(userPassword);
 
             passwordOutput.Ok(new UpsertPasswordDto(ressult.Success));
             return Unit.Value;
