@@ -32,7 +32,6 @@
                 request.AddHeaders(metadata);
                 if (httpMethod == HttpMethod.Post || httpMethod == HttpMethod.Patch || httpMethod == HttpMethod.Put)
                 {
-
                     if (content != null)
                     {
                         request.Content = content.GetHttpContent();
@@ -48,30 +47,19 @@
             }
         }
 
-        #region private helpers
-
         private IPublicResponse<T> GetResponseAndLog<T>(HttpResponseMessage httpResponseMessage)
         {
-            string result = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            string responseAsString = httpResponseMessage.Content.ReadAsStringAsync().Result;
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                return new PublicResponse<T>(result, (int)httpResponseMessage.StatusCode);
+                return new PublicResponse<T>(responseAsString, (int)httpResponseMessage.StatusCode);
             }
 
-            logger.LogDebug($"[Response]= {result}");
+            logger.LogDebug($"[Response]= {responseAsString}");
             return new PublicResponse<T>(null, (int)httpResponseMessage.StatusCode)
             {
-                Data = JsonConvert.DeserializeObject<T>(result)
+                Data = JsonConvert.DeserializeObject<T>(responseAsString)
             };
         }
-        public class ErrorResponse : IPublicResponse
-        {
-            public bool Success { get; set; }
-            public object Message { get; set; }
-            public int? ErrorCode { get; set; }
-            public int StatusCode { get; set; }
-        }
-
-        #endregion
     }
 }

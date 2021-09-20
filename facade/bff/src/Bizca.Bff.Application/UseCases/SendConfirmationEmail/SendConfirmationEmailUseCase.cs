@@ -3,12 +3,9 @@
     using Bizca.Bff.Application.Properties;
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Wrappers.Notification;
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
+    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
     using Bizca.Core.Application.Events;
-    using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -18,21 +15,17 @@
     public sealed class SendConfirmationEmailUseCase : IEventHandler<SendConfirmationEmailNotification>
     {
         private readonly INotificationWrapper notificationAgent;
-        private readonly IUserChannelWrapper userChannelAgent;
-        public SendConfirmationEmailUseCase(IUserWrapper userAgent,
-            INotificationWrapper notificationAgent)
+        public SendConfirmationEmailUseCase(INotificationWrapper notificationAgent)
         {
             this.notificationAgent = notificationAgent;
-            this.userChannelAgent = userAgent;
         }
 
         public async Task Handle(SendConfirmationEmailNotification notification, CancellationToken cancellationToken)
         {
-            var CodeConfirmationRequest = new RegisterUserConfirmationCodeRequest(notification.ChannelType);
-            IPublicResponse<RegisterUserConfirmationCodeResponse> CodeConfirmationResponse = await userChannelAgent.RegisterChannelConfirmationCodeAsync(notification.ExternalUserId,
-                CodeConfirmationRequest);
+            string htmlContent = GetHtmlContent(notification.ExternalUserId,
+                   notification.CodeConfirmation,
+                   notification.Email);
 
-            string htmlContent = GetHtmlContent(notification.ExternalUserId, CodeConfirmationResponse.Data);
             var sender = new MailAddressRequest(notification.PartnerCode, Resources.BIZCA_NO_REPLY_EMAIL);
             var recipient = new MailAddressRequest(notification.FullName, notification.Email);
 
@@ -41,12 +34,14 @@
                 subject: Resources.EMAIL_CONFIRMATION_SUBJECT,
                 htmlContent: htmlContent);
 
-            await notificationAgent.SendEmail(request);
+            var response = await notificationAgent.SendEmail(request);
+            if (!response.Success)
+                throw new DomainException(response.Message.ToString());
         }
 
-        private string GetHtmlContent(string externalUserId, RegisterUserConfirmationCodeResponse response)
+        private string GetHtmlContent(string externalUserId, string codeConfirmation, string resource)
         {
-            string concatStr = $"{response.Resource}:{externalUserId}:{response.ConfirmationCode}";
+            string concatStr = $"{resource}:{externalUserId}:{codeConfirmation}";
             byte[] bytes = Encoding.UTF8.GetBytes(concatStr);
             string base64Str = Convert.ToBase64String(bytes);
             return $"<p><span style='color: #ffffff; font-weight: normal; vertical-align: middle; background-color: #0092ff; " +

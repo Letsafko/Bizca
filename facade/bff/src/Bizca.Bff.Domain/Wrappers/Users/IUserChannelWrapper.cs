@@ -7,12 +7,10 @@
     using System.Threading.Tasks;
     public interface IUserChannelWrapper
     {
-        Task<IPublicResponse<RegisterUserConfirmationCodeResponse>> RegisterChannelConfirmationCodeAsync(string externalUserId,
-            RegisterUserConfirmationCodeRequest request,
+        Task<IPublicResponse<RegisterUserConfirmationCodeResponse>> RegisterChannelConfirmationCodeAsync(RegisterUserConfirmationCodeRequest request,
             IDictionary headers = null);
 
-        Task<IPublicResponse<UserConfirmationCodeResponse>> ConfirmUserChannelCodeAsync(string externalUserId,
-            UserConfirmationCodeRequest request,
+        Task<IPublicResponse<UserConfirmationCodeResponse>> ConfirmUserChannelCodeAsync(UserConfirmationCodeRequest request,
             IDictionary headers = null);
     }
 }

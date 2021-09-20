@@ -7,8 +7,7 @@
     using System.Threading.Tasks;
     public interface IUserProfileWrapper
     {
-        Task<IPublicResponse<UserUpdatedResponse>> UpdateUserAsync(string externalUserId,
-            UserToUpdateRequest request,
+        Task<IPublicResponse<UserUpdatedResponse>> UpdateUserAsync(UserToUpdateRequest request,
             IDictionary headers = null);
 
         Task<IPublicResponse<UserCreatedResponse>> CreateUserAsync(UserToCreateRequest request,

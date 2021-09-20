@@ -5,9 +5,7 @@
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
     using Bizca.Core.Application.Commands;
-    using Bizca.Core.Domain;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -37,8 +35,11 @@
             user.SetChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
             await userRepository.UpdateAsync(user);
 
-            var confirmationCodeRequest = new UserConfirmationCodeRequest(request.ConfirmationCode, request.ChannelType);
-            IPublicResponse<UserConfirmationCodeResponse> response = await userChanelAgent.ConfirmUserChannelCodeAsync(request.ExternalUserId, confirmationCodeRequest);
+            var confirmationCodeRequest = new UserConfirmationCodeRequest(request.ExternalUserId,
+                request.ConfirmationCode,
+                request.ChannelType);
+
+            var response = await userChanelAgent.ConfirmUserChannelCodeAsync(confirmationCodeRequest);
             if (!response.Success)
             {
                 output.Invalid(response);
