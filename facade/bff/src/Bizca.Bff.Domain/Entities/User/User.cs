@@ -6,6 +6,7 @@
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
+    using Bizca.Bff.Domain.Properties;
     using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Core.Domain;
@@ -50,11 +51,27 @@
         #region aggregate helpers
 
         #region events
-        public void RegisterSendConfirmationEmailEvent(string externalUserId, string email, string fullName)
+        public void RegisterSendConfirmationEmailEvent(string externalUserId,
+            string email,
+            string fullName,
+            string codeConfirmation)
         {
-            userEvents.Add(new SendConfirmationEmailNotification(externalUserId, email, fullName));
+            userEvents.Add(new SendConfirmationEmailNotification(externalUserId,
+                email,
+                fullName,
+                codeConfirmation));
         }
-        public void RegisterReInitPasswordEvent(string externalUserId, string email, string fullName)
+
+        public void RegisterSendConfirmationSmsEvent(string phoneNumber, string content)
+        {
+            userEvents.Add(new SendSmsCodeConfirmationNotification(Resources.PartnerCode,
+                phoneNumber,
+                content));
+        }
+
+        public void RegisterReInitPasswordEvent(string externalUserId,
+            string email,
+            string fullName)
         {
             userEvents.Add(new ReInitPasswordNotification(externalUserId,
                 email,
@@ -71,7 +88,9 @@
 
         #endregion
 
-        public Subscription UpdateSubscription(string subscriptionCode, Bundle bundle, Procedure procedure)
+        public Subscription UpdateSubscription(string subscriptionCode,
+            Bundle bundle,
+            Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
             if (!IsSubscriptionAllowedToBeUpdated(subscription.SubscriptionState.Status))

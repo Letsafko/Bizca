@@ -5,11 +5,13 @@
 
     public sealed class RegisterUserConfirmationCodeRequest
     {
-        public RegisterUserConfirmationCodeRequest(ChannelType channel)
+        public RegisterUserConfirmationCodeRequest(string externalUserId, ChannelType channel)
         {
             Channel = channel.ToString();
+            ExternalUserId = externalUserId;
         }
         public string PartnerCode { get; } = Resources.PartnerCode;
+        public string ExternalUserId { get; }
         public string Channel { get; }
     }
 }

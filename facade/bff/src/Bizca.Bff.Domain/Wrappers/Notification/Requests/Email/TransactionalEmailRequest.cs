@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.Domain.Wrappers.Notification.Requests
+﻿namespace Bizca.Bff.Domain.Wrappers.Notification.Requests.Email
 {
     using System.Collections.Generic;
     public sealed class TransactionalEmailRequest

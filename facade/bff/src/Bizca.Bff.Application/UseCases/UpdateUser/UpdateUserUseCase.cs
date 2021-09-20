@@ -53,7 +53,7 @@
 
             await userRepository.UpdateAsync(user);
             var userToUpdateRequest = GetUserRequest(request);
-            var response = await userProfileAgent.UpdateUserAsync(request.ExternalUserId, userToUpdateRequest);
+            var response = await userProfileAgent.UpdateUserAsync(userToUpdateRequest);
             if (!response.Success)
             {
                 updateUserOutput.Invalid(response);
@@ -70,7 +70,8 @@
 
         private UserToUpdateRequest GetUserRequest(UpdateUserCommand request)
         {
-            return new UserToUpdateRequest(request.FirstName,
+            return new UserToUpdateRequest(request.ExternalUserId,
+            request.FirstName,
             request.LastName,
             request.Civility,
             request.PhoneNumber,

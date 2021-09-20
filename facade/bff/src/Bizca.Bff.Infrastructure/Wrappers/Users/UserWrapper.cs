@@ -39,32 +39,29 @@
                 metadata: headers);
         }
 
-        public async Task<IPublicResponse<RegisterUserConfirmationCodeResponse>> RegisterChannelConfirmationCodeAsync(string externalUserId,
-            RegisterUserConfirmationCodeRequest request,
+        public async Task<IPublicResponse<RegisterUserConfirmationCodeResponse>> RegisterChannelConfirmationCodeAsync(RegisterUserConfirmationCodeRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<RegisterUserConfirmationCodeResponse>(HttpMethod.Post,
-                $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}/channel/code/register",
+                $"{ApiVersion}/{request.PartnerCode}/users/{request.ExternalUserId}/channel/code/register",
                 request,
                 headers);
         }
 
-        public async Task<IPublicResponse<UserConfirmationCodeResponse>> ConfirmUserChannelCodeAsync(string externalUserId,
-            UserConfirmationCodeRequest request,
+        public async Task<IPublicResponse<UserConfirmationCodeResponse>> ConfirmUserChannelCodeAsync(UserConfirmationCodeRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserConfirmationCodeResponse>(HttpMethod.Post,
-                $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}/channel/code/confirm",
+                $"{ApiVersion}/{request.PartnerCode}/users/{request.ExternalUserId}/channel/code/confirm",
                 request,
                 headers);
         }
 
-        public async Task<IPublicResponse<UserUpdatedResponse>> UpdateUserAsync(string externalUserId,
-            UserToUpdateRequest request,
+        public async Task<IPublicResponse<UserUpdatedResponse>> UpdateUserAsync(UserToUpdateRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserUpdatedResponse>(HttpMethod.Put,
-                $"{ApiVersion}/{request.PartnerCode}/users/{externalUserId}",
+                $"{ApiVersion}/{request.PartnerCode}/users/{request.ExternalUserId}",
                 request,
                 headers);
         }

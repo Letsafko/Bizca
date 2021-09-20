@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.Domain.Wrappers.Notification.Requests
+﻿namespace Bizca.Bff.Domain.Wrappers.Notification.Requests.Email
 {
     public sealed class MailAddressRequest
     {

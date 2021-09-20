@@ -6,8 +6,12 @@
 
     public sealed class SendConfirmationEmailNotification : IEvent
     {
-        public SendConfirmationEmailNotification(string externalUserId, string email, string fullName)
+        public SendConfirmationEmailNotification(string externalUserId,
+            string email,
+            string fullName,
+            string codeConfirmation)
         {
+            CodeConfirmation = codeConfirmation;
             ExternalUserId = externalUserId;
             FullName = fullName;
             Email = email;
@@ -15,6 +19,7 @@
 
         public ChannelType ChannelType { get; } = ChannelType.Email;
         public string PartnerCode { get; } = Resources.PartnerCode;
+        public string CodeConfirmation { get; }
         public string ExternalUserId { get; }
         public string FullName { get; }
         public string Email { get; }

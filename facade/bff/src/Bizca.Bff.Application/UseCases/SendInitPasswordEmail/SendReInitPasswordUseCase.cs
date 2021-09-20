@@ -3,8 +3,9 @@
     using Bizca.Bff.Application.Properties;
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Wrappers.Notification;
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests;
+    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
     using Bizca.Core.Application.Events;
+    using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -30,7 +31,9 @@
                 subject: Resources.EMAIL_REINIT_PASSWORD_SUBJECT,
                 htmlContent: htmlContent);
 
-            await notificationAgent.SendEmail(request);
+            var response = await notificationAgent.SendEmail(request);
+            if (!response.Success)
+                throw new DomainException(response.Message.ToString());
         }
 
         private string GetHtmlContent(string externalUserId, string email)
