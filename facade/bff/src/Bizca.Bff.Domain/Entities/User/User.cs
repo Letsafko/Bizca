@@ -6,9 +6,9 @@
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Properties;
     using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
+    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Exceptions;
     using System;
@@ -51,31 +51,23 @@
         #region aggregate helpers
 
         #region events
-        public void RegisterSendConfirmationEmailEvent(string externalUserId,
-            string email,
-            string fullName,
-            string codeConfirmation)
+
+        public void RegisterSendEmailEvent(MailAddressRequest sender,
+            ICollection<MailAddressRequest> to,
+            string subject,
+            string htmlContent)
         {
-            userEvents.Add(new SendConfirmationEmailNotification(externalUserId,
-                email,
-                fullName,
-                codeConfirmation));
+            userEvents.Add(new SendEmailNotification(sender,
+                to,
+                subject,
+                htmlContent));
         }
 
-        public void RegisterSendConfirmationSmsEvent(string phoneNumber, string content)
+        public void RegisterSendSmsEvent(string sender, string phoneNumber, string content)
         {
-            userEvents.Add(new SendSmsCodeConfirmationNotification(Resources.PartnerCode,
+            userEvents.Add(new SendSmsNotification(sender,
                 phoneNumber,
                 content));
-        }
-
-        public void RegisterReInitPasswordEvent(string externalUserId,
-            string email,
-            string fullName)
-        {
-            userEvents.Add(new ReInitPasswordNotification(externalUserId,
-                email,
-                fullName));
         }
         public void RegisterUserCreatedEvent(UserCreatedNotification userCreated)
         {
@@ -113,19 +105,21 @@
                 ? throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.")
                 : subscription;
         }
-        public void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
+        public void SetChannelConfirmationStatus(string channelType)
         {
             if (UserProfile is null)
                 return;
 
-            UserProfile.SetChannelConfirmationStatus(confirmationStatus);
+            var channelToConfirm = GetChannelToConfirm(channelType);
+            UserProfile.SetChannelConfirmationStatus(channelToConfirm);
         }
-        public void SetChannelActivationStatus(ChannelActivationStatus activationStatus)
+        public void SetChannelActivationStatus(string channelType)
         {
             if (UserProfile is null)
                 return;
 
-            UserProfile.SetChannelActivationStatus(activationStatus);
+            var channelToActivate = GetChannelToActivate(channelType);
+            UserProfile.SetChannelActivationStatus(channelToActivate);
         }
         public void RemoveSubscriptionsWithSameCheckSum(Subscription subscription)
         {
@@ -195,29 +189,33 @@
 
         #region private helpers
 
-        private ChannelStatus SetChannelConfirmationStatus(ChannelStatus channelStatus, ChannelConfirmationStatus confirmationStatus)
-        {
-            if (!channelStatus.ChannelConfirmationStatus.HasFlag(confirmationStatus))
-            {
-                var channelConfirmationStatus = channelStatus.ChannelConfirmationStatus | confirmationStatus;
-                return new ChannelStatus(channelConfirmationStatus,
-                    channelStatus.ChannelActivationStatus);
-            }
-            return channelStatus;
-        }
-        private ChannelStatus SetChannelActivationStatus(ChannelStatus channelStatus, ChannelActivationStatus activationStatus)
-        {
-            if (!channelStatus.ChannelActivationStatus.HasFlag(activationStatus))
-            {
-                var channelActivationStatus = channelStatus.ChannelActivationStatus | activationStatus;
-                return new ChannelStatus(channelStatus.ChannelConfirmationStatus,
-                    channelActivationStatus);
-            }
-            return channelStatus;
-        }
         private bool IsSubscriptionAllowedToBeUpdated(SubscriptionStatus subscriptionStatus)
         {
             return subscriptionStatus == SubscriptionStatus.Pending;
+        }
+        private ChannelConfirmationStatus GetChannelToConfirm(string channelType)
+        {
+            var channelTypeEnum = GetChannelType(channelType);
+            return channelTypeEnum switch
+            {
+                ChannelType.Messenger => ChannelConfirmationStatus.MessengerConfirmed,
+                ChannelType.Whatsapp => ChannelConfirmationStatus.WhatsappConfirmed,
+                ChannelType.Sms => ChannelConfirmationStatus.PhoneNumberConfirmed,
+                ChannelType.Email => ChannelConfirmationStatus.EmailConfirmed,
+                _ => throw new InvalidCastException($"unable to retrieve channel confirmtion from channel type {channelTypeEnum}")
+            };
+        }
+        private ChannelActivationStatus GetChannelToActivate(string channelType)
+        {
+            var channelTypeEnum = GetChannelType(channelType);
+            return channelTypeEnum switch
+            {
+                ChannelType.Messenger => ChannelActivationStatus.MessengerActivated,
+                ChannelType.Whatsapp => ChannelActivationStatus.WhatsappActivated,
+                ChannelType.Sms => ChannelActivationStatus.PhoneNumberActivated,
+                ChannelType.Email => ChannelActivationStatus.EmailActivated,
+                _ => throw new InvalidCastException($"unable to retrieve channel activation from channel type {channelTypeEnum}")
+            };
         }
         private bool IsAllowedToProcessActivation(SubscriptionStatus status)
         {
@@ -236,10 +234,15 @@
             }
             return true;
         }
+        private ChannelType GetChannelType(string channelType)
+        {
+            return Enum.Parse<ChannelType>(channelType, true);
+        }
         private void SetRowVersion(byte[] value)
         {
             rowVersion = value;
         }
+
         #endregion
     }
 }

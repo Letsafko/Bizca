@@ -97,6 +97,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à channel type is required..
+        /// </summary>
+        internal static string CHANNEL_TYPE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CHANNEL_TYPE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à civility is invalid..
         /// </summary>
         internal static string CIVILITY_INVALID {

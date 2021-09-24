@@ -3,9 +3,9 @@
     public sealed class TransactionalSmsResponse
     {
         public string Reference { get; set; }
-        public string MessageId { get; set; }
-        public int RemainingCredits { get; set; }
-        public int UsedCredits { get; set; }
+        public long MessageId { get; set; }
+        public decimal RemainingCredits { get; set; }
+        public decimal UsedCredits { get; set; }
         public int SmsCount { get; set; }
     }
 }
