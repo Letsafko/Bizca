@@ -44,9 +44,11 @@
                 return Unit.Value;
             }
 
-            user.RegisterSendConfirmationSmsEvent(command.PhoneNumber, CodeConfirmationResponse.Data.ConfirmationCode);
-            eventService.Enqueue(user.UserEvents);
+            user.RegisterSendSmsEvent(command.PartnerCode,
+                command.PhoneNumber,
+                CodeConfirmationResponse.Data.ConfirmationCode);
 
+            eventService.Enqueue(user.UserEvents);
             confirmationOutput.Ok();
             return Unit.Value;
         }

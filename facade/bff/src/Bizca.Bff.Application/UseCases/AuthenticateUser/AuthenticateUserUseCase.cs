@@ -22,8 +22,8 @@
             IAuthenticateUserOutput authenticateUserOutput)
         {
             this.authenticateUserOutput = authenticateUserOutput;
-            this.userRepository = userRepository;
             this.userAuthenticationAgent = userAgent;
+            this.userRepository = userRepository;
         }
 
         /// <summary>

@@ -7,8 +7,9 @@
     {
         None = 0,
         PhoneNumberConfirmed = 1,
-        WhatsappConfirmed = 2,
-        EmailConfirmed = 4,
-        All = PhoneNumberConfirmed | WhatsappConfirmed | EmailConfirmed
+        EmailConfirmed = 2,
+        WhatsappConfirmed = 4,
+        MessengerConfirmed = 8,
+        All = PhoneNumberConfirmed | WhatsappConfirmed | EmailConfirmed | MessengerConfirmed
     }
 }

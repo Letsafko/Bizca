@@ -7,8 +7,9 @@
     {
         None = 0,
         PhoneNumberActivated = 1,
-        WhatsappActivated = 2,
-        EmailActivated = 4,
-        All = PhoneNumberActivated | WhatsappActivated | EmailActivated
+        EmailActivated = 2,
+        WhatsappActivated = 4,
+        MessengerActivated = 8,
+        All = PhoneNumberActivated | WhatsappActivated | EmailActivated | MessengerActivated
     }
 }

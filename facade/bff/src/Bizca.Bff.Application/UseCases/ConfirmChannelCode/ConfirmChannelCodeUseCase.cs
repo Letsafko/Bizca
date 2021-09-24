@@ -2,7 +2,6 @@
 {
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Entities.User.Exceptions;
-    using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
     using Bizca.Core.Application.Commands;
@@ -32,7 +31,7 @@
                 throw new UserDoesNotExistException($"user {request.ExternalUserId} does not exist.");
             }
 
-            user.SetChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
+            user.SetChannelConfirmationStatus(request.ChannelType);
             await userRepository.UpdateAsync(user);
 
             var confirmationCodeRequest = new UserConfirmationCodeRequest(request.ExternalUserId,
