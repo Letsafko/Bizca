@@ -60,7 +60,7 @@
             return $"<p><span style='color: #ffffff; font-weight: normal; vertical-align: middle; background-color: #0092ff; " +
                    $"border-radius: 15px; border: 0px None #000; padding: 8px 20px 8px 20px;'> <a style='text-decoration: none; " +
                    $"color: #ffffff; font-weight: normal;' target='_blank' rel='noreferrer'" +
-                   $"href='https://integ-bizca-front.azurewebsites.net/#/init-password/{base64Str}'>Réinitialiser votre mot de passe</a></span></p>";
+                   $"href='https://integ-bizca-front.azurewebsites.net/init-password/{base64Str}'>Réinitialiser votre mot de passe</a></span></p>";
         }
     }
 }
