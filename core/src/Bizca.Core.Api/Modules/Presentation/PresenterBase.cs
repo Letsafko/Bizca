@@ -3,10 +3,10 @@
     using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Mvc;
-    public class PresenterBase
+    public abstract class PresenterBase
     {
         private readonly IHttpStrategyFactory strategyFactory;
-        public PresenterBase(IHttpStrategyFactory strategyFactory)
+        protected PresenterBase(IHttpStrategyFactory strategyFactory)
         {
             this.strategyFactory = strategyFactory;
         }

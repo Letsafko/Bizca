@@ -111,7 +111,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 8
- testRunner.Given("Partner creates randomized informations for user \'bob\'.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Partner creates randomized information for user \'bob\'.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
   testRunner.When("Partner creates \'bob\' through api.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
