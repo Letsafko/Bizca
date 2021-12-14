@@ -77,6 +77,14 @@ go
 create index [ix_subscription_subscriptionStatusId] on [bff].[subscription] ([subscriptionStatusId])
 go
 
+create unique index [ix_subscription_userId_organismId_procedureTypeId_subscriptionStatusId] on [bff].[subscription](
+	     [subscriptionStatusId] 
+		,[procedureTypeId]
+		,[organismId]	
+		,[userId]	
+	) where [subscriptionStatusId] = 2
+go
+
 create unique index [ix_subscription_subscriptionCode] on [bff].[subscription] ([subscriptionCode])
 go
 

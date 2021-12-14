@@ -13,7 +13,7 @@
         /// </summary>
         public ConfirmChannelCodeResponse(ConfirmChannelCodeDto confirmationCodeDto)
         {
-            ResourceId = confirmationCodeDto.ChannelType.Code.ToLower();
+            ResourceId = confirmationCodeDto.ChannelType.Description.ToLower();
             Confirmed = confirmationCodeDto.ChannelConfirmed;
             Resource = confirmationCodeDto.ChannelValue;
         }

@@ -8,11 +8,11 @@
     using System.Collections;
     using System.Net.Http;
     using System.Threading.Tasks;
-    public class BaseWrapper
+    public abstract class BaseWrapper
     {
         private readonly ILogger logger;
         private readonly HttpClient httpClient;
-        internal BaseWrapper(ILogger logger, IHttpClientFactory httpClientFactory, string httpClientName)
+        protected BaseWrapper(ILogger logger, IHttpClientFactory httpClientFactory, string httpClientName)
         {
             if (string.IsNullOrWhiteSpace(httpClientName))
                 throw new ArgumentNullException(nameof(httpClientName));
@@ -21,8 +21,7 @@
             this.logger = logger;
         }
 
-        protected virtual string ApiVersion { get; } = "api/v1.0";
-        internal async Task<IPublicResponse<T>> SendAsync<T>(HttpMethod httpMethod, string requestUrl, object content = null, IDictionary metadata = null)
+        protected virtual async Task<IPublicResponse<T>> SendAsync<T>(HttpMethod httpMethod, string requestUrl, object content = null, IDictionary metadata = null)
         {
             if (string.IsNullOrWhiteSpace(requestUrl))
                 throw new ArgumentNullException(nameof(requestUrl));
@@ -46,6 +45,7 @@
                 }
             }
         }
+        protected virtual string ApiVersion { get; } = "api/v1.0";
 
         private IPublicResponse<T> GetResponseAndLog<T>(HttpResponseMessage httpResponseMessage)
         {

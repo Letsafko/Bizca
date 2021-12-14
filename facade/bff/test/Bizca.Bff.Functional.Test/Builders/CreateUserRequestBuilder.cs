@@ -1,11 +1,13 @@
 ﻿namespace Bizca.Bff.Functional.Test.Builders
 {
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.WebApi.UseCases.V10.CreateNewUser;
     using Bogus;
+    using Domain.Enumerations;
+    using WebApi.UseCases.V10.CreateNewUser;
+
     public sealed class CreateUserRequestBuilder
     {
         internal static CreateUserRequestBuilder Instance => new CreateUserRequestBuilder();
+
         internal CreateUser Build()
         {
             return new Faker<CreateUser>()

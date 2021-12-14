@@ -5,7 +5,7 @@
 
 @mytag
 Scenario: Create a new user
-	Given Partner creates randomized informations for user 'bob'.
+	Given Partner creates randomized information for user 'bob'.
 	 When Partner creates 'bob' through api.
 	 Then the response should be '201'.
 	  And '1' event of type 'SendConfirmationEmalNotification' has been published.

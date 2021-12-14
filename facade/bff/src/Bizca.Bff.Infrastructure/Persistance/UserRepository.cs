@@ -228,7 +228,7 @@
                 (int)subscription.bundleTotalEmail,
                 (int)subscription.bundleTotalSms);
 
-            var priority = Priority.GetById((int)subscription.priority);
+            var priority = Priority.GetByCode((int)subscription.priority);
             var money = new Money((decimal)subscription.price);
             return new Bundle(bundleIdentifier,
                 bundleSettings,

@@ -42,22 +42,26 @@
         public Money Price { get; private set; }
         internal int CheckSum => ComputeCheckSum();
 
-        internal void UpdateSubscription(Bundle bundle, Procedure procedure)
+        internal void UpdateSubscription(Bundle bundleToUpdate, Procedure procedureToUpdate)
         {
-            Procedure = procedure;
-            if (bundle != null)
+            if (procedureToUpdate != null && Procedure != procedureToUpdate)
             {
-                Bundle = bundle;
-                Price = bundle.Price;
+                Procedure = procedureToUpdate;
+            }
+
+            if (bundleToUpdate != null && Bundle != bundleToUpdate)
+            {
+                Bundle = bundleToUpdate;
+                Price = bundleToUpdate.Price;
                 SubscriptionSettings = new SubscriptionSettings(SubscriptionSettings?.WhatsappCounter ?? 0,
                     SubscriptionSettings?.EmailCounter ?? 0,
                     SubscriptionSettings?.SmsCounter ?? 0,
-                    bundle.BundleSettings.TotalWhatsapp,
-                    bundle.BundleSettings.TotalEmail,
-                    bundle.BundleSettings.TotalSms);
+                    bundleToUpdate.BundleSettings.TotalWhatsapp,
+                    bundleToUpdate.BundleSettings.TotalEmail,
+                    bundleToUpdate.BundleSettings.TotalSms);
 
                 DateTime beginDate = DateTime.Now;
-                DateTime endDate = beginDate.AddDays(bundle.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
+                DateTime endDate = beginDate.AddDays(bundleToUpdate.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
 
                 SetEndDate(endDate);
                 SetBeginDate(beginDate);
@@ -79,6 +83,10 @@
         {
             SubscriptionSettings.Freeze();
             SubscriptionState.StatusChangeCheck();
+        }
+        public Subscription Clone()
+        {
+            return MemberwiseClone() as Subscription;
         }
 
         #region private helpers
@@ -119,6 +127,7 @@
             SubscriptionSettings.SetEndDate(endDate);
             SubscriptionState.StatusChangeCheck();
         }
+
         #endregion
     }
 }

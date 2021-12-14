@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="NFluent" Version="2.7.2" />
     <PackageReference Include="NSubstitute" Version="4.2.2" />
+    <PackageReference Include="Shouldly" Version="4.0.3" />
     <PackageReference Include="SpecFlow" Version="3.9.8" />
     <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.8" />
     <PackageReference Include="SpecFlow.xUnit" Version="3.9.8" />
