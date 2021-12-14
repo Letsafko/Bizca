@@ -26,7 +26,7 @@
         {
             var parameters = new
             {
-                channelCodes = new TableValueParameter(channelConfirmations.ToDataTable(userId, channelType.Id, channelCodeUdt))
+                channelCodes = new TableValueParameter(channelConfirmations.ToDataTable(userId, channelType.Code, channelCodeUdt))
             };
 
             return await unitOfWork.Connection

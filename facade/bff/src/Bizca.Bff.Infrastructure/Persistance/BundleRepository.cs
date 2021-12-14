@@ -61,7 +61,7 @@
         private Bundle GetBundle(dynamic result)
         {
             var identifier = new BundleIdentifier((int)result.bundleId, result.bundleCode, result.bundleLabel);
-            var priority = Priority.GetById((int)result.priority);
+            var priority = Priority.GetByCode((int)result.priority);
             var money = new Money((decimal)result.price);
             var settings = new BundleSettings((int)result.intervalInWeeks,
                 (int)result.bundleTotalWhatsapp,

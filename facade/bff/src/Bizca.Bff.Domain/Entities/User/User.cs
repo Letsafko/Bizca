@@ -85,21 +85,28 @@
             Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
-            if (!IsSubscriptionAllowedToBeUpdated(subscription.SubscriptionState.Status))
+            if (!IsSubscriptionAllowedToBeUpdated(subscription))
             {
-                throw new SubscriptionCannotBeUpdatedException(nameof(subscription.SubscriptionState),
-                    $"subscription status {subscription.SubscriptionState.Status} does not allowed changes.");
+                throw new SubscriptionCannotBeUpdatedException($"subscription status {subscription.SubscriptionState.Status} does not allowed changes.",
+                    nameof(subscription.SubscriptionState));
             }
 
-            subscription.UpdateSubscription(bundle, procedure);
-            RemoveSubscriptionsWithSameCheckSum(subscription);
-            return subscription;
+            Subscription cloneSubscription = subscription.Clone();
+            cloneSubscription.UpdateSubscription(bundle, procedure);
+            if (subscriptions.Any(x => x.CheckSum == cloneSubscription.CheckSum))
+            {
+                throw new SubscriptionCannotBeUpdatedException($"subscription {subscription.SubscriptionCode} does not allowed changes.",
+                    nameof(subscription.SubscriptionState));
+            }
+
+            RemoveSubscriptionsWithSameCheckSum(cloneSubscription);
+            ReplaceSubscription(cloneSubscription);
+            return cloneSubscription;
         }
         public Subscription GetSubscriptionByCode(string subscriptionCode, bool throwError = false)
         {
             var subscription = subscriptions
-                .FirstOrDefault(x => x.SubscriptionCode.ToString().Equals(subscriptionCode,
-                    StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(x => x.SubscriptionCode == Guid.Parse(subscriptionCode));
 
             return throwError && subscription is null
                 ? throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.")
@@ -130,7 +137,7 @@
         public Subscription DesactivateSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
-            if (IsAllowedToProcessActivation(subscription.SubscriptionState.Status))
+            if (IsAllowedToProcessDesactivation(subscription.SubscriptionState.Status))
             {
                 subscription?.Freeze();
             }
@@ -189,9 +196,15 @@
 
         #region private helpers
 
-        private bool IsSubscriptionAllowedToBeUpdated(SubscriptionStatus subscriptionStatus)
+        private void ReplaceSubscription(Subscription subscription)
         {
-            return subscriptionStatus == SubscriptionStatus.Pending;
+            subscriptions.RemoveAll(x => x.SubscriptionCode == subscription.SubscriptionCode);
+            subscriptions.Add(subscription);
+        }
+
+        private bool IsSubscriptionAllowedToBeUpdated(Subscription subscription)
+        {
+            return subscription.SubscriptionState.Status == SubscriptionStatus.Pending;
         }
         private ChannelConfirmationStatus GetChannelToConfirm(string channelType)
         {
@@ -219,8 +232,11 @@
         }
         private bool IsAllowedToProcessActivation(SubscriptionStatus status)
         {
-            return status == SubscriptionStatus.Activated ||
-                   status == SubscriptionStatus.Deactivated;
+            return status == SubscriptionStatus.Deactivated;
+        }
+        private bool IsAllowedToProcessDesactivation(SubscriptionStatus status)
+        {
+            return status == SubscriptionStatus.Activated;
         }
         private bool IsSubscriptionAllowedToBeAdd(Subscription subscription)
         {

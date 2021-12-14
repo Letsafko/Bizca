@@ -68,7 +68,7 @@
         private RegisterCodeConfirmationDto GetChannel(ChannelType channelType, User user)
         {
             Channel channel = user.GetChannel(channelType);
-            return new RegisterCodeConfirmationDto(channel.ChannelType.Code,
+            return new RegisterCodeConfirmationDto(channel.ChannelType.Description,
                     channel.ChannelValue,
                     channel.ChannelCodes.OrderByDescending(x => x.ExpirationDate).First().CodeConfirmation);
         }

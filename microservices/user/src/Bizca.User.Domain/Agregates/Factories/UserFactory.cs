@@ -182,7 +182,7 @@
 
             foreach (dynamic channel in resultDico[ResultName.ChannelConfirmations])
             {
-                var channelType = ChannelType.GetById(channel.channelId);
+                var channelType = ChannelType.GetByCode(channel.channelId);
                 var channelCode = new ChannelConfirmation(channel.confirmationCode, channel.expirationDate);
                 user.AddChannelCodeConfirmation(channelType, channelCode);
             }

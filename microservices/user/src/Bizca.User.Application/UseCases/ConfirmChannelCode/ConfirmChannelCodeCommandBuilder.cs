@@ -29,7 +29,7 @@
         /// <returns></returns>
         public ConfirmChannelCodeCommandBuilder WithChannel(string channel)
         {
-            command.ChannelType = ChannelType.GetByCode(channel);
+            command.ChannelType = ChannelType.GetByLabel(channel);
             return this;
         }
 

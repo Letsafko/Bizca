@@ -50,7 +50,7 @@
                 if (dt.Rows.Contains(channel.ChannelValue))
                 {
                     DataRow datarow = dt.Rows.Find(channel.ChannelValue);
-                    datarow[ChannelColumns.ChannelId] = (int)datarow[ChannelColumns.ChannelId] + channel.ChannelType.Id;
+                    datarow[ChannelColumns.ChannelId] = (int)datarow[ChannelColumns.ChannelId] + channel.ChannelType.Code;
                     datarow[ChannelColumns.Confirmed] = (bool)datarow[ChannelColumns.Confirmed] || channel.Confirmed;
                     datarow[ChannelColumns.Active] = (bool)datarow[ChannelColumns.Active] || channel.Active;
                     continue;
@@ -59,7 +59,7 @@
                 dt.Rows.Add
                 (
                     userId,
-                    channel.ChannelType.Id,
+                    channel.ChannelType.Code,
                     channel.Active,
                     channel.Confirmed,
                     channel.ChannelValue

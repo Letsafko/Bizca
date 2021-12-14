@@ -156,7 +156,7 @@
             Channel channel = channels.SingleOrDefault(x => x.ChannelType == channelType);
             if (channel is null && throwError)
             {
-                var failure = new DomainFailure($"channel::{channelType.Code} requested does not exist.",
+                var failure = new DomainFailure($"channel::{channelType.Description} requested does not exist.",
                     nameof(channelType));
                 throw new ChannelDoesNotExistForUserException(new List<DomainFailure> { failure });
             }
