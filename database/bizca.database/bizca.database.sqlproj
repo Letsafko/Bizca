@@ -206,8 +206,29 @@
     <Build Include="bff\Tables\user.sql" />
     <Build Include="bff\Tables\role.sql" />
     <Build Include="bff\Stored procedures\usp_getByChannelResource_user.sql" />
+    <Build Include="ref\Tables\language.sql" />
+    <Build Include="ref\Tables\emailTemplate.sql">
+      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
+    </Build>
+    <Build Include="ref\Tables\emailTemplateType.sql" />
+    <Build Include="ref\Stored Procedures\usp_getByType_emailTemplate.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\PostDeployment\role.sql" />
+    <None Include="Scripts\PostDeployment\emailTemplate.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\PostDeployment\emailTemplateType.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\PostDeployment\language.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="Environnement">
+      <DefaultValue>Dev</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
 </Project>

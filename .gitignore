@@ -26,6 +26,7 @@ bld/
 
 # database dacpac
 database/docker/*
+!database/docker/create_database.bat
 !database/docker/docker-compose.yml
 !database/docker/dockerfile
 

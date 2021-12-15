@@ -6,7 +6,7 @@ services:
           dockerfile: dockerfile
         container_name: sql-server-db-fts
         ports:
-          - "1433:1433"
+          - "1401:1433"
         volumes:
             - ./volume/sqlserver:/var/opt/mssql
         environment:

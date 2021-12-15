@@ -18,6 +18,9 @@ Post-Deployment Script Template
 :r .\PostDeployment\civility.sql
 :r .\PostDeployment\organism.sql
 :r .\PostDeployment\procedureType.sql
+:r .\PostDeployment\emailTemplateType.sql
 :r .\PostDeployment\procedure.sql
+:r .\PostDeployment\language.sql
+:r .\PostDeployment\emailTemplate.sql
 :r .\PostDeployment\economicActivity.sql
 :r .\PostDeployment\subscriptionStatus.sql
