@@ -5,8 +5,7 @@
 	[languageId]			smallint not null
 )
 
-set @environnement = '$(Environnement)'
-
+declare @environnement varchar(30)  = '$(Environnement)'
 if @environnement in ('Dev','Integration')
 begin
 	insert into @template values
@@ -17,7 +16,7 @@ end
 merge into [ref].[emailTemplate] as target
 	using @template as source  
 	on target.[emailTemplateTypeId] = source.[emailTemplateTypeId] and 
-		 target.[languageId] = source.[languageId]
+		target.[languageId] = source.[languageId]
 when matched then 
 	update
 		set [emailTemplateId] = source.[emailTemplateId],

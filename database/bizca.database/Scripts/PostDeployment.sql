@@ -10,8 +10,6 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-declare @environnement varchar(30)
-
 :r .\PostDeployment\role.sql
 :r .\PostDeployment\channel.sql
 :r .\PostDeployment\partner.sql
@@ -20,9 +18,9 @@ declare @environnement varchar(30)
 :r .\PostDeployment\civility.sql
 :r .\PostDeployment\organism.sql
 :r .\PostDeployment\procedureType.sql
-:r .\PostDeployment\emailTemplate.sql
 :r .\PostDeployment\emailTemplateType.sql
 :r .\PostDeployment\procedure.sql
 :r .\PostDeployment\language.sql
+:r .\PostDeployment\emailTemplate.sql
 :r .\PostDeployment\economicActivity.sql
 :r .\PostDeployment\subscriptionStatus.sql
