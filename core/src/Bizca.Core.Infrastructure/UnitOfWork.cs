@@ -27,26 +27,12 @@
 
         public void Rollback()
         {
-            try
-            {
-                Transaction.Rollback();
-            }
-            finally
-            {
-                Dispose();
-            }
+            Transaction.Rollback();
         }
 
         public void Commit()
         {
-            try
-            {
-                Transaction.Commit();
-            }
-            finally
-            {
-                Dispose();
-            }
+            Transaction.Commit();
         }
 
         public void Begin()

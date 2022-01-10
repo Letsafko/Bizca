@@ -9,9 +9,13 @@ namespace Bizca.Core.Infrastructure.Test
     public sealed class UnitOfWorkBuilder
     {
         private IConnectionFactory _connectionFactory;
+        private IDbTransaction _transaction;
+        private IDbConnection _connection;
         private UnitOfWorkBuilder()
         {
             _connectionFactory = Substitute.For<IConnectionFactory>();
+            _transaction = Substitute.For<IDbTransaction>();
+            _connection = Substitute.For<IDbConnection>();
         }
 
         public static UnitOfWorkBuilder Instance => new UnitOfWorkBuilder();
@@ -20,15 +24,21 @@ namespace Bizca.Core.Infrastructure.Test
             return new UnitOfWork(_connectionFactory);
         }
 
-        public UnitOfWorkBuilder WithConnectionFactory(IConnectionFactory connectionFactory)
+        public UnitOfWorkBuilder WithConnectionFactory<T>() where T : class, IDatabaseConfiguration, new()
         {
-            _connectionFactory = connectionFactory;
+            _connectionFactory
+                .CreateConnection<T>()
+                .Returns(_connection);
+
             return this;
         }
 
-        public UnitOfWorkBuilder WithDbConnection<T>(IDbConnection connection) where T : class, IDatabaseConfiguration, new()
+        public UnitOfWorkBuilder WithDbTransaction()
         {
-            _connectionFactory.CreateConnection<T>().Returns(connection);
+            _connection
+                .BeginTransaction(IsolationLevel.ReadCommitted)
+                .Returns(_transaction);
+
             return this;
         }
     }
