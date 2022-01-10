@@ -3,96 +3,86 @@ namespace Bizca.Core.Infrastructure.Test
     using Bizca.Core.Infrastructure;
     using Bizca.Core.Infrastructure.Configuration;
     using NFluent;
-    using NSubstitute;
-    using System;
-    using System.Data;
     using Xunit;
 
     public sealed class UnitOfWorkTest
     {
-        private readonly IDbConnection connection;
-        private readonly IDbTransaction transaction;
-        public UnitOfWorkTest()
-        {
-            connection = Substitute.For<IDbConnection>();
-            transaction = Substitute.For<IDbTransaction>();
-        }
-
         [Fact]
-        public void Ctor_NullArgument_throw_argumentnullexception()
-        {
-            Check.ThatCode(() => UnitOfWorkBuilder.Instance.WithConnectionFactory(default).Build())
-                 .Throws<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void Begin_ShouldCallOnce_BeginTransaction()
+        public void Begin_should_create_new_transaction()
         {
             //arrange
-            connection.BeginTransaction(IsolationLevel.ReadCommitted).Returns(transaction);
-            UnitOfWork unitOfWork = UnitOfWorkBuilder.Instance
-                .WithDbConnection<BizcaDatabaseConfiguration>(connection)
+            var unitOfWork = UnitOfWorkBuilder
+                .Instance
+                .WithConnectionFactory<BizcaDatabaseConfiguration>()
+                .WithDbTransaction()
                 .Build();
 
             //act
             unitOfWork.Begin();
 
             //assert
-            Check.That(unitOfWork.Connection).Equals(connection);
-            Check.That(unitOfWork.Transaction).Equals(transaction);
-            unitOfWork.Connection.Received(1).BeginTransaction(IsolationLevel.ReadCommitted);
+            Check.That(unitOfWork.Transaction).IsNotNull();
+            Check.That(unitOfWork.Connection).IsNotNull();
         }
 
         [Fact]
-        public void Commit_ShouldCallOnce_CommitMethodAndResetConnection()
+        public void Commit_should_validate_changes_and_dispose_connection_and_transaction()
         {
             //arrange
-            connection.BeginTransaction(IsolationLevel.ReadCommitted).Returns(transaction);
-            UnitOfWork unitOfWork = UnitOfWorkBuilder.Instance
-                .WithDbConnection<BizcaDatabaseConfiguration>(connection)
-                .Build();
-
-            //act
-            unitOfWork.Begin();
-            unitOfWork.Commit();
-
-            //assert
-            transaction.Received(1).Commit();
-            transaction.Received(1).Dispose();
-            Check.That(unitOfWork.Connection).IsNull();
-            Check.That(unitOfWork.Transaction).IsNull();
-            Received.InOrder(() =>
+            UnitOfWork unitOfWork;
+            using (unitOfWork = UnitOfWorkBuilder
+                .Instance
+                .WithConnectionFactory<BizcaDatabaseConfiguration>()
+                .WithDbTransaction()
+                .Build())
             {
-                connection.BeginTransaction(IsolationLevel.ReadCommitted);
-                transaction.Commit();
-                unitOfWork.Dispose();
-            });
+                //act
+                unitOfWork.Begin();
+                unitOfWork.Commit();
+            }
+
+            //assert
+            Check.That(unitOfWork.Transaction).IsNull();
+            Check.That(unitOfWork.Connection).IsNull();
         }
 
         [Fact]
-        public void Rollback_ShouldCallOnce_RollbackMethodAndResetConnection()
+        public void Rollback_should_undo_changes_and_dispose_connection_and_transaction()
         {
             //arrange
-            connection.BeginTransaction(IsolationLevel.ReadCommitted).Returns(transaction);
-            UnitOfWork unitOfWork = UnitOfWorkBuilder.Instance
-                .WithDbConnection<BizcaDatabaseConfiguration>(connection)
+            UnitOfWork unitOfWork;
+            using (unitOfWork = UnitOfWorkBuilder
+                .Instance
+                .WithConnectionFactory<BizcaDatabaseConfiguration>()
+                .WithDbTransaction()
+                .Build())
+            {
+                //act
+                unitOfWork.Begin();
+                unitOfWork.Rollback();
+            }
+
+            //assert
+            Check.That(unitOfWork.Transaction).IsNull();
+            Check.That(unitOfWork.Connection).IsNull();
+        }
+
+        [Fact]
+        public void Dispose_should_delete_transaction_and_connection()
+        {
+            //arrange
+            var unitOfWork = UnitOfWorkBuilder
+                .Instance
+                .WithConnectionFactory<BizcaDatabaseConfiguration>()
+                .WithDbTransaction()
                 .Build();
 
             //act
-            unitOfWork.Begin();
-            unitOfWork.Rollback();
+            unitOfWork.Dispose();
 
             //assert
-            transaction.Received(1).Dispose();
-            transaction.Received(1).Rollback();
-            Check.That(unitOfWork.Connection).IsNull();
             Check.That(unitOfWork.Transaction).IsNull();
-            Received.InOrder(() =>
-            {
-                connection.BeginTransaction(IsolationLevel.ReadCommitted);
-                transaction.Rollback();
-                unitOfWork.Dispose();
-            });
+            Check.That(unitOfWork.Connection).IsNull();
         }
     }
 }
