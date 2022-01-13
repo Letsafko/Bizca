@@ -17,5 +17,5 @@ go
 alter table [ref].[economicActivity] add constraint [df_economicActivity_lastUpdate] default getdate() for [lastUpdate]
 go
 
-create unique index [ix_economicActivityCode] on [ref].[economicActivity] ([economicActivityCode] asc)
+create unique index [ix_economicActivity_economicActivityCode] on [ref].[economicActivity] ([economicActivityCode] asc)
 go

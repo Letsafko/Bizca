@@ -17,5 +17,5 @@ go
 alter table [ref].[partner] add constraint [df_partner_lastUpdate] default getdate() for [lastUpdate]
 go
 
-create unique index [ix_partnerCode] on [ref].[partner] ([partnerCode])
+create unique index [ix_partner_partnerCode] on [ref].[partner] ([partnerCode])
 go

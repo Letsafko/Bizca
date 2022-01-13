@@ -17,5 +17,5 @@ go
 alter table [ref].[country] add constraint [df_country_lastUpdate] default getdate() for [lastUpdate]
 go 
 
-create unique index [ix_countryCode] on [ref].[country] ([countryCode])
+create unique index [ix_country_countryCode] on [ref].[country] ([countryCode])
 go
