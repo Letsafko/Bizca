@@ -16,11 +16,6 @@
         public string ProcedureTypeId { get; set; }
 
         /// <summary>
-        ///     Gets or sets bundle identifier.
-        /// </summary>
-        public string BundleId { get; set; }
-
-        /// <summary>
         ///     Gets or sets user subscription phone number.
         /// </summary>
         public string PhoneNumber { get; set; }

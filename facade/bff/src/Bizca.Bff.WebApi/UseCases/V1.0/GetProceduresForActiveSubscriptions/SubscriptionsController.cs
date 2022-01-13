@@ -16,17 +16,17 @@
     [Route("api/v{version:api-version}/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Subscriptions")]
-    public sealed class UsersController : ControllerBase
+    public sealed class SubscriptionsController : ControllerBase
     {
         private readonly GetProceduresForActiveSubscriptionsPresenter presenter;
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="SubscriptionsController"/>
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
-        public UsersController(GetProceduresForActiveSubscriptionsPresenter presenter, IProcessor processor)
+        public SubscriptionsController(GetProceduresForActiveSubscriptionsPresenter presenter, IProcessor processor)
         {
             this.processor = processor;
             this.presenter = presenter;

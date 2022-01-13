@@ -56,7 +56,6 @@
             return new CreateSubscriptionCommand(externalUserId,
                 subscription.CodeInsee,
                 subscription.ProcedureTypeId,
-                subscription.BundleId,
                 subscription.FirstName,
                 subscription.LastName,
                 subscription.PhoneNumber,

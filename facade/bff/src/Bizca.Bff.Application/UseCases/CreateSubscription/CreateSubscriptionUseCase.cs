@@ -53,7 +53,6 @@
             return new SubscriptionRequest(command.ExternalUserId,
                 command.CodeInsee,
                 int.Parse(command.ProcedureTypeId),
-                string.IsNullOrWhiteSpace(command.BundleId) ? default(int?) : int.Parse(command.BundleId),
                 command.FirstName,
                 command.LastName,
                 command.PhoneNumber,

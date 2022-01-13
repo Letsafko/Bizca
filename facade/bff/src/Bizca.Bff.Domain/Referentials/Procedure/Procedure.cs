@@ -14,7 +14,7 @@
         public Procedure(ProcedureType procedureType,
             Organism organism,
             string procedureHref,
-            string procedureSettings = "")
+            string procedureSettings = default)
         {
             ProcedureHref = !string.IsNullOrWhiteSpace(procedureHref) ? procedureHref : throw new ArgumentNullException(nameof(procedureHref));
             ProcedureType = procedureType ?? throw new ArgumentNullException(nameof(procedureType));

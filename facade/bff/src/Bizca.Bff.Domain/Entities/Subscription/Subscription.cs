@@ -44,12 +44,12 @@
 
         internal void UpdateSubscription(Bundle bundleToUpdate, Procedure procedureToUpdate)
         {
-            if (procedureToUpdate != null && Procedure != procedureToUpdate)
+            if (procedureToUpdate != null)
             {
                 Procedure = procedureToUpdate;
             }
 
-            if (bundleToUpdate != null && Bundle != bundleToUpdate)
+            if (bundleToUpdate != null)
             {
                 Bundle = bundleToUpdate;
                 Price = bundleToUpdate.Price;
@@ -69,7 +69,7 @@
         }
         internal void SetSubscriptionState(ISubscriptionState subscriptionState)
         {
-            if (SubscriptionState != subscriptionState)
+            if (SubscriptionState.Status != subscriptionState.Status)
             {
                 SubscriptionState = subscriptionState;
             }
@@ -83,10 +83,6 @@
         {
             SubscriptionSettings.Freeze();
             SubscriptionState.StatusChangeCheck();
-        }
-        public Subscription Clone()
-        {
-            return MemberwiseClone() as Subscription;
         }
 
         #region private helpers
