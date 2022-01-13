@@ -91,17 +91,15 @@
                     nameof(subscription.SubscriptionState));
             }
 
-            Subscription cloneSubscription = subscription.Clone();
-            cloneSubscription.UpdateSubscription(bundle, procedure);
-            if (subscriptions.Any(x => x.CheckSum == cloneSubscription.CheckSum))
+            subscription.UpdateSubscription(bundle, procedure);
+            if (IsSubscriptionConflicting(subscription))
             {
-                throw new SubscriptionCannotBeUpdatedException($"subscription {subscription.SubscriptionCode} does not allowed changes.",
+                throw new SubscriptionCannotBeUpdatedException($"subscription {subscription.SubscriptionCode} is in conflict with another one with same final status.",
                     nameof(subscription.SubscriptionState));
             }
 
-            RemoveSubscriptionsWithSameCheckSum(cloneSubscription);
-            ReplaceSubscription(cloneSubscription);
-            return cloneSubscription;
+            RemoveSubscriptionsWithSameCheckSum(subscription);
+            return subscription;
         }
         public Subscription GetSubscriptionByCode(string subscriptionCode, bool throwError = false)
         {
@@ -196,10 +194,11 @@
 
         #region private helpers
 
-        private void ReplaceSubscription(Subscription subscription)
+        private bool IsSubscriptionConflicting(Subscription subscription)
         {
-            subscriptions.RemoveAll(x => x.SubscriptionCode == subscription.SubscriptionCode);
-            subscriptions.Add(subscription);
+            return subscriptions
+                .Where(x => x.CheckSum == subscription.CheckSum && x.SubscriptionState.Status != SubscriptionStatus.Expired)
+                .Count() > 1;
         }
 
         private bool IsSubscriptionAllowedToBeUpdated(Subscription subscription)

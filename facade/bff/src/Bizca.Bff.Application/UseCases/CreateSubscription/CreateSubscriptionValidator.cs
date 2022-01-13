@@ -22,11 +22,6 @@
                 .Must(x => int.TryParse(x, out int procedureTypeId))
                 .WithMessage(Resources.PROCEDURE_TYPE_INVALID);
 
-            RuleFor(x => x.BundleId)
-                .Must(x => int.TryParse(x, out int _))
-                .When(x => !string.IsNullOrWhiteSpace(x.BundleId))
-                .WithMessage(Resources.BUNDLE_INVALID);
-
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty()
                 .WithMessage(Resources.PHONENUMBER_REQUIRED);
