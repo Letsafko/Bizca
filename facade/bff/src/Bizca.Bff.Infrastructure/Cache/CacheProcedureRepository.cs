@@ -31,6 +31,11 @@
             return await cache.GetOrCreateAsync(cacheKey, () => decorated.GetProceduresAsync());
         }
 
+        public Task<IEnumerable<Procedure>> GetProceduresByActiveSubscriptionsAsync()
+        {
+            return decorated.GetProceduresByActiveSubscriptionsAsync();
+        }
+
         private string GetCacheKey(object value)
         {
             return $"{nameof(Procedure).ToLower()}_{value}";

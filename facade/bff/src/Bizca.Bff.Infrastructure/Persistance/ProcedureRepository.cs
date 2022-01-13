@@ -19,7 +19,29 @@
         }
 
         private const string getProcedureByTypeIdAndCodeInseeStoredProcedure = "bff.usp_getByIdAndCodeInsee_procedure";
+        private const string getProceduresByActiveSubscriptions = "[bff].[usp_getByActiveSubscriptions_procedure]";
         private const string getProceduresStoredProcedure = "bff.usp_getAll_procedure";
+
+        public async Task<IEnumerable<Procedure>> GetProceduresByActiveSubscriptionsAsync()
+        {
+            IEnumerable<dynamic> results = await unitOfWork.Connection
+                .QueryAsync(getProceduresByActiveSubscriptions,
+                    unitOfWork.Transaction,
+                    commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false);
+
+            if (results?.Any() != true)
+            {
+                return Array.Empty<Procedure>();
+            }
+
+            var procedures = new List<Procedure>();
+            foreach (dynamic procedure in results)
+                procedures.Add(GetProcedure(procedure));
+
+            return procedures;
+        }
+
         public async Task<Procedure> GetProcedureByTypeIdAndCodeInseeAsync(int procedureTypeId, string codeInsee)
         {
             var parameters = new

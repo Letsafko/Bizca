@@ -2,7 +2,6 @@
 {
     using Bizca.Bff.Application.Properties;
     using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.Factories;
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
@@ -44,7 +43,6 @@
             UserRequest userRequest = GetUserRequest(command);
             User user = userFactory.Create(userRequest);
             await userRepository.AddAsync(user);
-            user.RegisterUserCreatedEvent(new UserCreatedNotification(command.ExternalUserId));
 
             UserToCreateRequest userToCreateRequest = MapTo(user);
             IPublicResponse<UserCreatedResponse> response = await userAgent.CreateUserAsync(userToCreateRequest);

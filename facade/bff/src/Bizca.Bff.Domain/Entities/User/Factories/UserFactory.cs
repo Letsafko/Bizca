@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User.Factories
 {
+    using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
     public sealed class UserFactory : IUserFactory
@@ -17,10 +18,13 @@
                 ChannelConfirmationStatus.None,
                 ChannelActivationStatus.None);
 
-            return new User(userId,
+            var user = new User(userId,
                 userIdentifier,
                 userProfile,
                 request.Role);
+
+            user.RegisterUserCreatedEvent(new UserCreatedNotification(request.ExternalUserId));
+            return user;
         }
     }
 }
