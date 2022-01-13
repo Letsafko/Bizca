@@ -8,11 +8,14 @@
 )
 go
 
-alter table [ref].[emailTemplateType] add constraint [pk_emailTemplateType] primary key clustered ( [emailTemplateTypeId] )
-go
+alter table [ref].[emailTemplateType] add constraint [pk_emailTemplateType] 
+	primary key clustered ( [emailTemplateTypeId] )
+	go
 
-alter table [ref].[emailTemplateType] add constraint [df_emailTemplateType_creationDate] default getdate() for [creationDate]
-go
+alter table [ref].[emailTemplateType] add constraint [df_emailTemplateType_creationDate] 
+	default getdate() for [creationDate]
+	go
 
-alter table [ref].[emailTemplateType] add constraint [df_emailTemplateType_lastUpdate] default getdate() for [lastUpdate]
-go
+alter table [ref].[emailTemplateType] add constraint [df_emailTemplateType_lastUpdate] 
+	default getdate() for [lastUpdate]
+	go

@@ -16,5 +16,5 @@ go
 alter table [ref].[channel] add constraint [df_channel_lastUpdate] default getdate() for [lastUpdate]
 go
 
-create unique index [ix_channelCode] on [ref].[channel] ([channelCode] asc)
+create unique index [ix_channel_channelCode] on [ref].[channel] ([channelCode] asc)
 go

@@ -9,8 +9,7 @@
     <ProjectGuid>{bd7fbe3e-0188-477d-afb9-41c2c9b0e5bd}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
-    <RootPath>
-    </RootPath>
+    <RootPath />
     <RootNamespace>bizca.dacpac</RootNamespace>
     <AssemblyName>bizca.dacpac</AssemblyName>
     <ModelCollation>1036,CI</ModelCollation>
@@ -109,7 +108,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
@@ -134,6 +132,8 @@
     <Folder Include="bff\Functions" />
     <Folder Include="bff\Stored procedures" />
     <Folder Include="bff\Types" />
+    <Folder Include="ntf" />
+    <Folder Include="ntf\Tables" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ref\Tables\partner.sql" />
@@ -212,6 +212,9 @@
     </Build>
     <Build Include="ref\Tables\emailTemplateType.sql" />
     <Build Include="ref\Stored Procedures\usp_getByType_emailTemplate.sql" />
+    <Build Include="Security\ntf.sql" />
+    <Build Include="ntf\Tables\message.sql" />
+    <Build Include="bff\Stored procedures\usp_getByActiveSubscriptions_procedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\PostDeployment\role.sql" />

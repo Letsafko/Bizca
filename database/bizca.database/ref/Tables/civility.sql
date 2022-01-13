@@ -16,5 +16,5 @@ go
 alter table [ref].[civility] add constraint [df_civility_lastUpdate] default getdate() for [lastUpdate]
 go
 
-create unique index [ix_civilityCode] on [ref].[civility] ([civilityCode] asc)
+create unique index [ix_civility_civilityCode] on [ref].[civility] ([civilityCode] asc)
 go

@@ -4,7 +4,6 @@ namespace Bizca.Core.Infrastructure.Test
     using Bizca.Core.Infrastructure.Database.Configuration;
     using NSubstitute;
     using System.Data;
-    using UnitOfWork = Core.Infrastructure.UnitOfWork;
 
     public sealed class UnitOfWorkBuilder
     {

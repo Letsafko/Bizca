@@ -4,6 +4,7 @@
 	[organismId]	  int not null,
 	[active]		  bit not null,
 	[procedureHref]   varchar(200) not null,
+	[settings]		  varchar(200) not null,
 	[creationDate]	  datetime2 not null,
     [lastUpdate]	  datetime2 not null
 )
@@ -16,6 +17,9 @@ alter table [bff].[procedure] add constraint [fk_procedure_procedureTypeId] fore
 go
 
 alter table [bff].[procedure] add constraint [fk_procedure_organismId] foreign key([organismId]) references [bff].[organism]( [organismId] )
+go
+
+alter table [bff].[procedure] add constraint [df_procedure_settings] default('{}') for [settings]
 go
 
 alter table [bff].[procedure] add constraint [df_procedure_creationDate] default getdate() for [creationDate]
