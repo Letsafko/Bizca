@@ -4,7 +4,7 @@
 	[organismId]	  int not null,
 	[active]		  bit not null,
 	[procedureHref]   varchar(200) not null,
-	[settings]		  varchar(200) not null,
+	[settings]		  varchar(500) not null,
 	[creationDate]	  datetime2 not null,
     [lastUpdate]	  datetime2 not null
 )

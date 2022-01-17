@@ -8,6 +8,7 @@
         Task<Partner.Partner> GetPartnerByCodeAsync(string partner, bool throwError = false);
         Task<Country.Country> GetCountryByIdAsync(int countryId, bool throwError = false);
         Task<Country.Country> GetCountryByCodeAsync(string countryCode, bool throwError = false);
+        Task<EmailTemplate.EmailTemplate> GetEmailTemplateByIdAsync(int emailTemplate, bool throwError = false);
         Task<EconomicActivity.EconomicActivity> GetEconomicActivityByIdAsync(int economicActivity, bool throwError = false);
     }
 }

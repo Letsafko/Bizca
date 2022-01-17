@@ -4,7 +4,9 @@
     using Bizca.Core.Domain.Civility;
     using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.EconomicActivity;
+    using Bizca.Core.Domain.EmailTemplate;
     using Bizca.Core.Domain.Partner;
+    using Bizca.Core.Domain.Services;
     using Bizca.Core.Infrastructure;
     using Bizca.Core.Infrastructure.Cache;
     using Bizca.Core.Infrastructure.Database;
@@ -40,6 +42,11 @@
 
             builder.RegisterType<CountryRepository>().As<ICountryRepository>().InstancePerLifetimeScope();
             builder.RegisterDecorator<CacheCountryRepository, ICountryRepository>();
+
+            builder.RegisterType<EmailTemplateRepository>().As<IEmailTemplateRepository>().InstancePerLifetimeScope();
+            builder.RegisterDecorator<CacheEmailTemplateRepository, IEmailTemplateRepository>();
+
+            builder.RegisterType<ReferentialService>().As<IReferentialService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ChannelConfirmationRepository>().As<IChannelConfirmationRepository>().InstancePerLifetimeScope();
             builder.RegisterType<PasswordRepository>().As<IPasswordRepository>().InstancePerLifetimeScope();

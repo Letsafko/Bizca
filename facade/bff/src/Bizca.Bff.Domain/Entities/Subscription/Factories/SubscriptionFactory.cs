@@ -1,6 +1,5 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription.Factories
 {
-    using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Core.Domain.Exceptions;
     using System;
@@ -9,12 +8,9 @@
     public sealed class SubscriptionFactory : ISubscriptionFactory
     {
         private readonly IProcedureRepository procedureRepository;
-        private readonly IBundleRepository bundleRepository;
-        public SubscriptionFactory(IProcedureRepository procedureRepository,
-            IBundleRepository bundleRepository)
+        public SubscriptionFactory(IProcedureRepository procedureRepository)
         {
             this.procedureRepository = procedureRepository;
-            this.bundleRepository = bundleRepository;
         }
 
         private const int SubscriptionInitialId = 0;

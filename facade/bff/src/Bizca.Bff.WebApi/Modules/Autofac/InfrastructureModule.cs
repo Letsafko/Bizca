@@ -11,7 +11,9 @@
     using Bizca.Bff.Infrastructure.Wrappers.Notifications;
     using Bizca.Bff.Infrastructure.Wrappers.Users;
     using Bizca.Core.Domain;
+    using Bizca.Core.Domain.EmailTemplate;
     using Bizca.Core.Infrastructure;
+    using Bizca.Core.Infrastructure.Cache;
     using Bizca.Core.Infrastructure.Database;
     using Bizca.Core.Infrastructure.Persistance;
     using global::Autofac;
@@ -44,6 +46,8 @@
             builder.RegisterType<BundleRepository>().As<IBundleRepository>().InstancePerLifetimeScope();
             builder.RegisterDecorator<CacheBundleRepository, IBundleRepository>();
 
+            builder.RegisterType<EmailTemplateRepository>().As<IEmailTemplateRepository>().InstancePerLifetimeScope();
+            builder.RegisterDecorator<CacheEmailTemplateRepository, IEmailTemplateRepository>();
         }
         private void LoadWrappers(ContainerBuilder builder)
         {

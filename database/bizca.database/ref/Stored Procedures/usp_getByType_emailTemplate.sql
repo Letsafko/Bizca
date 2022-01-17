@@ -13,4 +13,5 @@ as
 	from [ref].[emailTemplate] et
 	join [ref].[emailTemplateType] ett on et.emailTemplateTypeId = ett.emailTemplateTypeId
 	join [ref].[language] l on l.languageId = et.languageId
-	where l.languageCode = @languageCode
+	where l.languageCode = @languageCode and
+		  et.emailTemplateTypeId = @emailTemplateTypeId

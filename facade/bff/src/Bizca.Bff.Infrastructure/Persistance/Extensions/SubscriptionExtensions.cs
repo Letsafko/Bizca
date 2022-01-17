@@ -8,7 +8,7 @@
 
     public static class SubscriptionExtensions
     {
-        public static DataTable ToDataTable(this IEnumerable<Subscription> subscriptions, int userId, string typeName)
+        public static DataTable ToDataTable(this IEnumerable<Subscription> subscriptions, string typeName)
         {
             var dt = new DataTable(typeName);
             dt.Columns.Add(SubscriptionColumns.SubscriptionId, typeof(int));
@@ -73,6 +73,25 @@
                         x.SubscriptionSettings?.EndDate
                     );
                 });
+
+            return dt;
+        }
+
+        public static DataTable ToDataTable(this IEnumerable<SubscriberAvailability> subscribers, string typeName)
+        {
+            var dt = new DataTable(typeName);
+            dt.Columns.Add(SubscriptionColumns.SubscriptionId, typeof(int));
+            dt.Columns.Add(SubscriptionColumns.EmailCounter, typeof(int));
+            dt.Columns.Add(SubscriptionColumns.SmsCounter, typeof(int));
+            foreach (var subscriber in subscribers)
+            {
+                dt.Rows.Add
+                (
+                    subscriber.SubscriptionId,
+                    subscriber.EmailCounter,
+                    subscriber.SmsCounter
+                );
+            }
 
             return dt;
         }

@@ -186,6 +186,12 @@
   <data name="LASTNAME_REQUIRED" xml:space="preserve">
     <value>lastName is required.</value>
   </data>
+  <data name="ORGANISM_IDENTIFIER_INVALID" xml:space="preserve">
+    <value>organism identifier is invalid</value>
+  </data>
+  <data name="ORGANISM_IDENTIFIER_REQUIRED" xml:space="preserve">
+    <value>organism identifier is required</value>
+  </data>
   <data name="PARTNER_CODE_REQUIRED" xml:space="preserve">
     <value>partnerCode is required.</value>
   </data>

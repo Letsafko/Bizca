@@ -91,7 +91,8 @@
                 result.organismHref);
             return new Procedure(procedureType,
                 organism,
-                result.procedureHref);
+                result.procedureHref,
+                result.settings);
         }
     }
 }
