@@ -13,6 +13,7 @@
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
     using Bizca.Bff.Application.UseCases.RegisterSmsCodeConfirmation;
     using Bizca.Bff.Application.UseCases.ReInitializedPassword;
+    using Bizca.Bff.Application.UseCases.SendProcedureAppointmentAvailability;
     using Bizca.Bff.Application.UseCases.SubscriptionActivation;
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
     using Bizca.Bff.Application.UseCases.UpdateUser;
@@ -30,6 +31,7 @@
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptions;
     using Bizca.Bff.WebApi.UseCases.V10.RegisterSmsCodeConfirmation;
     using Bizca.Bff.WebApi.UseCases.V10.ReInitializedPassword;
+    using Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability;
     using Bizca.Bff.WebApi.UseCases.V10.SubscriptionActivation;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateUser;
@@ -47,6 +49,9 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<SendProcedureAppointmentAvailabilityPresenter>().InstancePerLifetimeScope();
+            builder.Register<ISendProcedureAppointmentAvailabilityOutput>(x => x.Resolve<SendProcedureAppointmentAvailabilityPresenter>()).InstancePerLifetimeScope();
+
             builder.RegisterType<GetProceduresForActiveSubscriptionsPresenter>().InstancePerLifetimeScope();
             builder.Register<IGetProceduresForActiveSubscriptionsOutput>(x => x.Resolve<GetProceduresForActiveSubscriptionsPresenter>()).InstancePerLifetimeScope();
 

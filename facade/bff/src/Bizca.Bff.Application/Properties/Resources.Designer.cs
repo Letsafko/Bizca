@@ -268,6 +268,24 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à organism identifier is invalid.
+        /// </summary>
+        internal static string ORGANISM_IDENTIFIER_INVALID {
+            get {
+                return ResourceManager.GetString("ORGANISM_IDENTIFIER_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à organism identifier is required.
+        /// </summary>
+        internal static string ORGANISM_IDENTIFIER_REQUIRED {
+            get {
+                return ResourceManager.GetString("ORGANISM_IDENTIFIER_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à partnerCode is required..
         /// </summary>
         internal static string PARTNER_CODE_REQUIRED {

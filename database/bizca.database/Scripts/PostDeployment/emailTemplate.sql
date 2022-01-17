@@ -6,11 +6,13 @@
 )
 
 declare @environnement varchar(30)  = '$(Environnement)'
-if @environnement in ('Dev','Integration')
+if @environnement in ('Dev','Integration', 'AzureIntegration')
 begin
 	insert into @template values
 	(3, 1, 1),
-	(4, 1, 2)
+	(4, 2, 1),
+	(6, 1, 2),
+	(8, 3, 1)
 end
 
 merge into [ref].[emailTemplate] as target

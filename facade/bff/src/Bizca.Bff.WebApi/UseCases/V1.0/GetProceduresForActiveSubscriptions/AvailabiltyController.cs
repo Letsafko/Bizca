@@ -15,18 +15,17 @@
     [ApiVersion("1.0")]
     [Route("api/v{version:api-version}/[controller]")]
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Subscriptions")]
-    public sealed class SubscriptionsController : ControllerBase
+    public sealed class AvailabiltyController : ControllerBase
     {
         private readonly GetProceduresForActiveSubscriptionsPresenter presenter;
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="SubscriptionsController"/>
+        ///     Create an instance of <see cref="AvailabiltyController"/>
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
-        public SubscriptionsController(GetProceduresForActiveSubscriptionsPresenter presenter, IProcessor processor)
+        public AvailabiltyController(GetProceduresForActiveSubscriptionsPresenter presenter, IProcessor processor)
         {
             this.processor = processor;
             this.presenter = presenter;
@@ -36,7 +35,7 @@
         ///     Retrieve procedure by active subscriptions.
         /// </summary>
         /// <remarks>/Assets/getProceduresByActiveSubscriptions.md</remarks>
-        [HttpGet("active/procedures")]
+        [HttpGet("procedures")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProcedureLightCollectionViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]

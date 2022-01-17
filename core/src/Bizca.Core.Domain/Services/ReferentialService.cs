@@ -3,6 +3,7 @@
     using Bizca.Core.Domain.Civility;
     using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.EconomicActivity;
+    using Bizca.Core.Domain.EmailTemplate;
     using Bizca.Core.Domain.Exceptions;
     using Bizca.Core.Domain.Partner;
     using System;
@@ -17,16 +18,30 @@
         private readonly ICountryRepository countryRepository;
         private readonly IPartnerRepository partnerRepository;
         private readonly ICivilityRepository civilityRepository;
+        private readonly IEmailTemplateRepository emailTemplateRepository;
         private readonly IEconomicActivityRepository economicActivityRepository;
         public ReferentialService(ICivilityRepository civilityRepository,
             ICountryRepository countryRepository,
             IPartnerRepository partnerRepository,
+            IEmailTemplateRepository emailTemplateRepository,
             IEconomicActivityRepository economicActivityRepository)
         {
             this.countryRepository = countryRepository;
             this.partnerRepository = partnerRepository;
             this.civilityRepository = civilityRepository;
+            this.emailTemplateRepository = emailTemplateRepository;
             this.economicActivityRepository = economicActivityRepository;
+        }
+
+        /// <summary>
+        ///     Gets email template.
+        /// </summary>
+        /// <param name="emailTemplate">email template identifier.</param>
+        /// <param name="throwError">when true and result is null, an exception is thrown.</param>
+        public async Task<EmailTemplate> GetEmailTemplateByIdAsync(int emailTemplate, bool throwError = false)
+        {
+            return await emailTemplateRepository.GetByIdAsync(emailTemplate).ConfigureAwait(false)
+                ?? (!throwError ? default(EmailTemplate) : throw GetDomainException<EmailTemplateDoesNotExistException>(nameof(emailTemplate), emailTemplate));
         }
 
         /// <summary>

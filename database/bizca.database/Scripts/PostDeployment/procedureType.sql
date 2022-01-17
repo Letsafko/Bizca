@@ -3,6 +3,8 @@
 	(
 		values   (1,'Première demande de titre de sejour')
 				,(2,'Renouvellement de titre de séjour salarié')
+				,(3,'Commission médicale')
+				,(4,'Renouvellement carte de séjour temporaire et pluriannuelle, de carte de résident et de certificat de résidence algérien')
 	) as source(procedureTypeId, [description]) 
 	on 
 	(

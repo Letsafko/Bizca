@@ -2,7 +2,8 @@
 	using 
 	(
 		values   (1, 'Activer votre compte', 'Activate your account'),
-				 (2, 'Réinitialiser votre mot de passe', 'Reset your password')
+				 (2, 'Réinitialiser votre mot de passe', 'Reset your password'),
+				 (3, 'Créneau horaire disponible', 'Time slot available')
 	) as source
 	(	
 		[emailTemplateTypeId], 
