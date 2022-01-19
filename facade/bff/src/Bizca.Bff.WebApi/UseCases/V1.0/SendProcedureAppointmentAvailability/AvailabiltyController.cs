@@ -50,9 +50,8 @@
         private static SendProcedureAppointmentAvailabilityCommand ConvertFrom(SendProcedureAppointmentAvailability sendProcedureAppointment)
         {
             return new SendProcedureAppointmentAvailabilityCommand(Resources.PartnerCode,
-                sendProcedureAppointment.ProcedureHref,
                 sendProcedureAppointment.ProcedureId,
-                sendProcedureAppointment.OrganismId);
+                sendProcedureAppointment.CodeInsee);
         }
     }
 }

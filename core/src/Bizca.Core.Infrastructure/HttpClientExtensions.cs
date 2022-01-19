@@ -2,6 +2,7 @@
 {
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using System;
     using System.Collections;
     using System.Net.Http;
     using System.Text;
@@ -10,7 +11,7 @@
         public const string JsonMediaType = "application/json";
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            ContractResolver = new CamelCaseExceptDictionaryKeysResolver(),
             NullValueHandling = NullValueHandling.Ignore
         };
 
@@ -29,6 +30,16 @@
                     request.Headers.Add(entry.ToString(), headers[entry].ToString());
                 }
             }
+        }
+    }
+
+    class CamelCaseExceptDictionaryKeysResolver : CamelCasePropertyNamesContractResolver
+    {
+        protected override JsonDictionaryContract CreateDictionaryContract(Type objectType)
+        {
+            JsonDictionaryContract contract = base.CreateDictionaryContract(objectType);
+            contract.DictionaryKeyResolver = propertyName => propertyName;
+            return contract;
         }
     }
 }
