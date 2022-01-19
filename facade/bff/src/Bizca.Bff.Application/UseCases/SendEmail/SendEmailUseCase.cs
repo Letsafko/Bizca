@@ -19,6 +19,8 @@
         {
             var request = new TransactionalEmailRequest(sender: notification.Sender,
                 to: notification.To,
+                notification.Params,
+                notification.TemplateId,
                 subject: notification.Subject,
                 htmlContent: notification.HtmlContent);
 

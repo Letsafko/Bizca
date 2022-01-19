@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.SendProcedureAppointmentAvailability
 {
-    using Bizca.Bff.Application.Properties;
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.User.Events;
+    using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
     using Bizca.Core.Application.Commands;
     using Bizca.Core.Application.Services;
@@ -18,13 +18,16 @@
         private readonly ISendProcedureAppointmentAvailabilityOutput availabilityOutput;
         private readonly IEmailTemplateRepository emailTemplateRepository;
         private readonly ISubscriptionRepository subscriptionRepository;
+        private readonly IProcedureRepository procedureRepository;
         private readonly IEventService eventService;
         public SendProcedureAppointmentAvailabilityUseCase(ISendProcedureAppointmentAvailabilityOutput availabilityOutput,
             ISubscriptionRepository subscriptionRepository,
             IEmailTemplateRepository emailTemplateRepository,
+            IProcedureRepository procedureRepository,
             IEventService eventService)
         {
             this.subscriptionRepository = subscriptionRepository;
+            this.procedureRepository = procedureRepository;
             this.availabilityOutput = availabilityOutput;
             this.emailTemplateRepository = emailTemplateRepository;
             this.eventService = eventService;
@@ -32,20 +35,22 @@
 
         public async Task<Unit> Handle(SendProcedureAppointmentAvailabilityCommand request, CancellationToken cancellationToken)
         {
+            var procedureTypeId = int.Parse(request.ProcedureId);
             var emailTemplate = await emailTemplateRepository.GetByIdAsync((int)EmailTemplateType.ProcedureAvailability);
-            var subscribers = await subscriptionRepository.GetSubscribers(int.Parse(request.OrganismId),
-                int.Parse(request.ProcedureId));
+            var procedure = await procedureRepository.GetProcedureByTypeIdAndCodeInseeAsync(procedureTypeId, request.CodeInsee);
+            var subscribers = await subscriptionRepository.GetSubscribers(procedure.Organism.Id, procedureTypeId);
 
             var events = new List<IEvent>();
-            var smsNotification = BuildSmsGroupNotification(request.PartnerCode, subscribers);
+            //var smsNotification = BuildSmsGroupNotification(request.PartnerCode, subscribers);
             var emailNotification = BuildEmailGroupNotification(request.PartnerCode,
-                request.ProcedureHref,
+                procedure.ProcedureHref,
+                procedure.ProcedureType.Label,
                 emailTemplate.EmailTemplateId,
                 subscribers);
 
-            events.Add(smsNotification);
+            //events.Add(smsNotification);
             events.Add(emailNotification);
-            //eventService.Enqueue(events);
+            eventService.Enqueue(events);
 
             IncrementSmsAndEmailCounter(subscribers);
             await subscriptionRepository.UpdateSubscriberAvailability(subscribers);
@@ -66,19 +71,20 @@
 
         private static IEvent BuildEmailGroupNotification(string partnerCode,
             string procedureHref,
+            string procedureDescription,
             int emailTemplateId,
             IEnumerable<SubscriberAvailability> subscribers)
         {
             var recipients = new List<MailAddressRequest>();
-            var sender = new MailAddressRequest(partnerCode, Resources.BIZCA_NO_REPLY_EMAIL);
             foreach (var subscriber in subscribers)
             {
                 string fullName = $"{subscriber.UserSubscription.FirstName} {subscriber.UserSubscription.LastName}";
                 recipients.Add(new MailAddressRequest(fullName, subscriber.UserSubscription.Email));
             }
 
-            var notification = new SendEmailNotification(sender, recipients);
-            notification.AddNewParam("PROCEDURE_HREF", procedureHref);
+            var notification = new SendEmailNotification(default, recipients);
+            notification.AddNewParam("PROCEDURENAME", procedureDescription);
+            notification.AddNewParam("PROCEDUREURL", procedureHref);
             notification.SetTemplate(emailTemplateId);
             return notification;
         }
