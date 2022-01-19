@@ -27,8 +27,10 @@ begin
 		p.procedureHref,
 		pt.[description] [procedureTypeLabel],
 		p.organismId,
+		o.codeInsee,
 		p.settings
 	from [bff].[procedure] p
+	join [bff].organism o on o.organismId = p.organismId
 	join activeProcedures ap 
 	on
 	(
