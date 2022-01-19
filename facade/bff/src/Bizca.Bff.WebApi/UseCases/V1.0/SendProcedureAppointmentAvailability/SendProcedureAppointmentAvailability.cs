@@ -6,18 +6,13 @@
     public sealed class SendProcedureAppointmentAvailability
     {
         /// <summary>
-        ///  Organism identifier.
+        ///  Organism code identifier.
         /// </summary>
-        public string OrganismId { get; set; }
+        public string CodeInsee { get; set; }
 
         /// <summary>
         /// Procedure identifier.
         /// </summary>
         public string ProcedureId { get; set; }
-
-        /// <summary>
-        /// Procedure href.
-        /// </summary>
-        public string ProcedureHref { get; set; }
     }
 }

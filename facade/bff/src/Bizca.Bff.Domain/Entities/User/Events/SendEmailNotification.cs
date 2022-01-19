@@ -7,10 +7,9 @@
     {
         public SendEmailNotification(MailAddressRequest sender,
             ICollection<MailAddressRequest> to,
-            string subject = "",
-            string htmlContent = "")
+            string subject = null,
+            string htmlContent = null)
         {
-            Params = new Dictionary<string, string>();
             HtmlContent = htmlContent;
             Subject = subject;
             Sender = sender;
@@ -22,10 +21,14 @@
         public MailAddressRequest Sender { get; }
         public string HtmlContent { get; private set; }
         public string Subject { get; private set; }
-        public int TemplateId { get; private set; }
+        public int? TemplateId { get; private set; }
 
         public void SetHtmlContent(string htmlContent) => HtmlContent = htmlContent;
-        public void AddNewParam(string key, string value) => Params[key] = value;
+        public void AddNewParam(string key, string value)
+        {
+            Params ??= new Dictionary<string, string>();
+            Params[key] = value;
+        }
         public void SetTemplate(int emailTemplate) => TemplateId = emailTemplate;
         public void SetSubject(string subject) => Subject = subject;
     }

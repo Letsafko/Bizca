@@ -5,17 +5,23 @@
     {
         public TransactionalEmailRequest(MailAddressRequest sender,
             ICollection<MailAddressRequest> to,
-            string subject,
-            string htmlContent)
+            IDictionary<string, string> parameters,
+            int? emailTemplateId,
+            string subject = null,
+            string htmlContent = null)
         {
+            TemplateId = emailTemplateId;
             HtmlContent = htmlContent;
+            Params = parameters;
             Subject = subject;
             Sender = sender;
             To = to;
         }
 
+        public IDictionary<string, string> Params { get; set; }
         public ICollection<MailAddressRequest> To { get; }
         public MailAddressRequest Sender { get; }
+        public int? TemplateId { get; }
         public string HtmlContent { get; }
         public string Subject { get; }
     }
