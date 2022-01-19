@@ -17,10 +17,8 @@
             foreach (var proc in procedures)
             {
                 Add(new ProcedureLightViewModel(proc.ProcedureType.Id,
-                    proc.Organism.Id,
                     proc.Organism.CodeInsee,
                     proc.ProcedureHref,
-                    proc.ProcedureType.Label,
                     proc.ProcedureSettings));
             }
         }

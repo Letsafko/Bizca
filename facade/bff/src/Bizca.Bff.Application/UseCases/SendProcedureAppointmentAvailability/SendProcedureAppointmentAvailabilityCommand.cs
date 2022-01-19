@@ -4,19 +4,16 @@
     public sealed class SendProcedureAppointmentAvailabilityCommand : ICommand
     {
         public SendProcedureAppointmentAvailabilityCommand(string partnerCode,
-            string procedureHref,
             string procedureId,
-            string organismId)
+            string codeInsee)
         {
-            ProcedureHref = procedureHref;
             PartnerCode = partnerCode;
             ProcedureId = procedureId;
-            OrganismId = organismId;
+            CodeInsee = codeInsee;
         }
 
-        public string ProcedureHref { get; }
         public string PartnerCode { get; }
         public string ProcedureId { get; }
-        public string OrganismId { get; }
+        public string CodeInsee { get; }
     }
 }

@@ -8,11 +8,9 @@
         public SendProcedureAppointmentAvailabilityCommandValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            RuleFor(x => x.OrganismId)
+            RuleFor(x => x.CodeInsee)
                 .NotEmpty()
-                .WithMessage(Resources.ORGANISM_IDENTIFIER_REQUIRED)
-                .Must(x => int.TryParse(x, out int _))
-                .WithMessage(Resources.ORGANISM_IDENTIFIER_INVALID);
+                .WithMessage(Resources.CODE_INSEE_REQUIRED);
 
             RuleFor(x => x.ProcedureId)
                 .NotEmpty()
