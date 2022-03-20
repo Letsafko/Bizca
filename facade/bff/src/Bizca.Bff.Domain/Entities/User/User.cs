@@ -6,7 +6,6 @@
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
     using Bizca.Core.Domain;
@@ -46,6 +45,7 @@
         {
             return rowVersion;
         }
+
         private byte[] rowVersion;
 
         #region aggregate helpers
@@ -129,10 +129,12 @@
                 phoneNumber,
                 content));
         }
+
         public void RegisterUserCreatedEvent(UserCreatedNotification userCreated)
         {
             userEvents.Add(userCreated);
         }
+
         public void RegisterUserUpdatedEvent(UserUpdatedNotification userUpdated)
         {
             userEvents.Add(userUpdated);
@@ -140,9 +142,7 @@
 
         #endregion
 
-        public void UpdateSubscription(string subscriptionCode,
-            Bundle bundle,
-            Procedure procedure)
+        public void UpdateSubscription(string subscriptionCode, Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
             if (!IsSubscriptionAllowedToBeUpdated(subscription))
@@ -151,7 +151,7 @@
                     nameof(subscription.SubscriptionState));
             }
 
-            subscription.UpdateSubscription(bundle, procedure);
+            subscription.UpdateProcedureSubscription(procedure);
             if (IsSubscriptionConflicting(subscription))
             {
                 throw new SubscriptionCannotBeUpdatedException($"subscription {subscription.SubscriptionCode} is in conflict with another one with same final status.",
@@ -160,6 +160,7 @@
 
             RemoveSubscriptionsWithSameCheckSum(subscription);
         }
+
         public Subscription GetSubscriptionByCode(string subscriptionCode, bool throwError = false)
         {
             var subscription = subscriptions
@@ -169,6 +170,7 @@
                 ? throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.")
                 : subscription;
         }
+
         public void SetChannelConfirmationStatus(string channelType)
         {
             if (UserProfile is null)
@@ -177,6 +179,7 @@
             var channelToConfirm = GetChannelToConfirm(channelType);
             UserProfile.SetChannelConfirmationStatus(channelToConfirm);
         }
+
         public void SetChannelActivationStatus(string channelType)
         {
             if (UserProfile is null)
@@ -185,12 +188,15 @@
             var channelToActivate = GetChannelToActivate(channelType);
             UserProfile.SetChannelActivationStatus(channelToActivate);
         }
+
         public void RemoveSubscriptionsWithSameCheckSum(Subscription subscription)
         {
+            //supprimer toutes les subscriptions en pending ayant le même checksum que l'instance courante.
             subscriptions.RemoveAll(x => x.CheckSum == subscription.CheckSum
                 && x.SubscriptionState.Status == SubscriptionStatus.Pending
                 && x.SubscriptionCode != subscription.SubscriptionCode);
         }
+
         public Subscription DesactivateSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
@@ -200,6 +206,7 @@
             }
             return subscription;
         }
+
         public Subscription ActivateSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
@@ -209,6 +216,7 @@
             }
             return subscription;
         }
+
         public void AddSubscription(Subscription subscription)
         {
             if (!IsSubscriptionAllowedToBeAdd(subscription))
@@ -216,6 +224,7 @@
 
             subscriptions.Add(subscription);
         }
+
         public void UpdateUserProfile(Civility? civility,
             string firstName,
             string lastName,
@@ -282,6 +291,7 @@
 
         private bool IsSubscriptionConflicting(Subscription subscription)
         {
+            //verifier qu'il n'existe pas plus d'une subscription avec le même checksum et un status different de <Expired>
             return subscriptions
                 .Where(x => x.CheckSum == subscription.CheckSum && x.SubscriptionState.Status != SubscriptionStatus.Expired)
                 .Count() > 1;
@@ -291,6 +301,7 @@
         {
             return subscription.SubscriptionState.Status == SubscriptionStatus.Pending;
         }
+
         private ChannelConfirmationStatus GetChannelToConfirm(string channelType)
         {
             var channelTypeEnum = GetChannelType(channelType);
@@ -303,6 +314,7 @@
                 _ => throw new InvalidCastException($"unable to retrieve channel confirmtion from channel type {channelTypeEnum}")
             };
         }
+
         private ChannelActivationStatus GetChannelToActivate(string channelType)
         {
             var channelTypeEnum = GetChannelType(channelType);
@@ -315,14 +327,17 @@
                 _ => throw new InvalidCastException($"unable to retrieve channel activation from channel type {channelTypeEnum}")
             };
         }
+
         private bool IsAllowedToProcessActivation(SubscriptionStatus status)
         {
             return status == SubscriptionStatus.Deactivated;
         }
+
         private bool IsAllowedToProcessDesactivation(SubscriptionStatus status)
         {
             return status == SubscriptionStatus.Activated;
         }
+
         private bool IsSubscriptionAllowedToBeAdd(Subscription subscription)
         {
             foreach (Subscription subscr in subscriptions)
@@ -335,10 +350,12 @@
             }
             return true;
         }
+
         private ChannelType GetChannelType(string channelType)
         {
             return Enum.Parse<ChannelType>(channelType, true);
         }
+
         private void SetRowVersion(byte[] value)
         {
             rowVersion = value;

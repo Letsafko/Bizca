@@ -42,31 +42,42 @@
         public Money Price { get; private set; }
         internal int CheckSum => ComputeCheckSum();
 
-        internal void UpdateSubscription(Bundle bundleToUpdate, Procedure procedureToUpdate)
+        internal void UpdateProcedureSubscription(Procedure procedureToUpdate)
         {
-            if (procedureToUpdate != null)
+            if (procedureToUpdate is null)
+            {
+                return;
+            }
+
+            if (procedureToUpdate != Procedure)
             {
                 Procedure = procedureToUpdate;
             }
-
-            if (bundleToUpdate != null)
-            {
-                Bundle = bundleToUpdate;
-                Price = bundleToUpdate.Price;
-                SubscriptionSettings = new SubscriptionSettings(SubscriptionSettings?.WhatsappCounter ?? 0,
-                    SubscriptionSettings?.EmailCounter ?? 0,
-                    SubscriptionSettings?.SmsCounter ?? 0,
-                    bundleToUpdate.BundleSettings.TotalWhatsapp,
-                    bundleToUpdate.BundleSettings.TotalEmail,
-                    bundleToUpdate.BundleSettings.TotalSms);
-
-                DateTime beginDate = DateTime.Now;
-                DateTime endDate = beginDate.AddDays(bundleToUpdate.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
-
-                SetEndDate(endDate);
-                SetBeginDate(beginDate);
-            }
         }
+
+        internal void UpdateBundleSubscription(Bundle bundleToUpdate)
+        {
+            if (bundleToUpdate is null || bundleToUpdate == Bundle)
+            {
+                return;
+            }
+
+            Bundle = bundleToUpdate;
+            Price = bundleToUpdate.Price;
+            SubscriptionSettings = new SubscriptionSettings(SubscriptionSettings?.WhatsappCounter ?? 0,
+                SubscriptionSettings?.EmailCounter ?? 0,
+                SubscriptionSettings?.SmsCounter ?? 0,
+                bundleToUpdate.BundleSettings.TotalWhatsapp,
+                bundleToUpdate.BundleSettings.TotalEmail,
+                bundleToUpdate.BundleSettings.TotalSms);
+
+            DateTime beginDate = DateTime.UtcNow;
+            DateTime endDate = beginDate.AddDays(bundleToUpdate.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
+
+            SetEndDate(endDate);
+            SetBeginDate(beginDate);
+        }
+
         internal void SetSubscriptionState(ISubscriptionState subscriptionState)
         {
             if (SubscriptionState.Status != subscriptionState.Status)

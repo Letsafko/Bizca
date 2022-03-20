@@ -4,7 +4,6 @@
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Entities.User.Exceptions;
     using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.Domain.Referentials.Bundle.Exceptions;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Bff.Domain.Referentials.Procedure.Exceptions;
     using Bizca.Core.Application.Commands;
@@ -40,38 +39,19 @@
                 throw new UserDoesNotExistException($"user {command.ExternalUserId} does not exist.");
             }
 
-            (Bundle bundle, Procedure procedure) = await GetEntities(command);
-            if (!string.IsNullOrWhiteSpace(command.BundleId) && bundle is null)
-                throw new BundleDoesNotExistException($"bundle::{command.BundleId} does not exist.");
+            var procedure = await GetProcedureAsync(command);
+            user.UpdateSubscription(command.SubscriptionCode, procedure);
 
-            if (procedure is null)
-                throw new ProcedureDoesNotExistException($"procedureType::{command.ProcedureTypeId} with codeInsee::{command.CodeInsee} does not exist.");
-
-            user.UpdateSubscription(command.SubscriptionCode, bundle, procedure);
             await subscriptionRepository.UpsertAsync(user.UserIdentifier.UserId, user.Subscriptions);
             subscriptionOutput.Ok(user.GetSubscriptionByCode(command.SubscriptionCode));
             return Unit.Value;
         }
 
-        #region private helpers
-
-        private async Task<(Bundle bundle, Procedure procedure)> GetEntities(UpdateSubscriptionCommand command)
+        private async Task<Procedure> GetProcedureAsync(UpdateSubscriptionCommand command)
         {
-            Task<Procedure> procedureTask = procedureRepository.GetProcedureByTypeIdAndCodeInseeAsync(int.Parse(command.ProcedureTypeId), command.CodeInsee);
-            var bundleTask = Task.FromResult(default(Bundle));
-            if (!string.IsNullOrWhiteSpace(command.BundleId))
-            {
-                bundleTask = bundleRepository.GetBundleByIdAsync(int.Parse(command.BundleId));
-            }
-            await Task.WhenAll(bundleTask, procedureTask);
-            return
-            (
-                bundleTask.Result,
-                procedureTask.Result
-            );
+            return await procedureRepository.GetProcedureByTypeIdAndCodeInseeAsync(int.Parse(command.ProcedureTypeId),
+                command.CodeInsee)
+                ?? throw new ProcedureDoesNotExistException($"procedureType::{command.ProcedureTypeId} with codeInsee::{command.CodeInsee} does not exist.");
         }
-
-        #endregion
-
     }
 }

@@ -6,20 +6,17 @@
         public UpdateSubscriptionCommand(string externalUserId,
             string subscriptionCode,
             string codeInsee,
-            string procedureTypeId,
-            string bundleId)
+            string procedureTypeId)
         {
             SubscriptionCode = subscriptionCode;
             ProcedureTypeId = procedureTypeId;
             ExternalUserId = externalUserId;
             CodeInsee = codeInsee;
-            BundleId = bundleId;
         }
 
         public string SubscriptionCode { get; }
         public string ExternalUserId { get; }
         public string ProcedureTypeId { get; }
         public string CodeInsee { get; }
-        public string BundleId { get; }
     }
 }
