@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.SendProcedureAppointmentAvailability
 {
+    using Bizca.Bff.Domain;
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Referentials.Procedure;
@@ -83,8 +84,8 @@
             }
 
             var notification = new SendEmailNotification(default, recipients);
-            notification.AddNewParam("PROCEDURENAME", procedureDescription);
-            notification.AddNewParam("PROCEDUREURL", procedureHref);
+            notification.AddNewParam(AttributeConstant.Parameter.ProcedureName, procedureDescription);
+            notification.AddNewParam(AttributeConstant.Parameter.ProcedureUrl, procedureHref);
             notification.SetTemplate(emailTemplateId);
             return notification;
         }

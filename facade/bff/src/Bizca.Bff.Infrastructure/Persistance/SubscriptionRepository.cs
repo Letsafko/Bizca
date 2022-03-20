@@ -87,5 +87,10 @@
                     commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false) > 0;
         }
+
+        public Task<Subscription> GetSubscriptionByCode(string subscriptionCode)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

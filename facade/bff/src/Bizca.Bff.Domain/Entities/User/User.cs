@@ -52,6 +52,77 @@
 
         #region events
 
+        internal void RegisterUserContactToCreateEvent(HashSet<int> listIds = default,
+            bool emailBlacklisted = false,
+            bool smsBlacklisted = false,
+            bool updateEnabled = false)
+        {
+            var notification = new CreateUserContactNotification(UserProfile.Email,
+                emailBlacklisted,
+                smsBlacklisted,
+                updateEnabled);
+
+            if (listIds?.Any() == true)
+            {
+                notification.AddContactListIds(listIds);
+            }
+
+            if (!string.IsNullOrWhiteSpace(UserProfile.PhoneNumber))
+            {
+                notification.AddNewAttribute(AttributeConstant.Contact.PhoneNumber, UserProfile.PhoneNumber);
+            }
+
+            if (!string.IsNullOrWhiteSpace(UserProfile.FirstName))
+            {
+                notification.AddNewAttribute(AttributeConstant.Contact.FirstName, UserProfile.FirstName);
+            }
+
+            if (!string.IsNullOrWhiteSpace(UserProfile.LastName))
+            {
+                notification.AddNewAttribute(AttributeConstant.Contact.LastName, UserProfile.LastName);
+            }
+
+            userEvents.Add(notification);
+        }
+
+        internal void RegisterUserContactToUpdateEvent(UpdateUserContactNotification updateUserContactNotification)
+        {
+            userEvents.Add(updateUserContactNotification);
+        }
+
+        internal void RegisterUserContactToUpdateEvent(string email,
+            string phoneNumber,
+            string firstName,
+            string lastName,
+            HashSet<int> unlinkListIds = default,
+            HashSet<int> listIds = default,
+            bool emailBlacklisted = false,
+            bool smsBlacklisted = false)
+        {
+            var notification = new UpdateUserContactNotification(email,
+                unlinkListIds,
+                listIds,
+                emailBlacklisted,
+                smsBlacklisted);
+
+            if (!string.IsNullOrWhiteSpace(phoneNumber))
+            {
+                notification.AddNewAttribute(AttributeConstant.Contact.PhoneNumber, phoneNumber);
+            }
+
+            if (!string.IsNullOrWhiteSpace(firstName))
+            {
+                notification.AddNewAttribute(AttributeConstant.Contact.FirstName, firstName);
+            }
+
+            if (!string.IsNullOrWhiteSpace(lastName))
+            {
+                notification.AddNewAttribute(AttributeConstant.Contact.LastName, lastName);
+            }
+
+            userEvents.Add(notification);
+        }
+
         public void RegisterSendEmailEvent(MailAddressRequest sender,
             ICollection<MailAddressRequest> to,
             string subject,
@@ -80,7 +151,7 @@
 
         #endregion
 
-        public Subscription UpdateSubscription(string subscriptionCode,
+        public void UpdateSubscription(string subscriptionCode,
             Bundle bundle,
             Procedure procedure)
         {
@@ -99,7 +170,6 @@
             }
 
             RemoveSubscriptionsWithSameCheckSum(subscription);
-            return subscription;
         }
         public Subscription GetSubscriptionByCode(string subscriptionCode, bool throwError = false)
         {
@@ -164,13 +234,28 @@
             string whatsapp,
             string email)
         {
-            UserProfile.FirstName = !string.IsNullOrWhiteSpace(firstName) ? firstName : UserProfile.FirstName;
-            UserProfile.LastName = !string.IsNullOrWhiteSpace(lastName) ? lastName : UserProfile.LastName;
-            UserProfile.Civility = civility ?? UserProfile.Civility;
+            var attributes = new Dictionary<string, object>();
+            if (!string.IsNullOrWhiteSpace(firstName))
+            {
+                attributes.Add(AttributeConstant.Contact.FirstName, firstName);
+                UserProfile.FirstName = firstName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(lastName))
+            {
+                attributes.Add(AttributeConstant.Contact.LastName, lastName);
+                UserProfile.LastName = lastName;
+            }
+
+            if (!civility.HasValue)
+            {
+                UserProfile.Civility = civility.Value;
+            }
 
             if (!string.IsNullOrWhiteSpace(phoneNumber) &&
                !phoneNumber.Equals(UserProfile.PhoneNumber, StringComparison.OrdinalIgnoreCase))
             {
+                attributes.Add(AttributeConstant.Contact.PhoneNumber, phoneNumber);
                 UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.PhoneNumberConfirmed);
                 UserProfile.PhoneNumber = phoneNumber;
             }
@@ -185,8 +270,16 @@
             if (!string.IsNullOrWhiteSpace(email) &&
                !email.Equals(UserProfile.Email, StringComparison.OrdinalIgnoreCase))
             {
+                attributes.Add(AttributeConstant.Contact.Email, email);
                 UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
                 UserProfile.Email = email;
+            }
+
+            if (attributes.Any())
+            {
+                var userContactToUpdateEvent = new UpdateUserContactNotification(email);
+                userContactToUpdateEvent.AddContactAttributes(attributes);
+                RegisterUserContactToUpdateEvent(userContactToUpdateEvent);
             }
         }
 

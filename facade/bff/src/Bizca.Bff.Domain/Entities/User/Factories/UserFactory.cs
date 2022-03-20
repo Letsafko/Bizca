@@ -24,6 +24,8 @@
                 request.Role);
 
             user.RegisterUserCreatedEvent(new UserCreatedNotification(request.ExternalUserId));
+            user.RegisterUserContactToCreateEvent();
+
             return user;
         }
     }
