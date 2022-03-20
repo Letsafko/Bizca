@@ -6,15 +6,16 @@
         {
             public const string FirstName = "FIRSTNAME";
             public const string LastName = "LASTNAME";
+            public const string Civility = "CIVILITY";
             public const string PhoneNumber = "SMS";
             public const string Email = "EMAIL";
         }
 
         public static class Parameter
         {
-            public const string ProcedureName = "PROCEDURENAME";
-            public const string ProcedureUrl = "PROCEDUREURL";
-            public const string RedirectUrl = "REDIRECTURL";
+            public const string ActivateUserUrl = "ACTIVATE_USER_URL";
+            public const string ProcedureName = "PROCEDURE_NAME";
+            public const string ProcedureUrl = "PROCEDURE_URL";
         }
     }
 }

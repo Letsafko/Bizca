@@ -2,9 +2,11 @@ namespace Bizca.Bff.WebApi
 {
     using Autofac;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
+    using Bizca.Bff.Domain.Wrappers.Contact;
     using Bizca.Bff.Domain.Wrappers.Notification;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Infrastructure.Wrappers;
+    using Bizca.Bff.Infrastructure.Wrappers.Contact;
     using Bizca.Bff.Infrastructure.Wrappers.Notifications;
     using Bizca.Bff.Infrastructure.Wrappers.Notifications.Configurations;
     using Bizca.Bff.Infrastructure.Wrappers.Users;
@@ -45,12 +47,20 @@ namespace Bizca.Bff.WebApi
         /// <param name="services">service collection.</param>
         new public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient(_ => new AuthorisationDelegateHandler(configuration.GetValue<string>(SendInBlueApiKey)));
+
             services
-                .AddTransient(_ => new AuthorisationDelegateHandler(configuration.GetValue<string>(SendInBlueApiKey)))
                 .AddHttpClientBase<INotificationWrapper,
                         NotificationWrapper,
                         NotificationSettings>(configuration.GetSection(SendInBlueSheme),
                         NamedHttpClients.ApiNotificationClientName)
+                    .AddHttpMessageHandler(provider => provider.GetRequiredService<AuthorisationDelegateHandler>());
+
+            services
+                .AddHttpClientBase<IContactWrapper,
+                        ContactWrapper,
+                        ContactSettings>(configuration.GetSection(SendInBlueSheme),
+                        NamedHttpClients.ApiProviderName)
                     .AddHttpMessageHandler(provider => provider.GetRequiredService<AuthorisationDelegateHandler>());
 
             services.AddHttpClientBase<IUserWrapper,

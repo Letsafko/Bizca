@@ -19,9 +19,7 @@
         {
             var request = new UpdateUserContactRequest(notification.Email,
                 notification.UnlinkListIds,
-                notification.ListIds,
-                notification.EmailBlacklisted,
-                notification.SmsBlacklisted);
+                notification.ListIds);
 
             request.AddContactAttributes(notification.Attributes);
             await _contactWrapper.UpdateContactAsync(notification.Email,

@@ -20,6 +20,11 @@
                 .MaximumLength(20)
                 .WithMessage(Resources.EXTERNAL_USERID_MAXIMUM_LENGTH_EXCEED);
 
+            RuleFor(x => x.PhoneNumber)
+                .Matches(Resources.PHONE_REGEX)
+                .When(x => !string.IsNullOrWhiteSpace(x.PhoneNumber))
+                .WithMessage(Resources.PHONE_INVALID);
+
             RuleFor(x => x.Civility)
                 .Must(x => Enum.TryParse<Civility>(x, true, out var civility))
                 .When(x => !string.IsNullOrWhiteSpace(x.Civility))

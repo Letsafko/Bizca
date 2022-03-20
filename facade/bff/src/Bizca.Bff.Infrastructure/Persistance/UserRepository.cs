@@ -128,6 +128,7 @@
                 (byte[])user.rowversion);
             return userBuild;
         }
+
         private (dynamic user, IEnumerable<dynamic> subscriptions) GetEntities(SqlMapper.GridReader gridReader)
         {
             var result = new Dictionary<ResultName, IEnumerable<dynamic>>();

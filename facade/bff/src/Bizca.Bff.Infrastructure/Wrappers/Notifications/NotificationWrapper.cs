@@ -17,7 +17,7 @@
         {
         }
 
-        protected override string ApiVersion { get; } = "v3";
+        protected override string ApiVersion => "v3";
         public async Task<IPublicResponse<TransactionalEmailResponse>> SendEmail(TransactionalEmailRequest request,
             IDictionary headers = null)
         {

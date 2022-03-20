@@ -18,7 +18,7 @@
             To = to;
         }
 
-        public IDictionary<string, string> Params { get; set; }
+        public IDictionary<string, string> Params { get; }
         public ICollection<MailAddressRequest> To { get; }
         public MailAddressRequest Sender { get; }
         public int? TemplateId { get; }
