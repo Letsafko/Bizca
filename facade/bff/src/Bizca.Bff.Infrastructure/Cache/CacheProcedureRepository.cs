@@ -36,7 +36,7 @@
             return decorated.GetProceduresByActiveSubscriptionsAsync();
         }
 
-        private string GetCacheKey(object value)
+        private static string GetCacheKey(object value)
         {
             return $"{nameof(Procedure).ToLower()}_{value}";
         }

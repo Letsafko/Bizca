@@ -27,7 +27,7 @@
             return await cache.GetOrCreateAsync(cacheKey, () => decorated.GetBundlesAsync());
         }
 
-        private string GetCacheKey(object value)
+        private static string GetCacheKey(object value)
         {
             return $"{nameof(Bundle).ToLower()}_{value}";
         }

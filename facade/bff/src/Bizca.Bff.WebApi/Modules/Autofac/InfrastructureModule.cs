@@ -1,13 +1,16 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Autofac
 {
+    using Bizca.Bff.Domain.Entities.Contact;
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
+    using Bizca.Bff.Domain.Wrappers.Contact;
     using Bizca.Bff.Domain.Wrappers.Notification;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Infrastructure.Cache;
     using Bizca.Bff.Infrastructure.Persistance;
+    using Bizca.Bff.Infrastructure.Wrappers.Contact;
     using Bizca.Bff.Infrastructure.Wrappers.Notifications;
     using Bizca.Bff.Infrastructure.Wrappers.Users;
     using Bizca.Core.Domain;
@@ -48,10 +51,14 @@
 
             builder.RegisterType<EmailTemplateRepository>().As<IEmailTemplateRepository>().InstancePerLifetimeScope();
             builder.RegisterDecorator<CacheEmailTemplateRepository, IEmailTemplateRepository>();
+
+            builder.RegisterType<ContactListRepository>().As<IContactListRepository>().InstancePerLifetimeScope();
+            builder.RegisterDecorator<CacheContactListRepository, IContactListRepository>();
         }
         private void LoadWrappers(ContainerBuilder builder)
         {
             builder.RegisterType<NotificationWrapper>().As<INotificationWrapper>();
+            builder.RegisterType<ContactWrapper>().As<IContactWrapper>();
             builder.RegisterType<UserWrapper>().As<IUserWrapper>();
         }
     }
