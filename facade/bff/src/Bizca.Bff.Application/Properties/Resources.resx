@@ -201,6 +201,12 @@
   <data name="PHONENUMBER_REQUIRED" xml:space="preserve">
     <value>phoneNumber is required.</value>
   </data>
+  <data name="PHONE_INVALID" xml:space="preserve">
+    <value>phone is invalid.</value>
+  </data>
+  <data name="PHONE_REGEX" xml:space="preserve">
+    <value>^(?:(?:\+|00)33)\s*[1-9](?:[\s.-]*\d{2}){4}$</value>
+  </data>
   <data name="PROCEDURE_TYPE_INVALID" xml:space="preserve">
     <value>procedure type is invalid.</value>
   </data>

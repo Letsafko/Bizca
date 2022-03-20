@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Infrastructure.Cache
 {
-    using Bizca.Bff.Domain.Entities.Contact;
+    using Bizca.Bff.Domain.Provider.ContactList;
     using Bizca.Core.Domain.Cache;
     using System.Threading.Tasks;
 

@@ -28,7 +28,7 @@
 
         protected Task<T> GetAsync(T entity)
         {
-            return UnitOfWork.Connection.GetAsync(entity);
+            return UnitOfWork.Connection.GetAsync(entity, AttachTransaction);
         }
 
 
@@ -48,6 +48,14 @@
         }
 
         private void AttachTransaction(IStandardSqlStatementOptionsBuilder<T> statement)
+        {
+            if (UnitOfWork.Transaction != null)
+            {
+                statement.AttachToTransaction(UnitOfWork.Transaction);
+            }
+        }
+
+        private void AttachTransaction(ISelectSqlStatementOptionsBuilder<T> statement)
         {
             if (UnitOfWork.Transaction != null)
             {

@@ -304,6 +304,24 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à phone is invalid..
+        /// </summary>
+        internal static string PHONE_INVALID {
+            get {
+                return ResourceManager.GetString("PHONE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à ^(?:(?:\+|00)33)\s*[1-9](?:[\s.-]*\d{2}){4}$.
+        /// </summary>
+        internal static string PHONE_REGEX {
+            get {
+                return ResourceManager.GetString("PHONE_REGEX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à phoneNumber is required..
         /// </summary>
         internal static string PHONENUMBER_REQUIRED {

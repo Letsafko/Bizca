@@ -3,6 +3,7 @@
     using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
+
     public sealed class UserFactory : IUserFactory
     {
         public User Create(UserRequest request)

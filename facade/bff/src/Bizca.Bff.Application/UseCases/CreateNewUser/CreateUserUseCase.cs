@@ -4,6 +4,7 @@
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Entities.User.Factories;
     using Bizca.Bff.Domain.Enumerations;
+    using Bizca.Bff.Domain.Provider.Folder;
     using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
@@ -28,6 +29,7 @@
         public CreateUserUseCase(IUserFactory userFactory,
             ICreateNewUserOutput createUserOutput,
             IUserRepository userRepository,
+            IFolderRepository folderRepository,
             IEventService eventService,
             IUserWrapper userAgent)
         {
@@ -52,9 +54,7 @@
                 return Unit.Value;
             }
 
-            var CodeConfirmationRequest = new RegisterUserConfirmationCodeRequest(command.ExternalUserId,
-                ChannelType.Email);
-
+            var CodeConfirmationRequest = new RegisterUserConfirmationCodeRequest(command.ExternalUserId, ChannelType.Email);
             var CodeConfirmationResponse = await userAgent.RegisterChannelConfirmationCodeAsync(CodeConfirmationRequest);
             if (!CodeConfirmationResponse.Success)
             {

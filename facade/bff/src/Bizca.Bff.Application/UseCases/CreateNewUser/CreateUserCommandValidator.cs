@@ -24,6 +24,11 @@
                 .Must(x => Enum.TryParse<Civility>(x, true, out var civility))
                 .WithMessage(Resources.CIVILITY_INVALID);
 
+            RuleFor(x => x.PhoneNumber)
+                .Matches(Resources.PHONE_REGEX)
+                .When(x => !string.IsNullOrWhiteSpace(x.PhoneNumber))
+                .WithMessage(Resources.PHONE_INVALID);
+
             RuleFor(x => x.EconomicActivity)
                 .Must(x => int.TryParse(x, out int _))
                 .When(x => !string.IsNullOrWhiteSpace(x.EconomicActivity))
