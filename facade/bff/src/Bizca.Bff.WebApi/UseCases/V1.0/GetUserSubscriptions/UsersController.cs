@@ -4,7 +4,6 @@
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
-    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -40,8 +39,7 @@
         /// <remarks>/Assets/createSubscription.md</remarks>
         [HttpGet("{externalUserId}/subscriptions")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionCollectionViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]
+        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
         public async Task<IActionResult> GetUserSubscriptionAsync([Required] string externalUserId)
         {
             var query = new GetUserSubscriptionsQuery(externalUserId);

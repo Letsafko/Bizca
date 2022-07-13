@@ -4,7 +4,6 @@
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
-    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -40,8 +39,7 @@
         /// <param name="subscription">subscription.</param>
         /// <remarks>/Assets/createSubscription.md</remarks>
         [HttpPost("{externalUserId}/subscriptions")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SubscriptionViewModel))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
         public async Task<IActionResult> CreateSubscriptionAsync([Required] string externalUserId,
             [Required][FromBody] CreateSubscription subscription)

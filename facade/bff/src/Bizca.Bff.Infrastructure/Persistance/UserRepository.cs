@@ -9,6 +9,7 @@
     using Bizca.Bff.Domain.Referentials.Bundle.ValueObjects;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Bff.Domain.Referentials.Procedure.ValueObjects;
+    using Bizca.Bff.Domain.ValueObject;
     using Bizca.Core.Domain;
     using Dapper;
     using System;
@@ -230,7 +231,7 @@
                 (int)subscription.bundleTotalSms);
 
             var priority = Priority.GetByCode((int)subscription.priority);
-            var money = new Money((decimal)subscription.price);
+            var money = new Money((decimal)subscription.price, Currency.Euro);
             return new Bundle(bundleIdentifier,
                 bundleSettings,
                 priority,
@@ -240,7 +241,7 @@
         {
             return subscription.bundleId is null
                 ? default
-                : new Money((decimal)subscription.amount);
+                : new Money((decimal)subscription.amount, Currency.Euro);
         }
 
         #endregion

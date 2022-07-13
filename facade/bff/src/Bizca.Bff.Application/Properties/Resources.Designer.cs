@@ -79,6 +79,15 @@ namespace Bizca.Bff.Application.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à bundle is required..
+        /// </summary>
+        internal static string BUNDLE_REQUIRED {
+            get {
+                return ResourceManager.GetString("BUNDLE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à channel resource is required..
         /// </summary>
         internal static string CHANNEL_RESOURCE_REQUIRED {
@@ -120,6 +129,15 @@ namespace Bizca.Bff.Application.Properties {
         internal static string CIVILITY_REQUIRED {
             get {
                 return ResourceManager.GetString("CIVILITY_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à code insee is mal formatted..
+        /// </summary>
+        internal static string CODE_INSEE_MAL_FORMATTED {
+            get {
+                return ResourceManager.GetString("CODE_INSEE_MAL_FORMATTED", resourceCulture);
             }
         }
         

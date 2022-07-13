@@ -1,6 +1,5 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User.Factories
 {
-    using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
 
@@ -24,7 +23,7 @@
                 userProfile,
                 request.Role);
 
-            user.RegisterUserCreatedEvent(new UserCreatedNotification(request.ExternalUserId));
+            user.RegisterUserCreatedEvent(request.ExternalUserId);
             user.RegisterUserContactToCreateEvent();
 
             return user;

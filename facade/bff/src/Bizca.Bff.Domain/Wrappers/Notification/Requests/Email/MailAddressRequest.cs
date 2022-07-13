@@ -2,7 +2,7 @@
 {
     public sealed class MailAddressRequest
     {
-        public MailAddressRequest(string name, string email)
+        public MailAddressRequest(string email, string name = default)
         {
             Email = email;
             Name = name;

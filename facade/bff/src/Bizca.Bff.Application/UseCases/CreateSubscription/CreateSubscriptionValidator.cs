@@ -10,7 +10,9 @@
             CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(x => x.CodeInsee)
                 .NotEmpty()
-                .WithMessage(Resources.CODE_INSEE_REQUIRED);
+                .WithMessage(Resources.CODE_INSEE_REQUIRED)
+                .Must(x => CodeInseeExtensions.IsCodeInseeWellFormatted(x))
+                .WithMessage(Resources.CODE_INSEE_MAL_FORMATTED);
 
             RuleFor(x => x.ExternalUserId)
                 .NotEmpty()

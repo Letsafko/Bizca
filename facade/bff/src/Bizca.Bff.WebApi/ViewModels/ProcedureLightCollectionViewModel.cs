@@ -19,7 +19,7 @@
                 Add(new ProcedureLightViewModel(proc.ProcedureType.Id,
                     proc.Organism.CodeInsee,
                     proc.ProcedureHref,
-                    proc.ProcedureSettings));
+                    proc.ProcedureConfiguration));
             }
         }
     }

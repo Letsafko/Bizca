@@ -5,7 +5,6 @@
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
-    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -40,8 +39,6 @@
         /// <remarks>/Assets/reinitializedPassword.md</remarks>
         [HttpPost("password/init")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPasswordViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
         public async Task<IActionResult> ReinitializedPasswordAsync([Required][FromBody] ReInitializedPassword reinitializedPassword)
         {

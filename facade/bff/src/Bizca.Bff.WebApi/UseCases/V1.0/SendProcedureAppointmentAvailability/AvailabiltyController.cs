@@ -1,10 +1,9 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability
 {
-    using Bizca.Bff.Application.UseCases.SendProcedureAppointmentAvailability;
+    using Bizca.Bff.Application.UseCases.SendAppointmentAvailability;
     using Bizca.Bff.WebApi.Properties;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
-    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
@@ -37,19 +36,17 @@
         /// <remarks>/Assets/sendAppointAvailabilityOfProcedure.md</remarks>
         [HttpPost("procedures")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Post))]
-        public async Task<IActionResult> SendAppointmentAvailabilityOfProcedureAsync([FromBody] SendProcedureAppointmentAvailability availableProcedures)
+        public async Task<IActionResult> SendAppointmentAvailabilityAsync([FromBody] ProcedureAvailability availableProcedures)
         {
             var command = ConvertFrom(availableProcedures);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return presenter.ViewModel;
         }
 
-        private static SendProcedureAppointmentAvailabilityCommand ConvertFrom(SendProcedureAppointmentAvailability sendProcedureAppointment)
+        private static SendAppointmentAvailabilityCommand ConvertFrom(ProcedureAvailability sendProcedureAppointment)
         {
-            return new SendProcedureAppointmentAvailabilityCommand(Resources.PartnerCode,
+            return new SendAppointmentAvailabilityCommand(Resources.PartnerCode,
                 sendProcedureAppointment.ProcedureId,
                 sendProcedureAppointment.CodeInsee);
         }

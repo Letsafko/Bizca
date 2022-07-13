@@ -3,8 +3,9 @@
     public enum SubscriptionStatus
     {
         Pending = 1,
-        Activated = 2,
-        Deactivated = 3,
-        Expired = 4
+        PaymentSubmitted = 2,
+        Activated = 3,
+        Deactivated = 4,
+        Expired = 5
     }
 }

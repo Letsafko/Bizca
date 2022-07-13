@@ -8,10 +8,10 @@
     using System.Threading.Tasks;
     public interface INotificationWrapper
     {
-        Task<IPublicResponse<TransactionalEmailResponse>> SendEmail(TransactionalEmailRequest request,
+        Task<IPublicResponse<TransactionalEmailResponse>> SendTransactionalEmail(TransactionalEmailRequest request,
             IDictionary headers = null);
 
-        Task<IPublicResponse<TransactionalSmsResponse>> SendSms(TransactionalSmsRequest request,
+        Task<IPublicResponse<TransactionalSmsResponse>> SendTransactionalSms(TransactionalSmsRequest request,
             IDictionary headers = null);
     }
 }

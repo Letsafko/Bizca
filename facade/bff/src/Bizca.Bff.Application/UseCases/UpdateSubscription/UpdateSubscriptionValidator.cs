@@ -13,14 +13,16 @@
                 .WithMessage(Resources.EXTERNAL_USERID_REQUIRED);
 
             RuleFor(x => x.ProcedureTypeId)
+                .NotEmpty()
+                .WithMessage(Resources.PROCEDURE_TYPE_REQUIRED)
                 .Must(x => int.TryParse(x, out int procedureTypeId))
-                .When(x => !string.IsNullOrWhiteSpace(x.ProcedureTypeId))
                 .WithMessage(Resources.PROCEDURE_TYPE_INVALID);
 
-            RuleFor(x => x.BundleId)
-                .Must(x => int.TryParse(x, out int _))
-                .When(x => !string.IsNullOrWhiteSpace(x.BundleId))
-                .WithMessage(Resources.BUNDLE_INVALID);
+            RuleFor(x => x.CodeInsee)
+                .NotEmpty()
+                .WithMessage(Resources.CODE_INSEE_REQUIRED)
+                .Must(x => CodeInseeExtensions.IsCodeInseeWellFormatted(x))
+                .WithMessage(Resources.CODE_INSEE_MAL_FORMATTED);
         }
     }
 }

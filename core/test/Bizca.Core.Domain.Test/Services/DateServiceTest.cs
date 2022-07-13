@@ -27,11 +27,9 @@
             var dateService = new DateService();
             DateTime now = new DateTime(2008, 10, 31, 17, 4, 32);
             const string expected = "2008-10-31T17:04:32";
-            const string culture = "fr-Fr";
-            const string format = "s";
 
             //Act
-            var dateTimeToString = dateService.DateToString(now, format, culture);
+            var dateTimeToString = dateService.DateToString(now);
 
             //Assert
             dateTimeToString.ShouldBe(expected);

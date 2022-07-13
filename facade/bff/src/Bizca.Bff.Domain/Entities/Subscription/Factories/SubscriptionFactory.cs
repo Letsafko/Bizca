@@ -4,7 +4,6 @@
     using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Threading.Tasks;
-
     public sealed class SubscriptionFactory : ISubscriptionFactory
     {
         private readonly IProcedureRepository procedureRepository;

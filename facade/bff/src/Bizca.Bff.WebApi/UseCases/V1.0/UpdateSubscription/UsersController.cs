@@ -61,8 +61,7 @@
             return new UpdateSubscriptionCommand(externalUserId,
                 subscriptionCode,
                 subscription.CodeInsee,
-                subscription.ProcedureTypeId,
-                subscription.BundleId);
+                subscription.ProcedureTypeId);
         }
     }
 }

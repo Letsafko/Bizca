@@ -18,7 +18,7 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(typeof(SendEmailUseCase).Assembly).AsClosedTypesOf(typeof(INotificationHandler<>));
+            builder.RegisterAssemblyTypes(typeof(SendTransactionalEmailUseCase).Assembly).AsClosedTypesOf(typeof(INotificationHandler<>));
             builder.RegisterAssemblyTypes(typeof(CreateUserUseCase).Assembly).AsClosedTypesOf(typeof(IRequestHandler<,>));
             builder.RegisterGeneric(typeof(UnitOfWorkCommandBehavior<>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));

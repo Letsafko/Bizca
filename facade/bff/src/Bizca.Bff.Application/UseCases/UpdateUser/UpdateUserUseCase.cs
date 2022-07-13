@@ -1,7 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpdateUser
 {
     using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.Exceptions;
     using Bizca.Bff.Domain.Enumerations;
     using Bizca.Bff.Domain.Wrappers.Users;
@@ -39,7 +38,7 @@
                 throw new UserDoesNotExistException($"user {request.ExternalUserId} does not exist.");
             }
 
-            user.RegisterUserUpdatedEvent(new UserUpdatedNotification(request.ExternalUserId));
+            user.RegisterUserUpdatedEvent(request.ExternalUserId);
             var civility = !string.IsNullOrWhiteSpace(request.Civility)
                     ? Enum.Parse<Civility>(request.Civility)
                     : default(Civility?);

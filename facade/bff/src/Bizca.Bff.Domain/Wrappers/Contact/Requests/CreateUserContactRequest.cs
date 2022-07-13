@@ -4,8 +4,9 @@
     public sealed class CreateUserContactRequest
     {
         public CreateUserContactRequest(string email,
-            HashSet<int> listIds,
-            HashSet<string> smtpBlacklistSender = null,
+            ICollection<int> listIds,
+            ICollection<string> smtpBlacklistSender = null,
+            IDictionary<string, object> attributes = default,
             bool emailBlacklisted = false,
             bool updatedEnabled = false,
             bool smsBlacklisted = false)
@@ -14,31 +15,17 @@
             EmailBlacklisted = emailBlacklisted;
             UpdatedEnabled = updatedEnabled;
             SmsBlacklisted = smsBlacklisted;
+            Attributes = attributes;
             ListIds = listIds;
             Email = email;
         }
 
-        public IReadOnlyCollection<int> ListIds { get; }
-        public IReadOnlyCollection<string> SmtpBlacklistSender { get; }
-        public IReadOnlyDictionary<string, object> Attributes => _attributes;
+        public ICollection<string> SmtpBlacklistSender { get; }
+        public IDictionary<string, object> Attributes { get; }
+        public ICollection<int> ListIds { get; }
         public bool EmailBlacklisted { get; }
         public bool UpdatedEnabled { get; }
         public bool SmsBlacklisted { get; }
         public string Email { get; }
-
-        private Dictionary<string, object> _attributes;
-        public void AddNewAttribute(string key, object value)
-        {
-            _attributes ??= new Dictionary<string, object>();
-            _attributes.TryAdd(key, value);
-        }
-
-        public void AddContactAttributes(IReadOnlyDictionary<string, object> attributes)
-        {
-            foreach (var kv in attributes)
-            {
-                AddNewAttribute(kv.Key, kv.Value);
-            }
-        }
     }
 }

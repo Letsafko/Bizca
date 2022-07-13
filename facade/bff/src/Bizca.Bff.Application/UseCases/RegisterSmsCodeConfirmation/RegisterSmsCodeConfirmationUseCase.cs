@@ -29,7 +29,7 @@
         public async Task<Unit> Handle(RegisterSmsCodeConfirmationCommand command, CancellationToken cancellationToken)
         {
             var user = await userRepository.GetByPhoneNumberAsync(command.PhoneNumber);
-            if (user is null || !IsEqualIdentifier(user, command.ExternalUserId))
+            if (user is null)
             {
                 throw new UserDoesNotExistException($"user {command.ExternalUserId} with {command.PhoneNumber} does not exist.");
             }
@@ -44,19 +44,13 @@
                 return Unit.Value;
             }
 
-            user.RegisterSendSmsEvent(command.PartnerCode,
+            user.RegisterSendTransactionalSmsEvent(command.PartnerCode,
                 command.PhoneNumber,
                 CodeConfirmationResponse.Data.ConfirmationCode);
 
             eventService.Enqueue(user.UserEvents);
             confirmationOutput.Ok();
             return Unit.Value;
-        }
-
-        private bool IsEqualIdentifier(User user, string externalUserId)
-        {
-            return user.UserIdentifier.ExternalUserId.Equals(externalUserId,
-                System.StringComparison.OrdinalIgnoreCase);
         }
     }
 }

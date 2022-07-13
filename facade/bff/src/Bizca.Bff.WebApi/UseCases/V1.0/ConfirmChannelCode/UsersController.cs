@@ -5,7 +5,6 @@
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
-    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -36,16 +35,18 @@
         /// <summary>
         ///     Confirm channel code.
         /// </summary>
-        /// <param name="externalUserId"></param>
-        /// <param name="confirmChannel">channel code confirmation</param>
+        /// <param name="externalUserId">User identifier</param>
+        /// <param name="channelType">Channel type</param>
+        /// <param name="confirmChannel">Channel code confirmation</param>
         /// <remarks>/Assets/createUser.md</remarks>
-        [HttpPost("{externalUserId}/channel/code/confirm")]
+        [HttpPost("{externalUserId}/channel/{channelType}/confirm")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConfirmationCodeViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> ConfirmChannelCodeAsync([Required] string externalUserId, [Required][FromBody] ConfirmChannelCode confirmChannel)
+        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
+        public async Task<IActionResult> ConfirmChannelCodeAsync([Required] string externalUserId,
+            [Required] string channelType,
+            [Required][FromBody] ConfirmChannelCode confirmChannel)
         {
-            var command = new ConfirmChannelCodeCommand(confirmChannel.Channel,
+            var command = new ConfirmChannelCodeCommand(channelType,
                 externalUserId,
                 confirmChannel.ConfirmationCode,
                 Resources.PartnerCode);

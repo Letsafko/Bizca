@@ -14,10 +14,5 @@
         ///     Gets or sets procedure type identifier.
         /// </summary>
         public string ProcedureTypeId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets bundle identifier.
-        /// </summary>
-        public string BundleId { get; set; }
     }
 }

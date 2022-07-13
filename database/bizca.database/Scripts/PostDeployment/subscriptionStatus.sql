@@ -2,9 +2,10 @@
 	using 
 	(
 		values   (1,'Pending','Pending')
-				,(2,'Activated','Activated')
-		        ,(3,'Deactivated','Deactivated')
-				,(4,'Expired','Expired')
+				,(2,'PaymentSubmitted','PaymentSubmitted')
+				,(3,'Activated','Activated')
+		        ,(4,'Deactivated','Deactivated')
+				,(5,'Expired','Expired')
 	) as source(subscriptionStatusId, subscriptionStatusCode, subscriptionStatusName) 
 	on 
 	(

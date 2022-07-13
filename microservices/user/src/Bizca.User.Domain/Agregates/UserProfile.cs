@@ -122,7 +122,7 @@
         internal bool IsChannelCodeConfirmed(ChannelType channelType, string codeConfirmation)
         {
             ChannelConfirmation channelConfirmation = GetConfirmationByChannelType(channelType, codeConfirmation);
-            bool confirmed = channelConfirmation.ExpirationDate.CompareTo(DateTime.Now) > 0;
+            bool confirmed = channelConfirmation.ExpirationDate.CompareTo(DateTime.UtcNow) > 0;
             if (!confirmed)
             {
                 var failure = new DomainFailure($"{channelConfirmation.CodeConfirmation} has expired.",

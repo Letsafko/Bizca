@@ -40,7 +40,7 @@
         /// <remarks>/Assets/getUserByCriteria.md</remarks>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPaginationViewModel))]
-        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]
+        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
         public async Task<IActionResult> GetUsers([Required][FromQuery] GetUsers criteria)
         {
             GetUsersQuery query = GetQuery(Resources.PartnerCode, criteria);

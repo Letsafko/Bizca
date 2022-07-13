@@ -5,47 +5,28 @@
     public sealed class UpdateUserContactRequest
     {
         public UpdateUserContactRequest(string email,
+            IReadOnlyCollection<string> smtpBlacklistSender = default,
             IReadOnlyCollection<int> unlinkListIds = default,
             IReadOnlyCollection<int> listIds = default,
+            IDictionary<string, object> attributes = default,
             bool emailBlacklisted = false,
             bool smsBlacklisted = false)
         {
+            SmtpBlacklistSender = smtpBlacklistSender;
             EmailBlacklisted = emailBlacklisted;
             SmsBlacklisted = smsBlacklisted;
             UnlinkListIds = unlinkListIds;
+            Attributes = attributes;
             ListIds = listIds;
             Email = email;
-
         }
 
-        public IReadOnlyCollection<string> SmtpBlacklistSender => _smtpBlacklistSender;
-        public IReadOnlyDictionary<string, object> Attributes => _attributes;
+        public IReadOnlyCollection<string> SmtpBlacklistSender { get; }
+        public IDictionary<string, object> Attributes { get; }
         public IReadOnlyCollection<int> UnlinkListIds { get; }
         public IReadOnlyCollection<int> ListIds { get; }
         public bool EmailBlacklisted { get; }
         public bool SmsBlacklisted { get; }
         public string Email { get; }
-
-        private Dictionary<string, object> _attributes;
-        private HashSet<string> _smtpBlacklistSender;
-        public void AddNewAttribute(string key, object value)
-        {
-            _attributes ??= new Dictionary<string, object>();
-            _attributes.TryAdd(key, value);
-        }
-
-        public void AddContactAttributes(IReadOnlyDictionary<string, object> attributes)
-        {
-            foreach (var kv in attributes)
-            {
-                AddNewAttribute(kv.Key, kv.Value);
-            }
-        }
-
-        public void AddSenderBlackList(string sender)
-        {
-            _smtpBlacklistSender ??= new HashSet<string>();
-            _smtpBlacklistSender.Add(sender);
-        }
     }
 }

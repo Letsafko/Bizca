@@ -2,7 +2,7 @@
 {
     public enum EmailTemplateType
     {
-        AccountActivattion = 1,
+        AccountActivation = 1,
         PasswordReset = 2,
         ProcedureAvailability = 3
     }

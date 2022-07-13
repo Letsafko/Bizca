@@ -18,7 +18,7 @@
         }
 
         protected override string ApiVersion => "v3";
-        public async Task<IPublicResponse<TransactionalEmailResponse>> SendEmail(TransactionalEmailRequest request,
+        public async Task<IPublicResponse<TransactionalEmailResponse>> SendTransactionalEmail(TransactionalEmailRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<TransactionalEmailResponse>(HttpMethod.Post,
@@ -27,7 +27,7 @@
                 headers);
         }
 
-        public async Task<IPublicResponse<TransactionalSmsResponse>> SendSms(TransactionalSmsRequest request,
+        public async Task<IPublicResponse<TransactionalSmsResponse>> SendTransactionalSms(TransactionalSmsRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<TransactionalSmsResponse>(HttpMethod.Post,

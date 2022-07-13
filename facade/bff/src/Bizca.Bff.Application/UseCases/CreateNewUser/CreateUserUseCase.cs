@@ -1,10 +1,9 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
 {
-    using Bizca.Bff.Application.Properties;
+    using Bizca.Bff.Domain;
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Entities.User.Factories;
     using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Provider.Folder;
     using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
     using Bizca.Bff.Domain.Wrappers.Users;
     using Bizca.Bff.Domain.Wrappers.Users.Requests;
@@ -12,6 +11,8 @@
     using Bizca.Core.Application.Commands;
     using Bizca.Core.Application.Services;
     using Bizca.Core.Domain;
+    using Bizca.Core.Domain.EmailTemplate;
+    using Bizca.Core.Domain.Services;
     using MediatR;
     using System;
     using System.Collections.Generic;
@@ -22,6 +23,7 @@
     public sealed class CreateUserUseCase : ICommandHandler<CreateUserCommand>
     {
         private readonly ICreateNewUserOutput createUserOutput;
+        private readonly IReferentialService referentialService;
         private readonly IUserRepository userRepository;
         private readonly IEventService eventService;
         private readonly IUserFactory userFactory;
@@ -29,10 +31,11 @@
         public CreateUserUseCase(IUserFactory userFactory,
             ICreateNewUserOutput createUserOutput,
             IUserRepository userRepository,
-            IFolderRepository folderRepository,
+            IReferentialService referentialService,
             IEventService eventService,
             IUserWrapper userAgent)
         {
+            this.referentialService = referentialService;
             this.createUserOutput = createUserOutput;
             this.userRepository = userRepository;
             this.eventService = eventService;
@@ -62,20 +65,16 @@
                 return Unit.Value;
             }
 
-            string fullName = $"{command.FirstName} {command.LastName}";
-            var sender = new MailAddressRequest(command.PartnerCode, Resources.BIZCA_NO_REPLY_EMAIL);
+            var emailTemplate = await referentialService.GetEmailTemplateByIdAsync((int)EmailTemplateType.AccountActivation, true);
             var recipients = new List<MailAddressRequest>
             {
-                new MailAddressRequest(fullName, command.Email)
+                new MailAddressRequest(command.Email)
             };
-            var httpContent = GetHtmlContent(command.ExternalUserId,
-                CodeConfirmationResponse.Data.ConfirmationCode,
-                command.Email);
 
-            user.RegisterSendEmailEvent(sender,
-                recipients,
-                Resources.EMAIL_CONFIRMATION_SUBJECT,
-                httpContent);
+            var parameters = GetParameters(command, CodeConfirmationResponse.Data.ConfirmationCode);
+            user.RegisterSendTransactionalEmailEvent(recipients: recipients,
+                emailTemplate: emailTemplate.EmailTemplateId,
+                parameters: parameters);
 
             CreateNewUserDto newUserDto = MapTo(command.Role, response.Data);
             eventService.Enqueue(user.UserEvents);
@@ -85,15 +84,19 @@
 
         #region private helpers
 
-        private string GetHtmlContent(string externalUserId, string codeConfirmation, string email)
+        private static IDictionary<string, object> GetParameters(CreateUserCommand command,
+            string codeConfirmation)
         {
-            string concatStr = $"{email}:{externalUserId}:{codeConfirmation}";
-            byte[] bytes = Encoding.UTF8.GetBytes(concatStr);
-            string base64Str = Convert.ToBase64String(bytes);
-            return $"<p><span style='color: #ffffff; font-weight: normal; vertical-align: middle; background-color: #0092ff; " +
-                   $"border-radius: 15px; border: 0px None #000; padding: 8px 20px 8px 20px;'> <a style='text-decoration: none; " +
-                   $"color: #ffffff; font-weight: normal;' target='_blank' rel='noreferrer'" +
-                   $"href='https://integ-bizca-front.azurewebsites.net/create-password/{base64Str}'>Confirmer votre adresse email</a></span></p>";
+            var token = $"{command.Email}:{command.ExternalUserId}:{codeConfirmation}";
+            var tokenBytes = Encoding.UTF8.GetBytes(token);
+            var tokenBase64 = Convert.ToBase64String(tokenBytes);
+
+
+            var activateUserUrl = $"https://integ-bizca-front.azurewebsites.net/create-password/{tokenBase64}";
+            return new Dictionary<string, object>
+            {
+                [AttributeConstant.Parameter.ActivateUserUrl] = activateUserUrl
+            };
         }
         private CreateNewUserDto MapTo(Role role, UserCreatedResponse response)
         {

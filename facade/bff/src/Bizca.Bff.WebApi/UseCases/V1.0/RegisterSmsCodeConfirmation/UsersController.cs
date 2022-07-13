@@ -5,7 +5,6 @@
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
-    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -40,9 +39,8 @@
         /// <param name="externalUserId">user identifier</param>
         /// <param name="smsCodeConfirmation">sms code confirmation</param>
         /// <remarks>/Assets/registerSmsCodeConfirmation.md</remarks>
-        [HttpPost("{externalUserId}/channel/code/register")]
+        [HttpPost("{externalUserId}/channel/sms/code")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SubscriptionCollectionViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
         public async Task<IActionResult> RegisterSmsCodeConfirmationAsync([Required] string externalUserId,
             [Required][FromBody] RegisterSmsCodeConfirmation smsCodeConfirmation)

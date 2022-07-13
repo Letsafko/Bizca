@@ -3,7 +3,6 @@
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Entities.User.Exceptions;
-    using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Bff.Domain.Referentials.Procedure.Exceptions;
     using Bizca.Core.Application.Commands;
@@ -16,18 +15,15 @@
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly IUpdateSubscriptionOutput subscriptionOutput;
         private readonly IProcedureRepository procedureRepository;
-        private readonly IBundleRepository bundleRepository;
         private readonly IUserRepository userRepository;
         public UpdateSubscriptionUseCase(ISubscriptionRepository subscriptionRepository,
             IUpdateSubscriptionOutput subscriptionOutput,
             IProcedureRepository procedureRepository,
-            IBundleRepository bundleRepository,
             IUserRepository userRepository)
         {
             this.subscriptionRepository = subscriptionRepository;
             this.procedureRepository = procedureRepository;
             this.subscriptionOutput = subscriptionOutput;
-            this.bundleRepository = bundleRepository;
             this.userRepository = userRepository;
         }
 

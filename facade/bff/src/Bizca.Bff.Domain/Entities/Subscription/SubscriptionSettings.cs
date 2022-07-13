@@ -47,8 +47,7 @@
         }
         internal void UnFreeze()
         {
-            if (IsFreeze.HasValue)
-                IsFreeze = false;
+            IsFreeze = default;
         }
         internal void Freeze()
         {

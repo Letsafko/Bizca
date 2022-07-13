@@ -4,7 +4,6 @@
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
     using Bizca.Core.Application;
-    using Bizca.Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -41,8 +40,6 @@
         /// <remarks>/Assets/createSubscription.md</remarks>
         [HttpGet("{externalUserId}/subscriptions/{reference}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
         public async Task<IActionResult> GetUserSubscriptionDetailsAsync([Required] string externalUserId,
             [Required] string reference)

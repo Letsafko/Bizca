@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Referentials.Bundle
 {
     using Bizca.Bff.Domain.Referentials.Bundle.ValueObjects;
+    using Bizca.Bff.Domain.ValueObject;
     using Bizca.Core.Domain;
     using System;
     using System.Collections.Generic;

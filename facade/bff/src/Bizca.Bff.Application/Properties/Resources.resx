@@ -123,6 +123,9 @@
   <data name="BUNDLE_INVALID" xml:space="preserve">
     <value>bundle is invalid.</value>
   </data>
+  <data name="BUNDLE_REQUIRED" xml:space="preserve">
+    <value>bundle is required.</value>
+  </data>
   <data name="CHANNEL_RESOURCE_REQUIRED" xml:space="preserve">
     <value>channel resource is required.</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="CIVILITY_REQUIRED" xml:space="preserve">
     <value>civility is required.</value>
+  </data>
+  <data name="CODE_INSEE_MAL_FORMATTED" xml:space="preserve">
+    <value>code insee is mal formatted.</value>
   </data>
   <data name="CODE_INSEE_REQUIRED" xml:space="preserve">
     <value>code insee is required.</value>

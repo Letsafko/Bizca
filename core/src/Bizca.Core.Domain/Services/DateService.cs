@@ -1,7 +1,6 @@
 ﻿namespace Bizca.Core.Domain.Services
 {
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// <see cref="https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=net-6.0"/>
@@ -10,10 +9,9 @@
     {
         public DateTime Now => DateTime.UtcNow;
 
-        public string DateToString(DateTime date, string format = "s", string culture = "fr-FR")
+        public string DateToString(DateTime date)
         {
-            return date.ToString(format,
-                CultureInfo.CreateSpecificCulture(culture));
+            return date.ToString("O");
         }
     }
 }

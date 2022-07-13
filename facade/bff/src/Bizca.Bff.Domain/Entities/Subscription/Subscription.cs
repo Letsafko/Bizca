@@ -4,8 +4,8 @@
     using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
     using Bizca.Bff.Domain.Entities.Subscription.SubscriptionState;
     using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.Domain.Referentials.Bundle.ValueObjects;
     using Bizca.Bff.Domain.Referentials.Procedure;
+    using Bizca.Bff.Domain.ValueObject;
     using Bizca.Core.Domain;
     using System;
     using System.Collections.Generic;
@@ -44,35 +44,30 @@
 
         internal void UpdateProcedureSubscription(Procedure procedureToUpdate)
         {
-            if (procedureToUpdate is null)
+            if (procedureToUpdate is null || procedureToUpdate == Procedure)
             {
                 return;
             }
 
-            if (procedureToUpdate != Procedure)
-            {
-                Procedure = procedureToUpdate;
-            }
+            Procedure = procedureToUpdate;
         }
 
-        internal void UpdateBundleSubscription(Bundle bundleToUpdate)
+        internal void UpdateSubscriptionBundle(Bundle bundleToAdd)
         {
-            if (bundleToUpdate is null || bundleToUpdate == Bundle)
-            {
-                return;
-            }
-
-            Bundle = bundleToUpdate;
-            Price = bundleToUpdate.Price;
+            Bundle = bundleToAdd;
+            Price = bundleToAdd.Price;
             SubscriptionSettings = new SubscriptionSettings(SubscriptionSettings?.WhatsappCounter ?? 0,
                 SubscriptionSettings?.EmailCounter ?? 0,
                 SubscriptionSettings?.SmsCounter ?? 0,
-                bundleToUpdate.BundleSettings.TotalWhatsapp,
-                bundleToUpdate.BundleSettings.TotalEmail,
-                bundleToUpdate.BundleSettings.TotalSms);
+                bundleToAdd.BundleSettings.TotalWhatsapp,
+                bundleToAdd.BundleSettings.TotalEmail,
+                bundleToAdd.BundleSettings.TotalSms);
+        }
 
+        internal void UpdateSubscriptionDateRange()
+        {
             DateTime beginDate = DateTime.UtcNow;
-            DateTime endDate = beginDate.AddDays(bundleToUpdate.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
+            DateTime endDate = beginDate.AddDays(Bundle.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
 
             SetEndDate(endDate);
             SetBeginDate(beginDate);

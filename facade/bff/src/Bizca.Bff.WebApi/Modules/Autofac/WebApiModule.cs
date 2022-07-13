@@ -4,17 +4,18 @@
     using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.Application.UseCases.CreateSubscription;
+    using Bizca.Bff.Application.UseCases.FreezeSubscription;
+    using Bizca.Bff.Application.UseCases.GetActiveProcedures;
     using Bizca.Bff.Application.UseCases.GetBundles;
     using Bizca.Bff.Application.UseCases.GetProcedures;
-    using Bizca.Bff.Application.UseCases.GetProceduresForActiveSubscriptions;
     using Bizca.Bff.Application.UseCases.GetUserDetails;
     using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
+    using Bizca.Bff.Application.UseCases.PaymentSubmitted;
     using Bizca.Bff.Application.UseCases.RegisterSmsCodeConfirmation;
     using Bizca.Bff.Application.UseCases.ReInitializedPassword;
-    using Bizca.Bff.Application.UseCases.SendProcedureAppointmentAvailability;
-    using Bizca.Bff.Application.UseCases.SubscriptionActivation;
+    using Bizca.Bff.Application.UseCases.SendAppointmentAvailability;
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
     using Bizca.Bff.Application.UseCases.UpdateUser;
     using Bizca.Bff.Application.UseCases.UpsertPassword;
@@ -22,17 +23,18 @@
     using Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode;
     using Bizca.Bff.WebApi.UseCases.V10.CreateNewUser;
     using Bizca.Bff.WebApi.UseCases.V10.CreateSubscription;
+    using Bizca.Bff.WebApi.UseCases.V10.FreezeSubscription;
+    using Bizca.Bff.WebApi.UseCases.V10.GetActiveProcedures;
     using Bizca.Bff.WebApi.UseCases.V10.GetBundles;
     using Bizca.Bff.WebApi.UseCases.V10.GetProcedures;
-    using Bizca.Bff.WebApi.UseCases.V10.GetProceduresForActiveSubscriptions;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserDetails;
     using Bizca.Bff.WebApi.UseCases.V10.GetUsers;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails;
     using Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptions;
+    using Bizca.Bff.WebApi.UseCases.V10.PaymentSubmitted;
     using Bizca.Bff.WebApi.UseCases.V10.RegisterSmsCodeConfirmation;
     using Bizca.Bff.WebApi.UseCases.V10.ReInitializedPassword;
     using Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability;
-    using Bizca.Bff.WebApi.UseCases.V10.SubscriptionActivation;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription;
     using Bizca.Bff.WebApi.UseCases.V10.UpdateUser;
     using Bizca.Bff.WebApi.UseCases.V10.UpsertPassword;
@@ -49,11 +51,14 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<SendProcedureAppointmentAvailabilityPresenter>().InstancePerLifetimeScope();
-            builder.Register<ISendProcedureAppointmentAvailabilityOutput>(x => x.Resolve<SendProcedureAppointmentAvailabilityPresenter>()).InstancePerLifetimeScope();
+            builder.RegisterType<PaymentSubmittedPresenter>().InstancePerLifetimeScope();
+            builder.Register<IPaymentSubmittedOutput>(x => x.Resolve<PaymentSubmittedPresenter>()).InstancePerLifetimeScope();
 
-            builder.RegisterType<GetProceduresForActiveSubscriptionsPresenter>().InstancePerLifetimeScope();
-            builder.Register<IGetProceduresForActiveSubscriptionsOutput>(x => x.Resolve<GetProceduresForActiveSubscriptionsPresenter>()).InstancePerLifetimeScope();
+            builder.RegisterType<SendProcedureAppointmentAvailabilityPresenter>().InstancePerLifetimeScope();
+            builder.Register<ISendAppointmentAvailabilityOutput>(x => x.Resolve<SendProcedureAppointmentAvailabilityPresenter>()).InstancePerLifetimeScope();
+
+            builder.RegisterType<GetActiveProceduresPresenter>().InstancePerLifetimeScope();
+            builder.Register<IGetActiveProceduresOutput>(x => x.Resolve<GetActiveProceduresPresenter>()).InstancePerLifetimeScope();
 
             builder.RegisterType<RegisterSmsCodeConfirmationPresenter>().InstancePerLifetimeScope();
             builder.Register<IRegisterSmsCodeConfirmationOutput>(x => x.Resolve<RegisterSmsCodeConfirmationPresenter>()).InstancePerLifetimeScope();
@@ -64,8 +69,8 @@
             builder.RegisterType<ReInitializedPasswordPresenter>().InstancePerLifetimeScope();
             builder.Register<IReInitializedPasswordOutput>(x => x.Resolve<ReInitializedPasswordPresenter>()).InstancePerLifetimeScope();
 
-            builder.RegisterType<SubscriptionActivationPresenter>().InstancePerLifetimeScope();
-            builder.Register<ISubscriptionActivationOutput>(x => x.Resolve<SubscriptionActivationPresenter>()).InstancePerLifetimeScope();
+            builder.RegisterType<FreezeSubscriptionPresenter>().InstancePerLifetimeScope();
+            builder.Register<IFreezeSubscriptionOutput>(x => x.Resolve<FreezeSubscriptionPresenter>()).InstancePerLifetimeScope();
 
             builder.RegisterType<UpsertPasswordPresenter>().InstancePerLifetimeScope();
             builder.Register<IUpsertPasswordOutput>(x => x.Resolve<UpsertPasswordPresenter>()).InstancePerLifetimeScope();

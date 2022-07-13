@@ -3,26 +3,35 @@
     using System.Collections.Generic;
     public sealed class TransactionalEmailRequest
     {
-        public TransactionalEmailRequest(MailAddressRequest sender,
-            ICollection<MailAddressRequest> to,
-            IDictionary<string, string> parameters,
-            int? emailTemplateId,
-            string subject = null,
-            string htmlContent = null)
+        public TransactionalEmailRequest()
         {
-            TemplateId = emailTemplateId;
-            HtmlContent = htmlContent;
-            Params = parameters;
-            Subject = subject;
-            Sender = sender;
-            To = to;
+            To = new List<MailAddressRequest>();
         }
 
-        public IDictionary<string, string> Params { get; }
-        public ICollection<MailAddressRequest> To { get; }
-        public MailAddressRequest Sender { get; }
-        public int? TemplateId { get; }
-        public string HtmlContent { get; }
-        public string Subject { get; }
+        private Dictionary<string, object> _params;
+        public IReadOnlyDictionary<string, object> Params => _params;
+        public List<MailAddressRequest> To { get; set; }
+        public MailAddressRequest Sender { get; set; }
+        public int? TemplateId { get; set; }
+        public string HtmlContent { get; set; }
+        public string Subject { get; set; }
+
+        public void AddNewParam(string key, object value)
+        {
+            _params ??= new Dictionary<string, object>();
+            _params[key] = value;
+        }
+        public void AddParameters(IDictionary<string, object> parameters)
+        {
+            if (parameters is null || parameters.Count < 1)
+            {
+                return;
+            }
+
+            foreach (var p in parameters)
+            {
+                AddNewParam(p.Key, p.Value);
+            }
+        }
     }
 }

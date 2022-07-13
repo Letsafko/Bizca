@@ -142,7 +142,7 @@
 
             var clientCert = new X509Certificate2(Convert.FromBase64String(headerRaw.First.Value<string>()));
 
-            if (DateTime.Now > clientCert.NotAfter)
+            if (DateTime.UtcNow > clientCert.NotAfter)
             {
                 throw new UnauthorizedAccessException("Certificate Expired");
             }

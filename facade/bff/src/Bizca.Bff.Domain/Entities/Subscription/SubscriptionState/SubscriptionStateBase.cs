@@ -33,6 +33,12 @@
 
         #region protected helpers
 
+        protected bool IsSubscriptionPaymentSubmitted(Subscription subscription)
+        {
+            return !(subscription.Bundle is null) &&
+                   !subscription.SubscriptionSettings.BeginDate.HasValue &&
+                   !subscription.SubscriptionSettings.EndDate.HasValue;
+        }
         protected bool IsSubscriptionDesactivated(Subscription subscription)
         {
             return IsSubscriptionActive(subscription) &&
@@ -42,10 +48,7 @@
         protected bool IsSubscriptionActivated(Subscription subscription)
         {
             return IsSubscriptionActive(subscription) &&
-                    (
-                        !Subscription.SubscriptionSettings.IsFreeze.HasValue ||
-                        !Subscription.SubscriptionSettings.IsFreeze.Value
-                    );
+                   !Subscription.SubscriptionSettings.IsFreeze.HasValue;
         }
         protected bool IsSubscriptionPending(Subscription subscription)
         {
@@ -56,7 +59,7 @@
         protected bool IsSubscriptionExpired(Subscription subscription)
         {
             return subscription.SubscriptionSettings.EndDate.HasValue &&
-                   DateTime.Now.CompareTo(Subscription.SubscriptionSettings.EndDate) > 0;
+                   DateTime.UtcNow.CompareTo(Subscription.SubscriptionSettings.EndDate) > 0;
         }
 
         #endregion
@@ -66,10 +69,11 @@
         private bool IsSubscriptionActive(Subscription subscription)
         {
             return !(subscription.Bundle is null) &&
+                   !subscription.SubscriptionSettings.IsFreeze.HasValue &&
                    subscription.SubscriptionSettings.BeginDate.HasValue &&
                    subscription.SubscriptionSettings.EndDate.HasValue &&
-                   DateTime.Now.CompareTo(Subscription.SubscriptionSettings.BeginDate) > 0 &&
-                   DateTime.Now.CompareTo(Subscription.SubscriptionSettings.EndDate) < 0;
+                   DateTime.UtcNow.CompareTo(Subscription.SubscriptionSettings.BeginDate) > 0 &&
+                   DateTime.UtcNow.CompareTo(Subscription.SubscriptionSettings.EndDate) < 0;
         }
 
         #endregion

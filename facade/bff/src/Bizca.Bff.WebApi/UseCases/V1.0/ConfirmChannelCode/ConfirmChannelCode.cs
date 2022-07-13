@@ -8,12 +8,6 @@
     public sealed class ConfirmChannelCode
     {
         /// <summary>
-        ///     Channel type.
-        /// </summary>
-        [Required]
-        public string Channel { get; set; }
-
-        /// <summary>
         ///     Channel confirmation code.
         /// </summary>
         [Required]

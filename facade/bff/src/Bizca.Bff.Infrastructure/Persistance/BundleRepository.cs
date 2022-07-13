@@ -2,6 +2,7 @@
 {
     using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Bundle.ValueObjects;
+    using Bizca.Bff.Domain.ValueObject;
     using Bizca.Core.Domain;
     using Dapper;
     using System;
@@ -14,7 +15,7 @@
         private readonly IUnitOfWork unitOfWork;
         public BundleRepository(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork; 
+            this.unitOfWork = unitOfWork;
         }
 
         private const string getBundleByIdStoredProcedure = "bff.usp_getById_bundle";
@@ -62,7 +63,7 @@
         {
             var identifier = new BundleIdentifier((int)result.bundleId, result.bundleCode, result.bundleLabel);
             var priority = Priority.GetByCode((int)result.priority);
-            var money = new Money((decimal)result.price);
+            var money = new Money((decimal)result.price, Currency.Euro);
             var settings = new BundleSettings((int)result.intervalInWeeks,
                 (int)result.bundleTotalWhatsapp,
                 (int)result.bundleTotalEmail,

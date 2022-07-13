@@ -12,7 +12,7 @@
         protected override ICollection<SubscriptionStatus> AllowedNextStatus =>
             new List<SubscriptionStatus>
             {
-                SubscriptionStatus.Activated,
+                SubscriptionStatus.PaymentSubmitted,
                 SubscriptionStatus.Pending
             };
         public SubscriptionStatus Status => SubscriptionStatus.Pending;
@@ -22,9 +22,9 @@
             {
                 return this;
             }
-            else if (IsSubscriptionActivated(Subscription))
+            else if (IsSubscriptionPaymentSubmitted(Subscription))
             {
-                return new Activated(Subscription);
+                return new PaymentSubmitted(Subscription);
             }
             throw new UnSupportedSubscriptionStatusException(Resources.SUBSCRIPTION_STATUS_UNSUPPORTED);
         }

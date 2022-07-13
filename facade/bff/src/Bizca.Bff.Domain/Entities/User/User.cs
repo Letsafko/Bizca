@@ -3,9 +3,10 @@
     using Bizca.Bff.Domain.Entities.Enumerations.Subscription;
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
-    using Bizca.Bff.Domain.Entities.User.Events;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;
     using Bizca.Bff.Domain.Enumerations;
+    using Bizca.Bff.Domain.Events;
+    using Bizca.Bff.Domain.Referentials.Bundle;
     using Bizca.Bff.Domain.Referentials.Procedure;
     using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
     using Bizca.Core.Domain;
@@ -48,99 +49,85 @@
 
         private byte[] rowVersion;
 
-        #region aggregate helpers
-
         #region events
 
         public void RegisterUserContactToCreateEvent()
         {
-            var notification = new CreateUserContactNotification(UserIdentifier.PartnerCode,
-                UserProfile.Email);
-
+            var attributes = new Dictionary<string, object>();
             if (!string.IsNullOrWhiteSpace(UserProfile.PhoneNumber))
             {
-                notification.AddNewAttribute(AttributeConstant.Contact.PhoneNumber, UserProfile.PhoneNumber);
+                attributes.AddNewPair(AttributeConstant.Contact.PhoneNumber, UserProfile.PhoneNumber);
             }
 
             if (!string.IsNullOrWhiteSpace(UserProfile.FirstName))
             {
-                notification.AddNewAttribute(AttributeConstant.Contact.FirstName, UserProfile.FirstName);
+                attributes.AddNewPair(AttributeConstant.Contact.FirstName, UserProfile.FirstName);
             }
 
             if (!string.IsNullOrWhiteSpace(UserProfile.LastName))
             {
-                notification.AddNewAttribute(AttributeConstant.Contact.LastName, UserProfile.LastName);
+                attributes.AddNewPair(AttributeConstant.Contact.LastName, UserProfile.LastName);
             }
 
-            notification.AddNewAttribute(AttributeConstant.Contact.Civility, UserProfile.Civility);
-            notification.AddNewAttribute(AttributeConstant.Contact.Email, UserProfile.Email);
+            attributes.AddNewPair(AttributeConstant.Contact.Civility, UserProfile.Civility);
+            attributes.AddNewPair(AttributeConstant.Contact.Email, UserProfile.Email);
+            var notification = new UserContactToCreateEvent(UserIdentifier.PartnerCode,
+                UserProfile.Email,
+                attributes);
 
             userEvents.Add(notification);
         }
 
-        internal void RegisterUserContactToUpdateEvent(UpdateUserContactNotification updateUserContactNotification)
+        internal void RegisterUserContactToUpdateEvent(UserContactUpdatedEvent updateUserContactNotification)
         {
             userEvents.Add(updateUserContactNotification);
         }
 
-        internal void RegisterUserContactToUpdateEvent(string email,
-            string phoneNumber,
-            string firstName,
-            string lastName,
-            HashSet<int> unlinkListIds = default,
-            HashSet<int> listIds = default)
+        public void RegisterSendTransactionalEmailEvent(ICollection<MailAddressRequest> recipients,
+            MailAddressRequest sender = default,
+            int? emailTemplate = default,
+            IDictionary<string, object> parameters = default,
+            string htmlContent = default,
+            string subject = default)
         {
-            var notification = new UpdateUserContactNotification(email,
-                unlinkListIds,
-                listIds);
+            var @event = new SendTransactionalEmailEvent(recipients,
+                sender,
+                parameters,
+                emailTemplate,
+                htmlContent,
+                subject);
 
-            if (!string.IsNullOrWhiteSpace(phoneNumber))
-            {
-                notification.AddNewAttribute(AttributeConstant.Contact.PhoneNumber, phoneNumber);
-            }
+            userEvents.Add(@event);
+        }
 
-            if (!string.IsNullOrWhiteSpace(firstName))
-            {
-                notification.AddNewAttribute(AttributeConstant.Contact.FirstName, firstName);
-            }
-
-            if (!string.IsNullOrWhiteSpace(lastName))
-            {
-                notification.AddNewAttribute(AttributeConstant.Contact.LastName, lastName);
-            }
-
+        public void RegisterPaymentExecutedEvent(string subscriptionCode)
+        {
+            var notification = new PaymentExecutedEvent(subscriptionCode);
             userEvents.Add(notification);
         }
 
-        public void RegisterSendEmailEvent(MailAddressRequest sender,
-            ICollection<MailAddressRequest> to,
-            string subject,
-            string htmlContent)
+        public void RegisterSendTransactionalSmsEvent(string sender,
+            string phoneNumber,
+            string content)
         {
-            userEvents.Add(new SendEmailNotification(sender,
-                to,
-                subject,
-                htmlContent));
-        }
-
-        public void RegisterSendSmsEvent(string sender, string phoneNumber, string content)
-        {
-            userEvents.Add(new SendSmsNotification(sender,
+            userEvents.Add(new SendTransactionalSmsEvent(sender,
                 phoneNumber,
                 content));
         }
 
-        public void RegisterUserCreatedEvent(UserCreatedNotification userCreated)
+        public void RegisterUserCreatedEvent(string externalUserId)
         {
-            userEvents.Add(userCreated);
+            userEvents.Add(new UserCreatedEvent(externalUserId));
         }
 
-        public void RegisterUserUpdatedEvent(UserUpdatedNotification userUpdated)
+        public void RegisterUserUpdatedEvent(string externalUserId)
         {
-            userEvents.Add(userUpdated);
+            userEvents.Add(new UserUpdatedEvent(externalUserId));
         }
 
         #endregion
+
+        #region aggregate helpers
 
         public void UpdateSubscription(string subscriptionCode, Procedure procedure)
         {
@@ -197,24 +184,42 @@
                 && x.SubscriptionCode != subscription.SubscriptionCode);
         }
 
-        public Subscription DesactivateSubscription(string subscriptionCode)
+        public Subscription FreezeSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
             if (IsAllowedToProcessDesactivation(subscription.SubscriptionState.Status))
             {
-                subscription?.Freeze();
+                subscription.Freeze();
             }
             return subscription;
         }
 
-        public Subscription ActivateSubscription(string subscriptionCode)
+        public Subscription UnFreezeSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
             if (IsAllowedToProcessActivation(subscription.SubscriptionState.Status))
             {
-                subscription?.UnFreeze();
+                subscription.UnFreeze();
             }
             return subscription;
+        }
+
+        public void UpdateSubscriptionBundle(string subscriptionCode, Bundle bundle)
+        {
+            var subscription = GetSubscriptionByCode(subscriptionCode, true);
+            subscription.UpdateSubscriptionBundle(bundle);
+        }
+
+        public void UpdateSubscriptionDateRange(string subscriptionCode)
+        {
+            var subscription = GetSubscriptionByCode(subscriptionCode, true);
+            subscription.UpdateSubscriptionDateRange();
+
+            var activateUserEvent = new ActivateUserContactEvent(subscription.Procedure,
+                UserIdentifier.PartnerCode,
+                UserProfile.Email);
+
+            userEvents.Add(activateUserEvent);
         }
 
         public void AddSubscription(Subscription subscription)
@@ -236,28 +241,28 @@
             if (!string.IsNullOrWhiteSpace(firstName) &&
                 !firstName.Equals(UserProfile.FirstName, StringComparison.OrdinalIgnoreCase))
             {
-                attributes.Add(AttributeConstant.Contact.FirstName, firstName);
+                attributes.AddNewPair(AttributeConstant.Contact.FirstName, firstName);
                 UserProfile.FirstName = firstName;
             }
 
             if (!string.IsNullOrWhiteSpace(lastName) &&
                 !lastName.Equals(UserProfile.LastName, StringComparison.OrdinalIgnoreCase))
             {
-                attributes.Add(AttributeConstant.Contact.LastName, lastName);
+                attributes.AddNewPair(AttributeConstant.Contact.LastName, lastName);
                 UserProfile.LastName = lastName;
             }
 
             if (civility.HasValue &&
                 civility.Value != UserProfile.Civility)
             {
-                attributes.Add(AttributeConstant.Contact.Civility, civility.Value);
+                attributes.AddNewPair(AttributeConstant.Contact.Civility, civility.Value);
                 UserProfile.Civility = civility.Value;
             }
 
             if (!string.IsNullOrWhiteSpace(phoneNumber) &&
                !phoneNumber.Equals(UserProfile.PhoneNumber, StringComparison.OrdinalIgnoreCase))
             {
-                attributes.Add(AttributeConstant.Contact.PhoneNumber, phoneNumber);
+                attributes.AddNewPair(AttributeConstant.Contact.PhoneNumber, phoneNumber);
                 UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.PhoneNumberConfirmed);
                 UserProfile.PhoneNumber = phoneNumber;
             }
@@ -272,15 +277,16 @@
             if (!string.IsNullOrWhiteSpace(email) &&
                !email.Equals(UserProfile.Email, StringComparison.OrdinalIgnoreCase))
             {
-                attributes.Add(AttributeConstant.Contact.Email, email);
+                attributes.AddNewPair(AttributeConstant.Contact.Email, email);
                 UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
                 UserProfile.Email = email;
             }
 
             if (attributes.Any())
             {
-                var userContactToUpdateEvent = new UpdateUserContactNotification(UserProfile.Email);
-                userContactToUpdateEvent.AddContactAttributes(attributes);
+                var userContactToUpdateEvent = new UserContactUpdatedEvent(UserProfile.Email,
+                    attributes: attributes);
+
                 RegisterUserContactToUpdateEvent(userContactToUpdateEvent);
             }
         }
