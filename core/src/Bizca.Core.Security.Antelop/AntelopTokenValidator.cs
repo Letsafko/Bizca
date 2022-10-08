@@ -29,10 +29,7 @@
         /// <param name="content">The content.</param>
         public X509Certificate2 LoadCertificate(string content)
         {
-            if (string.IsNullOrEmpty(content))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(content)) return null;
 
             antelopCert = new X509Certificate2(Convert.FromBase64String(content));
 
@@ -42,7 +39,8 @@
         /// <summary>Determines whether this instance [can read token] the specified token.</summary>
         /// <param name="token">The token.</param>
         /// <returns>
-        ///   <c>true</c> if this instance [can read token] the specified token; otherwise, <c>false</c>.</returns>
+        ///     <c>true</c> if this instance [can read token] the specified token; otherwise, <c>false</c>.
+        /// </returns>
         public bool CanReadToken(string token)
         {
             return jwtHandler.CanReadToken(token);
@@ -53,14 +51,11 @@
         /// <param name="claims">The claims.</param>
         /// <returns></returns>
         public JwtSecurityToken ValidateToken(string token,
-            out List<System.Security.Claims.Claim> claims)
+            out List<Claim> claims)
         {
             claims = new List<Claim>();
 
-            if (!jwtHandler.CanReadToken(token))
-            {
-                throw new UnauthorizedAccessException("Invalid token format");
-            }
+            if (!jwtHandler.CanReadToken(token)) throw new UnauthorizedAccessException("Invalid token format");
 
             JwtSecurityToken jwtToken = jwtHandler.ReadJwtToken(token);
 
@@ -96,9 +91,7 @@
             // with the Wallet ID in the payload ("sub" field)
             if (token.Payload?.ContainsKey("sub") == false
                 || token.Subject != token.Payload["sub"].ToString())
-            {
                 throw new UnauthorizedAccessException("Invalid Wallet Identifier");
-            }
 
             claims.Add(new Claim(Constants.ANTELOP_CLAIMS_WALLET_ID, token.Payload["sub"].ToString()));
         }
@@ -108,9 +101,7 @@
             string partnerCode = Constants.ANTELOP_CLAIMS_DEFAULT_PARTNER_CODE;
 
             if (token.Payload?.ContainsKey("partner_code") == true)
-            {
                 partnerCode = token.Payload["partner_code"].ToString();
-            }
 
             //TODO: Define where in the payload to extract the partner code
             claims.Add(new Claim(Constants.ANTELOP_CLAIMS_PARTNER_CODE, partnerCode));
@@ -119,33 +110,26 @@
         /// <summary>Validates the device certificate.</summary>
         /// <param name="token">The token.</param>
         /// <returns></returns>
-        /// <exception cref="UnauthorizedAccessException">Invalid Certificate
-        /// or
-        /// Invalid Certificate
-        /// or
-        /// Certificate Expired</exception>
+        /// <exception cref="UnauthorizedAccessException">
+        ///     Invalid Certificate
+        ///     or
+        ///     Invalid Certificate
+        ///     or
+        ///     Certificate Expired
+        /// </exception>
         private X509Certificate2 ValidateDeviceCertificate(JwtSecurityToken token)
         {
-            if (!token.Header.ContainsKey("x5c"))
-            {
-                throw new UnauthorizedAccessException("Invalid Certificate");
-            }
+            if (!token.Header.ContainsKey("x5c")) throw new UnauthorizedAccessException("Invalid Certificate");
 
             string headerRawString = token.Header["x5c"]?.ToString();
 
-            if (string.IsNullOrEmpty(headerRawString))
-            {
-                throw new UnauthorizedAccessException("Invalid Certificate");
-            }
+            if (string.IsNullOrEmpty(headerRawString)) throw new UnauthorizedAccessException("Invalid Certificate");
 
-            var headerRaw = JArray.Parse(headerRawString);
+            JArray headerRaw = JArray.Parse(headerRawString);
 
             var clientCert = new X509Certificate2(Convert.FromBase64String(headerRaw.First.Value<string>()));
 
-            if (DateTime.UtcNow > clientCert.NotAfter)
-            {
-                throw new UnauthorizedAccessException("Certificate Expired");
-            }
+            if (DateTime.UtcNow > clientCert.NotAfter) throw new UnauthorizedAccessException("Certificate Expired");
 
             //Check with the Antelop CA certificate’s public key that the client certificate is valid
 
@@ -153,16 +137,14 @@
         }
 
         /// <summary>
-        /// (Optional) Check that client certificate’s Organizational Unit name matches with your issuer identifier (given during onboarding)
-        /// This step can avoid rareful collisions between the wallet identifiers of 2 Antelop clients
+        ///     (Optional) Check that client certificate’s Organizational Unit name matches with your issuer identifier (given
+        ///     during onboarding)
+        ///     This step can avoid rareful collisions between the wallet identifiers of 2 Antelop clients
         /// </summary>
         /// <param name="clientCert">The client cert.</param>
         private void CheckOrganizationalUnit(X509Certificate2 clientCert)
         {
-            if (antelopCert == null)
-            {
-                return;
-            }
+            if (antelopCert == null) return;
 
             byte[] acSubjectKeyIdentifier = antelopCert.Extensions[Constants.OID_SUBJECT_KEY].RawData;
             acSubjectKeyIdentifier = acSubjectKeyIdentifier.Skip(4).ToArray();
@@ -171,9 +153,7 @@
             clientAuthorityKeyIdentifier = clientAuthorityKeyIdentifier.Skip(6).ToArray();
 
             if (!acSubjectKeyIdentifier.SequenceEqual(clientAuthorityKeyIdentifier))
-            {
                 throw new UnauthorizedAccessException("Client certicate OU must match with the issuer identifier");
-            }
         }
 
         /// <summary>Validates the JWS signature.</summary>
@@ -200,9 +180,7 @@
 
             //Compare the result with the 3rd part of the JWS token (signature)
             if (!rsaDeformatter.VerifySignature(hash, FromBase64Url(tokenParts[2])))
-            {
                 throw new UnauthorizedAccessException("Invalid Token signature");
-            }
         }
 
         /// <summary>Froms the base64 URL.</summary>
@@ -211,9 +189,10 @@
         private static byte[] FromBase64Url(string base64Url)
         {
             string padded = base64Url.Length % 4 == 0
-                ? base64Url : base64Url + "====".Substring(base64Url.Length % 4);
+                ? base64Url
+                : base64Url + "====".Substring(base64Url.Length % 4);
             string base64 = padded.Replace("_", "/")
-                                  .Replace("-", "+");
+                .Replace("-", "+");
             return Convert.FromBase64String(base64);
         }
 

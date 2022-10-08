@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Domain.Entities.Channel.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -22,7 +22,8 @@
         {
         }
 
-        public ChannelDoesNotExistForUserException(string message, Exception innerException) : base(message, innerException)
+        public ChannelDoesNotExistForUserException(string message, Exception innerException) : base(message,
+            innerException)
         {
         }
 
@@ -30,7 +31,8 @@
         {
         }
 
-        public ChannelDoesNotExistForUserException(SerializationInfo info, StreamingContext context) : base(info, context)
+        public ChannelDoesNotExistForUserException(SerializationInfo info, StreamingContext context) : base(info,
+            context)
         {
         }
     }

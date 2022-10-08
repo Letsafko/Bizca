@@ -1,29 +1,27 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Autofac
 {
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Provider.ContactList;
-    using Bizca.Bff.Domain.Provider.Folder;
-    using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Bff.Domain.Wrappers.Contact;
-    using Bizca.Bff.Domain.Wrappers.Notification;
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Infrastructure.Cache;
-    using Bizca.Bff.Infrastructure.Persistance;
-    using Bizca.Bff.Infrastructure.Wrappers.Contact;
-    using Bizca.Bff.Infrastructure.Wrappers.Notifications;
-    using Bizca.Bff.Infrastructure.Wrappers.Users;
-    using Bizca.Core.Domain;
-    using Bizca.Core.Infrastructure;
-    using Bizca.Core.Infrastructure.Cache;
-    using Bizca.Core.Infrastructure.Database;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Repository;
     using Core.Domain.Referential.Services;
+    using Core.Infrastructure;
+    using Core.Infrastructure.Database;
     using Core.Infrastructure.Persistence;
     using Core.Infrastructure.Persistence.RepositoryCache;
+    using Domain.Entities.Subscription;
+    using Domain.Entities.User;
+    using Domain.Provider.ContactList;
+    using Domain.Provider.Folder;
+    using Domain.Referentials.Bundle;
+    using Domain.Referentials.Procedure;
+    using Domain.Wrappers.Contact;
+    using Domain.Wrappers.Notification;
+    using Domain.Wrappers.Users;
     using global::Autofac;
+    using Infrastructure.Cache;
+    using Infrastructure.Persistance;
+    using Infrastructure.Wrappers.Contact;
+    using Infrastructure.Wrappers.Notifications;
+    using Infrastructure.Wrappers.Users;
 
     /// <summary>
     ///     Infrastrcuture modules.
@@ -62,7 +60,8 @@
             builder.RegisterType<FolderRepository>().As<IFolderRepository>().InstancePerLifetimeScope();
             builder.RegisterDecorator<CacheFolderRepository, IFolderRepository>();
 
-            builder.RegisterType<EconomicActivityRepository>().As<IEconomicActivityRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<EconomicActivityRepository>().As<IEconomicActivityRepository>()
+                .InstancePerLifetimeScope();
             builder.RegisterDecorator<CacheEconomicActivityRepository, IEconomicActivityRepository>();
 
             builder.RegisterType<CivilityRepository>().As<ICivilityRepository>().InstancePerLifetimeScope();

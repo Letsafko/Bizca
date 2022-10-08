@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Application.Behaviors
 {
-    using Bizca.Core.Application.Enrichers;
+    using Enrichers;
     using MediatR;
     using Microsoft.Extensions.Logging;
     using Serilog.Context;
@@ -11,12 +11,14 @@
     public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : class
     {
         private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
+
         public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
         {
             _logger = logger;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
+            RequestHandlerDelegate<TResponse> next)
         {
             IDictionary<string, string> dicoProperties = ReflectionHelpers.Populate(request);
             using (LogContext.Push(new AggregateLogEnricher(dicoProperties)))

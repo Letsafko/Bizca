@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.ConfirmChannelCode
 {
-    using Bizca.Bff.Application.Properties;
-    using Bizca.Bff.Domain.Enumerations;
+    using Domain.Enumerations;
     using FluentValidation;
+    using Properties;
     using System;
 
     public sealed class ConfirmChannelCodeValidator : AbstractValidator<ConfirmChannelCodeCommand>
@@ -25,7 +25,7 @@
             RuleFor(x => x.ChannelType)
                 .NotNull()
                 .WithMessage(Resources.CHANNEL_TYPE_REQUIRED)
-                .Must(x => Enum.TryParse(typeof(ChannelType), x, true, out var _))
+                .Must(x => Enum.TryParse(typeof(ChannelType), x, true, out object _))
                 .WithMessage(Resources.CHANNEL_TYPE_INVALID);
         }
     }

@@ -1,8 +1,8 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.AuthenticateUser
 {
-    using Bizca.User.WebApi.ViewModels;
+    using Domain.Agregates;
     using System.ComponentModel.DataAnnotations;
-    using User = Domain.Agregates.User;
+    using ViewModels;
 
     /// <summary>
     ///     Update password response.
@@ -10,7 +10,7 @@
     public sealed class AuthenticateUserResponse : UserModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="AuthenticateUserResponse"/>
+        ///     Creates an instance of <see cref="AuthenticateUserResponse" />
         /// </summary>
         /// <param name="user"></param>
         public AuthenticateUserResponse(User user) : base(user)

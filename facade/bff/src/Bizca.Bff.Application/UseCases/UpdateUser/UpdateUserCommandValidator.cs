@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpdateUser
 {
-    using Bizca.Bff.Application.Properties;
-    using Bizca.Bff.Domain.Enumerations;
+    using Domain.Enumerations;
     using FluentValidation;
+    using Properties;
     using System;
 
     public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
@@ -26,7 +26,7 @@
                 .WithMessage(Resources.PHONE_INVALID);
 
             RuleFor(x => x.Civility)
-                .Must(x => Enum.TryParse<Civility>(x, true, out var civility))
+                .Must(x => Enum.TryParse<Civility>(x, true, out Civility civility))
                 .When(x => !string.IsNullOrWhiteSpace(x.Civility))
                 .WithMessage(Resources.CIVILITY_INVALID);
 

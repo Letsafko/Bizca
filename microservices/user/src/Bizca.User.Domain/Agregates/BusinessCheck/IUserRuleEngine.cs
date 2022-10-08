@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.Domain.Agregates.BusinessCheck
 {
-    using Bizca.Core.Domain.Rules;
+    using Core.Domain.Rules;
+
     public interface IUserRuleEngine : IBusinessRuleEngine<UserRequest>
     {
     }

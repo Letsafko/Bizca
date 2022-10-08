@@ -13,16 +13,13 @@
 
         public async Task<Partner> GetByCodeAsync(string partnerCode)
         {
-            var result = await GetAsync(new PartnerEntity
-            {
-                Code = partnerCode
-            });
+            PartnerEntity result = await GetAsync(new PartnerEntity { Code = partnerCode });
 
             return result is null
-                    ? default
-                    : new Partner(result.Id, 
-                        result.Code, 
-                        result.Description);
+                ? default
+                : new Partner(result.Id,
+                    result.Code,
+                    result.Description);
         }
     }
 }

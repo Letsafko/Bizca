@@ -1,6 +1,5 @@
 ﻿namespace Bizca.Core.Domain.Test.Services
 {
-    using Shouldly;
     using System;
     using Xunit;
 
@@ -24,7 +23,7 @@
         {
             //Arrange
             var dateService = new DateService();
-            DateTime now = new DateTime(2008, 10, 31, 17, 4, 32);
+            var now = new DateTime(2008, 10, 31, 17, 4, 32);
             const string expected = "2008-10-31T17:04:32";
 
             //Act

@@ -2,6 +2,8 @@
 {
     public sealed class TransactionalSmsRequest
     {
+        public string Type = Constants.TransactionType.Transactional;
+
         public TransactionalSmsRequest(string sender,
             string recipientPhoneNumber,
             string content)
@@ -11,7 +13,6 @@
             Sender = sender;
         }
 
-        public string Type = Constants.TransactionType.Transactional;
         public string Recipient { get; }
         public string Content { get; }
         public string Sender { get; }

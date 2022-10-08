@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetBundles
 {
-    using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Core.Application.Queries;
+    using Core.Application.Queries;
+    using Domain.Referentials.Bundle;
     using MediatR;
     using System.Collections.Generic;
     using System.Threading;
@@ -11,6 +11,7 @@
     {
         private readonly IBundleRepository bundleRepository;
         private readonly IGetBundlesOutput output;
+
         public GetBundlesUseCase(IBundleRepository bundleRepository,
             IGetBundlesOutput output)
         {

@@ -1,10 +1,10 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUserDetails
 {
-    using Bizca.Bff.Application.UseCases.GetUserDetails;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Presentation;
-    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
+    using Application.UseCases.GetUserDetails;
+    using Core.Api.Modules.Presentation;
+    using Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
     ///     Get user details preseneter.
@@ -12,7 +12,7 @@
     public sealed class GetUserDetailsPresenter : PresenterBase, IGetUserDetailsOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="GetUserDetailsPresenter"/>
+        ///     Creates an instance of <see cref="GetUserDetailsPresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public GetUserDetailsPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)

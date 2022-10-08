@@ -1,12 +1,12 @@
 ﻿namespace Bizca.Core.Application.Test
 {
-    using Bizca.Core.Application.Commands;
-    using Bizca.Core.Application.Queries;
-    using Bizca.Core.Application.Test.Cqrs;
-    using Bizca.Core.Support.Test;
+    using Commands;
+    using Cqrs;
     using MediatR;
     using NFluent;
     using NSubstitute;
+    using Queries;
+    using Support.Test;
     using System.Threading.Tasks;
     using Xunit;
 
@@ -17,7 +17,7 @@
         {
             //arrance
             var arg = new ArgCapture<FakeCommand>();
-            IMediator _mediator = Substitute.For<IMediator>();
+            var _mediator = Substitute.For<IMediator>();
             await _mediator.Send(arg.Capture()).ConfigureAwait(false);
 
             //act
@@ -33,7 +33,7 @@
         {
             //arrance
             var arg = new ArgCapture<FakeCommand2>();
-            IMediator _mediator = Substitute.For<IMediator>();
+            var _mediator = Substitute.For<IMediator>();
             await _mediator.Send(arg.Capture()).ConfigureAwait(false);
 
             //act
@@ -49,7 +49,7 @@
         {
             //arrance
             var arg = new ArgCapture<FakeQuery2>();
-            IMediator _mediator = Substitute.For<IMediator>();
+            var _mediator = Substitute.For<IMediator>();
             await _mediator.Send(arg.Capture()).ConfigureAwait(false);
 
             //act
@@ -65,7 +65,7 @@
         {
             //arrance
             var arg = new ArgCapture<FakeQuery>();
-            IMediator _mediator = Substitute.For<IMediator>();
+            var _mediator = Substitute.For<IMediator>();
             await _mediator.Send(arg.Capture()).ConfigureAwait(false);
 
             //act
@@ -81,7 +81,7 @@
         {
             //arrance
             var arg = new ArgCapture<FakeNotification>();
-            IMediator _mediator = Substitute.For<IMediator>();
+            var _mediator = Substitute.For<IMediator>();
             await _mediator.Publish(arg.Capture()).ConfigureAwait(false);
 
             //act

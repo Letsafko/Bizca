@@ -1,14 +1,14 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription
 {
-    using Bizca.Bff.Application.UseCases.UpdateSubscription;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.Core.Domain;
+    using Application.UseCases.UpdateSubscription;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
+    using Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
+    using ViewModels;
 
     /// <summary>
     ///     Creates subscription controller.
@@ -19,8 +19,11 @@
     [ApiExplorerSettings(GroupName = "Subscriptions")]
     public sealed class UsersController : ControllerBase
     {
+        private readonly UpdateSubscriptionPresenter presenter;
+        private readonly IProcessor processor;
+
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -29,9 +32,6 @@
             this.processor = processor;
             this.presenter = presenter;
         }
-
-        private readonly UpdateSubscriptionPresenter presenter;
-        private readonly IProcessor processor;
 
         /// <summary>
         ///     Updates subscription of an user.
@@ -47,7 +47,7 @@
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
         public async Task<IActionResult> UpdateSubscriptionAsync([Required] string externalUserId,
             [Required] string reference,
-            [Required][FromBody] UpdateSubscription subscription)
+            [Required] [FromBody] UpdateSubscription subscription)
         {
             UpdateSubscriptionCommand command = GetUpdateSubscriptionCommand(externalUserId, reference, subscription);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);

@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Wrappers.Users.Requests
 {
-    using Bizca.Bff.Domain.Properties;
+    using Properties;
+
     public sealed class UserToUpdateRequest
     {
         public UserToUpdateRequest(string externalUserId,

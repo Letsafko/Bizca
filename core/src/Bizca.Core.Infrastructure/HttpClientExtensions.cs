@@ -6,9 +6,11 @@
     using System.Collections;
     using System.Net.Http;
     using System.Text;
+
     public static class HttpClientExtensions
     {
         private const string JsonMediaType = "application/json";
+
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             ContractResolver = new CamelCaseExceptDictionaryKeysResolver(),
@@ -17,22 +19,19 @@
 
         public static HttpContent GetHttpContent(this object content)
         {
-            var json = JsonConvert.SerializeObject(content, JsonSettings);
+            string json = JsonConvert.SerializeObject(content, JsonSettings);
             return new StringContent(json, Encoding.UTF8, JsonMediaType);
         }
 
         public static void AddHeaders(this HttpRequestMessage request, IDictionary headers)
         {
             if (headers == null) return;
-            
-            foreach (object entry in headers.Keys)
-            {
-                request.Headers.Add(entry.ToString(), headers[entry].ToString());
-            }
+
+            foreach (object entry in headers.Keys) request.Headers.Add(entry.ToString(), headers[entry].ToString());
         }
     }
 
-    class CamelCaseExceptDictionaryKeysResolver : CamelCasePropertyNamesContractResolver
+    internal class CamelCaseExceptDictionaryKeysResolver : CamelCasePropertyNamesContractResolver
     {
         protected override JsonDictionaryContract CreateDictionaryContract(Type objectType)
         {

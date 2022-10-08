@@ -1,7 +1,8 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
-    using Bizca.User.Application.Properties;
     using FluentValidation;
+    using Properties;
+
     public sealed class GetUserDetailValidator : AbstractValidator<GetUserDetailQuery>
     {
         public GetUserDetailValidator()

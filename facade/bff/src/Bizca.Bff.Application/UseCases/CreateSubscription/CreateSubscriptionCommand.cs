@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateSubscription
 {
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
+
     public sealed class CreateSubscriptionCommand : ICommand
     {
         public CreateSubscriptionCommand(string externalUserId,

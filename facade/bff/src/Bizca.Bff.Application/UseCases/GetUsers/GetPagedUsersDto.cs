@@ -1,10 +1,11 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUsers
 {
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
+    using Domain.Wrappers.Users.Responses;
     using System.Collections.Generic;
+
     public sealed class GetPagedUsersDto
     {
-        public GetPagedUsersDto(IEnumerable<GetUserDto> users, 
+        public GetPagedUsersDto(IEnumerable<GetUserDto> users,
             IEnumerable<PaginationLink> relations)
         {
             Relations = relations;

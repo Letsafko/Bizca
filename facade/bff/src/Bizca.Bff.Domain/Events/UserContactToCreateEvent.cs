@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Events
 {
-    using Bizca.Core.Domain;
+    using Core.Domain;
     using System.Collections.Generic;
 
     public sealed class UserContactToCreateEvent : IEvent

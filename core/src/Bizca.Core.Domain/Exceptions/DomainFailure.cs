@@ -44,7 +44,7 @@
         ///     gets or sets the error code.
         /// </summary>
         public string ErrorCode { get; set; }
-        
+
         /// <summary>
         ///     exception type.
         /// </summary>

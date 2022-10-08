@@ -8,14 +8,14 @@
     {
         private readonly TelemetryClient telemetryClient;
         private bool disposed;
+
         public ApplicationInsightsTelemetryService(TelemetryClient telemetryClient)
         {
             this.telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
-        ~ApplicationInsightsTelemetryService() => Dispose(false);
-
-        public void TrackEvent(string eventName, IDictionary<string, string> properties = null, IDictionary<string, double> metrics = null)
+        public void TrackEvent(string eventName, IDictionary<string, string> properties = null,
+            IDictionary<string, double> metrics = null)
         {
             telemetryClient.TrackEvent(eventName, properties, metrics);
         }
@@ -30,17 +30,23 @@
             telemetryClient.TrackTrace(message);
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ApplicationInsightsTelemetryService()
+        {
+            Dispose(false);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed && disposing)
                 telemetryClient.Flush();
 
             disposed = true;
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

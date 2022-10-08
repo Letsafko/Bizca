@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
-    using Bizca.Bff.Domain.Referentials.Bundle;
-    using Newtonsoft.Json;
+    using Domain.Referentials.Bundle;
     using System.ComponentModel.DataAnnotations;
+
     internal sealed class BundleViewModel
     {
         public BundleViewModel(Bundle bundle)

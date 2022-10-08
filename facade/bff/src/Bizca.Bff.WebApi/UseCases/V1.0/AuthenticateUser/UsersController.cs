@@ -1,13 +1,13 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser
 {
-    using Bizca.Bff.Application.UseCases.AuthenticateUser;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
+    using Application.UseCases.AuthenticateUser;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
+    using ViewModels;
 
     /// <summary>
     ///     Authenticate user controller.
@@ -21,7 +21,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -39,7 +39,7 @@
         [HttpPost("authenticate")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserViewModel))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
-        public async Task<IActionResult> AuthenticateUserAsync([Required][FromBody] AuthenticateUser authenticateUser)
+        public async Task<IActionResult> AuthenticateUserAsync([Required] [FromBody] AuthenticateUser authenticateUser)
         {
             var query = new AuthenticateUserQuery(authenticateUser.Password, authenticateUser.Resource);
             await processor.ProcessQueryAsync(query).ConfigureAwait(false);

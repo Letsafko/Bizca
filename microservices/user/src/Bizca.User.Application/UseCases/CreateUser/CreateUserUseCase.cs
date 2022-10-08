@@ -1,16 +1,16 @@
 ﻿namespace Bizca.User.Application.UseCases.CreateUser
 {
-    using Bizca.Core.Application.Commands;
-    using Bizca.Core.Application.Services;
-    using Bizca.User.Domain.Agregates;
-    using Bizca.User.Domain.Agregates.Factories;
-    using Bizca.User.Domain.Agregates.Repositories;
-    using Bizca.User.Domain.Entities.Address;
-    using Bizca.User.Domain.Entities.Address.Factories;
-    using Bizca.User.Domain.Entities.Address.Repositories;
-    using Bizca.User.Domain.Entities.Channel.Repositories;
+    using Core.Application.Commands;
+    using Core.Application.Services;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
+    using Domain.Agregates;
+    using Domain.Agregates.Factories;
+    using Domain.Agregates.Repositories;
+    using Domain.Entities.Address;
+    using Domain.Entities.Address.Factories;
+    using Domain.Entities.Address.Repositories;
+    using Domain.Entities.Channel.Repositories;
     using MediatR;
     using System;
     using System.Linq;
@@ -19,13 +19,14 @@
 
     public sealed class CreateUserUseCase : ICommandHandler<CreateUserCommand>
     {
-        private readonly IReferentialService referentialService;
-        private readonly IChannelRepository channelRepository;
-        private readonly IAddressRepository addressRepository;
         private readonly IAddressFactory addressFactory;
-        private readonly IUserRepository userRepository;
+        private readonly IAddressRepository addressRepository;
+        private readonly IChannelRepository channelRepository;
         private readonly ICreateUserOutput output;
+        private readonly IReferentialService referentialService;
         private readonly IUserFactory userFactory;
+        private readonly IUserRepository userRepository;
+
         public CreateUserUseCase(ICreateUserOutput output,
             IUserFactory userFactory,
             IAddressFactory addressFactory,
@@ -46,19 +47,18 @@
 
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true).ConfigureAwait(false);
+            Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true)
+                .ConfigureAwait(false);
             UserRequest userRequest = GetUserRequest(partner, request);
             var user = await userFactory.CreateAsync(userRequest).ConfigureAwait(false) as User;
 
             Address address = await GetAddressAsync(partner, request).ConfigureAwait(false);
             if (address != null)
-            {
                 user.AddNewAddress(address.Street,
-                        address.City,
-                        address.ZipCode,
-                        address.Country,
-                        address.Name);
-            }
+                    address.City,
+                    address.ZipCode,
+                    address.Country,
+                    address.Name);
 
             int userId = await userRepository.AddAsync(user).ConfigureAwait(false);
             await channelRepository.UpSertAsync(userId, user.Profile.Channels).ConfigureAwait(false);
@@ -73,10 +73,7 @@
 
         private async Task<Address> GetAddressAsync(Partner partner, CreateUserCommand request)
         {
-            if (request.Address is null)
-            {
-                return null;
-            }
+            if (request.Address is null) return null;
 
             var addressRequest = new AddressRequest(partner,
                 request.Address.Street,
@@ -87,12 +84,19 @@
 
             return await addressFactory.CreateAsync(addressRequest).ConfigureAwait(false);
         }
+
         private UserRequest GetUserRequest(Partner partner, CreateUserCommand request)
         {
             return new UserRequest
             {
-                EconomicActivity = string.IsNullOrWhiteSpace(request.EconomicActivity) ? default(int?) : int.Parse(request.EconomicActivity),
-                BirthDate = string.IsNullOrWhiteSpace(request.BirthDate) ? default(DateTime?) : DateTime.Parse(request.BirthDate),
+                EconomicActivity =
+                    string.IsNullOrWhiteSpace(request.EconomicActivity)
+                        ? default(int?)
+                        : int.Parse(request.EconomicActivity),
+                BirthDate =
+                    string.IsNullOrWhiteSpace(request.BirthDate)
+                        ? default(DateTime?)
+                        : DateTime.Parse(request.BirthDate),
                 Civility = int.Parse(request.Civility),
                 ExternalUserId = request.ExternalUserId,
                 BirthCountry = request.BirthCountry,
@@ -105,6 +109,7 @@
                 Partner = partner
             };
         }
+
         private CreateUserDto GetUserDto(User user)
         {
             return new CreateUserDto

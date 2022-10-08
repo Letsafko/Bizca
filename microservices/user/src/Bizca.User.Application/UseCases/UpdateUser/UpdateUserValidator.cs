@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.UpdateUser
 {
-    using Bizca.User.Application.Properties;
     using FluentValidation;
+    using Properties;
     using System;
 
     public sealed class UpdateUserValidator : AbstractValidator<UpdateUserCommand>

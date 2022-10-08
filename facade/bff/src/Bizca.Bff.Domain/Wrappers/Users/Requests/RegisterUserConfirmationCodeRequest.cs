@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Wrappers.Users.Requests
 {
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Properties;
+    using Enumerations;
+    using Properties;
 
     public sealed class RegisterUserConfirmationCodeRequest
     {
@@ -10,6 +10,7 @@
             Channel = channel.ToString();
             ExternalUserId = externalUserId;
         }
+
         public string PartnerCode { get; } = Resources.PartnerCode;
         public string ExternalUserId { get; }
         public string Channel { get; }

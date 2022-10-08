@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User.Factories
 {
-    using Bizca.Bff.Domain.Entities.User.ValueObjects;
-    using Bizca.Bff.Domain.Enumerations;
+    using Domain.Enumerations;
+    using ValueObjects;
 
     public sealed class UserFactory : IUserFactory
     {

@@ -13,11 +13,12 @@
     /// </summary>
     public sealed class ReferentialService : IReferentialService
     {
-        private readonly ICountryRepository countryRepository;
-        private readonly IPartnerRepository partnerRepository;
         private readonly ICivilityRepository civilityRepository;
-        private readonly IEmailTemplateRepository emailTemplateRepository;
+        private readonly ICountryRepository countryRepository;
         private readonly IEconomicActivityRepository economicActivityRepository;
+        private readonly IEmailTemplateRepository emailTemplateRepository;
+        private readonly IPartnerRepository partnerRepository;
+
         public ReferentialService(ICivilityRepository civilityRepository,
             ICountryRepository countryRepository,
             IPartnerRepository partnerRepository,
@@ -39,7 +40,10 @@
         public async Task<EmailTemplate> GetEmailTemplateByIdAsync(int emailTemplate, bool throwError = false)
         {
             return await emailTemplateRepository.GetByIdAsync(emailTemplate).ConfigureAwait(false)
-                ?? (!throwError ? default(EmailTemplate) : throw GetDomainException<EmailTemplateDoesNotExistException>(nameof(emailTemplate), emailTemplate));
+                   ?? (!throwError
+                       ? default(EmailTemplate)
+                       : throw GetDomainException<EmailTemplateDoesNotExistException>(nameof(emailTemplate),
+                           emailTemplate));
         }
 
         /// <summary>
@@ -50,7 +54,9 @@
         public async Task<Civility> GetCivilityByIdAsync(int civility, bool throwError = false)
         {
             return await civilityRepository.GetByIdAsync(civility).ConfigureAwait(false)
-                ?? (!throwError ? default(Civility) : throw GetDomainException<CivilityDoesNotExistException>(nameof(civility), civility));
+                   ?? (!throwError
+                       ? default(Civility)
+                       : throw GetDomainException<CivilityDoesNotExistException>(nameof(civility), civility));
         }
 
         /// <summary>
@@ -61,7 +67,9 @@
         public async Task<Country> GetCountryByCodeAsync(string country, bool throwError = false)
         {
             return await countryRepository.GetByCodeAsync(country).ConfigureAwait(false)
-                ?? (!throwError ? default(Country) : throw GetDomainException<CountryDoesNotExistException>(nameof(country), country));
+                   ?? (!throwError
+                       ? default(Country)
+                       : throw GetDomainException<CountryDoesNotExistException>(nameof(country), country));
         }
 
         /// <summary>
@@ -72,7 +80,9 @@
         public async Task<Country> GetCountryByIdAsync(int countryId, bool throwError = false)
         {
             return await countryRepository.GetByIdAsync(countryId).ConfigureAwait(false)
-                ?? (!throwError ? default(Country) : throw GetDomainException<CountryDoesNotExistException>(nameof(countryId), countryId));
+                   ?? (!throwError
+                       ? default(Country)
+                       : throw GetDomainException<CountryDoesNotExistException>(nameof(countryId), countryId));
         }
 
         /// <summary>
@@ -83,7 +93,9 @@
         public async Task<Partner> GetPartnerByCodeAsync(string partner, bool throwError = false)
         {
             return await partnerRepository.GetByCodeAsync(partner).ConfigureAwait(false)
-                ?? (!throwError ? default(Partner) : throw GetDomainException<PartnerDoesNotExistException>(nameof(partner), partner));
+                   ?? (!throwError
+                       ? default(Partner)
+                       : throw GetDomainException<PartnerDoesNotExistException>(nameof(partner), partner));
         }
 
         /// <summary>
@@ -94,14 +106,18 @@
         public async Task<EconomicActivity> GetEconomicActivityByIdAsync(int economicActivity, bool throwError = false)
         {
             return await economicActivityRepository.GetByIdAsync(economicActivity).ConfigureAwait(false)
-                ?? (!throwError ? default(EconomicActivity) : throw GetDomainException<EconomicActivityDoesNotExistException>(nameof(economicActivity), economicActivity));
+                   ?? (!throwError
+                       ? default(EconomicActivity)
+                       : throw GetDomainException<EconomicActivityDoesNotExistException>(nameof(economicActivity),
+                           economicActivity));
         }
 
-        private TException GetDomainException<TException>(string propertyName, object propertyValue) where TException : ResourceNotFoundException
+        private TException GetDomainException<TException>(string propertyName, object propertyValue)
+            where TException : ResourceNotFoundException
         {
             var failure = new DomainFailure($"{propertyValue} does not exist.",
-                    propertyName,
-                    typeof(TException));
+                propertyName,
+                typeof(TException));
 
             return Activator.CreateInstance(typeof(TException), new List<DomainFailure> { failure }) as TException;
         }

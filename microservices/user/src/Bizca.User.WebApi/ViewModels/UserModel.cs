@@ -1,11 +1,11 @@
 ﻿namespace Bizca.User.WebApi.ViewModels
 {
-    using Bizca.User.Application.UseCases.GetUsersByCriteria;
-    using Bizca.User.Domain.Entities.Address;
+    using Application.UseCases.GetUsersByCriteria;
+    using Domain.Agregates;
+    using Domain.Entities.Address;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using User = Domain.Agregates.User;
 
     /// <summary>
     ///     Gets user model.
@@ -30,13 +30,15 @@
         }
 
         /// <summary>
-        ///     Creates an instance of <see cref="UserModel"/>
+        ///     Creates an instance of <see cref="UserModel" />
         /// </summary>
         /// <param name="user"></param>
         public UserModel(User user)
         {
             Address address = user.Profile.Addresses.SingleOrDefault(x => x.Active);
-            Channels = user.Profile.Channels.Count == 0 ? default : user.Profile.Channels.Select(x => new ChannelModel(x));
+            Channels = user.Profile.Channels.Count == 0
+                ? default
+                : user.Profile.Channels.Select(x => new ChannelModel(x));
             Address = address is null ? default : new AddressModel(address);
             EconomicActivity = user.Profile.EconomicActivity?.EconomicActivityCode;
             ExternalUserId = user.UserIdentifier.ExternalUserId.ToString();
@@ -49,7 +51,7 @@
         }
 
         /// <summary>
-        ///  Gets external user identifier.
+        ///     Gets external user identifier.
         /// </summary>
         [Required]
         public string ExternalUserId { get; }
@@ -61,7 +63,7 @@
         public string Civility { get; }
 
         /// <summary>
-        ///  Gets user economic activity.
+        ///     Gets user economic activity.
         /// </summary>
         public string EconomicActivity { get; }
 

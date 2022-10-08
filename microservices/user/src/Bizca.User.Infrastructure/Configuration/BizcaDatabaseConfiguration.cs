@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Infrastructure.Configuration
 {
-    using Bizca.Core.Infrastructure.Database.Configuration;
+    using Core.Infrastructure.Database.Configuration;
 
     public sealed class BizcaDatabaseConfiguration : DatabaseConfiguration
     {

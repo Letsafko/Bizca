@@ -1,10 +1,10 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetBundles
 {
-    using Bizca.Bff.Application.UseCases.GetBundles;
-    using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.WebApi.ViewModels;
+    using Application.UseCases.GetBundles;
+    using Domain.Referentials.Bundle;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
+    using ViewModels;
 
     /// <summary>
     ///     Get bundle presenter.

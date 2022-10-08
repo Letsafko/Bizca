@@ -1,9 +1,9 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
-    using Bizca.Core.Application.Queries;
-    using Bizca.User.Domain.Agregates.Repositories;
+    using Core.Application.Queries;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
+    using Domain.Agregates.Repositories;
     using MediatR;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,9 +12,10 @@
 
     public sealed class GetUserDetailUseCase : IQueryHandler<GetUserDetailQuery>
     {
-        private readonly IUserRepository userRepository;
         private readonly IGetUserDetailOutput outputPort;
         private readonly IReferentialService referentialService;
+        private readonly IUserRepository userRepository;
+
         public GetUserDetailUseCase(IReferentialService referentialService,
             IUserRepository userRepository,
             IGetUserDetailOutput outputPort)
@@ -26,8 +27,10 @@
 
         public async Task<Unit> Handle(GetUserDetailQuery request, CancellationToken cancellationToken)
         {
-            Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true).ConfigureAwait(false);
-            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByPartnerIdAndExternalUserIdAsync(partner.Id, request.ExternalUserId).ConfigureAwait(false);
+            Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true)
+                .ConfigureAwait(false);
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository
+                .GetByPartnerIdAndExternalUserIdAsync(partner.Id, request.ExternalUserId).ConfigureAwait(false);
             dynamic user = resultDico[ResultName.User].FirstOrDefault();
             if (user is null)
             {
@@ -44,17 +47,13 @@
         private async Task<(EconomicActivity economicActivity, Country birthCountry, Civility civility)>
             GetReferentialAsync(int? economicActivityId, int? birthCountryId, int civilityId)
         {
-            var economicActivityTask = Task.FromResult(default(EconomicActivity));
+            Task<EconomicActivity> economicActivityTask = Task.FromResult(default(EconomicActivity));
             if (economicActivityId.HasValue)
-            {
                 economicActivityTask = referentialService.GetEconomicActivityByIdAsync(economicActivityId.Value);
-            }
 
-            var birthCountryTask = Task.FromResult(default(Country));
+            Task<Country> birthCountryTask = Task.FromResult(default(Country));
             if (birthCountryId.HasValue)
-            {
                 birthCountryTask = referentialService.GetCountryByIdAsync(birthCountryId.Value);
-            }
 
             Task<Civility> civilityTask = referentialService.GetCivilityByIdAsync(civilityId, true);
             await Task.WhenAll(civilityTask, birthCountryTask, economicActivityTask).ConfigureAwait(false);
@@ -69,7 +68,8 @@
         private async Task<GetUserDetail> GetUserDetailAsync(dynamic result, dynamic address)
         {
             (EconomicActivity economicActivity, Country birthCountry, Civility civility) =
-                await GetReferentialAsync((int?)result.economicActivityId, (int?)result.birthCountryId, (int)result.civilityId);
+                await GetReferentialAsync((int?)result.economicActivityId, (int?)result.birthCountryId,
+                    (int)result.civilityId);
 
             dynamic builder = GetUserDetailBuilder.Instance
                 .WithUserId(result.userId)
@@ -87,17 +87,15 @@
                 .WithEconomicActivity(economicActivity?.EconomicActivityCode);
 
             if (address != null)
-            {
                 builder.WithAddress(address.addressId,
-                   address.active,
-                   address.street,
-                   address.city,
-                   address.zipcode,
-                   address.countryId,
-                   address.countryCode,
-                   address.description,
-                   address.addressName);
-            }
+                    address.active,
+                    address.street,
+                    address.city,
+                    address.zipcode,
+                    address.countryId,
+                    address.countryCode,
+                    address.description,
+                    address.addressName);
             return builder.Build();
         }
     }

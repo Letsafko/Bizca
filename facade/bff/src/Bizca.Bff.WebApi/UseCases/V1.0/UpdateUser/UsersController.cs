@@ -1,15 +1,15 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateUser
 {
-    using Bizca.Bff.Application.UseCases.UpdateUser;
-    using Bizca.Bff.WebApi.Properties;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.Core.Domain;
+    using Application.UseCases.UpdateUser;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
+    using Core.Domain;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Properties;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
+    using ViewModels;
 
     /// <summary>
     ///     Creates user controller.
@@ -23,7 +23,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -45,9 +45,9 @@
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
         public async Task<IActionResult> UpdateUserAsync([Required] string externalUserId,
-            [Required][FromBody] UpdateUser user)
+            [Required] [FromBody] UpdateUser user)
         {
-            var command = GetUpdateUserCommand(externalUserId, user);
+            UpdateUserCommand command = GetUpdateUserCommand(externalUserId, user);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return presenter.ViewModel;
         }

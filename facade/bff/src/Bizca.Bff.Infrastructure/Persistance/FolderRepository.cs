@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Infrastructure.Persistance
 {
-    using Bizca.Bff.Domain.Provider.Folder;
-    using Bizca.Core.Domain;
-    using Bizca.Core.Infrastructure;
+    using Core.Infrastructure;
+    using Domain.Provider.Folder;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -15,12 +15,9 @@
         public async Task<Folder> GetFolderAsync(int partnerId)
         {
             var partnerIdColumn = GetColumnAttributeName(nameof(Folder.PartnerId));
-            var result = await FindAsync(statement =>
+            IEnumerable<Folder> result = await FindAsync(statement =>
             {
-                if (UnitOfWork.Transaction != null)
-                {
-                    statement.AttachToTransaction(UnitOfWork.Transaction);
-                }
+                if (UnitOfWork.Transaction != null) statement.AttachToTransaction(UnitOfWork.Transaction);
 
                 statement
                     .Where($"{partnerIdColumn} = @partnerId")

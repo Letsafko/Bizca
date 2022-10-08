@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Core.Api.Modules.Filters
 {
-    using Bizca.Core.Api.Modules.Extensions;
-    using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Exceptions;
+    using Domain;
+    using Domain.Exceptions;
+    using Extensions;
     using FluentValidation;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -18,8 +18,12 @@
     /// </summary>
     public sealed class ExceptionFilter : IExceptionFilter
     {
+        private readonly IHostEnvironment env;
+
+        private readonly ILogger<ExceptionFilter> logger;
+
         /// <summary>
-        /// constructor <see cref="ExceptionFilter" />
+        ///     constructor <see cref="ExceptionFilter" />
         /// </summary>
         /// <param name="env"></param>
         /// <param name="logger"></param>
@@ -28,9 +32,6 @@
             this.logger = logger;
             this.env = env;
         }
-
-        private readonly ILogger<ExceptionFilter> logger;
-        private readonly IHostEnvironment env;
 
         /// <summary>
         ///     Add details when occurs an exception.
@@ -51,39 +52,35 @@
         {
             string modelStateError;
             int statusCode = GetStatusCode(exception);
-            if (!(exception is DomainException) && !(exception is ResourceNotFoundException) && !(exception is ValidationException))
-            {
+            if (!(exception is DomainException) && !(exception is ResourceNotFoundException) &&
+                !(exception is ValidationException))
                 modelStateError = "an error occured, contact your administrator.";
-            }
             else if (exception is ValidationException validationException)
-            {
                 modelStateError = validationException.Errors.FirstOrDefault()?.ErrorMessage;
-            }
             else if (exception is DomainException domainException)
-            {
                 modelStateError = domainException.Errors.FirstOrDefault()?.ErrorMessage;
-            }
             else
-            {
                 modelStateError = (exception as ResourceNotFoundException).Errors.FirstOrDefault()?.ErrorMessage;
-            }
 
-            var errorMessage = !environment.IsDevEnvironment() ? modelStateError : JsonConvert.SerializeObject(exception);
+            string errorMessage = !environment.IsDevEnvironment()
+                ? modelStateError
+                : JsonConvert.SerializeObject(exception);
             var modelState = new PublicResponse<object>(errorMessage, statusCode);
-            return new ObjectResult(modelState)
-            {
-                StatusCode = modelState.StatusCode
-            };
+            return new ObjectResult(modelState) { StatusCode = modelState.StatusCode };
         }
+
         private bool IsAssignableFrom<T>(object obj) where T : class
         {
             return !(obj is null) && typeof(T).IsAssignableFrom(obj.GetType());
         }
+
         private int GetStatusCode(object obj)
         {
             return IsAssignableFrom<DomainException>(obj) || IsAssignableFrom<ValidationException>(obj)
                 ? StatusCodes.Status400BadRequest
-                : (IsAssignableFrom<ResourceNotFoundException>(obj) ? StatusCodes.Status404NotFound : StatusCodes.Status500InternalServerError);
+                : IsAssignableFrom<ResourceNotFoundException>(obj)
+                    ? StatusCodes.Status404NotFound
+                    : StatusCodes.Status500InternalServerError;
         }
 
         #endregion

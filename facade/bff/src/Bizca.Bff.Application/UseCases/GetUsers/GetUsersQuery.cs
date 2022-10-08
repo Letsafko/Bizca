@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUsers
 {
-    using Bizca.Core.Application.Queries;
+    using Core.Application.Queries;
+
     public sealed class GetUsersQuery : IQuery
     {
         public GetUsersQuery(string partnerCode,

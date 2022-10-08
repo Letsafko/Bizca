@@ -2,9 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+
     public sealed class HttpStrategyFactory : IHttpStrategyFactory
     {
         private readonly IEnumerable<IHttpStrategy> strategies;
+
         public HttpStrategyFactory(IEnumerable<IHttpStrategy> strategies)
         {
             this.strategies = strategies;

@@ -5,15 +5,13 @@
 
     public class KeyVaultConfigurationModel
     {
-        [Required]
-        public string KeyVaultName { get; set; }
+        [Required] public string KeyVaultName { get; set; }
 
         /// <summary>
         ///     Gets or sets interval between pooling changes.
         /// </summary>
         public int? ReloadInterval { get; set; }
 
-        [NotMapped]
-        public string KeyVaultEndpoint => $"https://{KeyVaultName}.vault.azure.net";
+        [NotMapped] public string KeyVaultEndpoint => $"https://{KeyVaultName}.vault.azure.net";
     }
 }

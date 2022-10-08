@@ -1,10 +1,10 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode
 {
-    using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Presentation;
-    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
+    using Application.UseCases.ConfirmChannelCode;
+    using Core.Api.Modules.Presentation;
+    using Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
     ///     Confirmation channel code presenter.
@@ -12,7 +12,7 @@
     public sealed class ConfirmChannelCodePresenter : PresenterBase, IConfirmChannelCodeOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="ConfirmChannelCodePresenter"/>
+        ///     Creates an instance of <see cref="ConfirmChannelCodePresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public ConfirmChannelCodePresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)

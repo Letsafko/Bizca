@@ -6,17 +6,12 @@
     [Table("folder", Schema = "bff")]
     public sealed class Folder
     {
-        [Key]
-        [Column("folderId")]
-        public int FolderId { get; set; }
+        [Key] [Column("folderId")] public int FolderId { get; set; }
 
-        [Column("defaultListId")]
-        public int ListId { get; set; }
+        [Column("defaultListId")] public int ListId { get; set; }
 
-        [Column("partnerId")]
-        public int PartnerId { get; set; }
+        [Column("partnerId")] public int PartnerId { get; set; }
 
-        [Column("name")]
-        public string Name { get; set; }
+        [Column("name")] public string Name { get; set; }
     }
 }

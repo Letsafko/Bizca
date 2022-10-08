@@ -6,10 +6,8 @@
     [Table(Constant.Table.Reference.Civility, Schema = Constant.Schema.Reference)]
     public class CivilityEntity
     {
-        [Column("civilityId")]
-        public int Id { get; set; }
-        
-        [Column("civilityCode")]
-        public string Code { get; set; }
+        [Column("civilityId")] public int Id { get; set; }
+
+        [Column("civilityCode")] public string Code { get; set; }
     }
 }

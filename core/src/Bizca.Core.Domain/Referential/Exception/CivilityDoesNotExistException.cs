@@ -8,7 +8,7 @@
     [Serializable]
     public sealed class CivilityDoesNotExistException : ResourceNotFoundException
     {
-        public CivilityDoesNotExistException(IEnumerable<DomainFailure> errors) 
+        public CivilityDoesNotExistException(IEnumerable<DomainFailure> errors)
             : base(errors)
         {
         }
@@ -17,12 +17,12 @@
         {
         }
 
-        public CivilityDoesNotExistException(string message, Exception innerException) 
+        public CivilityDoesNotExistException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
-        public CivilityDoesNotExistException(string message, string propertyName) 
+        public CivilityDoesNotExistException(string message, string propertyName)
             : base(message, propertyName)
         {
         }

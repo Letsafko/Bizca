@@ -1,20 +1,24 @@
 ﻿namespace Bizca.Bff.Application.UseCases.RegisterSmsCodeConfirmation
 {
-    using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Entities.User.Exceptions;
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Core.Application.Commands;
-    using Bizca.Core.Application.Services;
+    using Core.Application.Commands;
+    using Core.Application.Services;
+    using Core.Domain;
+    using Domain.Entities.User;
+    using Domain.Entities.User.Exceptions;
+    using Domain.Wrappers.Users;
+    using Domain.Wrappers.Users.Requests;
+    using Domain.Wrappers.Users.Responses;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
+
     public sealed class RegisterSmsCodeConfirmationUseCase : ICommandHandler<RegisterSmsCodeConfirmationCommand>
     {
         private readonly IRegisterSmsCodeConfirmationOutput confirmationOutput;
+        private readonly IEventService eventService;
         private readonly IUserChannelWrapper userChannelAgent;
         private readonly IUserRepository userRepository;
-        private readonly IEventService eventService;
+
         public RegisterSmsCodeConfirmationUseCase(IUserWrapper userChannelAgent,
             IRegisterSmsCodeConfirmationOutput confirmationOutput,
             IUserRepository userRepository,
@@ -28,16 +32,16 @@
 
         public async Task<Unit> Handle(RegisterSmsCodeConfirmationCommand command, CancellationToken cancellationToken)
         {
-            var user = await userRepository.GetByPhoneNumberAsync(command.PhoneNumber);
+            User user = await userRepository.GetByPhoneNumberAsync(command.PhoneNumber);
             if (user is null)
-            {
-                throw new UserDoesNotExistException($"user {command.ExternalUserId} with {command.PhoneNumber} does not exist.");
-            }
+                throw new UserDoesNotExistException(
+                    $"user {command.ExternalUserId} with {command.PhoneNumber} does not exist.");
 
             var CodeConfirmationRequest = new RegisterUserConfirmationCodeRequest(command.ExternalUserId,
                 command.ChannelType);
 
-            var CodeConfirmationResponse = await userChannelAgent.RegisterChannelConfirmationCodeAsync(CodeConfirmationRequest);
+            IPublicResponse<RegisterUserConfirmationCodeResponse> CodeConfirmationResponse =
+                await userChannelAgent.RegisterChannelConfirmationCodeAsync(CodeConfirmationRequest);
             if (!CodeConfirmationResponse.Success)
             {
                 confirmationOutput.Invalid(CodeConfirmationResponse);

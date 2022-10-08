@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Core.Application.Commands
 {
     using System.Threading.Tasks;
+
     public interface IProcessCommand
     {
         Task ProcessCommandAsync(ICommand command);

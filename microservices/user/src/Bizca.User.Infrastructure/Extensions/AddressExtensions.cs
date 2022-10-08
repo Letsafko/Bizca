@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Infrastructure.Extensions
 {
-    using Bizca.User.Domain.Entities.Address;
+    using Domain.Entities.Address;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -8,6 +8,7 @@
     public static class AddressExtensions
     {
         private const string typeName = "[usr].[addresses]";
+
         public static DataTable ToDataTable(this IEnumerable<Address> addresses, int userId)
         {
             var dt = new DataTable(typeName);

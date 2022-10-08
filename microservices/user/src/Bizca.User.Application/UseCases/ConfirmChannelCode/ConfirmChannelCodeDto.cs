@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.ConfirmChannelCode
 {
-    using Bizca.User.Domain;
+    using Domain;
 
     public sealed class ConfirmChannelCodeDto
     {

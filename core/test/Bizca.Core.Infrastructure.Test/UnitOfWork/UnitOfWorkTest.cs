@@ -1,7 +1,6 @@
 namespace Bizca.Core.Infrastructure.Test
 {
-    using Bizca.Core.Infrastructure;
-    using Bizca.Core.Infrastructure.Configuration;
+    using Configuration;
     using NFluent;
     using Xunit;
 
@@ -11,7 +10,7 @@ namespace Bizca.Core.Infrastructure.Test
         public void Begin_should_create_new_transaction()
         {
             //arrange
-            var unitOfWork = UnitOfWorkBuilder
+            UnitOfWork unitOfWork = UnitOfWorkBuilder
                 .Instance
                 .WithConnectionFactory<BizcaDatabaseConfiguration>()
                 .WithDbTransaction()
@@ -31,10 +30,10 @@ namespace Bizca.Core.Infrastructure.Test
             //arrange
             UnitOfWork unitOfWork;
             using (unitOfWork = UnitOfWorkBuilder
-                .Instance
-                .WithConnectionFactory<BizcaDatabaseConfiguration>()
-                .WithDbTransaction()
-                .Build())
+                       .Instance
+                       .WithConnectionFactory<BizcaDatabaseConfiguration>()
+                       .WithDbTransaction()
+                       .Build())
             {
                 //act
                 unitOfWork.Begin();
@@ -52,10 +51,10 @@ namespace Bizca.Core.Infrastructure.Test
             //arrange
             UnitOfWork unitOfWork;
             using (unitOfWork = UnitOfWorkBuilder
-                .Instance
-                .WithConnectionFactory<BizcaDatabaseConfiguration>()
-                .WithDbTransaction()
-                .Build())
+                       .Instance
+                       .WithConnectionFactory<BizcaDatabaseConfiguration>()
+                       .WithDbTransaction()
+                       .Build())
             {
                 //act
                 unitOfWork.Begin();
@@ -71,7 +70,7 @@ namespace Bizca.Core.Infrastructure.Test
         public void Dispose_should_delete_transaction_and_connection()
         {
             //arrange
-            var unitOfWork = UnitOfWorkBuilder
+            UnitOfWork unitOfWork = UnitOfWorkBuilder
                 .Instance
                 .WithConnectionFactory<BizcaDatabaseConfiguration>()
                 .WithDbTransaction()

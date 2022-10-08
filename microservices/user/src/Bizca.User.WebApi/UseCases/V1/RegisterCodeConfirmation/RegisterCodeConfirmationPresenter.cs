@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
 {
-    using Bizca.Core.Domain;
-    using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
+    using Application.UseCases.RegisterCodeConfirmation;
+    using Core.Domain;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -13,15 +13,6 @@
         ///     Gets view model.
         /// </summary>
         public IActionResult ViewModel { get; private set; } = new NoContentResult();
-
-        /// <summary>
-        ///     invalid request.
-        /// </summary>
-        /// <param name="notification"></param>
-        public void Invalid(Notification notification)
-        {
-            ViewModel = new BadRequestObjectResult(notification.Errors);
-        }
 
         /// <summary>
         ///     not found.
@@ -38,6 +29,15 @@
         public void Ok(RegisterCodeConfirmationDto confirmationCodeDto)
         {
             ViewModel = new OkObjectResult(new RegisterCodeConfirmationResponse(confirmationCodeDto));
+        }
+
+        /// <summary>
+        ///     invalid request.
+        /// </summary>
+        /// <param name="notification"></param>
+        public void Invalid(Notification notification)
+        {
+            ViewModel = new BadRequestObjectResult(notification.Errors);
         }
     }
 }

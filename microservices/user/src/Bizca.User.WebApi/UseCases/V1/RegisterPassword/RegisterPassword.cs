@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Bizca.User.WebApi.UseCases.V1.RegisterPassword
+﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterPassword
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     ///     Register a new password.
     /// </summary>

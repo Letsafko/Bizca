@@ -1,7 +1,8 @@
 ﻿namespace Bizca.Bff.Domain.Events
 {
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Wrappers.Notification.Requests;
+
     public sealed class SendCampaignSmsEvent : IEvent
     {
         public SendCampaignSmsEvent(string compaignName,

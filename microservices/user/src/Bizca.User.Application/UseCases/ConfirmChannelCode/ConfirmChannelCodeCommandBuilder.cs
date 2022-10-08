@@ -1,16 +1,18 @@
 ﻿namespace Bizca.User.Application.UseCases.ConfirmChannelCode
 {
-    using Bizca.User.Domain;
+    using Domain;
+
     public sealed class ConfirmChannelCodeCommandBuilder
     {
         private readonly ChannelConfirmationCommand command;
+
         private ConfirmChannelCodeCommandBuilder()
         {
             command = new ChannelConfirmationCommand();
         }
 
         /// <summary>
-        ///     Gets instance of <see cref="ConfirmChannelCodeCommandBuilder"/>
+        ///     Gets instance of <see cref="ConfirmChannelCodeCommandBuilder" />
         /// </summary>
         public static ConfirmChannelCodeCommandBuilder Instance => new ConfirmChannelCodeCommandBuilder();
 

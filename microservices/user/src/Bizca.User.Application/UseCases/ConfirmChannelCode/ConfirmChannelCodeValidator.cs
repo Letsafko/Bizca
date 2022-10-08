@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.ConfirmChannelCode
 {
-    using Bizca.User.Application.Properties;
     using FluentValidation;
+    using Properties;
 
     public sealed class ConfirmChannelCodeValidator : AbstractValidator<ChannelConfirmationCommand>
     {

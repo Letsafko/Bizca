@@ -1,19 +1,17 @@
 ﻿namespace Bizca.User.WebApi.Modules.Autofac
 {
-    using Bizca.Core.Domain;
-    using Bizca.Core.Infrastructure;
-    using Bizca.Core.Infrastructure.Cache;
-    using Bizca.Core.Infrastructure.Database;
-    using Bizca.User.Domain.Agregates.Repositories;
-    using Bizca.User.Domain.Entities.Address.Repositories;
-    using Bizca.User.Domain.Entities.Channel.Repositories;
-    using Bizca.User.Infrastructure.Persistance;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Repository;
     using Core.Domain.Referential.Services;
+    using Core.Infrastructure;
+    using Core.Infrastructure.Database;
     using Core.Infrastructure.Persistence;
     using Core.Infrastructure.Persistence.RepositoryCache;
+    using Domain.Agregates.Repositories;
+    using Domain.Entities.Address.Repositories;
+    using Domain.Entities.Channel.Repositories;
     using global::Autofac;
+    using Infrastructure.Persistance;
 
     /// <summary>
     ///     Infrastructure module.
@@ -29,7 +27,8 @@
             builder.RegisterType<ConnectionFactory>().As<IConnectionFactory>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
-            builder.RegisterType<EconomicActivityRepository>().As<IEconomicActivityRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<EconomicActivityRepository>().As<IEconomicActivityRepository>()
+                .InstancePerLifetimeScope();
             builder.RegisterDecorator<CacheEconomicActivityRepository, IEconomicActivityRepository>();
 
             builder.RegisterType<CivilityRepository>().As<ICivilityRepository>().InstancePerLifetimeScope();
@@ -46,7 +45,8 @@
 
             builder.RegisterType<ReferentialService>().As<IReferentialService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ChannelConfirmationRepository>().As<IChannelConfirmationRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ChannelConfirmationRepository>().As<IChannelConfirmationRepository>()
+                .InstancePerLifetimeScope();
             builder.RegisterType<PasswordRepository>().As<IPasswordRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ChannelRepository>().As<IChannelRepository>().InstancePerLifetimeScope();
             builder.RegisterType<AddressRepository>().As<IAddressRepository>().InstancePerLifetimeScope();

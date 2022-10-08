@@ -3,12 +3,14 @@
     public sealed class CreateUserCommandBuilder
     {
         private readonly CreateUserCommand command;
+
         private CreateUserCommandBuilder()
         {
             command = new CreateUserCommand();
         }
 
         public static CreateUserCommandBuilder Instance => new CreateUserCommandBuilder();
+
         public CreateUserCommand Build()
         {
             return command;
@@ -86,7 +88,8 @@
             return this;
         }
 
-        public CreateUserCommandBuilder WithAddress(string street, string city, string zipCode, string country, string name)
+        public CreateUserCommandBuilder WithAddress(string street, string city, string zipCode, string country,
+            string name)
         {
             command.Address = new AddressCommand
             {

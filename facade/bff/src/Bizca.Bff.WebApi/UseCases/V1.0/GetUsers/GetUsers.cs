@@ -1,9 +1,11 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUsers
 {
+    using Core.Api.Modules.Pagination;
+
     /// <summary>
     ///     Gets user criteria search.
     /// </summary>
-    public sealed class GetUsers : Core.Api.Modules.Pagination.Paged
+    public sealed class GetUsers : Paged
     {
         /// <summary>
         ///     email.

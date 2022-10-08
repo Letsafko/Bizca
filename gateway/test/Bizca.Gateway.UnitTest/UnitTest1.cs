@@ -1,6 +1,5 @@
 namespace Bizca.Gateway.UnitTest
 {
-    using System;
     using Xunit;
 
     public class UnitTest1
@@ -8,7 +7,6 @@ namespace Bizca.Gateway.UnitTest
         [Fact]
         public void Test1()
         {
-
         }
     }
 }

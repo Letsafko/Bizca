@@ -6,7 +6,7 @@
     public class ConfirmationCodeViewModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="ConfirmationCodeViewModel"/>
+        ///     Creates an instance of <see cref="ConfirmationCodeViewModel" />
         /// </summary>
         public ConfirmationCodeViewModel(string resourceId,
             string resource,
@@ -28,7 +28,7 @@
         public bool Confirmed { get; }
 
         /// <summary>
-        ///  Channel resource value.
+        ///     Channel resource value.
         /// </summary>
         public string Resource { get; }
     }

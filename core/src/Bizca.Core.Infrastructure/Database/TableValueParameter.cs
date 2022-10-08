@@ -8,6 +8,7 @@
     {
         private readonly DataTable _dataTable;
         private readonly string _typeName;
+
         public TableValueParameter(DataTable dataTable)
         {
             _typeName = dataTable.TableName;

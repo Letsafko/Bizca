@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Core.Api.Modules.Configuration
 {
     using System;
+
     public class StsConfiguration
     {
         public string Provider { get; set; }

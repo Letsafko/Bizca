@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Domain.Entities.Address.BusinessCheck.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -22,7 +22,8 @@
         {
         }
 
-        public AddressStreetIsMandatoryException(string message, Exception innerException) : base(message, innerException)
+        public AddressStreetIsMandatoryException(string message, Exception innerException) : base(message,
+            innerException)
         {
         }
 

@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-
-namespace Bizca.Bff.Domain.Wrappers.Notification.Requests.Sms
+﻿namespace Bizca.Bff.Domain.Wrappers.Notification.Requests.Sms
 {
+    using System.Runtime.Serialization;
+
     public class SmsCampaignRequest
     {
         public SmsCampaignRequest(string compaignName,
@@ -15,8 +15,8 @@ namespace Bizca.Bff.Domain.Wrappers.Notification.Requests.Sms
             Sender = sender;
         }
 
-        [DataMember(Name = "name")]
-        public string CompaignName { get; }
+        [DataMember(Name = "name")] public string CompaignName { get; }
+
         public bool UnicodeEnabled => true;
         public Recipient Recipient { get; }
         public string Content { get; }

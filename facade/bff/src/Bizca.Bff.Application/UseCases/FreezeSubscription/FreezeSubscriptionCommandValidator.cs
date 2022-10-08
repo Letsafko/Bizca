@@ -1,7 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.FreezeSubscription
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
+
     public sealed class FreezeSubscriptionCommandValidator : AbstractValidator<FreezeSubscriptionCommand>
     {
         public FreezeSubscriptionCommandValidator()
@@ -18,7 +19,7 @@
             RuleFor(x => x.Freeze)
                 .NotEmpty()
                 .WithMessage(Resources.VALUE_CANNOT_BE_NULL_OR_EMPTY)
-                .Must(x => bool.TryParse(x, out var isFreeze))
+                .Must(x => bool.TryParse(x, out bool isFreeze))
                 .WithMessage(Resources.INVALID_DATA_INPUT);
         }
     }

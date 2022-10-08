@@ -1,14 +1,14 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode
 {
-    using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
-    using Bizca.Bff.WebApi.Properties;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
+    using Application.UseCases.ConfirmChannelCode;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Properties;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
+    using ViewModels;
 
     /// <summary>
     ///     Creates user controller.
@@ -22,7 +22,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -44,7 +44,7 @@
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
         public async Task<IActionResult> ConfirmChannelCodeAsync([Required] string externalUserId,
             [Required] string channelType,
-            [Required][FromBody] ConfirmChannelCode confirmChannel)
+            [Required] [FromBody] ConfirmChannelCode confirmChannel)
         {
             var command = new ConfirmChannelCodeCommand(channelType,
                 externalUserId,

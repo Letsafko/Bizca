@@ -13,7 +13,8 @@
 as
 begin
 	
-	declare @parmDefinition nvarchar(500) = 
+	declare
+@parmDefinition nvarchar(500) = 
 	  ' @partnerId		smallint 
 	  , @externalUserId	varchar(10)	
 	  , @email			varchar(50)	
@@ -26,7 +27,8 @@ begin
 	  , @pageSize		int			
 	  , @index			int';
 	   
-	declare @query nvarchar(MAX) = 
+	declare
+@query nvarchar(MAX) = 
 		'select top(@pageSize)
 			 u.userId
 		   , u.externalUserId		    
@@ -73,33 +75,42 @@ begin
 		outer apply usr.fn_getPivotByUserId_channel(u.userId) uc
 		where u.partnerId = @partnerId';
 
-	if @phone is not null
+	if
+@phone is not null
 		set @query = @query + ' and uc.phone = @phone';
 
-	if @whatsapp is not null
+	if
+@whatsapp is not null
 		set @query = @query + ' and uc.whatsapp = @whatsapp';
 	
-	if @birthDate is not null
+	if
+@birthDate is not null
 		set @query = @query + ' and u.birthDate = @birthDate';
 
-	if @email is not null
+	if
+@email is not null
 		set @query = @query + ' and uc.email = @email';
 
-	if @externalUserId is not null
+	if
+@externalUserId is not null
 		set @query = @query + ' and u.externalUserId = @externalUserId';
 
-	if @firstName is not null
+	if
+@firstName is not null
 		set @query = @query + ' and contains((u.firstName, u.lastName), @firstName)';
 
-	if @lastName is not null
+	if
+@lastName is not null
 		set @query = @query + ' and contains((u.firstName, u.lastName), @lastName)';
 
-	if @direction = 'next'
+	if
+@direction = 'next'
 		set @query = @query + ' and u.userId > @index';
-	else
+else
 		set @query = @query + ' and u.userId < @index';
 
-	set @query = @query + ' order by u.userId asc'
+	set
+@query = @query + ' order by u.userId asc'
 
 	execute [dbo].[sp_executesql] @query
 	, @parmDefinition

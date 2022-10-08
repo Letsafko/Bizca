@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpdateSubscription
 {
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
+
     public sealed class UpdateSubscriptionCommand : ICommand
     {
         public UpdateSubscriptionCommand(string externalUserId,

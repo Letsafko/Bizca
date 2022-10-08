@@ -1,15 +1,15 @@
 ﻿namespace Bizca.User.Application.UseCases.RegisterCodeConfirmation
 {
-    using Bizca.Core.Application.Commands;
-    using Bizca.User.Domain;
-    using Bizca.User.Domain.Agregates;
-    using Bizca.User.Domain.Agregates.Factories;
-    using Bizca.User.Domain.Agregates.Repositories;
-    using Bizca.User.Domain.Entities.Channel;
-    using Bizca.User.Domain.Entities.Channel.Repositories;
-    using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using Core.Application.Commands;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
+    using Domain;
+    using Domain.Agregates;
+    using Domain.Agregates.Factories;
+    using Domain.Agregates.Repositories;
+    using Domain.Entities.Channel;
+    using Domain.Entities.Channel.Repositories;
+    using Domain.Entities.Channel.ValueObjects;
     using MediatR;
     using System.Collections.Generic;
     using System.Linq;
@@ -18,11 +18,12 @@
 
     public sealed class RegisterCodeConfirmationUseCase : ICommandHandler<RegisterCodeConfirmationCommand>
     {
+        private readonly IChannelConfirmationRepository channelConfirmationRepository;
+        private readonly IRegisterCodeConfirmationOutput output;
+        private readonly IReferentialService referentialService;
         private readonly IUserFactory userFactory;
         private readonly IUserRepository userRepository;
-        private readonly IReferentialService referentialService;
-        private readonly IRegisterCodeConfirmationOutput output;
-        private readonly IChannelConfirmationRepository channelConfirmationRepository;
+
         public RegisterCodeConfirmationUseCase(IUserFactory userFactory,
             IReferentialService referentialService,
             IRegisterCodeConfirmationOutput output,
@@ -43,8 +44,10 @@
         /// <param name="cancellationToken"></param>
         public async Task<Unit> Handle(RegisterCodeConfirmationCommand request, CancellationToken cancellationToken)
         {
-            Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true).ConfigureAwait(false);
-            IUser response = await userFactory.BuildByPartnerAndExternalUserIdAsync(partner, request.ExternalUserId).ConfigureAwait(false);
+            Partner partner = await referentialService.GetPartnerByCodeAsync(request.PartnerCode, true)
+                .ConfigureAwait(false);
+            IUser response = await userFactory.BuildByPartnerAndExternalUserIdAsync(partner, request.ExternalUserId)
+                .ConfigureAwait(false);
             if (response is UserNull)
             {
                 output.NotFound($"no user associated to '{request.ExternalUserId}' exists.");
@@ -56,7 +59,8 @@
             await userRepository.UpdateAsync(user).ConfigureAwait(false);
 
             IReadOnlyCollection<ChannelConfirmation> channelCodes = user.GetChannel(request.ChannelType).ChannelCodes;
-            await channelConfirmationRepository.UpsertAsync(user.UserIdentifier.UserId, request.ChannelType, channelCodes).ConfigureAwait(false);
+            await channelConfirmationRepository
+                .UpsertAsync(user.UserIdentifier.UserId, request.ChannelType, channelCodes).ConfigureAwait(false);
 
             RegisterCodeConfirmationDto registerCode = GetChannel(request.ChannelType, user);
             output.Ok(registerCode);
@@ -69,8 +73,8 @@
         {
             Channel channel = user.GetChannel(channelType);
             return new RegisterCodeConfirmationDto(channel.ChannelType.Description,
-                    channel.ChannelValue,
-                    channel.ChannelCodes.OrderByDescending(x => x.ExpirationDate).First().CodeConfirmation);
+                channel.ChannelValue,
+                channel.ChannelCodes.OrderByDescending(x => x.ExpirationDate).First().CodeConfirmation);
         }
 
         #endregion

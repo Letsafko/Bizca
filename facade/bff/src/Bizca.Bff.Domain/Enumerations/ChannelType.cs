@@ -5,6 +5,6 @@
         Sms = 1,
         Email = 2,
         Whatsapp = 4,
-        Messenger = 8,
+        Messenger = 8
     }
 }

@@ -1,8 +1,9 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUsersByCriteria
 {
-    using Bizca.User.Application.Properties;
     using FluentValidation;
+    using Properties;
     using System;
+
     public sealed class GetUsersValidator : AbstractValidator<GetUsersQuery>
     {
         public GetUsersValidator()

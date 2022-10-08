@@ -1,17 +1,17 @@
 name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
 variables:
-  projectApi:  'gateway/src/Bizca.Gateway/Bizca.Gateway.csproj'
+  projectApi: 'gateway/src/Bizca.Gateway/Bizca.Gateway.csproj'
   testPattern: 'gateway/test/**/*.csproj'
   buildConfiguration: 'Release'
 
 trigger:
   branches:
-    include: ['master', 'develop', 'release/*', 'hotfix/*', 'feature/*', 'bugfix/*']
+    include: [ 'master', 'develop', 'release/*', 'hotfix/*', 'feature/*', 'bugfix/*' ]
   paths:
-    include: 
-     - 'gateway/src'
-     - 'gateway/test'
+    include:
+      - 'gateway/src'
+      - 'gateway/test'
 steps:
   - script: 'dotnet restore --configfile ./Nuget.config'
     displayName: 'restore'
@@ -26,7 +26,7 @@ steps:
       configuration: '$(buildConfiguration)'
       projects: '$(projectApi)'
       workingDirectory: $(System.DefaultWorkingDirectory)
-  
+
   - task: DotNetCoreCLI@2
     displayName: 'unit tests'
     inputs:
@@ -34,7 +34,7 @@ steps:
       projects: '$(testPattern)'
       arguments: >
         --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover%2ccobertura
-  
+
   - task: PublishCodeCoverageResults@1
     displayName: 'code coverage'
     inputs:

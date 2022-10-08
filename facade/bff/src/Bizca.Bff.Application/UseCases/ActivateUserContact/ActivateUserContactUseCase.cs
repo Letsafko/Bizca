@@ -1,23 +1,27 @@
 ﻿namespace Bizca.Bff.Application.UseCases.ActivateUserContact
 {
-    using Bizca.Bff.Domain;
-    using Bizca.Bff.Domain.Events;
-    using Bizca.Bff.Domain.Provider.ContactList;
-    using Bizca.Bff.Domain.Provider.Folder;
-    using Bizca.Bff.Domain.Wrappers.Contact;
-    using Bizca.Bff.Domain.Wrappers.Contact.Requests;
-    using Bizca.Core.Application.Events;
+    using Core.Application.Events;
+    using Core.Domain;
+    using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
+    using Domain;
+    using Domain.Events;
+    using Domain.Provider.ContactList;
+    using Domain.Provider.Folder;
+    using Domain.Wrappers.Contact;
+    using Domain.Wrappers.Contact.Requests;
+    using Domain.Wrappers.Contact.Responses;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
     public sealed class ActivateUserContactUseCase : IEventHandler<ActivateUserContactEvent>
     {
-        private readonly IReferentialService _referentialService;
-        private readonly IFolderRepository _folderRepository;
         private readonly IContactListRepository _contactListRepository;
         private readonly IContactWrapper _contactWrapper;
+        private readonly IFolderRepository _folderRepository;
+        private readonly IReferentialService _referentialService;
+
         public ActivateUserContactUseCase(IContactListRepository contactListRepository,
             IReferentialService referentialService,
             IFolderRepository folderRepository,
@@ -31,16 +35,19 @@
 
         public async Task Handle(ActivateUserContactEvent notification, CancellationToken cancellationToken)
         {
-            var contactList = await _contactListRepository.GetContactListByProcedureAndOrganismAsync(notification.Procedure.ProcedureType.Id,
-                                    notification.Procedure.Organism.Id);
+            ContactList contactList = await _contactListRepository.GetContactListByProcedureAndOrganismAsync(
+                notification.Procedure.ProcedureType.Id,
+                notification.Procedure.Organism.Id);
 
             if (contactList is null)
             {
-                var partner = await _referentialService.GetPartnerByCodeAsync(notification.PartnerCode, true);
-                var folder = await _folderRepository.GetFolderAsync(partner.Id);
+                Partner partner = await _referentialService.GetPartnerByCodeAsync(notification.PartnerCode, true);
+                Folder folder = await _folderRepository.GetFolderAsync(partner.Id);
 
-                var listName = $"{notification.Procedure.Organism.CodeInsee}#{notification.Procedure.ProcedureType.Id}";
-                var listId = await _contactWrapper.CreateANewListAsync(new UserContactListRequest(listName, folder.FolderId));
+                string listName =
+                    $"{notification.Procedure.Organism.CodeInsee}#{notification.Procedure.ProcedureType.Id}";
+                IPublicResponse<ContactListResponse> listId =
+                    await _contactWrapper.CreateANewListAsync(new UserContactListRequest(listName, folder.FolderId));
 
                 contactList = new ContactList
                 {
@@ -55,10 +62,7 @@
 
             var request = new UpdateUserContactRequest(notification.Email,
                 listIds: new List<int> { contactList.ListId },
-                attributes: new Dictionary<string, object>
-                {
-                    [AttributeConstant.Contact.Email] = notification.Email
-                });
+                attributes: new Dictionary<string, object> { [AttributeConstant.Contact.Email] = notification.Email });
 
             await _contactWrapper.UpdateContactAsync(notification.Email,
                 request);

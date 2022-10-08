@@ -1,8 +1,8 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterPassword
 {
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.User.Application.UseCases.RegisterPassword;
+    using Application.UseCases.RegisterPassword;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -16,11 +16,11 @@
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
-        private readonly IProcessor processor;
         private readonly RegisterPasswordPresenter presenter;
+        private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="processor"></param>
         /// <param name="presenter"></param>
@@ -40,9 +40,11 @@
         [HttpPost("password")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterPasswordResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required][FromBody] RegisterPassword registerPassword)
+        public async Task<IActionResult> UpdateUser([Required] string partnerCode,
+            [Required] [FromBody] RegisterPassword registerPassword)
         {
-            var command = new RegisterPasswordCommand(partnerCode, registerPassword.Resource, registerPassword.Password);
+            var command =
+                new RegisterPasswordCommand(partnerCode, registerPassword.Resource, registerPassword.Password);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return presenter.ViewModel;
         }

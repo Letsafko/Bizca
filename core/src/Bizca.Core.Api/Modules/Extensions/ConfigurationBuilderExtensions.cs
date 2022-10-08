@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Api.Modules.Extensions
 {
-    using Bizca.Core.Api.Modules.Configuration;
+    using Configuration;
     using Microsoft.Azure.KeyVault;
     using Microsoft.Azure.Services.AppAuthentication;
     using Microsoft.Extensions.Configuration;
@@ -8,13 +8,14 @@
     using System;
 
     /// <summary>
-    /// ConfigurationBuilderExtension class
+    ///     ConfigurationBuilderExtension class
     /// </summary>
     public static class ConfigurationBuilderExtension
     {
         private const string KEYVAULT_NAME_ENV_VARIABLE_NAME = "KEYVAULT_NAME";
 
-        public static IConfigurationBuilder AddAzureKeyVault(this IConfigurationBuilder builder, KeyVaultConfigurationModel keyVaultConfiguration)
+        public static IConfigurationBuilder AddAzureKeyVault(this IConfigurationBuilder builder,
+            KeyVaultConfigurationModel keyVaultConfiguration)
         {
             return builder.AddAzureKeyVault(keyVaultConfiguration, new DefaultKeyVaultSecretManager());
         }
@@ -29,17 +30,19 @@
 
             return string.IsNullOrEmpty(keyVaultName)
                 ? builder
-                : builder.AddAzureKeyVault(new KeyVaultConfigurationModel() { KeyVaultName = keyVaultName }, new DefaultKeyVaultSecretManager());
+                : builder.AddAzureKeyVault(new KeyVaultConfigurationModel { KeyVaultName = keyVaultName },
+                    new DefaultKeyVaultSecretManager());
         }
 
         /// <summary>
-        /// Adds an <see cref="IConfigurationProvider"/> that reads configuration values from the Azure KeyVault.
+        ///     Adds an <see cref="IConfigurationProvider" /> that reads configuration values from the Azure KeyVault.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="keyVaultConfiguration">The key vault configuration.</param>
         /// <param name="secretManager">The secret manager.</param>
         /// <returns></returns>
-        public static IConfigurationBuilder AddAzureKeyVault(this IConfigurationBuilder builder, KeyVaultConfigurationModel keyVaultConfiguration, IKeyVaultSecretManager secretManager)
+        public static IConfigurationBuilder AddAzureKeyVault(this IConfigurationBuilder builder,
+            KeyVaultConfigurationModel keyVaultConfiguration, IKeyVaultSecretManager secretManager)
         {
             var tokenProvider = new AzureServiceTokenProvider();
 
@@ -50,9 +53,7 @@
             TimeSpan? reloadInterval = null;
 
             if (keyVaultConfiguration.ReloadInterval.HasValue)
-            {
                 reloadInterval = TimeSpan.FromMilliseconds(keyVaultConfiguration.ReloadInterval.Value);
-            }
 
             builder.AddAzureKeyVault(new AzureKeyVaultConfigurationOptions
             {

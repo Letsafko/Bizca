@@ -8,15 +8,14 @@
     public sealed class UnitOfWork : IUnitOfWork
     {
         private readonly ILogger<UnitOfWork> _logger;
+
+        private bool _disposed;
+
         public UnitOfWork(IConnectionFactory connectionFactory, ILogger<UnitOfWork> logger)
         {
             Connection = connectionFactory.CreateConnection();
             _logger = logger;
         }
-
-        ~UnitOfWork() => Dispose(false);
-        
-        private bool _disposed;
 
         public IDbTransaction Transaction { get; private set; }
         public IDbConnection Connection { get; }
@@ -44,6 +43,11 @@
             GC.SuppressFinalize(this);
         }
 
+        ~UnitOfWork()
+        {
+            Dispose(false);
+        }
+
         private void Dispose(bool disposing)
         {
             if (!_disposed && disposing)
@@ -51,6 +55,7 @@
                 Transaction?.Dispose();
                 Connection?.Dispose();
             }
+
             _disposed = true;
         }
     }

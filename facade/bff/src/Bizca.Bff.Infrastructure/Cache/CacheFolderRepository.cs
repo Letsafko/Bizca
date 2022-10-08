@@ -1,13 +1,14 @@
 ﻿namespace Bizca.Bff.Infrastructure.Cache
 {
-    using Bizca.Bff.Domain.Provider.Folder;
     using Core.Infrastructure.Cache;
+    using Domain.Provider.Folder;
     using System.Threading.Tasks;
 
     public sealed class CacheFolderRepository : IFolderRepository
     {
-        private readonly IFolderRepository _decorated;
         private readonly ICacheProvider _cacheProvider;
+        private readonly IFolderRepository _decorated;
+
         public CacheFolderRepository(IFolderRepository decorated, ICacheProvider cacheProvider)
         {
             _cacheProvider = cacheProvider;

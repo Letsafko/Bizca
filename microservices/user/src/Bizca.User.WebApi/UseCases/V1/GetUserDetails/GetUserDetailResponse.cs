@@ -1,10 +1,10 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.GetUserDetails
 {
-    using Bizca.User.Application.UseCases.GetUserDetail;
-    using Bizca.User.WebApi.ViewModels;
+    using Application.UseCases.GetUserDetail;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using ViewModels;
 
     /// <summary>
     ///     Gets user detail response.
@@ -29,7 +29,7 @@
         }
 
         /// <summary>
-        ///  Gets external user identifier.
+        ///     Gets external user identifier.
         /// </summary>
         [Required]
         public string ExternalUserId { get; }
@@ -41,7 +41,7 @@
         public string Civility { get; }
 
         /// <summary>
-        ///  Gets user economic activity.
+        ///     Gets user economic activity.
         /// </summary>
         public string EconomicActivity { get; }
 

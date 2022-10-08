@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.ViewModels
 {
-    using Bizca.User.Domain.Entities.Channel;
+    using Domain.Entities.Channel;
 
     /// <summary>
     ///     Gets user channel model.
@@ -8,7 +8,7 @@
     public sealed class ChannelModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="ChannelModel"/>
+        ///     Creates an instance of <see cref="ChannelModel" />
         /// </summary>
         /// <param name="channel"></param>
         public ChannelModel(Channel channel)

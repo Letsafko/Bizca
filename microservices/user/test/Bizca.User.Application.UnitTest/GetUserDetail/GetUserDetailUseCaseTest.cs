@@ -1,20 +1,20 @@
 ﻿namespace Bizca.User.Application.UnitTest.GetUser.Detail
 {
-    using Bizca.Core.Domain;
-    using Bizca.Core.Support.Test;
-    using Bizca.Core.Support.Test.Builders;
-    using Bizca.User.Application.UseCases.GetUserDetail;
-    using Bizca.User.Application.UseCases.GetUsersByCriteria;
-    using Bizca.User.Domain.Agregates.Repositories;
+    using Core.Domain;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Repository;
     using Core.Domain.Referential.Services;
+    using Core.Support.Test;
+    using Core.Support.Test.Builders;
+    using Domain.Agregates.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using NFluent;
     using NSubstitute;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using UseCases.GetUserDetail;
+    using UseCases.GetUsersByCriteria;
     using Xunit;
 
     public sealed class GetUserDetailUseCaseTest
@@ -26,14 +26,14 @@
             IReferentialService referentialService) tuple)
         {
             Check.ThatCode(() =>
-            {
-                GetUserDetailUseCaseBuilder.Instance
-                    .WithOutputPort(tuple.output)
-                    .WithUserRepository(tuple.userRepository)
-                    .WithPartnerRepository(tuple.referentialService)
-                    .Build();
-            })
-            .Throws<ArgumentNullException>();
+                {
+                    GetUserDetailUseCaseBuilder.Instance
+                        .WithOutputPort(tuple.output)
+                        .WithUserRepository(tuple.userRepository)
+                        .WithPartnerRepository(tuple.referentialService)
+                        .Build();
+                })
+                .Throws<ArgumentNullException>();
         }
 
         [Fact]
@@ -47,7 +47,7 @@
             //act
             await builder.Build().Handle(request, default).ConfigureAwait(false);
             var expected = new KeyValuePair<string, string[]>(nameof(request.PartnerCode),
-                new string[] { $"partner::{request.PartnerCode} is invalid." });
+                new[] { $"partner::{request.PartnerCode} is invalid." });
 
             //assert
             Check.That(argCapture[0].IsValid).IsFalse();
@@ -62,9 +62,9 @@
             var presenter = new GetUserDetailPresenter();
             var request = new GetUserDetailQuery("test", "bizca");
             GetUserDetailUseCaseBuilder builder = GetUserDetailUseCaseBuilder.Instance
-                            .WithGetPartnerByCode(PartnerBuilder.Instance.Build())
-                            .WithOutputPort(presenter)
-                            .WithGetUserByPartnerIdAndExternalUserId(default);
+                .WithGetPartnerByCode(PartnerBuilder.Instance.Build())
+                .WithOutputPort(presenter)
+                .WithGetUserByPartnerIdAndExternalUserId(default);
 
             //act
             await builder.Build().Handle(request, default).ConfigureAwait(false);
@@ -81,8 +81,8 @@
             var argCapture = new ArgCapture<GetUserDetail>();
             var request = new GetUserDetailQuery("test", "bizca");
             GetUserDetailUseCaseBuilder builder = GetUserDetailUseCaseBuilder.Instance
-                            .WithGetPartnerByCode(PartnerBuilder.Instance.Build())
-                            .WithGetUserByPartnerIdAndExternalUserId(user);
+                .WithGetPartnerByCode(PartnerBuilder.Instance.Build())
+                .WithGetUserByPartnerIdAndExternalUserId(user);
 
             //act
             await builder.Build().Handle(request, default).ConfigureAwait(false);
@@ -119,6 +119,7 @@
             user.economicActivityCode = "Craftsman";
             return user;
         }
+
         private GetUsers BuildDto(dynamic result)
         {
             return GetUsersBuilder.Instance
@@ -144,8 +145,9 @@
     internal sealed class GetUserDetailUseCaseBuilder
     {
         private IGetUserDetailOutput output;
-        private IUserRepository userRepository;
         private IReferentialService referentialService;
+        private IUserRepository userRepository;
+
         private GetUserDetailUseCaseBuilder()
         {
             output = Substitute.For<IGetUserDetailOutput>();
@@ -154,6 +156,7 @@
         }
 
         internal static GetUserDetailUseCaseBuilder Instance => new GetUserDetailUseCaseBuilder();
+
         internal GetUserDetailUseCase Build()
         {
             return new GetUserDetailUseCase(referentialService, userRepository, output);
@@ -164,11 +167,13 @@
             this.output = output;
             return this;
         }
+
         internal GetUserDetailUseCaseBuilder WithUserRepository(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
             return this;
         }
+
         internal GetUserDetailUseCaseBuilder WithPartnerRepository(IReferentialService referentialService)
         {
             this.referentialService = referentialService;
@@ -180,38 +185,40 @@
             referentialService.GetPartnerByCodeAsync(Arg.Any<string>()).Returns(partner);
             return this;
         }
-        internal GetUserDetailUseCaseBuilder WithGetUserByPartnerIdAndExternalUserId(Dictionary<ResultName, IEnumerable<dynamic>> result)
+
+        internal GetUserDetailUseCaseBuilder WithGetUserByPartnerIdAndExternalUserId(
+            Dictionary<ResultName, IEnumerable<dynamic>> result)
         {
             userRepository.GetByPartnerIdAndExternalUserIdAsync(Arg.Any<int>(), Arg.Any<string>())
                 .Returns(result);
             return this;
         }
+
         internal GetUserDetailUseCaseBuilder WithArgumentOkCapture(ArgCapture<GetUserDetail> argDto)
         {
             output.Received(1).Ok(argDto.Capture());
             return this;
         }
     }
-    internal sealed class GetUserDetailUseCaseDataSetup : TheoryData<(IGetUserDetailOutput, IUserRepository, IPartnerRepository)>
+
+    internal sealed class
+        GetUserDetailUseCaseDataSetup : TheoryData<(IGetUserDetailOutput, IUserRepository, IPartnerRepository)>
     {
         public GetUserDetailUseCaseDataSetup()
         {
-            IGetUserDetailOutput output = Substitute.For<IGetUserDetailOutput>();
-            IUserRepository userRepository = Substitute.For<IUserRepository>();
-            IPartnerRepository partnerRepository = Substitute.For<IPartnerRepository>();
+            var output = Substitute.For<IGetUserDetailOutput>();
+            var userRepository = Substitute.For<IUserRepository>();
+            var partnerRepository = Substitute.For<IPartnerRepository>();
 
             Add((default, userRepository, partnerRepository));
             Add((output, default, partnerRepository));
             Add((output, userRepository, default));
         }
     }
+
     internal sealed class GetUserDetailPresenter : IGetUserDetailOutput
     {
         public IActionResult ViewModel { get; private set; } = new NoContentResult();
-        public void Invalid(Notification notification)
-        {
-            ViewModel = new BadRequestObjectResult(notification.Errors);
-        }
 
         public void NotFound(string message)
         {
@@ -221,6 +228,11 @@
         public void Ok(GetUserDetail userDetail)
         {
             ViewModel = new OkResult();
+        }
+
+        public void Invalid(Notification notification)
+        {
+            ViewModel = new BadRequestObjectResult(notification.Errors);
         }
     }
 }

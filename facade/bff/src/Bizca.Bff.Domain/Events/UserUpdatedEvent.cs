@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Events
 {
-    using Bizca.Core.Domain;
+    using Core.Domain;
+
     public sealed class UserUpdatedEvent : IEvent
     {
         public UserUpdatedEvent(string externalUserId)

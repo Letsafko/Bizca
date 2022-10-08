@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.PaymentExecuted
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
 
     public sealed class PaymentExecutedCommandValidator : AbstractValidator<PaymentExecutedCommand>
     {

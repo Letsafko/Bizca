@@ -1,18 +1,18 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
 {
-    using Bizca.Bff.Domain;
-    using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Entities.User.Factories;
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
-    using Bizca.Core.Application.Commands;
-    using Bizca.Core.Application.Services;
-    using Bizca.Core.Domain;
+    using Core.Application.Commands;
+    using Core.Application.Services;
+    using Core.Domain;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
+    using Domain;
+    using Domain.Entities.User;
+    using Domain.Entities.User.Factories;
+    using Domain.Enumerations;
+    using Domain.Wrappers.Notification.Requests.Email;
+    using Domain.Wrappers.Users;
+    using Domain.Wrappers.Users.Requests;
+    using Domain.Wrappers.Users.Responses;
     using MediatR;
     using System;
     using System.Collections.Generic;
@@ -23,11 +23,12 @@
     public sealed class CreateUserUseCase : ICommandHandler<CreateUserCommand>
     {
         private readonly ICreateNewUserOutput createUserOutput;
-        private readonly IReferentialService referentialService;
-        private readonly IUserRepository userRepository;
         private readonly IEventService eventService;
-        private readonly IUserFactory userFactory;
+        private readonly IReferentialService referentialService;
         private readonly IUserWrapper userAgent;
+        private readonly IUserFactory userFactory;
+        private readonly IUserRepository userRepository;
+
         public CreateUserUseCase(IUserFactory userFactory,
             ICreateNewUserOutput createUserOutput,
             IUserRepository userRepository,
@@ -57,22 +58,23 @@
                 return Unit.Value;
             }
 
-            var CodeConfirmationRequest = new RegisterUserConfirmationCodeRequest(command.ExternalUserId, ChannelType.Email);
-            var CodeConfirmationResponse = await userAgent.RegisterChannelConfirmationCodeAsync(CodeConfirmationRequest);
+            var CodeConfirmationRequest =
+                new RegisterUserConfirmationCodeRequest(command.ExternalUserId, ChannelType.Email);
+            IPublicResponse<RegisterUserConfirmationCodeResponse> CodeConfirmationResponse =
+                await userAgent.RegisterChannelConfirmationCodeAsync(CodeConfirmationRequest);
             if (!CodeConfirmationResponse.Success)
             {
                 createUserOutput.Invalid(CodeConfirmationResponse);
                 return Unit.Value;
             }
 
-            var emailTemplate = await referentialService.GetEmailTemplateByIdAsync((int)EmailTemplateType.AccountActivation, true);
-            var recipients = new List<MailAddressRequest>
-            {
-                new MailAddressRequest(command.Email)
-            };
+            EmailTemplate emailTemplate =
+                await referentialService.GetEmailTemplateByIdAsync((int)EmailTemplateType.AccountActivation, true);
+            var recipients = new List<MailAddressRequest> { new MailAddressRequest(command.Email) };
 
-            var parameters = GetParameters(command, CodeConfirmationResponse.Data.ConfirmationCode);
-            user.RegisterSendTransactionalEmailEvent(recipients: recipients,
+            IDictionary<string, object> parameters =
+                GetParameters(command, CodeConfirmationResponse.Data.ConfirmationCode);
+            user.RegisterSendTransactionalEmailEvent(recipients,
                 emailTemplate: emailTemplate.EmailTemplateId,
                 parameters: parameters);
 
@@ -87,17 +89,15 @@
         private static IDictionary<string, object> GetParameters(CreateUserCommand command,
             string codeConfirmation)
         {
-            var token = $"{command.Email}:{command.ExternalUserId}:{codeConfirmation}";
-            var tokenBytes = Encoding.UTF8.GetBytes(token);
-            var tokenBase64 = Convert.ToBase64String(tokenBytes);
+            string token = $"{command.Email}:{command.ExternalUserId}:{codeConfirmation}";
+            byte[] tokenBytes = Encoding.UTF8.GetBytes(token);
+            string tokenBase64 = Convert.ToBase64String(tokenBytes);
 
 
-            var activateUserUrl = $"https://integ-bizca-front.azurewebsites.net/create-password/{tokenBase64}";
-            return new Dictionary<string, object>
-            {
-                [AttributeConstant.Parameter.ActivateUserUrl] = activateUserUrl
-            };
+            string activateUserUrl = $"https://integ-bizca-front.azurewebsites.net/create-password/{tokenBase64}";
+            return new Dictionary<string, object> { [AttributeConstant.Parameter.ActivateUserUrl] = activateUserUrl };
         }
+
         private CreateNewUserDto MapTo(Role role, UserCreatedResponse response)
         {
             return new CreateNewUserDto(response.ExternalUserId,
@@ -107,6 +107,7 @@
                 role,
                 response.Channels);
         }
+
         private UserRequest GetUserRequest(CreateUserCommand request)
         {
             return new UserRequest(request.ExternalUserId,
@@ -120,6 +121,7 @@
                 request.Email,
                 request.Role);
         }
+
         private UserToCreateRequest MapTo(User user)
         {
             return new UserToCreateRequest(user.UserIdentifier.ExternalUserId,

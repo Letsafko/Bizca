@@ -1,11 +1,12 @@
 ﻿namespace Bizca.Bff.Domain.Wrappers.Notification
 {
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Sms;
-    using Bizca.Bff.Domain.Wrappers.Notification.Responses;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Requests.Email;
+    using Requests.Sms;
+    using Responses;
     using System.Collections;
     using System.Threading.Tasks;
+
     public interface INotificationWrapper
     {
         Task<IPublicResponse<TransactionalEmailResponse>> SendTransactionalEmail(TransactionalEmailRequest request,

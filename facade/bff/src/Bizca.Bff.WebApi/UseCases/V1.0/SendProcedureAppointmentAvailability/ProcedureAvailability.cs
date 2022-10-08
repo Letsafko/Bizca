@@ -1,17 +1,17 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability
 {
     /// <summary>
-    /// Appointment availability of a procedure
+    ///     Appointment availability of a procedure
     /// </summary>
     public sealed class ProcedureAvailability
     {
         /// <summary>
-        ///  Organism code identifier.
+        ///     Organism code identifier.
         /// </summary>
         public string CodeInsee { get; set; }
 
         /// <summary>
-        /// Procedure identifier.
+        ///     Procedure identifier.
         /// </summary>
         public string ProcedureId { get; set; }
     }

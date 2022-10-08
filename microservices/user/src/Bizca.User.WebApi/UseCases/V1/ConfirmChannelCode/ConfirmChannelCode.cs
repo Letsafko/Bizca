@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.ConfirmChannelCode
 {
     using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     ///     Confirmation channel code.
     /// </summary>

@@ -4,15 +4,16 @@
 
     public sealed class Country : ValueObject
     {
-        public string Description { get; }
-        public string CountryCode { get; }
-        public int Id { get; }
         public Country(int id, string code, string description)
         {
             Description = description;
             CountryCode = code;
             Id = id;
         }
+
+        public string Description { get; }
+        public string CountryCode { get; }
+        public int Id { get; }
 
         protected override IEnumerable<object> GetAtomicValues()
         {

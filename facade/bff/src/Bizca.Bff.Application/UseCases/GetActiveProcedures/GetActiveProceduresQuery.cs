@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetActiveProcedures
 {
-    using Bizca.Core.Application.Queries;
+    using Core.Application.Queries;
+
     public class GetActiveProceduresQuery : IQuery
     {
     }

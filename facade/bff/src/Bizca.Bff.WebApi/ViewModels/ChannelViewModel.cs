@@ -1,13 +1,14 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
     using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     ///     Channel view model.
     /// </summary>
     public sealed class ChannelViewModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="ChannelViewModel"/>
+        ///     Creates an instance of <see cref="ChannelViewModel" />
         /// </summary>
         /// <param name="channelValue">Channel value</param>
         /// <param name="channelType">Channel type</param>

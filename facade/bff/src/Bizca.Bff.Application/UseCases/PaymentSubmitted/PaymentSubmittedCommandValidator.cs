@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.PaymentSubmitted
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
 
     public sealed class PaymentSubmittedCommandValidator : AbstractValidator<PaymentSubmittedCommand>
     {
@@ -20,7 +20,7 @@
             RuleFor(x => x.BundleId)
                 .NotEmpty()
                 .WithMessage(Resources.BUNDLE_REQUIRED)
-                .Must(x => int.TryParse(x, out var bundleId))
+                .Must(x => int.TryParse(x, out int bundleId))
                 .WithMessage(Resources.BUNDLE_INVALID);
         }
     }

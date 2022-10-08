@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.ReInitializedPassword
 {
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
+
     public sealed class ReInitializedPasswordCommand : ICommand
     {
         public ReInitializedPasswordCommand(string partnerCode, string email)

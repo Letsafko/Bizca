@@ -22,9 +22,8 @@
             {
                 connection = new SqlConnection(_databaseConfiguration.ConnectionString);
                 if (_databaseConfiguration.UseAzureIdentity)
-                {
-                    connection.AccessToken = new AzureServiceTokenProvider().GetAccessTokenAsync("https://database.windows.net/").Result;
-                }
+                    connection.AccessToken = new AzureServiceTokenProvider()
+                        .GetAccessTokenAsync("https://database.windows.net/").Result;
 
                 connection.Open();
                 return connection;

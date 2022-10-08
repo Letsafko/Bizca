@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Application.Test.Cqrs
 {
-    using Bizca.Core.Application.Commands;
+    using Commands;
 
     public class FakeCommand : ICommand<FakeResponse>
     {

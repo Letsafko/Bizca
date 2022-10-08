@@ -1,14 +1,15 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpsertPassword
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
+
     public sealed class UpsertPasswordCommandValidator : AbstractValidator<UpsertPasswordCommand>
     {
         public UpsertPasswordCommandValidator()
         {
             RuleFor(x => x.Password)
-               .NotEmpty()
-               .WithMessage(Resources.PASSWORD_REQUIRED);
+                .NotEmpty()
+                .WithMessage(Resources.PASSWORD_REQUIRED);
 
             RuleFor(x => x.PartnerCode)
                 .NotEmpty()

@@ -11,10 +11,9 @@
                 internal const string Civility = "civility";
                 internal const string Country = "country";
                 internal const string Partner = "partner";
-                
             }
         }
-        
+
         public static class Schema
         {
             public const string BackendForFrontend = "bff";

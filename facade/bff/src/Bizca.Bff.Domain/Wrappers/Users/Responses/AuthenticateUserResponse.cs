@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Wrappers.Users.Responses
 {
     using System.Collections.Generic;
+
     public sealed class AuthenticateUserResponse
     {
         public bool Authenticated { get; set; }

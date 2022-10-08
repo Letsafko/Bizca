@@ -1,8 +1,8 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.UpdateUser
 {
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.User.Application.UseCases.UpdateUser;
+    using Application.UseCases.UpdateUser;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -16,11 +16,11 @@
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
-        private readonly IProcessor _processor;
         private readonly UpdateUserPresenter _presenter;
+        private readonly IProcessor _processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="processor"></param>
         /// <param name="presenter"></param>
@@ -41,7 +41,8 @@
         [HttpPut("{externalUserId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateUserResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
-        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required] string externalUserId, [Required][FromBody] UpdateUser input)
+        public async Task<IActionResult> UpdateUser([Required] string partnerCode, [Required] string externalUserId,
+            [Required] [FromBody] UpdateUser input)
         {
             UpdateUserCommand command = GetUpdateUserCommand(partnerCode, externalUserId, input);
             await _processor.ProcessCommandAsync(command).ConfigureAwait(false);

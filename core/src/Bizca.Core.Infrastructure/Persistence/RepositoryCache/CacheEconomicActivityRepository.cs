@@ -7,7 +7,8 @@
     public sealed class CacheEconomicActivityRepository : CacheBase, IEconomicActivityRepository
     {
         private readonly IEconomicActivityRepository _decorated;
-        public CacheEconomicActivityRepository(ICacheProvider cacheProvider, 
+
+        public CacheEconomicActivityRepository(ICacheProvider cacheProvider,
             IEconomicActivityRepository decorated)
             : base(cacheProvider)
         {
@@ -17,7 +18,7 @@
         public async Task<EconomicActivity> GetByIdAsync(int economicActivityId)
         {
             string cacheKey = GetCacheKey<EconomicActivity>(economicActivityId);
-            return await CacheProvider.GetOrCreateAsync(cacheKey, 
+            return await CacheProvider.GetOrCreateAsync(cacheKey,
                 () => _decorated.GetByIdAsync(economicActivityId));
         }
     }

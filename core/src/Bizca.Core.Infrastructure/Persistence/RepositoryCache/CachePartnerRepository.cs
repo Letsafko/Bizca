@@ -8,7 +8,8 @@
     public sealed class CachePartnerRepository : CacheBase, IPartnerRepository
     {
         private readonly IPartnerRepository _decorated;
-        public CachePartnerRepository(ICacheProvider cacheProvider, 
+
+        public CachePartnerRepository(ICacheProvider cacheProvider,
             IPartnerRepository decorated)
             : base(cacheProvider)
         {
@@ -18,7 +19,7 @@
         public async Task<Partner> GetByCodeAsync(string partnerCode)
         {
             string cacheKey = GetCacheKey<Partner>(partnerCode);
-            return await CacheProvider.GetOrCreateAsync(cacheKey, 
+            return await CacheProvider.GetOrCreateAsync(cacheKey,
                 () => _decorated.GetByCodeAsync(partnerCode));
         }
     }

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Core.Api.Modules.HealthChecks
 {
-    using Bizca.Core.Api.Modules.Extensions;
-    using Bizca.Core.Infrastructure.Database.Configuration;
+    using Extensions;
+    using Infrastructure.Database.Configuration;
     using Microsoft.Azure.Services.AppAuthentication;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -14,31 +14,27 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    ///     create an instance of <see cref="HealthCheckDatabase"/>
+    ///     create an instance of <see cref="HealthCheckDatabase" />
     /// </summary>
     public sealed class HealthCheckDatabase : IHealthCheck
     {
-        #region fields and consts
-
-        private readonly IHostEnvironment environment;
-        private readonly string connectionString;
-        private readonly bool useAzureIdentity;
-
-        #endregion
-
         #region constructor
 
         /// <summary>
-        ///     create an instance of <see cref="HealthCheckDatabase"/>
+        ///     create an instance of <see cref="HealthCheckDatabase" />
         /// </summary>
         /// <param name="provider">service provider.</param>
         public HealthCheckDatabase(IServiceProvider provider)
         {
-            IOptions<DatabaseConfiguration> configuration = provider.GetService<IOptions<DatabaseConfiguration>>();
+            var configuration = provider.GetService<IOptions<DatabaseConfiguration>>();
             environment = provider.GetRequiredService<IHostEnvironment>();
 
-            useAzureIdentity = configuration?.Value?.UseAzureIdentity ?? throw new MissingConfigurationException($"[{nameof(HealthCheckDatabase)}] missing useAzureIdentity.");
-            connectionString = configuration?.Value?.ConnectionString ?? throw new MissingConfigurationException($"[{nameof(HealthCheckDatabase)}] missing connectionString.");
+            useAzureIdentity = configuration?.Value?.UseAzureIdentity ??
+                               throw new MissingConfigurationException(
+                                   $"[{nameof(HealthCheckDatabase)}] missing useAzureIdentity.");
+            connectionString = configuration?.Value?.ConnectionString ??
+                               throw new MissingConfigurationException(
+                                   $"[{nameof(HealthCheckDatabase)}] missing connectionString.");
         }
 
         #endregion
@@ -51,7 +47,8 @@
         /// <param name="context"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+            CancellationToken cancellationToken = default)
         {
             string message = "database";
 
@@ -60,15 +57,11 @@
                 using (var connection = new SqlConnection(connectionString))
                 using (SqlCommand cmd = connection.CreateCommand())
                 {
-                    if (environment.IsDevEnvironment())
-                    {
-                        message = connectionString;
-                    }
+                    if (environment.IsDevEnvironment()) message = connectionString;
 
                     if (useAzureIdentity)
-                    {
-                        connection.AccessToken = new AzureServiceTokenProvider().GetAccessTokenAsync("https://database.windows.net/").Result;
-                    }
+                        connection.AccessToken = new AzureServiceTokenProvider()
+                            .GetAccessTokenAsync("https://database.windows.net/").Result;
 
                     connection.Open();
                     cmd.CommandText = "select 1";
@@ -97,5 +90,12 @@
 
         #endregion
 
+        #region fields and consts
+
+        private readonly IHostEnvironment environment;
+        private readonly string connectionString;
+        private readonly bool useAzureIdentity;
+
+        #endregion
     }
 }

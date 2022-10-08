@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Core.Api.Modules.Configuration
 {
     using System.Collections.Generic;
+
     public sealed class SwaggerStsSecurityModel
     {
         /// <summary>

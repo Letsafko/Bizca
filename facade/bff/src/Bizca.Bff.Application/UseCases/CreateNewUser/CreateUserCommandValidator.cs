@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
 {
-    using Bizca.Bff.Application.Properties;
-    using Bizca.Bff.Domain.Enumerations;
+    using Domain.Enumerations;
     using FluentValidation;
+    using Properties;
     using System;
 
     public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
@@ -21,7 +21,7 @@
             RuleFor(x => x.Civility)
                 .NotEmpty()
                 .WithMessage(Resources.CIVILITY_REQUIRED)
-                .Must(x => Enum.TryParse<Civility>(x, true, out var civility))
+                .Must(x => Enum.TryParse<Civility>(x, true, out Civility civility))
                 .WithMessage(Resources.CIVILITY_INVALID);
 
             RuleFor(x => x.PhoneNumber)

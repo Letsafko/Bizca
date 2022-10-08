@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Domain.Entities.Channel.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -22,15 +22,18 @@
         {
         }
 
-        public ChannelCodeConfirmationDoesNotExistException(string message, Exception innerException) : base(message, innerException)
+        public ChannelCodeConfirmationDoesNotExistException(string message, Exception innerException) : base(message,
+            innerException)
         {
         }
 
-        public ChannelCodeConfirmationDoesNotExistException(string message, string propertyName) : base(message, propertyName)
+        public ChannelCodeConfirmationDoesNotExistException(string message, string propertyName) : base(message,
+            propertyName)
         {
         }
 
-        public ChannelCodeConfirmationDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
+        public ChannelCodeConfirmationDoesNotExistException(SerializationInfo info, StreamingContext context) : base(
+            info, context)
         {
         }
     }

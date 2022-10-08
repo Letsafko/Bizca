@@ -7,19 +7,16 @@
 
     public abstract class Enumeration<TIdentifier> : ValueObject
     {
-        public TIdentifier Code { get; }
-        public string Label { get; }
-        public string Description { get; }
-
         protected Enumeration(TIdentifier code, string label, string description = "")
         {
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                description = label;
-            }
+            if (string.IsNullOrWhiteSpace(description)) description = label;
 
             (Code, Label, Description) = (code, label, description);
         }
+
+        public TIdentifier Code { get; }
+        public string Label { get; }
+        public string Description { get; }
 
         protected static T GetFromCode<T>(TIdentifier code) where T : Enumeration<TIdentifier>
         {
@@ -48,8 +45,8 @@
         private static IEnumerable<T> GetAll<T>() where T : Enumeration<TIdentifier>
         {
             return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-                            .Select(f => f.GetValue(null))
-                            .Cast<T>();
+                .Select(f => f.GetValue(null))
+                .Cast<T>();
         }
 
         #endregion

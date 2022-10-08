@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Core.Api.Modules.Pagination
 {
-    using Bizca.Core.Api.Modules.Filters;
+    using Filters;
+
     public class Paged
     {
         /// <summary>

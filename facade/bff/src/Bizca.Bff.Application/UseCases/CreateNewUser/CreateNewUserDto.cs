@@ -1,8 +1,9 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
 {
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
+    using Domain.Enumerations;
+    using Domain.Wrappers.Users.Responses;
     using System.Collections.Generic;
+
     public sealed class CreateNewUserDto
     {
         public CreateNewUserDto(string externalUserId,

@@ -1,9 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpdateUser
 {
-    using Bizca.Core.Application.Commands;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using Core.Application.Commands;
 
     public sealed class UpdateUserCommand : ICommand
     {

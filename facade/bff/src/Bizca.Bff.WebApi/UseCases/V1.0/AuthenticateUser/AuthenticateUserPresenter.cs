@@ -1,10 +1,10 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser
 {
-    using Bizca.Bff.Application.UseCases.AuthenticateUser;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Presentation;
-    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
+    using Application.UseCases.AuthenticateUser;
+    using Core.Api.Modules.Presentation;
+    using Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
     ///     Authenticate user presenter
@@ -12,7 +12,7 @@
     public sealed class AuthenticateUserPresenter : PresenterBase, IAuthenticateUserOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="AuthenticateUserPresenter"/>
+        ///     Creates an instance of <see cref="AuthenticateUserPresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public AuthenticateUserPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)

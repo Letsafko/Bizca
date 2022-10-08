@@ -1,11 +1,11 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability
 {
-    using Bizca.Bff.Application.UseCases.SendAppointmentAvailability;
-    using Bizca.Bff.WebApi.Properties;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
+    using Application.UseCases.SendAppointmentAvailability;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Properties;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -20,7 +20,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="AvailabiltyController"/>
+        ///     Create an instance of <see cref="AvailabiltyController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -37,9 +37,10 @@
         [HttpPost("procedures")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Post))]
-        public async Task<IActionResult> SendAppointmentAvailabilityAsync([FromBody] ProcedureAvailability availableProcedures)
+        public async Task<IActionResult> SendAppointmentAvailabilityAsync(
+            [FromBody] ProcedureAvailability availableProcedures)
         {
-            var command = ConvertFrom(availableProcedures);
+            SendAppointmentAvailabilityCommand command = ConvertFrom(availableProcedures);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return presenter.ViewModel;
         }

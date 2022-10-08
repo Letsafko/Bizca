@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.RegisterPassword
 {
-    using Bizca.User.Application.Properties;
     using FluentValidation;
+    using Properties;
 
     public sealed class RegisterPasswordCommandValidator : AbstractValidator<RegisterPasswordCommand>
     {

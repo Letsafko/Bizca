@@ -1,18 +1,17 @@
 ﻿namespace Bizca.Core.Application.Test.Pipelines.UnitOfWork
 {
-    using Bizca.Core.Application.Behaviors;
-    using Bizca.Core.Application.Commands;
-    using Bizca.Core.Application.Services;
-    using Bizca.Core.Domain;
+    using Behaviors;
+    using Commands;
     using MediatR;
     using NSubstitute;
     using NSubstitute.ExceptionExtensions;
+    using Services;
     using System;
 
     internal sealed class UnitOfWorkCommandBuilder
     {
-        public readonly RequestHandlerDelegate<Unit> pipelineBehaviourDelegate;
         public readonly IEventService eventService;
+        public readonly RequestHandlerDelegate<Unit> pipelineBehaviourDelegate;
         public readonly IUnitOfWork unitOfWork;
 
         private UnitOfWorkCommandBuilder()
@@ -23,6 +22,7 @@
         }
 
         internal static UnitOfWorkCommandBuilder Instance => new UnitOfWorkCommandBuilder();
+
         internal UnitOfWorkCommandBehavior<TCommand> Build<TCommand>() where TCommand : ICommand
         {
             return new UnitOfWorkCommandBehavior<TCommand>(unitOfWork, eventService);

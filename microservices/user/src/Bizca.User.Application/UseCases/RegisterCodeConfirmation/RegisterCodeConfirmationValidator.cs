@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.RegisterCodeConfirmation
 {
-    using Bizca.User.Application.Properties;
     using FluentValidation;
+    using Properties;
 
     public sealed class RegisterCodeConfirmationValidator : AbstractValidator<RegisterCodeConfirmationCommand>
     {

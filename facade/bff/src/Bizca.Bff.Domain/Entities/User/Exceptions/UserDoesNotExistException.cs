@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;

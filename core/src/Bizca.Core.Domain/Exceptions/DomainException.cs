@@ -11,17 +11,12 @@
     [Serializable]
     public class DomainException : Exception
     {
-        /// <summary>
-        ///     Domain failure errors
-        /// </summary>
-        public IEnumerable<DomainFailure> Errors { get; }
-
-        /// <inheritdoc/>
-        public DomainException() : base()
+        /// <inheritdoc />
+        public DomainException()
         {
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public DomainException(string message, Exception innerException)
             : base(message, innerException)
         {
@@ -37,7 +32,7 @@
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="DomainException"/> 
+        ///     Creates a new instance of <see cref="DomainException" />
         /// </summary>
         /// <param name="message"></param>
         public DomainException(string message) : this(new List<DomainFailure> { new DomainFailure(message) })
@@ -45,10 +40,11 @@
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="DomainException"/> 
+        ///     Creates a new instance of <see cref="DomainException" />
         /// </summary>
         /// <param name="message"></param>
-        public DomainException(string message, string propertyName) : this(new List<DomainFailure> { new DomainFailure(message, propertyName) })
+        public DomainException(string message, string propertyName) : this(
+            new List<DomainFailure> { new DomainFailure(message, propertyName) })
         {
         }
 
@@ -56,6 +52,11 @@
         {
             Errors = info.GetValue("errors", typeof(IEnumerable<DomainFailure>)) as IEnumerable<DomainFailure>;
         }
+
+        /// <summary>
+        ///     Domain failure errors
+        /// </summary>
+        public IEnumerable<DomainFailure> Errors { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -67,7 +68,8 @@
 
         private static string BuildErrorMessage(IEnumerable<DomainFailure> errors)
         {
-            IEnumerable<string> arr = errors.Select(x => $"{Environment.NewLine} -- {x.PropertyName}: {x.ErrorMessage}");
+            IEnumerable<string> arr =
+                errors.Select(x => $"{Environment.NewLine} -- {x.PropertyName}: {x.ErrorMessage}");
             return string.Concat(arr);
         }
     }

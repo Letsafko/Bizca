@@ -6,8 +6,8 @@
     {
         protected abstract T Get<T>(string cacheKey) where T : class;
 
-        protected abstract bool TryAdd<T>(string cacheKey, 
-            T cacheItem, 
+        protected abstract bool TryAdd<T>(string cacheKey,
+            T cacheItem,
             TimeSpan? cacheDuration) where T : class;
     }
 }

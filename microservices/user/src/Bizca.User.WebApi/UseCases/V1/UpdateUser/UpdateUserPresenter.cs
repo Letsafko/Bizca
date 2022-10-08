@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.UpdateUser
 {
-    using Bizca.User.Application.UseCases.UpdateUser;
+    using Application.UseCases.UpdateUser;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
 
     public sealed class GetUserSubscriptionDetailsValidator : AbstractValidator<GetUserSubscriptionDetailsQuery>
     {

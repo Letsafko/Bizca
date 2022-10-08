@@ -22,9 +22,7 @@
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
             foreach (KeyValuePair<string, string> kv in context)
-            {
                 logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(kv.Key, kv.Value?.Replace("\"", "")));
-            }
         }
     }
 }

@@ -3,6 +3,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
     using Serilog;
+    using Serilog.Debugging;
     using System;
     using System.IO;
     using System.Reflection;
@@ -12,9 +13,10 @@
         public static IHostBuilder ConfigureSerilog(this IHostBuilder builder, string loggingjsonpath = "logging.json")
         {
             return builder
-                    .ConfigureAppConfiguration((_, config) => config.AddJsonFile(loggingjsonpath, optional: false, reloadOnChange: true))
-                    .UseSerilog(ConfigureLogging);
+                .ConfigureAppConfiguration((_, config) => config.AddJsonFile(loggingjsonpath, false, true))
+                .UseSerilog(ConfigureLogging);
         }
+
         public static IHostBuilder AddAppSettingConfigurationFile(this IHostBuilder builder)
         {
             return builder.ConfigureAppConfiguration(ConfigureAppSettings);
@@ -26,13 +28,13 @@
         {
             loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            Serilog.Debugging.SelfLog.Enable(Console.Error);
+            SelfLog.Enable(Console.Error);
         }
 
         private static void ConfigureAppSettings(HostBuilderContext context, IConfigurationBuilder configBuilder)
         {
             configBuilder
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", false, true)
                 .AddEnvironmentVariables()
                 .AddUserSecrets(Assembly.GetEntryAssembly());
         }

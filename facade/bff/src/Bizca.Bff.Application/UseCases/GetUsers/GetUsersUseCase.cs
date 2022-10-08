@@ -1,35 +1,40 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUsers
 {
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
-    using Bizca.Core.Application.Queries;
+    using Core.Application.Queries;
+    using Core.Domain;
+    using Domain.Wrappers.Users;
+    using Domain.Wrappers.Users.Requests;
+    using Domain.Wrappers.Users.Responses;
     using MediatR;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+
     public sealed class GetUsersUseCase : IQueryHandler<GetUsersQuery>
     {
-        private readonly IUserProfileWrapper userProfileWrapper;
         private readonly IGetUsersOutput getUsersOutput;
+        private readonly IUserProfileWrapper userProfileWrapper;
+
         public GetUsersUseCase(IUserWrapper userWrapper,
             IGetUsersOutput getUsersOutput)
         {
-            this.userProfileWrapper = userWrapper;
+            userProfileWrapper = userWrapper;
             this.getUsersOutput = getUsersOutput;
         }
 
         public async Task<Unit> Handle(GetUsersQuery query, CancellationToken cancellationToken)
         {
-            var request = GetRequest(query);
-            var response = await userProfileWrapper.GetUsersByCriteriaAsync(query.PartnerCode, request);
+            UsersByCriteriaRequest request = GetRequest(query);
+            IPublicResponse<UsersByCriteriaResponse> response =
+                await userProfileWrapper.GetUsersByCriteriaAsync(query.PartnerCode, request);
             if (!response.Success)
             {
                 getUsersOutput.Invalid(response);
                 return Unit.Value;
             }
 
-            var pagedUsers = MapTo(response.Data);
+            GetPagedUsersDto pagedUsers = MapTo(response.Data);
             getUsersOutput.Ok(pagedUsers);
             return Unit.Value;
         }
@@ -41,7 +46,7 @@
             if (response?.Users?.Any() != true)
                 return default;
 
-            var users = response.Users.Select(x => new GetUserDto(x));
+            IEnumerable<GetUserDto> users = response.Users.Select(x => new GetUserDto(x));
             return new GetPagedUsersDto(users, response.Relations);
         }
 

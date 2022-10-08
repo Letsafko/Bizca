@@ -1,9 +1,8 @@
 ﻿namespace Bizca.Core.Application.Test.Pipelines.UnitOfWork
 {
-    using Bizca.Core.Application.Test.Cqrs;
+    using Cqrs;
     using NFluent;
     using NSubstitute;
-    using NSubstitute.ExceptionExtensions;
     using System;
     using System.Threading.Tasks;
     using Xunit;
@@ -30,7 +29,7 @@
             });
 
             builder.ReceivedCommit(1)
-                   .DidNotReceivedRollback();
+                .DidNotReceivedRollback();
         }
 
         [Fact]
@@ -40,8 +39,10 @@
             UnitOfWorkCommandBuilder builder = UnitOfWorkCommandBuilder.Instance.DelegateThrowException();
 
             //act & assert
-            Check.ThatAsyncCode(() => builder.Build<FakeCommand2>().Handle(new FakeCommand2(), default, builder.pipelineBehaviourDelegate))
-                 .Throws<Exception>();
+            Check.ThatAsyncCode(() =>
+                    builder.Build<FakeCommand2>()
+                        .Handle(new FakeCommand2(), default, builder.pipelineBehaviourDelegate))
+                .Throws<Exception>();
 
             Received.InOrder(() =>
             {
@@ -51,7 +52,7 @@
             });
 
             builder.ReceivedRollback(1)
-                   .DidNotReceivedCommit();
+                .DidNotReceivedCommit();
         }
     }
 }

@@ -1,28 +1,29 @@
 ﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
 {
-    using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Entities.User.Exceptions;
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
-    using Bizca.Core.Application.Queries;
-    using Bizca.Core.Domain;
+    using Core.Application.Queries;
+    using Core.Domain;
+    using Domain.Entities.User;
+    using Domain.Entities.User.Exceptions;
+    using Domain.Enumerations;
+    using Domain.Wrappers.Users;
+    using Domain.Wrappers.Users.Requests;
+    using Domain.Wrappers.Users.Responses;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
 
     public sealed class AuthenticateUserUseCase : IQueryHandler<AuthenticateUserQuery>
     {
-        private readonly IUserAuthenticationWrapper userAuthenticationAgent;
         private readonly IAuthenticateUserOutput authenticateUserOutput;
+        private readonly IUserAuthenticationWrapper userAuthenticationAgent;
         private readonly IUserRepository userRepository;
+
         public AuthenticateUserUseCase(IUserWrapper userAgent,
             IUserRepository userRepository,
             IAuthenticateUserOutput authenticateUserOutput)
         {
             this.authenticateUserOutput = authenticateUserOutput;
-            this.userAuthenticationAgent = userAgent;
+            userAuthenticationAgent = userAgent;
             this.userRepository = userRepository;
         }
 
@@ -35,7 +36,8 @@
         public async Task<Unit> Handle(AuthenticateUserQuery query, CancellationToken cancellationToken)
         {
             var request = new AuthenticateUserRequest(query.Password, query.Resource);
-            IPublicResponse<AuthenticateUserResponse> response = await userAuthenticationAgent.AuthenticateUserAsync(request);
+            IPublicResponse<AuthenticateUserResponse> response =
+                await userAuthenticationAgent.AuthenticateUserAsync(request);
             if (!response.Success)
             {
                 authenticateUserOutput.Invalid(response);
@@ -43,11 +45,9 @@
             }
 
 
-            var user = await userRepository.GetByExternalUserIdAsync(response.Data.ExternalUserId);
+            User user = await userRepository.GetByExternalUserIdAsync(response.Data.ExternalUserId);
             if (user is null)
-            {
                 throw new UserDoesNotExistException($"user {response.Data.ExternalUserId} does not exist.");
-            }
 
             AuthenticateUserDto authenticateUser = MapTo(user.Role, response.Data);
             authenticateUserOutput.Ok(authenticateUser);

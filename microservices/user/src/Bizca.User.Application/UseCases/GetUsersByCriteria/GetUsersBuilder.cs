@@ -1,23 +1,22 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUsersByCriteria
 {
-    using Bizca.User.Domain;
-    using Bizca.User.Domain.Entities.Address;
-    using Bizca.User.Domain.Entities.Channel;
     using Core.Domain.Referential.Model;
+    using Domain;
+    using Domain.Entities.Address;
+    using Domain.Entities.Channel;
     using System.Collections.Generic;
 
     public sealed class GetUsersBuilder
     {
         private readonly GetUsers _getUser;
+
         private GetUsersBuilder()
         {
-            _getUser = new GetUsers
-            {
-                Channels = new List<Channel>()
-            };
+            _getUser = new GetUsers { Channels = new List<Channel>() };
         }
 
         public static GetUsersBuilder Instance => new GetUsersBuilder();
+
         public GetUsers Build()
         {
             return _getUser;
@@ -44,7 +43,8 @@
         public GetUsersBuilder WithEmail(string email, int? active, int? confirmed)
         {
             if (!string.IsNullOrWhiteSpace(email))
-                _getUser.Channels.Add(new Channel(email, ChannelType.Email, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+                _getUser.Channels.Add(new Channel(email, ChannelType.Email, ConvertToBoolean(active.Value),
+                    ConvertToBoolean(confirmed.Value)));
 
             return this;
         }
@@ -52,7 +52,8 @@
         public GetUsersBuilder WithPhoneNumber(string phoneNumber, int? active, int? confirmed)
         {
             if (!string.IsNullOrWhiteSpace(phoneNumber))
-                _getUser.Channels.Add(new Channel(phoneNumber, ChannelType.Sms, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+                _getUser.Channels.Add(new Channel(phoneNumber, ChannelType.Sms, ConvertToBoolean(active.Value),
+                    ConvertToBoolean(confirmed.Value)));
 
             return this;
         }
@@ -60,7 +61,8 @@
         public GetUsersBuilder WithWhatsapp(string whatsapp, int? active, int? confirmed)
         {
             if (!string.IsNullOrWhiteSpace(whatsapp))
-                _getUser.Channels.Add(new Channel(whatsapp, ChannelType.Whatsapp, ConvertToBoolean(active.Value), ConvertToBoolean(confirmed.Value)));
+                _getUser.Channels.Add(new Channel(whatsapp, ChannelType.Whatsapp, ConvertToBoolean(active.Value),
+                    ConvertToBoolean(confirmed.Value)));
 
             return this;
         }
@@ -98,9 +100,7 @@
         public GetUsersBuilder WithBirthCountry(int? countryId, string countryCode, string description)
         {
             if (!string.IsNullOrWhiteSpace(countryCode))
-            {
                 _getUser.BirthCountry = new Country(countryId.Value, countryCode, description);
-            }
             return this;
         }
 
@@ -121,7 +121,6 @@
             string name)
         {
             if (id.HasValue)
-            {
                 _getUser.Address = new Address(id.Value,
                     active.Value,
                     street,
@@ -129,7 +128,6 @@
                     zipCode,
                     new Country(countryId.Value, countryCode, countryName),
                     name);
-            }
             return this;
         }
 

@@ -1,9 +1,10 @@
 ﻿namespace Bizca.Bff.Application.UseCases.SendAppointmentAvailability
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
 
-    public sealed class SendAppointmentAvailabilityCommandValidator : AbstractValidator<SendAppointmentAvailabilityCommand>
+    public sealed class
+        SendAppointmentAvailabilityCommandValidator : AbstractValidator<SendAppointmentAvailabilityCommand>
     {
         public SendAppointmentAvailabilityCommandValidator()
         {

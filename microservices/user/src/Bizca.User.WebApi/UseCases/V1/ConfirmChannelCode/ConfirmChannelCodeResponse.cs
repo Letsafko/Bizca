@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.ConfirmChannelCode
 {
-    using Bizca.User.Application.UseCases.ConfirmChannelCode;
+    using Application.UseCases.ConfirmChannelCode;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
@@ -9,7 +9,7 @@
     public sealed class ConfirmChannelCodeResponse
     {
         /// <summary>
-        ///     Creates an instance of <see cref="ConfirmChannelCodeResponse"/>
+        ///     Creates an instance of <see cref="ConfirmChannelCodeResponse" />
         /// </summary>
         public ConfirmChannelCodeResponse(ConfirmChannelCodeDto confirmationCodeDto)
         {

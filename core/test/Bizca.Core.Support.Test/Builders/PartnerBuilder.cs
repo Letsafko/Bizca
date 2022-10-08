@@ -4,9 +4,10 @@
 
     public sealed class PartnerBuilder
     {
-        private int _id;
         private string _description;
+        private int _id;
         private string _partnerCode;
+
         private PartnerBuilder()
         {
             _id = 1;
@@ -15,6 +16,7 @@
         }
 
         public static PartnerBuilder Instance => new PartnerBuilder();
+
         public Partner Build()
         {
             return new Partner(_id, _partnerCode, _description);

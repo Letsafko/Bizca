@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Domain.Agregates
 {
-    using Bizca.User.Domain.Agregates.ValueObjects;
     using Core.Domain.Referential.Model;
+    using ValueObjects;
 
     public sealed class UserIdentifier
     {

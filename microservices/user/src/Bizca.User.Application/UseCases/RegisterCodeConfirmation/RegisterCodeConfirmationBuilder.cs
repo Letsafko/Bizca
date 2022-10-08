@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.RegisterCodeConfirmation
 {
-    using Bizca.User.Domain;
+    using Domain;
 
     /// <summary>
     ///     Register code confirmation builder.
@@ -8,13 +8,14 @@
     public sealed class RegisterCodeConfirmationBuilder
     {
         private readonly RegisterCodeConfirmationCommand command;
+
         private RegisterCodeConfirmationBuilder()
         {
             command = new RegisterCodeConfirmationCommand();
         }
 
         /// <summary>
-        ///     Gets instance of <see cref="RegisterCodeConfirmationBuilder"/>
+        ///     Gets instance of <see cref="RegisterCodeConfirmationBuilder" />
         /// </summary>
         public static RegisterCodeConfirmationBuilder Instance => new RegisterCodeConfirmationBuilder();
 

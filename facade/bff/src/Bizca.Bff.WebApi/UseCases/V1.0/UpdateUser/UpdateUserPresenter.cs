@@ -1,17 +1,18 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateUser
 {
-    using Bizca.Bff.Application.UseCases.UpdateUser;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Presentation;
-    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
+    using Application.UseCases.UpdateUser;
+    using Core.Api.Modules.Presentation;
+    using Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
+
     /// <summary>
     ///     Update user presenter.
     /// </summary>
     public sealed class UpdateUserPresenter : PresenterBase, IUpdateUserOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="UpdateUserPresenter"/>
+        ///     Creates an instance of <see cref="UpdateUserPresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public UpdateUserPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)

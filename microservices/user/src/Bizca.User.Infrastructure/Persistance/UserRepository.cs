@@ -1,9 +1,8 @@
 ﻿namespace Bizca.User.Infrastructure.Persistance
 {
-    using Bizca.Core.Domain;
-    using Bizca.User.Domain.Agregates;
-    using Bizca.User.Domain.Agregates.Repositories;
     using Dapper;
+    using Domain.Agregates;
+    using Domain.Agregates.Repositories;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -12,33 +11,32 @@
 
     public sealed class UserRepository : IUserRepository
     {
-        private readonly IUnitOfWork unitOfWork;
-        public UserRepository(IUnitOfWork unitOfWork)
-        {
-            this.unitOfWork = unitOfWork;
-        }
+        private const string getByPartnerAndExternalUserIdStoredProcedure =
+            "[usr].[usp_getByPartnerAndExternalUserId_user]";
 
-        private const string getByPartnerAndExternalUserIdStoredProcedure = "[usr].[usp_getByPartnerAndExternalUserId_user]";
         private const string getByPartnerAndChannelResourceStoredProcedure = "[usr].[usp_getByPartnerAndChannel_user]";
         private const string getUserByCriteriaStoredProcedure = "[usr].[usp_getByCriteria_user]";
         private const string isUserExistStoredProcedure = "[usr].[usp_isExists_user]";
         private const string updateUserStoredProcedure = "[usr].[usp_update_user]";
         private const string createUserStoredProcedure = "[usr].[usp_create_user]";
+        private readonly IUnitOfWork unitOfWork;
 
-        public async Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByPartnerIdAndChannelResourceAsync(int partnerId, string channelResource)
+        public UserRepository(IUnitOfWork unitOfWork)
         {
-            var parameters = new
-            {
-                partnerId,
-                channelResource
-            };
+            this.unitOfWork = unitOfWork;
+        }
+
+        public async Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByPartnerIdAndChannelResourceAsync(
+            int partnerId, string channelResource)
+        {
+            var parameters = new { partnerId, channelResource };
 
             SqlMapper.GridReader gridReader = await unitOfWork.Connection
-                    .QueryMultipleAsync(getByPartnerAndChannelResourceStoredProcedure,
-                            parameters,
-                            unitOfWork.Transaction,
-                            commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false);
+                .QueryMultipleAsync(getByPartnerAndChannelResourceStoredProcedure,
+                    parameters,
+                    unitOfWork.Transaction,
+                    commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false);
 
             var result = new Dictionary<ResultName, IEnumerable<dynamic>>();
             while (!gridReader.IsConsumed)
@@ -47,28 +45,24 @@
                 if (!string.IsNullOrEmpty(resultSetName))
                 {
                     IEnumerable<dynamic> reader = gridReader.Read();
-                    if (Enum.TryParse(resultSetName, true, out ResultName resultName))
-                    {
-                        result[resultName] = reader;
-                    }
+                    if (Enum.TryParse(resultSetName, true, out ResultName resultName)) result[resultName] = reader;
                 }
             }
+
             return result;
         }
-        public async Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByPartnerIdAndExternalUserIdAsync(int partnerId, string externalUserId)
+
+        public async Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByPartnerIdAndExternalUserIdAsync(
+            int partnerId, string externalUserId)
         {
-            var parameters = new
-            {
-                partnerId,
-                externalUserId
-            };
+            var parameters = new { partnerId, externalUserId };
 
             SqlMapper.GridReader gridReader = await unitOfWork.Connection
-                    .QueryMultipleAsync(getByPartnerAndExternalUserIdStoredProcedure,
-                            parameters,
-                            unitOfWork.Transaction,
-                            commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false);
+                .QueryMultipleAsync(getByPartnerAndExternalUserIdStoredProcedure,
+                    parameters,
+                    unitOfWork.Transaction,
+                    commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false);
 
             var result = new Dictionary<ResultName, IEnumerable<dynamic>>();
             while (!gridReader.IsConsumed)
@@ -77,14 +71,13 @@
                 if (!string.IsNullOrEmpty(resultSetName))
                 {
                     IEnumerable<dynamic> reader = gridReader.Read();
-                    if (Enum.TryParse(resultSetName, true, out ResultName resultName))
-                    {
-                        result[resultName] = reader;
-                    }
+                    if (Enum.TryParse(resultSetName, true, out ResultName resultName)) result[resultName] = reader;
                 }
             }
+
             return result;
         }
+
         public async Task<IEnumerable<dynamic>> GetByCriteriaAsync(int partnerId, UserCriteria criteria)
         {
             var parameters = new
@@ -99,23 +92,20 @@
                 lastName = criteria.LastName,
                 index = criteria.PageIndex,
                 email = criteria.Email,
-                partnerId,
+                partnerId
             };
 
             return await unitOfWork.Connection
                 .QueryAsync(getUserByCriteriaStoredProcedure,
-                        parameters,
-                        unitOfWork.Transaction,
-                        commandType: CommandType.StoredProcedure)
+                    parameters,
+                    unitOfWork.Transaction,
+                    commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false);
         }
+
         public async Task<bool> IsExistAsync(int partnerId, string externalUserId)
         {
-            var parameters = new
-            {
-                partnerId,
-                externalUserId
-            };
+            var parameters = new { partnerId, externalUserId };
 
             int result = await unitOfWork.Connection
                 .ExecuteScalarAsync<int>(isUserExistStoredProcedure,
@@ -126,6 +116,7 @@
 
             return result > 0;
         }
+
         public async Task<int> UpdateAsync(User user)
         {
             var parameters = new
@@ -139,7 +130,7 @@
                 birthDate = user.Profile.BirthDate,
                 birthCity = user.Profile.BirthCity,
                 lastName = user.Profile.LastName,
-                rowversion = user.GetRowVersion(),
+                rowversion = user.GetRowVersion()
             };
 
             return await unitOfWork.Connection
@@ -149,6 +140,7 @@
                     commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false);
         }
+
         public async Task<int> AddAsync(User user)
         {
             var parameters = new
@@ -173,20 +165,17 @@
                 .ConfigureAwait(false);
         }
 
-        public async Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByIdAsync(int partnerId, string externalUserId)
+        public async Task<Dictionary<ResultName, IEnumerable<dynamic>>> GetByIdAsync(int partnerId,
+            string externalUserId)
         {
-            var parameters = new
-            {
-                partnerId,
-                externalUserId
-            };
+            var parameters = new { partnerId, externalUserId };
 
             SqlMapper.GridReader gridReader = await unitOfWork.Connection
-                    .QueryMultipleAsync(getByPartnerAndExternalUserIdStoredProcedure,
-                            parameters,
-                            unitOfWork.Transaction,
-                            commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false);
+                .QueryMultipleAsync(getByPartnerAndExternalUserIdStoredProcedure,
+                    parameters,
+                    unitOfWork.Transaction,
+                    commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false);
 
             var result = new Dictionary<ResultName, IEnumerable<dynamic>>();
             while (!gridReader.IsConsumed)
@@ -195,12 +184,10 @@
                 if (!string.IsNullOrEmpty(resultSetName))
                 {
                     IEnumerable<dynamic> reader = gridReader.Read();
-                    if (Enum.TryParse<ResultName>(resultSetName, true, out ResultName resultName))
-                    {
-                        result[resultName] = reader;
-                    }
+                    if (Enum.TryParse(resultSetName, true, out ResultName resultName)) result[resultName] = reader;
                 }
             }
+
             return result;
         }
     }

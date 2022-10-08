@@ -8,7 +8,7 @@
     public sealed class ProcedureLightViewModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="ProcedureLightViewModel"/>
+        ///     Creates an instance of <see cref="ProcedureLightViewModel" />
         /// </summary>
         /// <param name="procedureId">procedure type identifier</param>
         /// <param name="codeInsee">organism code identifier</param>

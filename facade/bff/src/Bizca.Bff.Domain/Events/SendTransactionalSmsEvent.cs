@@ -1,7 +1,8 @@
 ﻿namespace Bizca.Bff.Domain.Events
 {
-    using Bizca.Bff.Domain.Wrappers;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Wrappers;
+
     public sealed class SendTransactionalSmsEvent : IEvent
     {
         public SendTransactionalSmsEvent(string sender,

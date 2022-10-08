@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Domain.Test
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Domain.Exceptions;
     using NFluent;
     using System;
     using Xunit;

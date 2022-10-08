@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Infrastructure.Persistance.Extensions
 {
-    using Bizca.Bff.Domain.Entities.Subscription;
+    using Domain.Entities.Subscription;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -52,23 +52,19 @@
                         x.Bundle?.BundleIdentifier?.Id,
                         x.SubscriptionSettings?.IsFreeze,
                         x.Price?.Amount,
-
                         x.UserSubscription.FirstName,
                         x.UserSubscription.LastName,
                         x.UserSubscription.PhoneNumber,
                         x.UserSubscription.Whatsapp,
                         x.UserSubscription.Email,
-
                         x.SubscriptionSettings?.WhatsappCounter,
                         x.SubscriptionSettings?.TotalWhatsapp,
                         x.SubscriptionSettings?.EmailCounter,
                         x.SubscriptionSettings?.TotalEmail,
                         x.SubscriptionSettings?.SmsCounter,
                         x.SubscriptionSettings?.TotalSms,
-
                         (int)x.UserSubscription.ChannelActivationStatus,
                         (int)x.UserSubscription.ChannelConfirmationStatus,
-
                         x.SubscriptionSettings?.BeginDate,
                         x.SubscriptionSettings?.EndDate
                     );
@@ -83,15 +79,13 @@
             dt.Columns.Add(SubscriptionColumns.SubscriptionId, typeof(int));
             dt.Columns.Add(SubscriptionColumns.EmailCounter, typeof(int));
             dt.Columns.Add(SubscriptionColumns.SmsCounter, typeof(int));
-            foreach (var subscriber in subscribers)
-            {
+            foreach (SubscriberAvailability subscriber in subscribers)
                 dt.Rows.Add
                 (
                     subscriber.SubscriptionId,
                     subscriber.EmailCounter,
                     subscriber.SmsCounter
                 );
-            }
 
             return dt;
         }

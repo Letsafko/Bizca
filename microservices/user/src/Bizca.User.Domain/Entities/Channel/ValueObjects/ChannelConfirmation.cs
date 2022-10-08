@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Domain.Entities.Channel.ValueObjects
 {
-    using Bizca.Core.Domain;
+    using Core.Domain;
     using System;
     using System.Collections.Generic;
 

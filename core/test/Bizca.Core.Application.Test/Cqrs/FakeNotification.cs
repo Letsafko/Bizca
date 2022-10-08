@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Core.Application.Test.Cqrs
 {
-    using Bizca.Core.Domain;
+    using Domain;
+
     public class FakeNotification : IEvent
     {
     }

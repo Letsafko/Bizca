@@ -1,8 +1,8 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.AuthenticateUser
 {
-    using Bizca.User.Application.UseCases.AuthenticateUser;
+    using Application.UseCases.AuthenticateUser;
+    using Domain.Agregates;
     using Microsoft.AspNetCore.Mvc;
-    using User = Domain.Agregates.User;
 
     /// <summary>
     ///     Update password presenter.

@@ -1,22 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>afcf3c56-0eeb-48d2-84cc-284e2f13ba84</UserSecretsId>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UserSecretsId>afcf3c56-0eeb-48d2-84cc-284e2f13ba84</UserSecretsId>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..\..</DockerfileContext>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0"/>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Api\Bizca.Core.Api.csproj" />
-    <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Application\Bizca.Core.Application.csproj" />
-    <ProjectReference Include="..\Bizca.Notification.Infrastructure\Bizca.Notification.Infrastructure.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Api\Bizca.Core.Api.csproj"/>
+        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Application\Bizca.Core.Application.csproj"/>
+        <ProjectReference Include="..\Bizca.Notification.Infrastructure\Bizca.Notification.Infrastructure.csproj"/>
+    </ItemGroup>
 
 </Project>

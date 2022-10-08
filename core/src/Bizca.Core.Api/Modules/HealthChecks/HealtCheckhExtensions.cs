@@ -12,36 +12,38 @@
         private const int MinimumSecondsBetweenFailure = 1 * 60;
         private const int EvaluationTimeInSeconds = 60 * 10;
         private const int MaximunHistoryEntries = 10;
+
+        private const string DatabaseTagName = "database";
+
         public static IHealthChecksBuilder AddHealthCheckServices(this IServiceCollection services)
         {
             return services.AddHealthChecksUI(setup =>
-            {
-                setup.SetMinimumSecondsBetweenFailureNotifications(MinimumSecondsBetweenFailure)
-                     .MaximumHistoryEntriesPerEndpoint(MaximunHistoryEntries)
-                     .SetEvaluationTimeInSeconds(EvaluationTimeInSeconds);
-            })
-            .AddInMemoryStorage()
-            .Services
-            .AddHealthChecks()
-            .AddCheck<HealthCheckDatabase>(DatabaseTagName, tags: new[] { DatabaseTagName });
+                {
+                    setup.SetMinimumSecondsBetweenFailureNotifications(MinimumSecondsBetweenFailure)
+                        .MaximumHistoryEntriesPerEndpoint(MaximunHistoryEntries)
+                        .SetEvaluationTimeInSeconds(EvaluationTimeInSeconds);
+                })
+                .AddInMemoryStorage()
+                .Services
+                .AddHealthChecks()
+                .AddCheck<HealthCheckDatabase>(DatabaseTagName, tags: new[] { DatabaseTagName });
         }
-
-        private const string DatabaseTagName = "database";
 
         public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
         {
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHealthChecks("/health", new HealthCheckOptions()
-                {
-                    ResultStatusCodes =
+                endpoints.MapHealthChecks("/health",
+                    new HealthCheckOptions
                     {
-                        [HealthStatus.Healthy] = StatusCodes.Status200OK,
-                        [HealthStatus.Degraded] = StatusCodes.Status200OK,
-                        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
-                    },
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                });
+                        ResultStatusCodes =
+                        {
+                            [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                            [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                            [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+                        },
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    });
 
                 endpoints.MapHealthChecksUI(opt =>
                 {

@@ -4,9 +4,10 @@
 
     public sealed class CountryBuilder
     {
-        private int _id;
-        private string _description;
         private string _countryCode;
+        private string _description;
+        private int _id;
+
         private CountryBuilder()
         {
             _id = 1;
@@ -15,6 +16,7 @@
         }
 
         public static CountryBuilder Instance => new CountryBuilder();
+
         public Country Build()
         {
             return new Country(_id, _countryCode, _description);

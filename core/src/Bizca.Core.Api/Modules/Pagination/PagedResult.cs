@@ -10,6 +10,7 @@
             Relations = relations;
             Value = value ?? new List<T>();
         }
+
         public IEnumerable<T> Value { get; }
 
         [JsonProperty("relations", NullValueHandling = NullValueHandling.Ignore)]

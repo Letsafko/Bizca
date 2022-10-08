@@ -1,10 +1,10 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.CreateUser
 {
-    using Bizca.User.Application.UseCases.CreateUser;
-    using Bizca.User.WebApi.ViewModels;
+    using Application.UseCases.CreateUser;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using ViewModels;
 
     /// <summary>
     ///     Create user response.
@@ -12,7 +12,7 @@
     public sealed class CreateUserResponse
     {
         /// <summary>
-        ///     Creates an instance of <see cref="CreateUserResponse"/>
+        ///     Creates an instance of <see cref="CreateUserResponse" />
         /// </summary>
         /// <param name="user"></param>
         public CreateUserResponse(CreateUserDto user)
@@ -30,7 +30,7 @@
         }
 
         /// <summary>
-        ///  Gets external user identifier.
+        ///     Gets external user identifier.
         /// </summary>
         [Required]
         public string ExternalUserId { get; }
@@ -42,7 +42,7 @@
         public string Civility { get; }
 
         /// <summary>
-        ///  Gets user economic activity.
+        ///     Gets user economic activity.
         /// </summary>
         public string EconomicActivity { get; }
 

@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.PaymentSubmitted
 {
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
+
     public sealed class PaymentSubmittedCommand : ICommand
     {
         public PaymentSubmittedCommand(string externalUserId,

@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Domain.Test.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Domain.Exceptions;
     using NFluent;
     using System;
     using System.Collections.Generic;
@@ -15,11 +15,11 @@
         private const Severity severity = Severity.Error;
 
         private const string errorMessage = "error message";
-        private readonly IEnumerable<DomainFailure> erros = new List<DomainFailure> { new DomainFailure(propertyName, errorMessage)
+
+        private readonly IEnumerable<DomainFailure> erros = new List<DomainFailure>
         {
-            Severity = severity,
-            ErrorCode = errorCode
-        }};
+            new DomainFailure(propertyName, errorMessage) { Severity = severity, ErrorCode = errorCode }
+        };
 
         [Fact]
         public void Ctor_argumentless_return_defaultmessage()
@@ -64,7 +64,7 @@
         public void Ctor_message_and_exception_init_message_and_innerexception()
         {
             //act
-            var expectedInnerException = new System.Exception();
+            var expectedInnerException = new Exception();
             var exception = new DomainException(expected, expectedInnerException);
 
             //assert  
@@ -74,7 +74,8 @@
 
         private static string BuildErrorMessage(IEnumerable<DomainFailure> errors)
         {
-            IEnumerable<string> arr = errors.Select(x => $"{Environment.NewLine} -- {x.PropertyName}: {x.ErrorMessage}");
+            IEnumerable<string> arr =
+                errors.Select(x => $"{Environment.NewLine} -- {x.PropertyName}: {x.ErrorMessage}");
             return string.Concat(arr);
         }
     }

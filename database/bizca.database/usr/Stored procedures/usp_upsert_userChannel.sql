@@ -3,7 +3,8 @@
 as
 begin
 
-	delete uc
+	delete
+uc
 	from [usr].[userChannel] uc
 	join @channels c 
 	on 
@@ -22,14 +23,13 @@ begin
 		, [creationDate]	
 		, [lastUpdate]	
 	)
-	select
-		  userId
-		, channelId
-		, [value]
-		, active
-		, confirmed
-		, getdate()
-		, getdate()
-	from @channels
+select userId
+     , channelId
+     , [value]
+     , active
+     , confirmed
+     , getdate()
+     , getdate()
+from @channels
 
 end

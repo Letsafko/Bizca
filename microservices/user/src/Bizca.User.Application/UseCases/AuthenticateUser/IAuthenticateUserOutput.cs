@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.AuthenticateUser
 {
-    using User = Domain.Agregates.User;
+    using Domain.Agregates;
+
     public interface IAuthenticateUserOutput
     {
         void NotFound(string message);

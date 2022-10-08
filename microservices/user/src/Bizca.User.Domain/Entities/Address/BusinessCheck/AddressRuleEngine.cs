@@ -1,13 +1,14 @@
 ﻿namespace Bizca.User.Domain.Entities.Address.BusinessCheck
 {
-    using Bizca.Core.Domain;
-    using Bizca.User.Domain.Entities.Address.BusinessCheck.Rules;
+    using Core.Domain;
+    using Rules;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public sealed class AddressRuleEngine : IAddressRuleEngine
     {
         private readonly ICollection<IAddressRule> addressRules;
+
         public AddressRuleEngine(ICollection<IAddressRule> addressRules)
         {
             this.addressRules = addressRules;
@@ -21,6 +22,7 @@
                 RuleResult result = await rule.CheckAsync(request).ConfigureAwait(false);
                 collection.Add(result);
             }
+
             return collection;
         }
     }

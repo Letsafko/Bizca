@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Bizca.Bff.Domain
+﻿namespace Bizca.Bff.Domain
 {
+    using System.Collections.Generic;
+
     public static class DictionaryExtensions
     {
         public static void AddNewPair(this IDictionary<string, object> dico,

@@ -1,20 +1,24 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpsertPassword
 {
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
+    using Core.Domain;
+    using Domain.Wrappers.Users;
+    using Domain.Wrappers.Users.Requests;
+    using Domain.Wrappers.Users.Responses;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
+
     public sealed class UpsertPasswordUseCase : ICommandHandler<UpsertPasswordCommand>
     {
-        private readonly IUserPasswordWrapper userPasswordAgent;
         private readonly IUpsertPasswordOutput passwordOutput;
+        private readonly IUserPasswordWrapper userPasswordAgent;
+
         public UpsertPasswordUseCase(IUpsertPasswordOutput passwordOutput,
             IUserWrapper userAgent)
         {
             this.passwordOutput = passwordOutput;
-            this.userPasswordAgent = userAgent;
+            userPasswordAgent = userAgent;
         }
 
         public async Task<Unit> Handle(UpsertPasswordCommand command, CancellationToken cancellationToken)
@@ -23,7 +27,8 @@
                 command.Password,
                 command.ChannelResource);
 
-            var response = await userPasswordAgent.CreateOrUpdateUserPasswordAsync(userPassword);
+            IPublicResponse<UserPasswordResponse> response =
+                await userPasswordAgent.CreateOrUpdateUserPasswordAsync(userPassword);
             if (!response.Success)
             {
                 passwordOutput.Invalid(response);

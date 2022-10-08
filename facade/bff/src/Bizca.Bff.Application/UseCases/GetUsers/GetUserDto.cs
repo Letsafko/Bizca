@@ -1,7 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUsers
 {
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
+    using Domain.Wrappers.Users.Responses;
     using System.Collections.Generic;
+
     public sealed class GetUserDto
     {
         public GetUserDto(UserResponse response)

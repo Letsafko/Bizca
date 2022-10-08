@@ -1,7 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
+
     public sealed class AuthenticateUserValidator : AbstractValidator<AuthenticateUserQuery>
     {
         public AuthenticateUserValidator()

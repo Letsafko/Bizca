@@ -1,9 +1,9 @@
 ﻿## Retrieves user details.
 
-  |    Parameters         |    Description		                           |   Possible values        |
+|    Parameters         |    Description                                   |   Possible values        |
   | ----------------------|------------------------------------------------|--------------------------|  
-  |     partnerCode       |   partner code identifier					   |	partner referential   |
-  |     externalUserId    |   user identifier of partner in 12 characters  |	xxxxxxxxxx            |
+|     partnerCode       |   partner code identifier                       |    partner referential   |
+|     externalUserId    |   user identifier of partner in 12 characters  |    xxxxxxxxxx            |
 
 <details>
   <summary>Partner referential.</summary>

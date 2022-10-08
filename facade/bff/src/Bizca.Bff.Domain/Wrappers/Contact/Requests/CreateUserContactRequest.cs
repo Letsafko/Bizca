@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Wrappers.Contact.Requests
 {
     using System.Collections.Generic;
+
     public sealed class CreateUserContactRequest
     {
         public CreateUserContactRequest(string email,

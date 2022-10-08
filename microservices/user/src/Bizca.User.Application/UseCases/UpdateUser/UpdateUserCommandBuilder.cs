@@ -3,12 +3,14 @@
     public sealed class UpdateUserCommandBuilder
     {
         private readonly UpdateUserCommand command;
+
         private UpdateUserCommandBuilder()
         {
             command = new UpdateUserCommand();
         }
 
         public static UpdateUserCommandBuilder Instance => new UpdateUserCommandBuilder();
+
         public UpdateUserCommand Build()
         {
             return command;

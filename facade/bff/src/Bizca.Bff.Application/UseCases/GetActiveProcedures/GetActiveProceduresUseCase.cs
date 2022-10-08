@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetActiveProcedures
 {
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Core.Application.Queries;
+    using Core.Application.Queries;
+    using Domain.Referentials.Procedure;
     using MediatR;
     using System.Collections.Generic;
     using System.Threading;
@@ -11,6 +11,7 @@
     {
         private readonly IGetActiveProceduresOutput output;
         private readonly IProcedureRepository procedureRepository;
+
         public GetActiveProceduresUseCase(IProcedureRepository procedureRepository,
             IGetActiveProceduresOutput output)
         {

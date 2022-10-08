@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.RegisterSmsCodeConfirmation
 {
     /// <summary>
-    ///     <see cref="RegisterSmsCodeConfirmation"/>
+    ///     <see cref="RegisterSmsCodeConfirmation" />
     /// </summary>
     public sealed class RegisterSmsCodeConfirmation
     {

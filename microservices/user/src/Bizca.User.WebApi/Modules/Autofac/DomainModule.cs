@@ -1,12 +1,12 @@
 ﻿namespace Bizca.User.WebApi.Modules.Autofac
 {
-    using Bizca.Core.Domain.Rules;
-    using Bizca.User.Domain.Agregates;
-    using Bizca.User.Domain.Agregates.BusinessCheck;
-    using Bizca.User.Domain.Agregates.BusinessCheck.Rules;
-    using Bizca.User.Domain.Agregates.Factories;
-    using Bizca.User.Domain.Entities.Address.Factories;
     using Core.Domain.Referential.Services;
+    using Core.Domain.Rules;
+    using Domain.Agregates;
+    using Domain.Agregates.BusinessCheck;
+    using Domain.Agregates.BusinessCheck.Rules;
+    using Domain.Agregates.Factories;
+    using Domain.Entities.Address.Factories;
     using global::Autofac;
 
     /// <summary>
@@ -24,8 +24,10 @@
             builder.RegisterType<AddressFactory>().As<IAddressFactory>();
             builder.RegisterType<PasswordHasher>().As<IPasswordHasher>();
             builder.RegisterType<ReferentialService>().As<IReferentialService>();
-            builder.RegisterAssemblyTypes(typeof(UserRuleEngine).Assembly).AsClosedTypesOf(typeof(IBusinessRuleEngine<>));
-            builder.RegisterAssemblyTypes(typeof(UserMustBeUniqueByPartner).Assembly).AsClosedTypesOf(typeof(IBusinessRule<>));
+            builder.RegisterAssemblyTypes(typeof(UserRuleEngine).Assembly)
+                .AsClosedTypesOf(typeof(IBusinessRuleEngine<>));
+            builder.RegisterAssemblyTypes(typeof(UserMustBeUniqueByPartner).Assembly)
+                .AsClosedTypesOf(typeof(IBusinessRule<>));
         }
     }
 }

@@ -1,15 +1,16 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpdateContact
 {
-    using Bizca.Bff.Domain.Events;
-    using Bizca.Bff.Domain.Wrappers.Contact;
-    using Bizca.Bff.Domain.Wrappers.Contact.Requests;
-    using Bizca.Core.Application.Events;
+    using Core.Application.Events;
+    using Domain.Events;
+    using Domain.Wrappers.Contact;
+    using Domain.Wrappers.Contact.Requests;
     using System.Threading;
     using System.Threading.Tasks;
 
     public sealed class UpdateUserContactUseCase : IEventHandler<UserContactUpdatedEvent>
     {
         private readonly IContactWrapper _contactWrapper;
+
         public UpdateUserContactUseCase(IContactWrapper contactWrapper)
         {
             _contactWrapper = contactWrapper;

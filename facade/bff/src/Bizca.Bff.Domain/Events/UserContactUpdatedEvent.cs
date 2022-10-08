@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Events
 {
-    using Bizca.Core.Domain;
+    using Core.Domain;
     using System.Collections.Generic;
 
     public sealed class UserContactUpdatedEvent : IEvent
@@ -14,7 +14,6 @@
             Attributes = attributes;
             ListIds = listIds;
             Email = email;
-
         }
 
         public IDictionary<string, object> Attributes { get; }

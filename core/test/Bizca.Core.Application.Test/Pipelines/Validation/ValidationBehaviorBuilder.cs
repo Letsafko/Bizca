@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Application.Test.Pipelines.Validation
 {
-    using Bizca.Core.Application.Behaviors;
+    using Behaviors;
     using FluentValidation;
     using MediatR;
     using Microsoft.Extensions.Logging;
@@ -9,9 +9,10 @@
 
     internal sealed class ValidationBehaviorBuilder<TRequest, TResponse>
     {
-        public readonly IValidatorFactory validatorFactory;
         public readonly ILogger<ValidationBehavior<TRequest, TResponse>> logger;
         public readonly RequestHandlerDelegate<TResponse> pipelineBehaviourDelegate;
+        public readonly IValidatorFactory validatorFactory;
+
         private ValidationBehaviorBuilder()
         {
             validatorFactory = Substitute.For<IValidatorFactory>();
@@ -19,7 +20,9 @@
             pipelineBehaviourDelegate = Substitute.For<RequestHandlerDelegate<TResponse>>();
         }
 
-        internal static ValidationBehaviorBuilder<TRequest, TResponse> Instance => new ValidationBehaviorBuilder<TRequest, TResponse>();
+        internal static ValidationBehaviorBuilder<TRequest, TResponse> Instance =>
+            new ValidationBehaviorBuilder<TRequest, TResponse>();
+
         internal ValidationBehavior<TRequest, TResponse> Build()
         {
             return new ValidationBehavior<TRequest, TResponse>(validatorFactory, logger);

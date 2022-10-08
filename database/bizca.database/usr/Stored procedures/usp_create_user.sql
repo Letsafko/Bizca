@@ -11,37 +11,35 @@
 	, @economicActivityId smallint = null
 as
 begin
-	
-	insert into [usr].[user]
-	(
-		  [externalUserId]		    
-		, [userCode]		    
-		, [partnerId]		    
-		, [civilityId]	    
-		, [economicActivityId]
-		, [firstName]			
-		, [lastName]		
-		, [birthDate]
-		, [birthCountryId]
-		, [birthCity]
-		, [creationDate]		
-		, [lastUpdate]		
-	)
-	output inserted.userId
-	values
-	(
-		  @externalUserId		 
-		, @userCode		     
-		, @partnerId		 
-		, @civilityId	     
-		, @economicActivityId
-		, @firstName		 
-		, @lastName			 
-		, @birthDate   		
-		, @birthCountryId	
-		, @birthCity		
-		, getdate()
-		, getdate()
-	)
+
+insert into [usr].[user]
+([     externalUserId]
+    , [userCode]
+    , [partnerId]
+    , [civilityId]
+    , [economicActivityId]
+    , [firstName]
+    , [lastName]
+    , [birthDate]
+    , [birthCountryId]
+    , [birthCity]
+    , [creationDate]
+    , [lastUpdate])
+    output inserted.userId
+values
+    (
+    @externalUserId
+        , @userCode
+        , @partnerId
+        , @civilityId
+        , @economicActivityId
+        , @firstName
+        , @lastName
+        , @birthDate
+        , @birthCountryId
+        , @birthCity
+        , getdate()
+        , getdate()
+    )
 
 end

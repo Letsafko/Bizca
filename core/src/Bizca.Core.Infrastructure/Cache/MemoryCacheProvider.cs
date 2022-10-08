@@ -10,11 +10,12 @@
 
     public sealed class MemoryCacheProvider : CacheProviderBase, ICacheProvider
     {
-        private readonly ConcurrentDictionary<object, SemaphoreSlim> _locks;
-        private CancellationTokenSource _cancellationTokenSource;
         private readonly MemoryCacheOptions _cacheOptions;
+        private readonly ConcurrentDictionary<object, SemaphoreSlim> _locks;
         private readonly IMemoryCache _memoryCache;
-        public MemoryCacheProvider(IMemoryCache memoryCache, 
+        private CancellationTokenSource _cancellationTokenSource;
+
+        public MemoryCacheProvider(IMemoryCache memoryCache,
             IOptions<MemoryCacheOptions> cacheOptions)
         {
             _locks = new ConcurrentDictionary<object, SemaphoreSlim>();
@@ -23,17 +24,17 @@
             _memoryCache = memoryCache;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string cacheKey, 
-            Func<Task<T>> createItem, 
+        public async Task<T> GetOrCreateAsync<T>(string cacheKey,
+            Func<Task<T>> createItem,
             TimeSpan? cacheDuration = null) where T : class
         {
             var cachedItem = Get<T>(cacheKey);
             if (cachedItem != null)
                 return cachedItem;
 
-            var semaphore = 
+            SemaphoreSlim semaphore =
                 _locks.GetOrAdd(cacheKey, _ => new SemaphoreSlim(1, 1));
-            
+
             try
             {
                 await semaphore.WaitAsync();
@@ -51,7 +52,7 @@
 
             return cachedItem;
         }
-        
+
         public void Remove(string cacheKey)
         {
             if (string.IsNullOrWhiteSpace(cacheKey))
@@ -59,7 +60,7 @@
 
             _memoryCache.Remove(cacheKey);
         }
-        
+
         public void Reset()
         {
             if (!_cancellationTokenSource.IsCancellationRequested &&
@@ -71,20 +72,21 @@
 
             _cancellationTokenSource = new CancellationTokenSource();
         }
-        
-        protected override bool TryAdd<T>(string cacheKey, 
-            T cacheItem, 
+
+        protected override bool TryAdd<T>(string cacheKey,
+            T cacheItem,
             TimeSpan? cacheDuration) where T : class
         {
             if (string.IsNullOrWhiteSpace(cacheKey) || cacheItem is null)
                 return false;
 
-            var duration = cacheDuration ?? TimeSpan.FromMinutes(_cacheOptions.DurationInMinutes);
-            var cacheEntryOptions = GetMemoryCacheEntryOptions(duration, _cancellationTokenSource.Token);
-            
+            TimeSpan duration = cacheDuration ?? TimeSpan.FromMinutes(_cacheOptions.DurationInMinutes);
+            MemoryCacheEntryOptions cacheEntryOptions =
+                GetMemoryCacheEntryOptions(duration, _cancellationTokenSource.Token);
+
             return !(_memoryCache.Set(cacheKey, cacheItem, cacheEntryOptions) is null);
         }
-        
+
         protected override T Get<T>(string cacheKey) where T : class
         {
             if (string.IsNullOrWhiteSpace(cacheKey))
@@ -93,7 +95,7 @@
             object cachedItem = _memoryCache.Get(cacheKey);
             return cachedItem as T;
         }
-        
+
         private static MemoryCacheEntryOptions GetMemoryCacheEntryOptions(TimeSpan cacheDuration,
             CancellationToken cancellationToken,
             CacheItemPriority cacheItemPriority = CacheItemPriority.Normal)

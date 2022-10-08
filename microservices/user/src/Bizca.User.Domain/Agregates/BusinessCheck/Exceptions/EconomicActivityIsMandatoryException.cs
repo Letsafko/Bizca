@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Domain.Agregates.BusinessCheck.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -22,7 +22,8 @@
         {
         }
 
-        public EconomicActivityIsMandatoryException(string message, Exception innerException) : base(message, innerException)
+        public EconomicActivityIsMandatoryException(string message, Exception innerException) : base(message,
+            innerException)
         {
         }
 
@@ -30,7 +31,8 @@
         {
         }
 
-        public EconomicActivityIsMandatoryException(SerializationInfo info, StreamingContext context) : base(info, context)
+        public EconomicActivityIsMandatoryException(SerializationInfo info, StreamingContext context) : base(info,
+            context)
         {
         }
     }

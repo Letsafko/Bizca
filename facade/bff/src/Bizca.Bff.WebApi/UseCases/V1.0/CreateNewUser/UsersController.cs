@@ -1,14 +1,14 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateNewUser
 {
-    using Bizca.Bff.Application.UseCases.CreateNewUser;
-    using Bizca.Bff.WebApi.Properties;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
+    using Application.UseCases.CreateNewUser;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Properties;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
+    using ViewModels;
 
     /// <summary>
     ///     Creates user controller.
@@ -22,7 +22,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -40,7 +40,7 @@
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserViewModel))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> CreateUserAsync([Required][FromBody] CreateUser user)
+        public async Task<IActionResult> CreateUserAsync([Required] [FromBody] CreateUser user)
         {
             CreateUserCommand command = GetCreateUserCommand(user);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);

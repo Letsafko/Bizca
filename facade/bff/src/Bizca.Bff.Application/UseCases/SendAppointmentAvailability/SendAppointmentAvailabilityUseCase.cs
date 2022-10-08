@@ -1,16 +1,16 @@
 ﻿namespace Bizca.Bff.Application.UseCases.SendAppointmentAvailability
 {
-    using Bizca.Bff.Domain;
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.Domain.Events;
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Bff.Domain.Referentials.Procedure.Exceptions;
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
-    using Bizca.Core.Application.Commands;
-    using Bizca.Core.Application.Services;
-    using Bizca.Core.Domain;
+    using Core.Application.Commands;
+    using Core.Application.Services;
+    using Core.Domain;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
+    using Domain;
+    using Domain.Entities.Subscription;
+    using Domain.Events;
+    using Domain.Referentials.Procedure;
+    using Domain.Referentials.Procedure.Exceptions;
+    using Domain.Wrappers.Notification.Requests.Email;
     using MediatR;
     using System.Collections.Generic;
     using System.Threading;
@@ -19,10 +19,11 @@
     public sealed class SendAppointmentAvailabilityUseCase : ICommandHandler<SendAppointmentAvailabilityCommand>
     {
         private readonly ISendAppointmentAvailabilityOutput availabilityOutput;
+        private readonly IEventService eventService;
+        private readonly IProcedureRepository procedureRepository;
         private readonly IReferentialService referentialService;
         private readonly ISubscriptionRepository subscriptionRepository;
-        private readonly IProcedureRepository procedureRepository;
-        private readonly IEventService eventService;
+
         public SendAppointmentAvailabilityUseCase(ISendAppointmentAvailabilityOutput availabilityOutput,
             ISubscriptionRepository subscriptionRepository,
             IReferentialService referentialService,
@@ -38,15 +39,16 @@
 
         public async Task<Unit> Handle(SendAppointmentAvailabilityCommand request, CancellationToken cancellationToken)
         {
-            var procedureTypeId = int.Parse(request.ProcedureId);
-            var emailTemplateId = (int)EmailTemplateType.ProcedureAvailability;
-            var emailTemplate = await referentialService.GetEmailTemplateByIdAsync(emailTemplateId, true);
-            var procedure = await GetProcedureAsync(procedureTypeId, request.CodeInsee);
-            var subscribers = await subscriptionRepository.GetSubscribers(procedure.Organism.Id, procedureTypeId);
+            int procedureTypeId = int.Parse(request.ProcedureId);
+            int emailTemplateId = (int)EmailTemplateType.ProcedureAvailability;
+            EmailTemplate emailTemplate = await referentialService.GetEmailTemplateByIdAsync(emailTemplateId, true);
+            Procedure procedure = await GetProcedureAsync(procedureTypeId, request.CodeInsee);
+            IEnumerable<SubscriberAvailability> subscribers =
+                await subscriptionRepository.GetSubscribers(procedure.Organism.Id, procedureTypeId);
 
             var events = new List<IEvent>();
             //var smsNotification = BuildSmsGroupNotification(request.PartnerCode, subscribers);
-            var emailNotification = BuildEmailGroupNotification(procedure.ProcedureHref,
+            IEvent emailNotification = BuildEmailGroupNotification(procedure.ProcedureHref,
                 procedure.ProcedureType.Label,
                 emailTemplate.EmailTemplateId,
                 subscribers);
@@ -65,7 +67,7 @@
 
         private static void IncrementSmsAndEmailCounter(IEnumerable<SubscriberAvailability> subscribers)
         {
-            foreach (var subscriber in subscribers)
+            foreach (SubscriberAvailability subscriber in subscribers)
             {
                 subscriber.IncrementEmailCounter();
                 subscriber.IncrementSmsCounter();
@@ -78,10 +80,8 @@
             IEnumerable<SubscriberAvailability> subscribers)
         {
             var recipients = new List<MailAddressRequest>();
-            foreach (var subscriber in subscribers)
-            {
+            foreach (SubscriberAvailability subscriber in subscribers)
                 recipients.Add(new MailAddressRequest(subscriber.UserSubscription.Email));
-            }
 
             var parameters = new Dictionary<string, object>();
             parameters.AddNewPair(AttributeConstant.Parameter.ProcedureName, procedureDescription);
@@ -91,18 +91,20 @@
                 emailTemplateId: emailTemplateId);
         }
 
-        private static IEvent BuildSmsGroupNotification(string partnerCode, IEnumerable<SubscriberAvailability> subscribers)
+        private static IEvent BuildSmsGroupNotification(string partnerCode,
+            IEnumerable<SubscriberAvailability> subscribers)
         {
             return new SendTransactionalSmsEvent(partnerCode,
-                recipientPhoneNumber: "",
-                content: "");
+                "",
+                "");
         }
 
         private async Task<Procedure> GetProcedureAsync(int procedureTypeId, string codeInsee)
         {
             return await procedureRepository
-                .GetProcedureByTypeIdAndCodeInseeAsync(procedureTypeId, codeInsee)
-                ?? throw new ProcedureDoesNotExistException($"procedure related to {procedureTypeId} and {codeInsee} does not exist.");
+                       .GetProcedureByTypeIdAndCodeInseeAsync(procedureTypeId, codeInsee)
+                   ?? throw new ProcedureDoesNotExistException(
+                       $"procedure related to {procedureTypeId} and {codeInsee} does not exist.");
         }
 
         #endregion

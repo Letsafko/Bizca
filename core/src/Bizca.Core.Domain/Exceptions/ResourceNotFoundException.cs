@@ -11,29 +11,24 @@
     [Serializable]
     public class ResourceNotFoundException : Exception
     {
-        /// <summary>
-        ///     Domain failure errors
-        /// </summary>
-        public IEnumerable<DomainFailure> Errors { get; }
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public ResourceNotFoundException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="ResourceNotFoundException"/>
+        ///     Creates a new instance of <see cref="ResourceNotFoundException" />
         /// </summary>
         /// <param name="errors"></param>
-        public ResourceNotFoundException(IEnumerable<DomainFailure> errors) 
+        public ResourceNotFoundException(IEnumerable<DomainFailure> errors)
             : base(BuildErrorMessage(errors))
         {
             Errors = errors;
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="ResourceNotFoundException"/> 
+        ///     Creates a new instance of <see cref="ResourceNotFoundException" />
         /// </summary>
         /// <param name="message"></param>
         public ResourceNotFoundException(string message) : this(new List<DomainFailure> { new DomainFailure(message) })
@@ -41,11 +36,12 @@
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="ResourceNotFoundException"/> 
+        ///     Creates a new instance of <see cref="ResourceNotFoundException" />
         /// </summary>
         /// <param name="message"></param>
         /// <param name="propertyName"></param>
-        public ResourceNotFoundException(string message, string propertyName) : this(new List<DomainFailure> { new DomainFailure(message, propertyName) })
+        public ResourceNotFoundException(string message, string propertyName) : this(
+            new List<DomainFailure> { new DomainFailure(message, propertyName) })
         {
         }
 
@@ -53,6 +49,11 @@
         {
             Errors = info.GetValue("errors", typeof(IEnumerable<DomainFailure>)) as IEnumerable<DomainFailure>;
         }
+
+        /// <summary>
+        ///     Domain failure errors
+        /// </summary>
+        public IEnumerable<DomainFailure> Errors { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -64,7 +65,8 @@
 
         private static string BuildErrorMessage(IEnumerable<DomainFailure> errors)
         {
-            IEnumerable<string> arr = errors.Select(x => $"{Environment.NewLine} -- {x.PropertyName}: {x.ErrorMessage}");
+            IEnumerable<string> arr =
+                errors.Select(x => $"{Environment.NewLine} -- {x.PropertyName}: {x.ErrorMessage}");
             return string.Concat(arr);
         }
     }

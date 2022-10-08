@@ -1,12 +1,11 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.PaymentSubmitted
 {
-    using Bizca.Bff.Application.UseCases.PaymentSubmitted;
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.WebApi.ViewModels;
+    using Application.UseCases.PaymentSubmitted;
+    using Domain.Entities.Subscription;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
-    /// 
     /// </summary>
     public sealed class PaymentSubmittedPresenter : IPaymentSubmittedOutput
     {

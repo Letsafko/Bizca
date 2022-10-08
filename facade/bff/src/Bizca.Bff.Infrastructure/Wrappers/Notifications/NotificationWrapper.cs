@@ -1,10 +1,10 @@
 ﻿namespace Bizca.Bff.Infrastructure.Wrappers.Notifications
 {
-    using Bizca.Bff.Domain.Wrappers.Notification;
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Sms;
-    using Bizca.Bff.Domain.Wrappers.Notification.Responses;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Domain.Wrappers.Notification;
+    using Domain.Wrappers.Notification.Requests.Email;
+    using Domain.Wrappers.Notification.Requests.Sms;
+    using Domain.Wrappers.Notification.Responses;
     using Microsoft.Extensions.Logging;
     using System.Collections;
     using System.Net.Http;
@@ -18,7 +18,9 @@
         }
 
         protected override string ApiVersion => "v3";
-        public async Task<IPublicResponse<TransactionalEmailResponse>> SendTransactionalEmail(TransactionalEmailRequest request,
+
+        public async Task<IPublicResponse<TransactionalEmailResponse>> SendTransactionalEmail(
+            TransactionalEmailRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<TransactionalEmailResponse>(HttpMethod.Post,
@@ -27,7 +29,8 @@
                 headers);
         }
 
-        public async Task<IPublicResponse<TransactionalSmsResponse>> SendTransactionalSms(TransactionalSmsRequest request,
+        public async Task<IPublicResponse<TransactionalSmsResponse>> SendTransactionalSms(
+            TransactionalSmsRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<TransactionalSmsResponse>(HttpMethod.Post,

@@ -4,15 +4,16 @@
 
     public sealed class Partner : Entity
     {
-        public string PartnerCode { get; }
-        public string Desciption { get; }
-        public PartnerSettings Settings { get; } = new PartnerSettings();
         public Partner(int id, string code, string description)
         {
             Id = id;
             PartnerCode = code;
             Desciption = description;
         }
+
+        public string PartnerCode { get; }
+        public string Desciption { get; }
+        public PartnerSettings Settings { get; } = new PartnerSettings();
     }
 
     public sealed class PartnerSettings

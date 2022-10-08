@@ -1,14 +1,15 @@
 ﻿namespace Bizca.Bff.Infrastructure.Cache
 {
-    using Bizca.Bff.Domain.Referentials.Bundle;
     using Core.Infrastructure.Cache;
+    using Domain.Referentials.Bundle;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public sealed class CacheBundleRepository : IBundleRepository
     {
-        private readonly IBundleRepository decorated;
         private readonly ICacheProvider cache;
+        private readonly IBundleRepository decorated;
+
         public CacheBundleRepository(ICacheProvider cache, IBundleRepository decorated)
         {
             this.decorated = decorated;

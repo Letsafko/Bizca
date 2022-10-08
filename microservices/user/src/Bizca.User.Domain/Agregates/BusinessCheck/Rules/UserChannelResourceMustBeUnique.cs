@@ -1,14 +1,15 @@
 ﻿namespace Bizca.User.Domain.Agregates.BusinessCheck.Rules
 {
-    using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Exceptions;
-    using Bizca.User.Domain.Agregates.BusinessCheck.Exceptions;
-    using Bizca.User.Domain.Entities.Channel.Repositories;
+    using Core.Domain;
+    using Core.Domain.Exceptions;
+    using Entities.Channel.Repositories;
+    using Exceptions;
     using System.Threading.Tasks;
 
     public sealed class UserChannelResourceMustBeUnique : IUserRule
     {
         private readonly IChannelRepository channelRepository;
+
         public UserChannelResourceMustBeUnique(IChannelRepository channelRepository)
         {
             this.channelRepository = channelRepository;
@@ -47,13 +48,12 @@
 
         private Task<bool> IsChannelResourceExistsAsync(int partnerId, string channelResource)
         {
-            var isResourceUniqueTask = Task.FromResult(false);
+            Task<bool> isResourceUniqueTask = Task.FromResult(false);
             if (!string.IsNullOrWhiteSpace(channelResource))
-            {
                 isResourceUniqueTask = channelRepository.IsExistAsync(partnerId, channelResource);
-            }
             return isResourceUniqueTask;
         }
+
         private DomainFailure GetFailure(string propertyName, string partnerCode)
         {
             return new DomainFailure($"{propertyName} must be unique for partner::{partnerCode}.",

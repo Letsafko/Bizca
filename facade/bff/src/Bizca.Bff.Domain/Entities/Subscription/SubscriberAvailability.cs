@@ -18,7 +18,14 @@
         public int SmsCounter { get; private set; }
         public int SubscriptionId { get; }
 
-        public void IncrementEmailCounter() => EmailCounter++;
-        public void IncrementSmsCounter() => SmsCounter++;
+        public void IncrementEmailCounter()
+        {
+            EmailCounter++;
+        }
+
+        public void IncrementSmsCounter()
+        {
+            SmsCounter++;
+        }
     }
 }

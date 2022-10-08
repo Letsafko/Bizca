@@ -1,16 +1,17 @@
 ﻿namespace Bizca.User.Domain.Agregates.ValueObjects
 {
-    using Bizca.Core.Domain;
+    using Core.Domain;
     using System;
     using System.Collections.Generic;
 
     public sealed class UserCode : ValueObject
     {
-        public Guid Code { get; }
         public UserCode(Guid code)
         {
             Code = code;
         }
+
+        public Guid Code { get; }
 
         protected override IEnumerable<object> GetAtomicValues()
         {

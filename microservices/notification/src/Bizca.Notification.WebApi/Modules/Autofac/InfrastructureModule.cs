@@ -1,8 +1,7 @@
 ﻿namespace Bizca.Notification.WebApi.Modules.Autofac
 {
-    using Bizca.Core.Domain;
-    using Bizca.Core.Infrastructure;
-    using Bizca.Core.Infrastructure.Database;
+    using Core.Infrastructure;
+    using Core.Infrastructure.Database;
     using global::Autofac;
 
     /// <summary>

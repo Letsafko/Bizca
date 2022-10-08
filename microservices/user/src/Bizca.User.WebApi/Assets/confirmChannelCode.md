@@ -1,11 +1,11 @@
 ﻿## Validates channel code confirmation.
 
-  |    Parameters         |    Description		                           |   Possible values        |
+|    Parameters         |    Description                                   |   Possible values        |
   | ----------------------|------------------------------------------------|--------------------------|  
-  |     partnerCode       |   partner code identifier					   |	partner referential	  |
-  |     externalUserId    |   user identifier of partner in 12 characters  |	xxxxxxxxxx            |
-  |     channel           |   channel code identifier                      |	channel referential   |
-  |     codeConfirmation  |   code confirmation of channel                 |	random(x)             |
+|     partnerCode       |   partner code identifier                       |    partner referential      |
+|     externalUserId    |   user identifier of partner in 12 characters  |    xxxxxxxxxx            |
+|     channel           |   channel code identifier                      |    channel referential   |
+|     codeConfirmation  |   code confirmation of channel                 |    random(x)             |
 
 <details>
   <summary>Partner referential.</summary>

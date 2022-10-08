@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.ConfirmChannelCode
 {
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
+
     public sealed class ConfirmChannelCodeCommand : ICommand
     {
         public ConfirmChannelCodeCommand(string channelType,

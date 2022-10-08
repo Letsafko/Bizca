@@ -1,11 +1,13 @@
 ﻿namespace Bizca.User.Domain.Entities.Channel
 {
-    using Bizca.Core.Domain;
-    using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using Core.Domain;
     using System.Collections.Generic;
+    using ValueObjects;
 
     public sealed class Channel : Entity
     {
+        private readonly HashSet<ChannelConfirmation> channelCodes;
+
         public Channel(string value, ChannelType channelType, bool active, bool confirmed)
         {
             Active = active;
@@ -20,7 +22,6 @@
         public string ChannelValue { get; private set; }
         public ChannelType ChannelType { get; }
         public IReadOnlyCollection<ChannelConfirmation> ChannelCodes => channelCodes;
-        private readonly HashSet<ChannelConfirmation> channelCodes;
 
         /// <summary>
         ///     Add new channel code confirmation.

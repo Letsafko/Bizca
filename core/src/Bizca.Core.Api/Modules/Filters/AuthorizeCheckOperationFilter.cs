@@ -14,6 +14,7 @@
         {
             this.scopes = scopes;
         }
+
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             bool hasAuthorize = context.MethodInfo.DeclaringType.GetCustomAttributes(true)
@@ -26,21 +27,13 @@
                 operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
                 var oAuthScheme = new OpenApiSecurityScheme
                 {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "oauth2"
-                    }
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
                 };
                 operation.Security = new List<OpenApiSecurityRequirement>
                 {
-                    new OpenApiSecurityRequirement
-                    {
-                        [oAuthScheme] = scopes
-                    }
+                    new OpenApiSecurityRequirement { [oAuthScheme] = scopes }
                 };
             }
         }
-
     }
 }

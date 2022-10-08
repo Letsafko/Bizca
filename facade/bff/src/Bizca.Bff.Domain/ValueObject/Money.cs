@@ -1,8 +1,10 @@
 ﻿namespace Bizca.Bff.Domain.ValueObject
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain;
+    using Core.Domain.Exceptions;
     using System.Collections.Generic;
-    public sealed class Money : Core.Domain.ValueObject
+
+    public sealed class Money : ValueObject
     {
         public Money(decimal amount, Currency currency)
         {
@@ -12,6 +14,7 @@
 
         public Currency Currency { get; }
         public decimal Amount { get; }
+
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Currency;

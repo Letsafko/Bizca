@@ -1,12 +1,10 @@
 namespace Bizca.Core.Api.Modules.Extensions
 {
-    using Bizca.Core.Api.Modules.Configuration;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Api.Modules.Filters;
-    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
-    using Bizca.Core.Api.Modules.Telemetry;
-    using Bizca.Core.Infrastructure.Cache;
+    using Configuration;
+    using Conventions;
+    using Filters;
     using IdentityServer4.AccessTokenValidation;
+    using Infrastructure.Cache;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
@@ -15,6 +13,7 @@ namespace Bizca.Core.Api.Modules.Extensions
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.OpenApi.Models;
+    using Presentation.HttpStrategies;
     using Swashbuckle.AspNetCore.SwaggerGen;
     using System;
     using System.Collections.Generic;
@@ -22,41 +21,28 @@ namespace Bizca.Core.Api.Modules.Extensions
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using Telemetry;
 
     public static class ServiceCollectionExtensions
     {
-        internal static IServiceCollection ConfigureServiceCollection(this IServiceCollection services, IConfiguration configuration)
+        internal static IServiceCollection ConfigureServiceCollection(this IServiceCollection services,
+            IConfiguration configuration)
         {
             FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
-            if (features.Logging)
-            {
-                services.AddLogging();
-            }
+            if (features.Logging) services.AddLogging();
 
             if (features.ApplicationInsights)
-            {
                 services.AddApplicationInsights(configuration.GetApplicationInsightsConfiguration());
-            }
 
-            if (features.Cors)
-            {
-                services.AddCors(configuration.GetCorsConfiguration());
-            }
+            if (features.Cors) CorsServiceCollectionExtensions.AddCors(services, configuration.GetCorsConfiguration());
 
-            if (features.Sts)
-            {
-                services.AddSts(configuration.GetStsConfiguration());
-            }
+            if (features.Sts) services.AddSts(configuration.GetStsConfiguration());
 
-            if (features.Versioning)
-            {
-                services.AddVersioning(configuration.GetVersioningConfiguration());
-            }
+            if (features.Versioning) services.AddVersioning(configuration.GetVersioningConfiguration());
 
             if (features.Swagger)
-            {
-                services.AddSwagger(configuration.GetSwaggerConfiguration(), opt => opt.DocumentFilter<MarkdownFileResolverFilter>());
-            }
+                services.AddSwagger(configuration.GetSwaggerConfiguration(),
+                    opt => opt.DocumentFilter<MarkdownFileResolverFilter>());
 
             return
                 services
@@ -67,28 +53,23 @@ namespace Bizca.Core.Api.Modules.Extensions
 
         #region private helpers
 
-        private static IServiceCollection AddSwagger(this IServiceCollection services, SwaggerConfigurationModel swaggerConfiguration, Action<SwaggerGenOptions> specificSetupAction)
+        private static IServiceCollection AddSwagger(this IServiceCollection services,
+            SwaggerConfigurationModel swaggerConfiguration, Action<SwaggerGenOptions> specificSetupAction)
         {
             if (swaggerConfiguration.Versions?.Any() != true)
-            {
                 throw new MissingConfigurationException(nameof(swaggerConfiguration.Versions));
-            }
 
             services.AddSwaggerGen(x =>
             {
                 foreach (VersionConfigurationModel current in swaggerConfiguration.Versions)
-                {
-                    x.SwaggerDoc($"v{current.Version}", new OpenApiInfo
-                    {
-                        Version = $"v{current.Version}",
-                        Title = current.Title,
-                        Description = current.Description,
-                        Contact = new OpenApiContact
+                    x.SwaggerDoc($"v{current.Version}",
+                        new OpenApiInfo
                         {
-                            Email = current.Email
-                        }
-                    });
-                }
+                            Version = $"v{current.Version}",
+                            Title = current.Title,
+                            Description = current.Description,
+                            Contact = new OpenApiContact { Email = current.Email }
+                        });
 
                 x.OrderActionsBy(x => x.RelativePath.Length.ToString());
                 x.AddSwaggerStsSecurity(swaggerConfiguration.StsSecurity);
@@ -103,15 +84,20 @@ namespace Bizca.Core.Api.Modules.Extensions
                     if (!apiDescriptor.TryGetMethodInfo(out MethodInfo mi))
                         return false;
 
-                    if (!Regex.IsMatch(apiDescriptor.RelativePath, "v{version}") && !Regex.IsMatch(apiDescriptor.RelativePath, @"v(\d+\.)?(\d+\.)?(\*|\d+)"))
+                    if (!Regex.IsMatch(apiDescriptor.RelativePath, "v{version}") &&
+                        !Regex.IsMatch(apiDescriptor.RelativePath, @"v(\d+\.)?(\d+\.)?(\*|\d+)"))
                         return false;
 
-                    IEnumerable<ApiVersion> versions = mi.DeclaringType.GetCustomAttributes(true).OfType<ApiVersionAttribute>().SelectMany(attr => attr.Versions);
-                    ApiVersion[] maps = mi.GetCustomAttributes().OfType<MapToApiVersionAttribute>().SelectMany(attr => attr.Versions).ToArray();
-                    return versions.Any(v => $"v{v}" == version) && (maps.Length == 0 || maps.Any(v => $"v{v}" == version));
+                    IEnumerable<ApiVersion> versions = mi.DeclaringType.GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>().SelectMany(attr => attr.Versions);
+                    ApiVersion[] maps = mi.GetCustomAttributes().OfType<MapToApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions).ToArray();
+                    return versions.Any(v => $"v{v}" == version) &&
+                           (maps.Length == 0 || maps.Any(v => $"v{v}" == version));
                 });
 
-                foreach (string documentationPath in swaggerConfiguration.XmlDocumentations ?? new[] { $"{Assembly.GetEntryAssembly().GetName().Name}.xml" })
+                foreach (string documentationPath in swaggerConfiguration.XmlDocumentations ??
+                                                     new[] { $"{Assembly.GetEntryAssembly().GetName().Name}.xml" })
                 {
                     string xmlPath = Path.Combine(AppContext.BaseDirectory, documentationPath);
                     x.IncludeXmlComments(xmlPath);
@@ -120,10 +106,10 @@ namespace Bizca.Core.Api.Modules.Extensions
                 x.TagActionsBy(api =>
                 {
                     return !string.IsNullOrWhiteSpace(api.GroupName)
-                        ? (new[] { api.GroupName })
+                        ? new[] { api.GroupName }
                         : api.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor
-                        ? (new[] { controllerActionDescriptor.ControllerName })
-                        : throw new InvalidOperationException("Unable to determine tag for endpoint.");
+                            ? new[] { controllerActionDescriptor.ControllerName }
+                            : throw new InvalidOperationException("Unable to determine tag for endpoint.");
                 });
 
                 specificSetupAction?.Invoke(x);
@@ -131,7 +117,9 @@ namespace Bizca.Core.Api.Modules.Extensions
 
             return services;
         }
-        private static IServiceCollection AddApplicationInsights(this IServiceCollection services, ApplicationInsightsConfigurationModel applicationInsightsConfiguration)
+
+        private static IServiceCollection AddApplicationInsights(this IServiceCollection services,
+            ApplicationInsightsConfigurationModel applicationInsightsConfiguration)
         {
             services.AddSingleton<ITelemetryInitializer, CloudRoleNameTelemetryInitializer>();
             services.AddSingleton<ITelemetryInitializer, CorrIdTelemetryInitializer>();
@@ -139,14 +127,14 @@ namespace Bizca.Core.Api.Modules.Extensions
             applicationInsightsConfiguration.EnableActiveTelemetryConfigurationSetup = true;
             applicationInsightsConfiguration.EnableAdaptiveSampling = false;
             return services.AddApplicationInsightsTelemetry(applicationInsightsConfiguration)
-                           .AddSingleton<ITelemetryService, ApplicationInsightsTelemetryService>();
+                .AddSingleton<ITelemetryService, ApplicationInsightsTelemetryService>();
         }
-        private static IServiceCollection AddVersioning(this IServiceCollection services, VersioningConfigurationModel versioningConfiguration)
+
+        private static IServiceCollection AddVersioning(this IServiceCollection services,
+            VersioningConfigurationModel versioningConfiguration)
         {
             if (string.IsNullOrWhiteSpace(versioningConfiguration.RouteConstraintName))
-            {
                 throw new MissingConfigurationException(nameof(versioningConfiguration.RouteConstraintName));
-            }
 
             void mvcOptions(MvcOptions x)
             {
@@ -155,9 +143,7 @@ namespace Bizca.Core.Api.Modules.Extensions
 
             services.Configure((Action<MvcOptions>)mvcOptions);
             if (string.IsNullOrWhiteSpace(versioningConfiguration.Default))
-            {
                 throw new MissingConfigurationException(nameof(versioningConfiguration.Default));
-            }
 
             services.AddApiVersioning(opts =>
             {
@@ -168,23 +154,28 @@ namespace Bizca.Core.Api.Modules.Extensions
             });
             return services;
         }
-        private static IServiceCollection AddSwagger(this IServiceCollection services, SwaggerConfigurationModel swaggerConfiguration)
+
+        private static IServiceCollection AddSwagger(this IServiceCollection services,
+            SwaggerConfigurationModel swaggerConfiguration)
         {
             return services.AddSwagger(swaggerConfiguration, null);
         }
-        private static IServiceCollection AddCors(this IServiceCollection services, CorsConfigurationModel corsConfiguration)
+
+        private static IServiceCollection AddCors(this IServiceCollection services,
+            CorsConfigurationModel corsConfiguration)
         {
             return services.AddCors(options =>
             {
                 options.AddPolicy(nameof(corsConfiguration.DefaultApiPolicy), builder =>
                 {
                     builder
-                    .WithOrigins(corsConfiguration.DefaultApiPolicy.Origins)
-                    .WithMethods(corsConfiguration.DefaultApiPolicy.Methods)
-                    .WithHeaders(corsConfiguration.DefaultApiPolicy.Headers);
+                        .WithOrigins(corsConfiguration.DefaultApiPolicy.Origins)
+                        .WithMethods(corsConfiguration.DefaultApiPolicy.Methods)
+                        .WithHeaders(corsConfiguration.DefaultApiPolicy.Headers);
                 });
             });
         }
+
         private static IServiceCollection AddSts(this IServiceCollection services, StsConfiguration stsConfig)
         {
             services
@@ -199,12 +190,14 @@ namespace Bizca.Core.Api.Modules.Extensions
                 });
             return services;
         }
+
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
             return
                 services
                     .AddSingleton<IDateService, DateService>();
         }
+
         private static IServiceCollection AddCache(this IServiceCollection services)
         {
             return
@@ -212,6 +205,7 @@ namespace Bizca.Core.Api.Modules.Extensions
                     .AddMemoryCache()
                     .AddSingleton<ICacheProvider, MemoryCacheProvider>();
         }
+
         private static IServiceCollection AddHttpStrategies(this IServiceCollection services)
         {
             return

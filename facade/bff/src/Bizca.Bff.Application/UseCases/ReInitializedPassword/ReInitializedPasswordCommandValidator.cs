@@ -1,7 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.ReInitializedPassword
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
+
     public sealed class ReInitializedPasswordCommandValidator : AbstractValidator<ReInitializedPasswordCommand>
     {
         public ReInitializedPasswordCommandValidator()

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Events
 {
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Referentials.Procedure;
 
     public sealed class ActivateUserContactEvent : IEvent
     {

@@ -1,9 +1,9 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateSubscription
 {
-    using Bizca.Bff.Application.UseCases.CreateSubscription;
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.WebApi.ViewModels;
+    using Application.UseCases.CreateSubscription;
+    using Domain.Entities.Subscription;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
     ///     Create new subscription presenter.

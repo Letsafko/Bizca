@@ -11,7 +11,6 @@
 
         public PublicResponse()
         {
-
         }
 
         public bool Success => ErrorCode == null && Message == null;

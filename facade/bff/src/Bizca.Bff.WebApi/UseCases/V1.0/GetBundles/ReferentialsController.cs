@@ -1,13 +1,12 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetBundles
 {
-    using Bizca.Bff.Application.UseCases.GetBundles;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
+    using Application.UseCases.GetBundles;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using ViewModels;
 
     /// <summary>
     ///     Creates referential controller.
@@ -17,8 +16,11 @@
     [ApiController]
     public sealed class ReferentialsController : ControllerBase
     {
+        private readonly GetBundlesPresenter presenter;
+        private readonly IProcessor processor;
+
         /// <summary>
-        ///     Create an instance of <see cref="ReferentialsController"/>
+        ///     Create an instance of <see cref="ReferentialsController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -27,9 +29,6 @@
             this.processor = processor;
             this.presenter = presenter;
         }
-
-        private readonly GetBundlesPresenter presenter;
-        private readonly IProcessor processor;
 
         /// <summary>
         ///     Get bundle list.

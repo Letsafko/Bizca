@@ -13,29 +13,25 @@
 
         public async Task<Country> GetByCodeAsync(string countryCode)
         {
-            var result = await GetAsync(new CountryEntity
-            {
-                Code = countryCode
-            });
+            CountryEntity result = await GetAsync(new CountryEntity { Code = countryCode });
 
             return GetCountry(result);
         }
 
         public async Task<Country> GetByIdAsync(int countryId)
         {
-            var result = await GetAsync(new CountryEntity
-            {
-                Id = countryId
-            });
+            CountryEntity result = await GetAsync(new CountryEntity { Id = countryId });
 
             return GetCountry(result);
         }
 
         private static Country GetCountry(CountryEntity result)
-            => result is null
+        {
+            return result is null
                 ? default
-                : new Country(result.Id, 
-                    result.Code, 
+                : new Country(result.Id,
+                    result.Code,
                     result.Description);
+        }
     }
 }

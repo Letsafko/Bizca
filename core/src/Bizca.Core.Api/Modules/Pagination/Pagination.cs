@@ -13,10 +13,6 @@
         private const string queryStringSeparator = "?";
         private const string queryStringParameterSeparator = "&";
 
-        private int pageSize { get; }
-        private int rowcount { get; }
-        private string requestPath { get; }
-        private IEnumerable<T> results { get; }
         public Pagination(int pageSize, List<T> results, string requestPath = "")
         {
             this.pageSize = pageSize;
@@ -28,33 +24,28 @@
             LastIndex = rowcount == 0 ? default : pageSize >= rowcount ? results[rowcount - 1] : results[rowcount - 2];
         }
 
+        private int pageSize { get; }
+        private int rowcount { get; }
+        private string requestPath { get; }
+        private IEnumerable<T> results { get; }
+
         public T LastIndex { get; }
         public T FirstIndex { get; }
 
         public PagedResult<T> GetPaged<TRequest>(TRequest request, int firstIndex, int lastIndex)
             where TRequest : Paged, ICloneable
         {
-            if (rowcount < 1)
-            {
-                return new PagedResult<T>(results, default);
-            }
+            if (rowcount < 1) return new PagedResult<T>(results, default);
 
             var relations = new List<PagedLink>();
             if (rowcount <= pageSize)
             {
-                if (request.PageIndex == 0)
-                {
-                    return new PagedResult<T>(results, default);
-                }
+                if (request.PageIndex == 0) return new PagedResult<T>(results, default);
 
                 if (request.Direction == next)
-                {
                     relations.Add(GetPagedLink(request.Clone() as TRequest, previous, firstIndex, lastIndex));
-                }
                 else
-                {
                     relations.Add(GetPagedLink(request.Clone() as TRequest, next, 0, 0));
-                }
             }
             else
             {
@@ -71,7 +62,7 @@
 
         private string GetQueryString(Paged request)
         {
-            var jsonSerializerSettings = new JsonSerializerSettings()
+            var jsonSerializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -79,7 +70,7 @@
 
             string jsonquery = JsonConvert.SerializeObject(request, Formatting.None, jsonSerializerSettings);
             IEnumerable<string> parameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonquery)
-                                                        .Select(p => $"{p.Key.ToLower()}={p.Value}");
+                .Select(p => $"{p.Key.ToLower()}={p.Value}");
 
             return $"{requestPath}{queryStringSeparator}{string.Join(queryStringParameterSeparator, parameters)}";
         }
@@ -96,6 +87,7 @@
                 request.PageIndex = firstIndex;
                 request.Direction = firstIndex == 0 ? next : previous;
             }
+
             return new PagedLink(GetQueryString(request), direction);
         }
 

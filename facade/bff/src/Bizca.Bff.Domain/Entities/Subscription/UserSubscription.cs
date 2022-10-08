@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription
 {
-    using Bizca.Bff.Domain.Enumerations;
+    using Domain.Enumerations;
+
     public sealed class UserSubscription
     {
         public UserSubscription(string firstName,

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.AuthenticateUser
 {
-    using Bizca.User.Application.Properties;
     using FluentValidation;
+    using Properties;
 
     public sealed class AuthenticateUserCommandValidator : AbstractValidator<AuthenticateUserCommand>
     {

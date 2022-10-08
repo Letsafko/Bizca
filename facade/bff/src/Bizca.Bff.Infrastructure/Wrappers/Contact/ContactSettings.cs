@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Infrastructure.Wrappers.Contact
 {
-    using Bizca.Core.Infrastructure;
+    using Core.Infrastructure;
     using System;
 
     public sealed class ContactSettings : IAgentConfiguration

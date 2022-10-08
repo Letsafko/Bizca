@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User
 {
-    using Bizca.Bff.Domain.Enumerations;
+    using Domain.Enumerations;
+
     public sealed class UserDto
     {
         public UserDto(Civility civility,

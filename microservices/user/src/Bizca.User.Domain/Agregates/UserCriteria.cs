@@ -52,6 +52,4 @@
         /// </summary>
         public string Direction { get; set; }
     }
-
-
 }

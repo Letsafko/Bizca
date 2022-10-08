@@ -1,33 +1,31 @@
 ﻿namespace Bizca.Bff.Infrastructure.Persistance
 {
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.Infrastructure.Persistance.Extensions;
-    using Bizca.Core.Domain;
-    using Dapper;
+    using Domain.Entities.Subscription;
+    using Extensions;
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Threading.Tasks;
 
     public sealed class SubscriptionRepository : ISubscriptionRepository
     {
+        private const string UpdateSubscriberAvailabilityStoredProcedure =
+            "[bff].[usp_update_subscriptionAvailability]";
+
+        private const string GetProcedureSubscriberStoredProcedure = "[bff].[usp_getByProcedure_subscribers]";
+        private const string UpsertSubscriptionStoredProcedure = "[bff].[usp_upsert_subscription]";
+        private const string SubscriptionAvailabilityUdt = "[bff].[subscriptionAvailabilityUdt]";
+        private const string SubscriptionUdt = "[bff].[subscriptionsUdt]";
         private readonly IUnitOfWork unitOfWork;
+
         public SubscriptionRepository(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        private const string UpdateSubscriberAvailabilityStoredProcedure = "[bff].[usp_update_subscriptionAvailability]";
-        private const string GetProcedureSubscriberStoredProcedure = "[bff].[usp_getByProcedure_subscribers]";
-        private const string UpsertSubscriptionStoredProcedure = "[bff].[usp_upsert_subscription]";
-        private const string SubscriptionAvailabilityUdt = "[bff].[subscriptionAvailabilityUdt]";
-        private const string SubscriptionUdt = "[bff].[subscriptionsUdt]";
         public async Task<bool> UpsertAsync(int userId, IEnumerable<Subscription> subscriptions)
         {
-            var parameters = new
-            {
-                userId,
-                subscriptions = subscriptions.ToDataTable(SubscriptionUdt)
-            };
+            var parameters = new { userId, subscriptions = subscriptions.ToDataTable(SubscriptionUdt) };
 
             return await unitOfWork.Connection
                 .ExecuteScalarAsync<int>(UpsertSubscriptionStoredProcedure,
@@ -40,11 +38,7 @@
 
         public async Task<IEnumerable<SubscriberAvailability>> GetSubscribers(int organismId, int procedureTypeId)
         {
-            var parameters = new
-            {
-                procedureTypeId,
-                organismId
-            };
+            var parameters = new { procedureTypeId, organismId };
 
             var results = await unitOfWork.Connection
                 .QueryAsync(GetProcedureSubscriberStoredProcedure,
@@ -75,10 +69,7 @@
 
         public async Task<bool> UpdateSubscriberAvailability(IEnumerable<SubscriberAvailability> subscribers)
         {
-            var parameters = new
-            {
-                subscriptions = subscribers.ToDataTable(SubscriptionAvailabilityUdt)
-            };
+            var parameters = new { subscriptions = subscribers.ToDataTable(SubscriptionAvailabilityUdt) };
 
             return await unitOfWork.Connection
                 .ExecuteScalarAsync<int>(UpdateSubscriberAvailabilityStoredProcedure,
@@ -90,7 +81,7 @@
 
         public Task<Subscription> GetSubscriptionByCode(string subscriptionCode)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

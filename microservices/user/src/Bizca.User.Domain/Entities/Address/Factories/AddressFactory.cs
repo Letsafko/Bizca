@@ -1,8 +1,8 @@
 ﻿namespace Bizca.User.Domain.Entities.Address.Factories
 {
-    using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Exceptions;
-    using Bizca.User.Domain.Entities.Address.BusinessCheck;
+    using BusinessCheck;
+    using Core.Domain;
+    using Core.Domain.Exceptions;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
     using System;
@@ -13,6 +13,7 @@
     {
         private readonly IAddressRuleEngine addressRuleEngine;
         private readonly IReferentialService referentialService;
+
         public AddressFactory(IAddressRuleEngine addressRuleEngine, IReferentialService referentialService)
         {
             this.addressRuleEngine = addressRuleEngine;
@@ -37,12 +38,9 @@
         private void ManageResultChecks(RuleResultCollection collection)
         {
             foreach (RuleResult rule in collection)
-            {
                 if (!rule.Sucess)
-                {
-                    throw Activator.CreateInstance(rule.Failure.ExceptionType, new List<DomainFailure> { rule.Failure }) as DomainException;
-                }
-            }
+                    throw Activator.CreateInstance(rule.Failure.ExceptionType, new List<DomainFailure> { rule.Failure })
+                        as DomainException;
         }
     }
 }

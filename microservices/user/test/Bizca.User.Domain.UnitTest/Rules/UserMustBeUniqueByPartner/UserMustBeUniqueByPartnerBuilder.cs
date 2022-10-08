@@ -1,27 +1,17 @@
 ﻿namespace Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner
 {
-    using Bizca.User.Domain.Agregates.BusinessCheck.Rules;
-    using Bizca.User.Domain.Agregates.Repositories;
+    using Agregates.BusinessCheck.Rules;
+    using Agregates.Repositories;
     using NSubstitute;
 
     public sealed class UserMustBeUniqueByPartnerBuilder
     {
-        #region fields & ctor
-
-        private IUserRepository _userRepository;
-        private UserMustBeUniqueByPartnerBuilder()
-        {
-            _userRepository = Substitute.For<IUserRepository>();
-        }
-
-        #endregion
+        public static UserMustBeUniqueByPartnerBuilder Instance => new UserMustBeUniqueByPartnerBuilder();
 
         public UserMustBeUniqueByPartner Build()
         {
             return new UserMustBeUniqueByPartner(_userRepository);
         }
-
-        public static UserMustBeUniqueByPartnerBuilder Instance => new UserMustBeUniqueByPartnerBuilder();
 
         public UserMustBeUniqueByPartnerBuilder WithUserExist(bool exist)
         {
@@ -55,5 +45,16 @@
             _userRepository = userRepository;
             return this;
         }
+
+        #region fields & ctor
+
+        private IUserRepository _userRepository;
+
+        private UserMustBeUniqueByPartnerBuilder()
+        {
+            _userRepository = Substitute.For<IUserRepository>();
+        }
+
+        #endregion
     }
 }

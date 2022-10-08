@@ -12,21 +12,23 @@
 as
 begin
 	
-	set xact_abort on
+	set
+xact_abort on
 
-	update u
-		  set u.[civilityId]	       = @civilityId    
-			, u.[firstName]		       = @firstName	
-			, u.[lastName]		       = @lastName	
-			, u.[birthCity]		       = @birthCity
-			, u.[birthDate]		       = @birthDate
-			, u.[birthCountryId]	   = @birthCountryId
-			, u.[economicActivityId]   = @economicActivityId
-			, u.[lastUpdate]		   = getdate()
-	output inserted.userId
-	from [usr].[user] u
-	where externalUserId = @externalUserId and 
-	      partnerId = @partnerId and
-		  [rowversion] = @rowversion
+update u
+set u.[civilityId]         = @civilityId
+  , u.[firstName]          = @firstName
+  , u.[lastName]           = @lastName
+  , u.[birthCity]          = @birthCity
+  , u.[birthDate]          = @birthDate
+  , u.[birthCountryId]     = @birthCountryId
+  , u.[economicActivityId] = @economicActivityId
+  , u.[lastUpdate]         = getdate() output inserted.userId
+from [usr].[user] u
+where externalUserId = @externalUserId
+  and
+    partnerId = @partnerId
+  and
+    [rowversion] = @rowversion
 
 end

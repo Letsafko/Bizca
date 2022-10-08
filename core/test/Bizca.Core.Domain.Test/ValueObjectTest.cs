@@ -25,15 +25,17 @@
 
     public class FakeValueObject : ValueObject
     {
-        public int FakePropertyInt { get; }
-        public bool FakePropertyBool { get; }
-        public string FakePropertyString { get; }
         public FakeValueObject(int propInt, bool propBool, string propString)
         {
             FakePropertyInt = propInt;
             FakePropertyBool = propBool;
             FakePropertyString = propString;
         }
+
+        public int FakePropertyInt { get; }
+        public bool FakePropertyBool { get; }
+        public string FakePropertyString { get; }
+
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return FakePropertyInt;

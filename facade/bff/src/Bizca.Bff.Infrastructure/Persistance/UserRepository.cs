@@ -1,17 +1,16 @@
 ﻿namespace Bizca.Bff.Infrastructure.Persistance
 {
-    using Bizca.Bff.Domain.Entities.Enumerations.Subscription;
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Entities.User.ValueObjects;
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.Domain.Referentials.Bundle.ValueObjects;
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Bff.Domain.Referentials.Procedure.ValueObjects;
-    using Bizca.Bff.Domain.ValueObject;
-    using Bizca.Core.Domain;
     using Dapper;
+    using Domain.Entities.Enumerations.Subscription;
+    using Domain.Entities.Subscription;
+    using Domain.Entities.User;
+    using Domain.Entities.User.ValueObjects;
+    using Domain.Enumerations;
+    using Domain.Referentials.Bundle;
+    using Domain.Referentials.Bundle.ValueObjects;
+    using Domain.Referentials.Procedure;
+    using Domain.Referentials.Procedure.ValueObjects;
+    using Domain.ValueObject;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -20,39 +19,34 @@
 
     public sealed class UserRepository : IUserRepository
     {
+        private const string createUserStoredProcedure = "[bff].[usp_create_user]";
+        private const string updateUserStoredProcedure = "[bff].[usp_update_user]";
+        private const string getUserStoredProcedure = "[bff].[usp_get_user]";
         private readonly IUnitOfWork unitOfWork;
+
         public UserRepository(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        private const string createUserStoredProcedure = "[bff].[usp_create_user]";
-        private const string updateUserStoredProcedure = "[bff].[usp_update_user]";
-        private const string getUserStoredProcedure = "[bff].[usp_get_user]";
         public async Task<User> GetByExternalUserIdAsync(string externalUserId)
         {
-            var parameters = new
-            {
-                externalUserId
-            };
+            var parameters = new { externalUserId };
             return await BuildUserAsync(parameters);
         }
+
         public async Task<User> GetByPhoneNumberAsync(string phoneNumber)
         {
-            var parameters = new
-            {
-                phone = phoneNumber
-            };
+            var parameters = new { phone = phoneNumber };
             return await BuildUserAsync(parameters);
         }
+
         public async Task<User> GetByEmailAsync(string email)
         {
-            var parameters = new
-            {
-                email
-            };
+            var parameters = new { email };
             return await BuildUserAsync(parameters);
         }
+
         public async Task<bool> UpdateAsync(User user)
         {
             var parameters = new
@@ -77,6 +71,7 @@
                     commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false) > 0;
         }
+
         public async Task<bool> AddAsync(User user)
         {
             var parameters = new
@@ -106,17 +101,14 @@
         private async Task<User> BuildUserAsync(object parameters)
         {
             SqlMapper.GridReader gridReader = await unitOfWork.Connection
-                    .QueryMultipleAsync(getUserStoredProcedure,
-                            parameters,
-                            unitOfWork.Transaction,
-                            commandType: CommandType.StoredProcedure)
-                    .ConfigureAwait(false);
+                .QueryMultipleAsync(getUserStoredProcedure,
+                    parameters,
+                    unitOfWork.Transaction,
+                    commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false);
 
             (dynamic user, IEnumerable<dynamic> dynamycSsubscriptions) = GetEntities(gridReader);
-            if (user is null)
-            {
-                return default;
-            }
+            if (user is null) return default;
 
             UserProfile userProfile = GetUserProfile(user);
             var userIdentifier = new UserIdentifier((int)user.userId, user.externalUserId);
@@ -139,22 +131,20 @@
                 if (!string.IsNullOrEmpty(resultSetName))
                 {
                     IEnumerable<dynamic> reader = gridReader.Read();
-                    if (Enum.TryParse(resultSetName, true, out ResultName resultName))
-                    {
-                        result[resultName] = reader;
-                    }
+                    if (Enum.TryParse(resultSetName, true, out ResultName resultName)) result[resultName] = reader;
                 }
             }
+
             return
             (
                 result[ResultName.User].FirstOrDefault(),
                 result[ResultName.Subscriptions]
             );
         }
+
         private IEnumerable<Subscription> BuildSubscriptions(IEnumerable<dynamic> subscriptions)
         {
             if (subscriptions?.Any() == true)
-            {
                 foreach (dynamic subscription in subscriptions)
                 {
                     SubscriptionSettings subscriptionSettings = GetSubscriptionSettings(subscription);
@@ -171,8 +161,8 @@
                         subscriptionSettings,
                         (SubscriptionStatus)subscription.subscriptionStatusId);
                 }
-            }
         }
+
         private SubscriptionSettings GetSubscriptionSettings(dynamic subscription)
         {
             return subscription.bundleId is null
@@ -187,6 +177,7 @@
                     subscription.endDate,
                     subscription.isFreeze);
         }
+
         private UserSubscription GetUserSubscription(dynamic subscription)
         {
             return new UserSubscription(subscription.firstName,
@@ -195,16 +186,18 @@
                 subscription.whatsapp,
                 subscription.email);
         }
+
         private Procedure GetProcedure(dynamic subscription)
         {
             var procedureType = new ProcedureType((int)subscription.procedureTypeId, subscription.procedureTypeLabel);
             var organism = new Organism((int)subscription.organismId,
-                    subscription.codeInsee,
-                    subscription.organismName,
-                    subscription.organismHref);
+                subscription.codeInsee,
+                subscription.organismName,
+                subscription.organismHref);
 
             return new Procedure(procedureType, organism, subscription.procedureHref);
         }
+
         private UserProfile GetUserProfile(dynamic user)
         {
             return new UserProfile((Civility)user.civilityId,
@@ -216,6 +209,7 @@
                 (ChannelConfirmationStatus)user.channelConfirmationStatus,
                 (ChannelActivationStatus)user.channelActivationStatus);
         }
+
         private Bundle GetBundle(dynamic subscription)
         {
             if (subscription.bundleId is null)
@@ -230,13 +224,14 @@
                 (int)subscription.bundleTotalEmail,
                 (int)subscription.bundleTotalSms);
 
-            var priority = Priority.GetByCode((int)subscription.priority);
+            Priority priority = Priority.GetByCode((int)subscription.priority);
             var money = new Money((decimal)subscription.price, Currency.Euro);
             return new Bundle(bundleIdentifier,
                 bundleSettings,
                 priority,
                 money);
         }
+
         private Money GetMoney(dynamic subscription)
         {
             return subscription.bundleId is null
@@ -245,6 +240,5 @@
         }
 
         #endregion
-
     }
 }

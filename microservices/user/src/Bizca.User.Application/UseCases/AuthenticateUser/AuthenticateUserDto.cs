@@ -6,6 +6,7 @@
         {
             Success = success;
         }
+
         public bool Success { get; }
     }
 }

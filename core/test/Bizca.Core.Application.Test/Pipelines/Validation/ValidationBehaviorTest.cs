@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Application.Test.Pipelines.Validation
 {
-    using Bizca.Core.Application.Test.Cqrs;
+    using Cqrs;
     using FluentValidation;
     using FluentValidation.Results;
     using NFluent;
@@ -15,7 +15,9 @@
         public async Task Handle_Validate_Return_Ok_CallInOrder_GetValidator_Invoke()
         {
             //arrange
-            ValidationBehaviorBuilder<FakeCommand, FakeResponse> builder = ValidationBehaviorBuilder<FakeCommand, FakeResponse>.Instance.DelegateReturnResponse(new FakeResponse());
+            ValidationBehaviorBuilder<FakeCommand, FakeResponse> builder =
+                ValidationBehaviorBuilder<FakeCommand, FakeResponse>.Instance
+                    .DelegateReturnResponse(new FakeResponse());
 
             //act
             await builder.Build().Handle(new FakeCommand(),
@@ -35,7 +37,7 @@
         public void Handle_Validate_Throw_Error_CallInOrder_GetValidator()
         {
             //arrange
-            IValidator validator = Substitute.For<IValidator>();
+            var validator = Substitute.For<IValidator>();
             ValidationResult validationResult = GetValidationResult();
             validator.Validate(Arg.Any<ValidationContext<FakeCommand>>()).Returns(validationResult);
             ValidationBehaviorBuilder<FakeCommand, FakeResponse> builder =
@@ -45,8 +47,9 @@
                     .GetValidator(validator);
 
             //act & assert
-            Check.ThatAsyncCode(() => builder.Build().Handle(new FakeCommand(), default, builder.pipelineBehaviourDelegate))
-                 .Throws<ValidationException>();
+            Check.ThatAsyncCode(() =>
+                    builder.Build().Handle(new FakeCommand(), default, builder.pipelineBehaviourDelegate))
+                .Throws<ValidationException>();
 
             builder.DidNotReceivedDelegate();
             Received.InOrder(() => builder.validatorFactory.GetValidator(typeof(FakeCommand)));

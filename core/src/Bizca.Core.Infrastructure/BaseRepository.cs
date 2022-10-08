@@ -9,6 +9,7 @@
     public abstract class BaseRepository<T>
     {
         protected readonly IUnitOfWork UnitOfWork;
+
         protected BaseRepository(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
@@ -29,21 +30,15 @@
         {
             return UnitOfWork.Connection.InsertAsync(entity, AttachTransaction);
         }
-        
+
         private void AttachTransaction(IStandardSqlStatementOptionsBuilder<T> statement)
         {
-            if (UnitOfWork.Transaction != null)
-            {
-                statement.AttachToTransaction(UnitOfWork.Transaction);
-            }
+            if (UnitOfWork.Transaction != null) statement.AttachToTransaction(UnitOfWork.Transaction);
         }
 
         private void AttachTransaction(ISelectSqlStatementOptionsBuilder<T> statement)
         {
-            if (UnitOfWork.Transaction != null)
-            {
-                statement.AttachToTransaction(UnitOfWork.Transaction);
-            }
+            if (UnitOfWork.Transaction != null) statement.AttachToTransaction(UnitOfWork.Transaction);
         }
     }
 }

@@ -1,17 +1,20 @@
 ﻿namespace Bizca.User.Domain.Agregates
 {
-    using Bizca.Core.Domain.Exceptions;
-    using Bizca.User.Domain.Entities.Address;
-    using Bizca.User.Domain.Entities.Channel;
-    using Bizca.User.Domain.Entities.Channel.Exceptions;
-    using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using Core.Domain.Exceptions;
     using Core.Domain.Referential.Model;
+    using Entities.Address;
+    using Entities.Channel;
+    using Entities.Channel.Exceptions;
+    using Entities.Channel.ValueObjects;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public sealed class UserProfile
     {
+        private readonly List<Address> addresses;
+        private readonly ICollection<Channel> channels;
+
         public UserProfile(EconomicActivity economicActivity,
             Country birthCountry,
             DateTime? birthDate,
@@ -36,13 +39,11 @@
         ///     Gets notification channels.
         /// </summary>
         public IReadOnlyCollection<Channel> Channels => channels.ToList();
-        private readonly ICollection<Channel> channels;
 
         /// <summary>
         ///     Gets addresses.
         /// </summary>
         public IReadOnlyCollection<Address> Addresses => addresses;
-        private readonly List<Address> addresses;
 
         /// <summary>
         ///     Gets user economic activity.
@@ -90,7 +91,8 @@
         /// <param name="zipCode">postal code</param>
         /// <param name="country">country</param>
         /// <param name="name">address name</param>
-        internal void UpdateAddress(bool active, string street, string city, string zipCode, Country country, string name)
+        internal void UpdateAddress(bool active, string street, string city, string zipCode, Country country,
+            string name)
         {
             Address address = GetActiveAddress();
             address.Update(active, street, city, zipCode, country, name);
@@ -105,11 +107,11 @@
         {
             Channel channel = GetChannel(channelType);
             return channel.ChannelCodes.FirstOrDefault(x => x.CodeConfirmation == codeConfirmation)
-                ?? throw new ChannelCodeConfirmationDoesNotExistException(new List<DomainFailure>
-                {
-                    new DomainFailure($"{codeConfirmation} does not exist.",
-                            nameof(codeConfirmation))
-                });
+                   ?? throw new ChannelCodeConfirmationDoesNotExistException(new List<DomainFailure>
+                   {
+                       new DomainFailure($"{codeConfirmation} does not exist.",
+                           nameof(codeConfirmation))
+                   });
         }
 
         /// <summary>
@@ -128,6 +130,7 @@
 
                 throw new ChannelCodeConfirmationHasExpiredUserException(new List<DomainFailure> { failure });
             }
+
             return confirmed;
         }
 
@@ -169,7 +172,8 @@
         /// <param name="throwError"></param>
         internal Channel GetChannel(string channelValue, bool throwError = true)
         {
-            Channel channel = channels.FirstOrDefault(x => x.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase));
+            Channel channel = channels.FirstOrDefault(x =>
+                x.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase));
             if (channel is null && throwError)
             {
                 var failure = new DomainFailure($"channel requested for {channelValue} does not exist.",
@@ -188,9 +192,7 @@
         internal void AddNewAddress(Address address)
         {
             foreach (Address addr in addresses)
-            {
                 addr.Update(false, addr.Street, addr.City, addr.ZipCode, addr.Country, addr.Name);
-            }
             addresses.Add(address);
         }
 

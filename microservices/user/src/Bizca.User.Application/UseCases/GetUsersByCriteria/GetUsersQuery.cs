@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUsersByCriteria
 {
-    using Bizca.Core.Application.Queries;
+    using Core.Application.Queries;
     using System.Collections.Generic;
 
     public sealed class GetUsersQuery : IQuery<IEnumerable<GetUsers>>

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     public interface ISubscriptionRepository
     {
         Task<IEnumerable<SubscriberAvailability>> GetSubscribers(int organismId, int procedureTypeId);

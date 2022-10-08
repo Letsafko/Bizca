@@ -6,6 +6,7 @@
     public class DynamicDictionary : DynamicObject
     {
         public readonly Dictionary<string, object> dictionary = new Dictionary<string, object>();
+
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             string name = binder.Name.ToLower();

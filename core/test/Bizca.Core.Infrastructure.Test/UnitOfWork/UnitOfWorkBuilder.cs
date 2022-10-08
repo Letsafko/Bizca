@@ -1,15 +1,16 @@
 namespace Bizca.Core.Infrastructure.Test
 {
-    using Bizca.Core.Infrastructure.Database;
-    using Bizca.Core.Infrastructure.Database.Configuration;
+    using Database;
+    using Database.Configuration;
     using NSubstitute;
     using System.Data;
 
     public sealed class UnitOfWorkBuilder
     {
-        private IConnectionFactory _connectionFactory;
-        private IDbTransaction _transaction;
-        private IDbConnection _connection;
+        private readonly IDbConnection _connection;
+        private readonly IConnectionFactory _connectionFactory;
+        private readonly IDbTransaction _transaction;
+
         private UnitOfWorkBuilder()
         {
             _connectionFactory = Substitute.For<IConnectionFactory>();
@@ -18,6 +19,7 @@ namespace Bizca.Core.Infrastructure.Test
         }
 
         public static UnitOfWorkBuilder Instance => new UnitOfWorkBuilder();
+
         public UnitOfWork Build()
         {
             return new UnitOfWork(_connectionFactory);

@@ -1,9 +1,9 @@
 ﻿namespace Bizca.Bff.Infrastructure.Wrappers.Users
 {
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Domain.Wrappers.Users.Requests;
-    using Bizca.Bff.Domain.Wrappers.Users.Responses;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Domain.Wrappers.Users;
+    using Domain.Wrappers.Users.Requests;
+    using Domain.Wrappers.Users.Responses;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
@@ -24,7 +24,7 @@
             UsersByCriteriaRequest request,
             IDictionary headers = null)
         {
-            var queryString = GetQueryString(request);
+            string queryString = GetQueryString(request);
             return await SendAsync<UsersByCriteriaResponse>(HttpMethod.Get,
                 $"{ApiVersion}/{partnerCode}/users{queryString}",
                 metadata: headers);
@@ -39,7 +39,8 @@
                 metadata: headers);
         }
 
-        public async Task<IPublicResponse<RegisterUserConfirmationCodeResponse>> RegisterChannelConfirmationCodeAsync(RegisterUserConfirmationCodeRequest request,
+        public async Task<IPublicResponse<RegisterUserConfirmationCodeResponse>> RegisterChannelConfirmationCodeAsync(
+            RegisterUserConfirmationCodeRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<RegisterUserConfirmationCodeResponse>(HttpMethod.Post,
@@ -48,7 +49,8 @@
                 headers);
         }
 
-        public async Task<IPublicResponse<UserConfirmationCodeResponse>> ConfirmUserChannelCodeAsync(UserConfirmationCodeRequest request,
+        public async Task<IPublicResponse<UserConfirmationCodeResponse>> ConfirmUserChannelCodeAsync(
+            UserConfirmationCodeRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserConfirmationCodeResponse>(HttpMethod.Post,
@@ -66,7 +68,8 @@
                 headers);
         }
 
-        public async Task<IPublicResponse<AuthenticateUserResponse>> AuthenticateUserAsync(AuthenticateUserRequest request,
+        public async Task<IPublicResponse<AuthenticateUserResponse>> AuthenticateUserAsync(
+            AuthenticateUserRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<AuthenticateUserResponse>(HttpMethod.Post,
@@ -75,13 +78,14 @@
                 headers);
         }
 
-        public async Task<IPublicResponse<UserPasswordResponse>> CreateOrUpdateUserPasswordAsync(UserPasswordRequest request,
+        public async Task<IPublicResponse<UserPasswordResponse>> CreateOrUpdateUserPasswordAsync(
+            UserPasswordRequest request,
             IDictionary headers = null)
         {
             return await SendAsync<UserPasswordResponse>(HttpMethod.Post,
-               $"{ApiVersion}/{request.PartnerCode}/users/password",
-               request,
-               headers);
+                $"{ApiVersion}/{request.PartnerCode}/users/password",
+                request,
+                headers);
         }
 
         public async Task<IPublicResponse<UserCreatedResponse>> CreateUserAsync(UserToCreateRequest request,
@@ -99,7 +103,7 @@
         {
             const string queryStringSeparator = "?";
             const string queryStringParameterSeparator = "&";
-            var jsonSerializerSettings = new JsonSerializerSettings()
+            var jsonSerializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -107,7 +111,7 @@
 
             string jsonquery = JsonConvert.SerializeObject(request, Formatting.None, jsonSerializerSettings);
             IEnumerable<string> parameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonquery)
-                                                        .Select(p => $"{p.Key.ToLower()}={p.Value}");
+                .Select(p => $"{p.Key.ToLower()}={p.Value}");
 
             return parameters.Any()
                 ? $"{queryStringSeparator}{string.Join(queryStringParameterSeparator, parameters)}"

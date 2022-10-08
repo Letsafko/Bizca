@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.RegisterSmsCodeConfirmation
 {
-    using Bizca.Core.Domain;
+    using Core.Domain;
+
     public interface IRegisterSmsCodeConfirmationOutput
     {
         void Invalid(IPublicResponse response);

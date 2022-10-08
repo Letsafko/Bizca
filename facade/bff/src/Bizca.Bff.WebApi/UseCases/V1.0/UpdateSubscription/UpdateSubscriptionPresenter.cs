@@ -1,9 +1,9 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription
 {
-    using Bizca.Bff.Application.UseCases.UpdateSubscription;
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.WebApi.ViewModels;
+    using Application.UseCases.UpdateSubscription;
+    using Domain.Entities.Subscription;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
     ///     Update subscription.

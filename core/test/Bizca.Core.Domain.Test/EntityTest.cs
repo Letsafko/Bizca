@@ -1,8 +1,8 @@
-﻿using NFluent;
-using Xunit;
-
-namespace Bizca.Core.Domain.Test
+﻿namespace Bizca.Core.Domain.Test
 {
+    using NFluent;
+    using Xunit;
+
     public sealed class EntityTest
     {
         [Fact]

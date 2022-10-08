@@ -1,14 +1,14 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.ReInitializedPassword
 {
-    using Bizca.Bff.Application.UseCases.ReInitializedPassword;
-    using Bizca.Bff.WebApi.Properties;
-    using Bizca.Bff.WebApi.ViewModels;
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
+    using Application.UseCases.ReInitializedPassword;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Properties;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
+    using ViewModels;
 
     /// <summary>
     ///     Reinitialized password controller.
@@ -18,8 +18,11 @@
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
+        private readonly ReInitializedPasswordPresenter presenter;
+        private readonly IProcessor processor;
+
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -29,9 +32,6 @@
             this.presenter = presenter;
         }
 
-        private readonly ReInitializedPasswordPresenter presenter;
-        private readonly IProcessor processor;
-
         /// <summary>
         ///     Reinitialized user password.
         /// </summary>
@@ -40,7 +40,8 @@
         [HttpPost("password/init")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPasswordViewModel))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
-        public async Task<IActionResult> ReinitializedPasswordAsync([Required][FromBody] ReInitializedPassword reinitializedPassword)
+        public async Task<IActionResult> ReinitializedPasswordAsync(
+            [Required] [FromBody] ReInitializedPassword reinitializedPassword)
         {
             var command = new ReInitializedPasswordCommand(Resources.PartnerCode,
                 reinitializedPassword.Email);

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateSubscription
 {
-    using Bizca.Bff.Application.Properties;
     using FluentValidation;
+    using Properties;
 
     public sealed class CreateSubscriptionValidator : AbstractValidator<CreateSubscriptionCommand>
     {

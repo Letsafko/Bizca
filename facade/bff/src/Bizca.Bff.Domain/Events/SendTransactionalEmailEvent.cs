@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Domain.Events
 {
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
-    using Bizca.Core.Domain;
+    using Core.Domain;
     using System.Collections.Generic;
+    using Wrappers.Notification.Requests.Email;
 
     public sealed class SendTransactionalEmailEvent : IEvent
     {

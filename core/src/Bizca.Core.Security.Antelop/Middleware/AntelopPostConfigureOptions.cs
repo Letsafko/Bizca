@@ -20,10 +20,7 @@
         /// <param name="options">The options instance to configured.</param>
         public void PostConfigure(string name, JwtBearerOptions options)
         {
-            if (name != Constants.ANTELOP_SCHEME)
-            {
-                return;
-            }
+            if (name != Constants.ANTELOP_SCHEME) return;
 
             options.SecurityTokenValidators.Clear();
             options.SecurityTokenValidators.Add(tokenValidator);

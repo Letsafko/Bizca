@@ -19,9 +19,9 @@
                     options.RequestDuration.Enabled = false;
                     options.InProgress.Enabled = false;
                     options.RequestCount.Counter = Metrics.CreateCounter(
-                    "http_requests_total",
-                    "HTTP Requests Total",
-                    new CounterConfiguration { LabelNames = new[] { "controller", "method", "code" } });
+                        "http_requests_total",
+                        "HTTP Requests Total",
+                        new CounterConfiguration { LabelNames = new[] { "controller", "method", "code" } });
                 });
         }
     }

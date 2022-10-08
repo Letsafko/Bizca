@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.UpdateUser
 {
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
 
     public sealed class UpdateUserCommand : ICommand
     {

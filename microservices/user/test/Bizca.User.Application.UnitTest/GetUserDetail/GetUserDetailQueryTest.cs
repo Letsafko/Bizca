@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UnitTest.GetUser.Detail
 {
-    using Bizca.User.Application.UseCases.GetUserDetail;
     using NFluent;
+    using UseCases.GetUserDetail;
     using Xunit;
 
     public sealed class GetUserDetailQueryTest

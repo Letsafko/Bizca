@@ -1,55 +1,44 @@
 ﻿namespace Bizca.User.Domain.Agregates.Factories
 {
-    using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Exceptions;
-    using Bizca.User.Domain.Agregates.BusinessCheck;
-    using Bizca.User.Domain.Agregates.Repositories;
-    using Bizca.User.Domain.Agregates.ValueObjects;
-    using Bizca.User.Domain.Entities.Channel;
-    using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using BusinessCheck;
+    using Core.Domain;
+    using Core.Domain.Exceptions;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
+    using Entities.Channel;
+    using Entities.Channel.ValueObjects;
+    using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using ValueObjects;
 
     public sealed class UserFactory : IUserFactory
     {
-        #region fields & ctor
-
-        private readonly IReferentialService referentialService;
-        private readonly IUserRuleEngine userRuleEngine;
-        private readonly IUserRepository userRepository;
-        public UserFactory(IUserRuleEngine userRuleEngine,
-            IUserRepository userRepository,
-            IReferentialService referentialService)
-        {
-            this.userRuleEngine = userRuleEngine;
-            this.userRepository = userRepository;
-            this.referentialService = referentialService;
-        }
-
-        #endregion
-
         public async Task<IUser> BuildByPartnerAndExternalUserIdAsync(Partner partner, string externalUserId)
         {
-            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByPartnerIdAndExternalUserIdAsync(partner.Id, externalUserId).ConfigureAwait(false);
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository
+                .GetByPartnerIdAndExternalUserIdAsync(partner.Id, externalUserId).ConfigureAwait(false);
             return await ConstructUserAsync(partner, resultDico).ConfigureAwait(false);
         }
+
         public async Task<IUser> BuildByPartnerAndChannelResourceAsync(Partner partner, string channelResource)
         {
-            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository.GetByPartnerIdAndChannelResourceAsync(partner.Id, channelResource).ConfigureAwait(false);
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico = await userRepository
+                .GetByPartnerIdAndChannelResourceAsync(partner.Id, channelResource).ConfigureAwait(false);
             return await ConstructUserAsync(partner, resultDico).ConfigureAwait(false);
         }
+
         public async Task<IUser> CreateAsync(UserRequest request)
         {
             RuleResultCollection collection = await userRuleEngine.CheckRulesAsync(request).ConfigureAwait(false);
             ManageResultChecks(collection);
 
-            (EconomicActivity economicActivity, Civility civility, Country birthCountry) = await GetReferentialDataAsync(request.EconomicActivity,
-                request.BirthCountry,
-                request.Civility).ConfigureAwait(false);
+            (EconomicActivity economicActivity, Civility civility, Country birthCountry) =
+                await GetReferentialDataAsync(request.EconomicActivity,
+                    request.BirthCountry,
+                    request.Civility).ConfigureAwait(false);
 
             var userIdentifier = new UserIdentifier(0,
                 new ExternalUserId(request.ExternalUserId),
@@ -71,16 +60,16 @@
 
             return user;
         }
+
         public async Task<IUser> UpdateAsync(UserRequest request)
         {
-            if (!(await BuildByPartnerAndExternalUserIdAsync(request.Partner, request.ExternalUserId).ConfigureAwait(false) is User user))
-            {
-                return UserNull.Instance;
-            }
+            if (!(await BuildByPartnerAndExternalUserIdAsync(request.Partner, request.ExternalUserId)
+                    .ConfigureAwait(false) is User user)) return UserNull.Instance;
 
-            (EconomicActivity economicActivity, Civility civility, Country birthCountry) = await GetReferentialDataAsync(request.EconomicActivity,
-                request.BirthCountry,
-                request.Civility).ConfigureAwait(false);
+            (EconomicActivity economicActivity, Civility civility, Country birthCountry) =
+                await GetReferentialDataAsync(request.EconomicActivity,
+                    request.BirthCountry,
+                    request.Civility).ConfigureAwait(false);
 
             UpsertChannel(user, ChannelType.Whatsapp, request.Whatsapp);
             UpsertChannel(user, ChannelType.Sms, request.PhoneNumber);
@@ -97,34 +86,43 @@
             return user;
         }
 
+        #region fields & ctor
+
+        private readonly IReferentialService referentialService;
+        private readonly IUserRuleEngine userRuleEngine;
+        private readonly IUserRepository userRepository;
+
+        public UserFactory(IUserRuleEngine userRuleEngine,
+            IUserRepository userRepository,
+            IReferentialService referentialService)
+        {
+            this.userRuleEngine = userRuleEngine;
+            this.userRepository = userRepository;
+            this.referentialService = referentialService;
+        }
+
+        #endregion
+
         #region private helpers
 
-        private async Task<(EconomicActivity economicActivity, Civility civility, Country birthCountry)> GetReferentialDataAsync(int? economicActivity, string birthCountry, int? civilityId)
+        private async Task<(EconomicActivity economicActivity, Civility civility, Country birthCountry)>
+            GetReferentialDataAsync(int? economicActivity, string birthCountry, int? civilityId)
         {
-            var birthCountryTask = Task.FromResult<Country>(default);
+            Task<Country> birthCountryTask = Task.FromResult<Country>(default);
             if (!string.IsNullOrWhiteSpace(birthCountry))
             {
                 if (int.TryParse(birthCountry, out int birthCountryId))
-                {
                     birthCountryTask = referentialService.GetCountryByIdAsync(birthCountryId);
-                }
                 else
-                {
                     birthCountryTask = referentialService.GetCountryByCodeAsync(birthCountry);
-                }
             }
 
-            var economicActivityTask = Task.FromResult<EconomicActivity>(default);
+            Task<EconomicActivity> economicActivityTask = Task.FromResult<EconomicActivity>(default);
             if (economicActivity.HasValue)
-            {
                 economicActivityTask = referentialService.GetEconomicActivityByIdAsync(economicActivity.Value);
-            }
 
-            var civilityTask = Task.FromResult<Civility>(default);
-            if (civilityId.HasValue)
-            {
-                civilityTask = referentialService.GetCivilityByIdAsync(civilityId.Value, true);
-            }
+            Task<Civility> civilityTask = Task.FromResult<Civility>(default);
+            if (civilityId.HasValue) civilityTask = referentialService.GetCivilityByIdAsync(civilityId.Value, true);
 
             await Task.WhenAll(birthCountryTask, civilityTask, economicActivityTask).ConfigureAwait(false);
             return
@@ -134,17 +132,17 @@
                 birthCountryTask.Result
             );
         }
-        private async Task<IUser> ConstructUserAsync(Partner partner, Dictionary<ResultName, IEnumerable<dynamic>> resultDico)
+
+        private async Task<IUser> ConstructUserAsync(Partner partner,
+            Dictionary<ResultName, IEnumerable<dynamic>> resultDico)
         {
             dynamic result = resultDico[ResultName.User].FirstOrDefault();
-            if (result is null)
-            {
-                return UserNull.Instance;
-            }
+            if (result is null) return UserNull.Instance;
 
-            (EconomicActivity economicActivity, Civility civility, Country birthCountry) = await GetReferentialDataAsync((int?)result.economicActivityId,
-                (string)result.birthCountryId?.ToString(),
-                (int?)result.civilityId).ConfigureAwait(false);
+            (EconomicActivity economicActivity, Civility civility, Country birthCountry) =
+                await GetReferentialDataAsync((int?)result.economicActivityId,
+                    (string)result.birthCountryId?.ToString(),
+                    (int?)result.civilityId).ConfigureAwait(false);
 
             var userIdentifier = new UserIdentifier(result.userId,
                 new ExternalUserId(result.externalUserId),
@@ -163,23 +161,20 @@
             user.SetRowVersion(result.rowversion);
 
             if (!string.IsNullOrWhiteSpace(result.whatsapp))
-            {
-                user.AddChannel(result.whatsapp, ChannelType.Whatsapp, ConvertToBoolean(result.whatsappActive), ConvertToBoolean(result.whatsappConfirmed));
-            }
+                user.AddChannel(result.whatsapp, ChannelType.Whatsapp, ConvertToBoolean(result.whatsappActive),
+                    ConvertToBoolean(result.whatsappConfirmed));
 
             if (!string.IsNullOrWhiteSpace(result.email))
-            {
-                user.AddChannel(result.email, ChannelType.Email, ConvertToBoolean(result.emailActive), ConvertToBoolean(result.emailConfirmed));
-            }
+                user.AddChannel(result.email, ChannelType.Email, ConvertToBoolean(result.emailActive),
+                    ConvertToBoolean(result.emailConfirmed));
 
             if (!string.IsNullOrWhiteSpace(result.phone))
-            {
-                user.AddChannel(result.phone, ChannelType.Sms, ConvertToBoolean(result.phoneActive), ConvertToBoolean(result.phoneConfirmed));
-            }
+                user.AddChannel(result.phone, ChannelType.Sms, ConvertToBoolean(result.phoneActive),
+                    ConvertToBoolean(result.phoneConfirmed));
 
             foreach (dynamic channel in resultDico[ResultName.ChannelConfirmations])
             {
-                var channelType = ChannelType.GetByCode(channel.channelId);
+                dynamic channelType = ChannelType.GetByCode(channel.channelId);
                 var channelCode = new ChannelConfirmation(channel.confirmationCode, channel.expirationDate);
                 user.AddChannelCodeConfirmation(channelType, channelCode);
             }
@@ -200,12 +195,11 @@
             }
 
             foreach (dynamic pwd in resultDico[ResultName.Passwords])
-            {
                 user.BuildPasword(pwd.active, pwd.passwordHash, pwd.securityStamp);
-            }
 
             return user;
         }
+
         private void UpsertChannel(User user, ChannelType channelType, string channelValue)
         {
             if (!string.IsNullOrWhiteSpace(channelValue))
@@ -214,31 +208,26 @@
                 Channel channelWithSameValue = user.Profile.GetChannel(channelValue, false);
 
                 if (channel is null)
-                {
                     user.AddChannel(channelValue,
                         channelType,
                         channelWithSameValue?.Active ?? false,
                         channelWithSameValue?.Confirmed ?? false);
-                }
                 else if (!channel.ChannelValue.Equals(channelValue, StringComparison.OrdinalIgnoreCase))
-                {
                     user.UpdateChannel(channelValue,
                         channelType,
                         channelWithSameValue?.Active ?? false,
                         channelWithSameValue?.Confirmed ?? false);
-                }
             }
         }
+
         private void ManageResultChecks(RuleResultCollection collection)
         {
             foreach (RuleResult rule in collection)
-            {
                 if (!rule.Sucess)
-                {
-                    throw Activator.CreateInstance(rule.Failure.ExceptionType, new List<DomainFailure> { rule.Failure }) as DomainException;
-                }
-            }
+                    throw Activator.CreateInstance(rule.Failure.ExceptionType, new List<DomainFailure> { rule.Failure })
+                        as DomainException;
         }
+
         private bool ConvertToBoolean(int value)
         {
             return value == 1;

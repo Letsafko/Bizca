@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Referentials.Bundle.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;

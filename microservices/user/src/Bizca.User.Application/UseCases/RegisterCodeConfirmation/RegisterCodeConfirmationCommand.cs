@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Application.UseCases.RegisterCodeConfirmation
 {
-    using Bizca.Core.Application.Commands;
-    using Bizca.User.Domain;
+    using Core.Application.Commands;
+    using Domain;
 
     public sealed class RegisterCodeConfirmationCommand : ICommand
     {

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Data;
+
     public interface IUnitOfWork : IDisposable
     {
         IDbTransaction Transaction { get; }

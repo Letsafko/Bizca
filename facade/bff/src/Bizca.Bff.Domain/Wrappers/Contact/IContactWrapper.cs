@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Domain.Wrappers.Contact
 {
-    using Bizca.Bff.Domain.Wrappers.Contact.Requests;
-    using Bizca.Bff.Domain.Wrappers.Contact.Responses;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Requests;
+    using Responses;
     using System.Collections;
     using System.Threading.Tasks;
 

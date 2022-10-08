@@ -1,11 +1,11 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterCodeConfirmation
 {
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
-    using Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode;
+    using Application.UseCases.RegisterCodeConfirmation;
+    using Core.Api.Modules.Conventions;
+    using Core.Application;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using RegisterConfirmationCode;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
 
@@ -17,11 +17,11 @@
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
-        private readonly IProcessor _processor;
         private readonly RegisterCodeConfirmationPresenter _presenter;
+        private readonly IProcessor _processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="processor"></param>
         /// <param name="presenter"></param>
@@ -44,14 +44,15 @@
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
         public async Task<IActionResult> RegisterCodeConfirmationAsync([Required] string partnerCode,
             [Required] string externalUserId,
-            [Required][FromBody] RegisterCodeConfirmation input)
+            [Required] [FromBody] RegisterCodeConfirmation input)
         {
             RegisterCodeConfirmationCommand command = GetConfirmationCommand(externalUserId, partnerCode, input);
             await _processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return _presenter.ViewModel;
         }
 
-        private RegisterCodeConfirmationCommand GetConfirmationCommand(string userId, string partnerCode, RegisterCodeConfirmation input)
+        private RegisterCodeConfirmationCommand GetConfirmationCommand(string userId, string partnerCode,
+            RegisterCodeConfirmation input)
         {
             return RegisterCodeConfirmationBuilder.Instance
                 .WithChannel(input.Channel)

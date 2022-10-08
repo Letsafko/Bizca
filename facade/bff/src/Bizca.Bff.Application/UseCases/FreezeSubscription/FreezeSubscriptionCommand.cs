@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.FreezeSubscription
 {
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
+
     public sealed class FreezeSubscriptionCommand : ICommand
     {
         public FreezeSubscriptionCommand(string partnerCode,

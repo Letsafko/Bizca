@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.SendAppointmentAvailability
 {
-    using Bizca.Core.Application.Commands;
+    using Core.Application.Commands;
+
     public sealed class SendAppointmentAvailabilityCommand : ICommand
     {
         public SendAppointmentAvailabilityCommand(string partnerCode,

@@ -1,9 +1,7 @@
 ﻿namespace Bizca.Bff.Infrastructure.Persistance
 {
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Bff.Domain.Referentials.Procedure.ValueObjects;
-    using Bizca.Core.Domain;
-    using Dapper;
+    using Domain.Referentials.Procedure;
+    using Domain.Referentials.Procedure.ValueObjects;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -12,15 +10,15 @@
 
     public sealed class ProcedureRepository : IProcedureRepository
     {
+        private const string getProcedureByTypeIdAndCodeInseeStoredProcedure = "bff.usp_getByIdAndCodeInsee_procedure";
+        private const string getProceduresByActiveSubscriptions = "[bff].[usp_getByActiveSubscriptions_procedure]";
+        private const string getProceduresStoredProcedure = "bff.usp_getAll_procedure";
         private readonly IUnitOfWork unitOfWork;
+
         public ProcedureRepository(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
-
-        private const string getProcedureByTypeIdAndCodeInseeStoredProcedure = "bff.usp_getByIdAndCodeInsee_procedure";
-        private const string getProceduresByActiveSubscriptions = "[bff].[usp_getByActiveSubscriptions_procedure]";
-        private const string getProceduresStoredProcedure = "bff.usp_getAll_procedure";
 
         public async Task<IEnumerable<Procedure>> GetProceduresByActiveSubscriptionsAsync()
         {
@@ -30,10 +28,7 @@
                     commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false);
 
-            if (results?.Any() != true)
-            {
-                return Array.Empty<Procedure>();
-            }
+            if (results?.Any() != true) return Array.Empty<Procedure>();
 
             var procedures = new List<Procedure>();
             foreach (dynamic procedure in results)
@@ -44,11 +39,7 @@
 
         public async Task<Procedure> GetProcedureByTypeIdAndCodeInseeAsync(int procedureTypeId, string codeInsee)
         {
-            var parameters = new
-            {
-                procedureTypeId,
-                codeInsee
-            };
+            var parameters = new { procedureTypeId, codeInsee };
 
             dynamic result = await unitOfWork.Connection
                 .QueryFirstOrDefaultAsync(getProcedureByTypeIdAndCodeInseeStoredProcedure,
@@ -70,10 +61,7 @@
                     commandType: CommandType.StoredProcedure)
                 .ConfigureAwait(false);
 
-            if (results?.Any() != true)
-            {
-                return Array.Empty<Procedure>();
-            }
+            if (results?.Any() != true) return Array.Empty<Procedure>();
 
             var procedures = new List<Procedure>();
             foreach (dynamic procedure in results)

@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Application.Services
 {
-    using Bizca.Core.Domain;
+    using Domain;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

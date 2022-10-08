@@ -1,8 +1,9 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
-    using Bizca.User.Domain.Entities.Address;
-    using Bizca.User.Domain.Entities.Channel;
+    using Domain.Entities.Address;
+    using Domain.Entities.Channel;
     using System.Collections.Generic;
+
     public sealed class GetUserDetail
     {
         public int UserId { get; internal set; }

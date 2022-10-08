@@ -1,7 +1,8 @@
 ﻿namespace Bizca.Gateway.Application.Extensions
 {
-    using Bizca.Core.Api.Modules.Extensions;
-    using Bizca.Gateway.Application.Configuration;
+    using Configuration;
+    using Core.Api.Modules.Configuration;
+    using Core.Api.Modules.Extensions;
     using HealthChecks.UI.Client;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -23,34 +24,28 @@
         [ExcludeFromCodeCoverage]
         public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
-            Core.Api.Modules.Configuration.FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
+            FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
 
             IHealthChecksBuilder healthChecks = services.AddHealthChecks();
 
             if (features.Consul)
-            {
                 healthChecks.AddConsul(options =>
                 {
                     options.HostName = configuration["GlobalConfiguration:ServiceDiscoveryProvider:Host"];
                     options.Port = int.Parse(configuration["GlobalConfiguration:ServiceDiscoveryProvider:Port"]);
                     options.Password = configuration["GlobalConfiguration:ServiceDiscoveryProvider:Token"];
-                }, name: "ConsulCheck", tags: new[] { "consul" });
-            }
+                }, "ConsulCheck", tags: new[] { "consul" });
 
-            List<HealthEndpoint> healthEndpoints = configuration.GetSection("Health").Get<List<HealthEndpoint>>();
+            var healthEndpoints = configuration.GetSection("Health").Get<List<HealthEndpoint>>();
 
             foreach (HealthEndpoint healthEndpoint in healthEndpoints)
-            {
                 if (Uri.TryCreate(healthEndpoint.Endpoint, UriKind.Absolute, out Uri endpointUri))
-                {
                     healthChecks.AddUrlGroup(endpointUri,
-                        name: healthEndpoint.Name,
-                        failureStatus: HealthStatus.Degraded);
-                }
-            }
+                        healthEndpoint.Name,
+                        HealthStatus.Degraded);
 
             services.AddHealthChecksUI()
-            .AddInMemoryStorage();
+                .AddInMemoryStorage();
 
             return services;
         }
@@ -64,16 +59,17 @@
         {
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHealthChecks("/health", new HealthCheckOptions()
-                {
-                    ResultStatusCodes =
+                endpoints.MapHealthChecks("/health",
+                    new HealthCheckOptions
                     {
-                        [HealthStatus.Healthy] = StatusCodes.Status200OK,
-                        [HealthStatus.Degraded] = StatusCodes.Status200OK,
-                        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
-                    },
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                });
+                        ResultStatusCodes =
+                        {
+                            [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                            [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                            [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+                        },
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    });
 
                 endpoints.MapHealthChecksUI(opt =>
                 {
