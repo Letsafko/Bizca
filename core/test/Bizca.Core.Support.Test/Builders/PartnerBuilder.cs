@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Support.Test.Builders
 {
-    using Bizca.Core.Domain.Partner;
+    using Domain.Referential.Model;
 
     public sealed class PartnerBuilder
     {

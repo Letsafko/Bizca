@@ -1,10 +1,10 @@
 ﻿namespace Bizca.User.Domain.Entities.Address.Factories
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.Exceptions;
-    using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Entities.Address.BusinessCheck;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Services;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;

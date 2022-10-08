@@ -1,13 +1,14 @@
 ﻿namespace Bizca.User.Application.UnitTest.GetUser.Detail
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Domain.Services;
     using Bizca.Core.Support.Test;
     using Bizca.Core.Support.Test.Builders;
     using Bizca.User.Application.UseCases.GetUserDetail;
     using Bizca.User.Application.UseCases.GetUsersByCriteria;
     using Bizca.User.Domain.Agregates.Repositories;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Repository;
+    using Core.Domain.Referential.Services;
     using Microsoft.AspNetCore.Mvc;
     using NFluent;
     using NSubstitute;

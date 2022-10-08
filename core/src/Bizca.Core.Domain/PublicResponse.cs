@@ -2,7 +2,6 @@
 {
     public sealed class PublicResponse<T> : IPublicResponse<T>
     {
-        //[JsonConstructor]
         public PublicResponse(string message, int statusCode, int? errorCode = null)
         {
             StatusCode = statusCode;

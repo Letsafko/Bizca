@@ -1,17 +1,14 @@
 ﻿namespace Bizca.User.Domain.Agregates.Factories
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Civility;
-    using Bizca.Core.Domain.Country;
-    using Bizca.Core.Domain.EconomicActivity;
     using Bizca.Core.Domain.Exceptions;
-    using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.Agregates.Repositories;
     using Bizca.User.Domain.Agregates.ValueObjects;
     using Bizca.User.Domain.Entities.Channel;
     using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;

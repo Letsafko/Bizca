@@ -1,10 +1,10 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUsersByCriteria
 {
     using Bizca.Core.Application.Queries;
-    using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates;
     using Bizca.User.Domain.Agregates.Repositories;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Services;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;

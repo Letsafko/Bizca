@@ -1,6 +1,5 @@
 ﻿namespace Bizca.Core.Domain.Test.Services
 {
-    using Bizca.Core.Domain.Services;
     using Shouldly;
     using System;
     using Xunit;

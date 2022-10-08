@@ -1,13 +1,13 @@
 ﻿namespace Bizca.User.Application.UseCases.ConfirmChannelCode
 {
     using Bizca.Core.Application.Commands;
-    using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates;
     using Bizca.User.Domain.Agregates.Factories;
     using Bizca.User.Domain.Agregates.Repositories;
     using Bizca.User.Domain.Entities.Channel;
     using Bizca.User.Domain.Entities.Channel.Repositories;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Services;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;

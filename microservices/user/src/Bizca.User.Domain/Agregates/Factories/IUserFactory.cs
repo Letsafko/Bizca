@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Domain.Agregates.Factories
 {
-    using Bizca.Core.Domain.Partner;
+    using Core.Domain.Referential.Model;
     using System.Threading.Tasks;
 
     public interface IUserFactory

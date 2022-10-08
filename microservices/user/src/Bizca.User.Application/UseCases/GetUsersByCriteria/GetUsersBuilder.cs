@@ -1,9 +1,9 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUsersByCriteria
 {
-    using Bizca.Core.Domain.Country;
     using Bizca.User.Domain;
     using Bizca.User.Domain.Entities.Address;
     using Bizca.User.Domain.Entities.Channel;
+    using Core.Domain.Referential.Model;
     using System.Collections.Generic;
 
     public sealed class GetUsersBuilder

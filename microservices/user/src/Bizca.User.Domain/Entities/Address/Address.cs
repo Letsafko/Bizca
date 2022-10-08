@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Domain.Entities.Address
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Country;
+    using Core.Domain.Referential.Model;
 
     public sealed class Address : Entity
     {

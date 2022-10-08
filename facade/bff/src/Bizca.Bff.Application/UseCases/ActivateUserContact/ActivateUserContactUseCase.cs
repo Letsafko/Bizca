@@ -7,7 +7,7 @@
     using Bizca.Bff.Domain.Wrappers.Contact;
     using Bizca.Bff.Domain.Wrappers.Contact.Requests;
     using Bizca.Core.Application.Events;
-    using Bizca.Core.Domain.Services;
+    using Core.Domain.Referential.Services;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;

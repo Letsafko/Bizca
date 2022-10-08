@@ -1,7 +1,7 @@
-﻿using Bizca.Core.Domain.Partner;
-
-namespace Bizca.User.Domain.Entities.Address
+﻿namespace Bizca.User.Domain.Entities.Address
 {
+    using Core.Domain.Referential.Model;
+
     public sealed class AddressRequest
     {
         public AddressRequest(Partner partner,

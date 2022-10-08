@@ -1,8 +1,9 @@
 ﻿namespace Bizca.User.Domain.Agregates.BusinessCheck.Rules
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Civility;
     using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Referential.Exception;
+    using Core.Domain.Referential.Repository;
     using System.Threading.Tasks;
 
     public sealed class UserCivilityMustExist : IUserRule

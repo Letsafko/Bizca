@@ -1,9 +1,9 @@
 ﻿namespace Bizca.User.Domain.UnitTest.Factories
 {
-    using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.Agregates.Factories;
     using Bizca.User.Domain.Agregates.Repositories;
+    using Core.Domain.Referential.Services;
 
     public sealed class UserFactoryBuilder
     {

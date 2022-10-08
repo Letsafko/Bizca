@@ -8,8 +8,8 @@
     using System.Text;
     public static class HttpClientExtensions
     {
-        public const string JsonMediaType = "application/json";
-        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        private const string JsonMediaType = "application/json";
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             ContractResolver = new CamelCaseExceptDictionaryKeysResolver(),
             NullValueHandling = NullValueHandling.Ignore
@@ -17,18 +17,17 @@
 
         public static HttpContent GetHttpContent(this object content)
         {
-            string json = JsonConvert.SerializeObject(content, jsonSettings);
+            var json = JsonConvert.SerializeObject(content, JsonSettings);
             return new StringContent(json, Encoding.UTF8, JsonMediaType);
         }
 
         public static void AddHeaders(this HttpRequestMessage request, IDictionary headers)
         {
-            if (headers != null)
+            if (headers == null) return;
+            
+            foreach (object entry in headers.Keys)
             {
-                foreach (object entry in headers.Keys)
-                {
-                    request.Headers.Add(entry.ToString(), headers[entry].ToString());
-                }
+                request.Headers.Add(entry.ToString(), headers[entry].ToString());
             }
         }
     }

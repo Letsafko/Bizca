@@ -1,37 +1,35 @@
 ﻿namespace Bizca.Core.Infrastructure
 {
-    using Bizca.Core.Domain;
-    using Bizca.Core.Infrastructure.Database;
-    using Bizca.Core.Infrastructure.Database.Configuration;
+    using Database;
+    using Microsoft.Extensions.Logging;
     using System;
     using System.Data;
 
     public sealed class UnitOfWork : IUnitOfWork
     {
-        #region fields & ctor
-
-        public UnitOfWork(IConnectionFactory connectionFactory)
+        private readonly ILogger<UnitOfWork> _logger;
+        public UnitOfWork(IConnectionFactory connectionFactory, ILogger<UnitOfWork> logger)
         {
-            if (connectionFactory is null)
-                throw new ArgumentNullException(nameof(connectionFactory));
-
-            Connection = connectionFactory.CreateConnection<DatabaseConfiguration>();
+            Connection = connectionFactory.CreateConnection();
+            _logger = logger;
         }
 
-        private bool disposed;
-
-        #endregion
+        ~UnitOfWork() => Dispose(false);
+        
+        private bool _disposed;
 
         public IDbTransaction Transaction { get; private set; }
-        public IDbConnection Connection { get; private set; }
+        public IDbConnection Connection { get; }
 
         public void Rollback()
         {
+            _logger.LogDebug("transaction rollback");
             Transaction.Rollback();
         }
 
         public void Commit()
         {
+            _logger.LogDebug("transaction committed");
             Transaction.Commit();
         }
 
@@ -46,20 +44,14 @@
             GC.SuppressFinalize(this);
         }
 
-        #region private helpers
-
         private void Dispose(bool disposing)
         {
-            if (!disposed && disposing)
+            if (!_disposed && disposing)
             {
                 Transaction?.Dispose();
                 Connection?.Dispose();
-                Transaction = null;
-                Connection = null;
             }
-            disposed = true;
+            _disposed = true;
         }
-
-        #endregion
     }
 }

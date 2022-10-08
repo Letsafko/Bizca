@@ -5,8 +5,6 @@ namespace Bizca.Core.Api.Modules.Extensions
     using Bizca.Core.Api.Modules.Filters;
     using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Bizca.Core.Api.Modules.Telemetry;
-    using Bizca.Core.Domain.Cache;
-    using Bizca.Core.Domain.Services;
     using Bizca.Core.Infrastructure.Cache;
     using IdentityServer4.AccessTokenValidation;
     using Microsoft.ApplicationInsights.Extensibility;

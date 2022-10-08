@@ -17,11 +17,6 @@
         public IEnumerable<DomainFailure> Errors { get; }
 
         /// <inheritdoc/>
-        public ResourceNotFoundException() : base()
-        {
-        }
-
-        /// <inheritdoc/>
         public ResourceNotFoundException(string message, Exception innerException)
             : base(message, innerException)
         {
@@ -31,7 +26,8 @@
         ///     Creates a new instance of <see cref="ResourceNotFoundException"/>
         /// </summary>
         /// <param name="errors"></param>
-        public ResourceNotFoundException(IEnumerable<DomainFailure> errors) : base(BuildErrorMessage(errors))
+        public ResourceNotFoundException(IEnumerable<DomainFailure> errors) 
+            : base(BuildErrorMessage(errors))
         {
             Errors = errors;
         }
@@ -48,6 +44,7 @@
         ///     Creates a new instance of <see cref="ResourceNotFoundException"/> 
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="propertyName"></param>
         public ResourceNotFoundException(string message, string propertyName) : this(new List<DomainFailure> { new DomainFailure(message, propertyName) })
         {
         }

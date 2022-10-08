@@ -1,12 +1,12 @@
 ﻿namespace Bizca.User.WebApi.Modules.Autofac
 {
     using Bizca.Core.Domain.Rules;
-    using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates;
     using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.Agregates.BusinessCheck.Rules;
     using Bizca.User.Domain.Agregates.Factories;
     using Bizca.User.Domain.Entities.Address.Factories;
+    using Core.Domain.Referential.Services;
     using global::Autofac;
 
     /// <summary>

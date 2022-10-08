@@ -3,7 +3,6 @@
     using Bizca.Core.Domain;
     using Bizca.Core.Infrastructure;
     using Bizca.Core.Infrastructure.Database;
-    using Bizca.Core.Infrastructure.Persistance;
     using global::Autofac;
 
     /// <summary>

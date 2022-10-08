@@ -15,16 +15,14 @@
     using Bizca.Bff.Infrastructure.Wrappers.Notifications;
     using Bizca.Bff.Infrastructure.Wrappers.Users;
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Civility;
-    using Bizca.Core.Domain.Country;
-    using Bizca.Core.Domain.EconomicActivity;
-    using Bizca.Core.Domain.EmailTemplate;
-    using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Domain.Services;
     using Bizca.Core.Infrastructure;
     using Bizca.Core.Infrastructure.Cache;
     using Bizca.Core.Infrastructure.Database;
-    using Bizca.Core.Infrastructure.Persistance;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Repository;
+    using Core.Domain.Referential.Services;
+    using Core.Infrastructure.Persistence;
+    using Core.Infrastructure.Persistence.RepositoryCache;
     using global::Autofac;
 
     /// <summary>

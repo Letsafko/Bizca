@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Infrastructure.Cache
 {
     using Bizca.Bff.Domain.Provider.ContactList;
-    using Bizca.Core.Domain.Cache;
+    using Core.Infrastructure.Cache;
     using System.Threading.Tasks;
 
     public sealed class CacheContactListRepository : IContactListRepository

@@ -1,12 +1,9 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
     using Bizca.Core.Application.Queries;
-    using Bizca.Core.Domain.Civility;
-    using Bizca.Core.Domain.Country;
-    using Bizca.Core.Domain.EconomicActivity;
-    using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Domain.Services;
     using Bizca.User.Domain.Agregates.Repositories;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Services;
     using MediatR;
     using System.Collections.Generic;
     using System.Linq;

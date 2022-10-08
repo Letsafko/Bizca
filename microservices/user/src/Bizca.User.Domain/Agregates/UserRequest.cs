@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Domain.Agregates
 {
-    using Bizca.Core.Domain.Partner;
+    using Core.Domain.Referential.Model;
     using System;
 
     public sealed class UserRequest

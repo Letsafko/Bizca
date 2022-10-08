@@ -1,9 +1,9 @@
 ﻿namespace Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Partner;
     using Bizca.Core.Support.Test.Builders;
     using Bizca.User.Domain.Agregates;
+    using Core.Domain.Referential.Model;
     using NFluent;
     using System;
     using System.Threading.Tasks;

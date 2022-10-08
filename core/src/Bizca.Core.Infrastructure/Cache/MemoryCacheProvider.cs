@@ -1,6 +1,5 @@
 ﻿namespace Bizca.Core.Infrastructure.Cache
 {
-    using Bizca.Core.Domain.Cache;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Options;
     using Microsoft.Extensions.Primitives;
@@ -9,90 +8,100 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class MemoryCacheProvider : ICacheProvider
+    public sealed class MemoryCacheProvider : CacheProviderBase, ICacheProvider
     {
-        private readonly ConcurrentDictionary<object, SemaphoreSlim> locks;
-        private CancellationTokenSource cancellationTokenSource;
-        private readonly MemoryCacheOptions cacheOptions;
-        private readonly IMemoryCache memoryCache;
-        public MemoryCacheProvider(IMemoryCache memoryCache, IOptions<MemoryCacheOptions> cacheOptions = null)
+        private readonly ConcurrentDictionary<object, SemaphoreSlim> _locks;
+        private CancellationTokenSource _cancellationTokenSource;
+        private readonly MemoryCacheOptions _cacheOptions;
+        private readonly IMemoryCache _memoryCache;
+        public MemoryCacheProvider(IMemoryCache memoryCache, 
+            IOptions<MemoryCacheOptions> cacheOptions)
         {
-            locks = new ConcurrentDictionary<object, SemaphoreSlim>();
-            cancellationTokenSource = new CancellationTokenSource();
-            this.cacheOptions = cacheOptions.Value;
-            this.memoryCache = memoryCache;
+            _locks = new ConcurrentDictionary<object, SemaphoreSlim>();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _cacheOptions = cacheOptions!.Value;
+            _memoryCache = memoryCache;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string cacheKey, Func<Task<T>> createItem, TimeSpan? cacheDuration = null) where T : class
+        public async Task<T> GetOrCreateAsync<T>(string cacheKey, 
+            Func<Task<T>> createItem, 
+            TimeSpan? cacheDuration = null) where T : class
         {
-            T cachedReponse = Get<T>(cacheKey);
-            if (cachedReponse != null)
-                return cachedReponse;
+            var cachedItem = Get<T>(cacheKey);
+            if (cachedItem != null)
+                return cachedItem;
 
-            SemaphoreSlim semaphore = locks.GetOrAdd(cacheKey, k => new SemaphoreSlim(1, 1));
+            var semaphore = 
+                _locks.GetOrAdd(cacheKey, _ => new SemaphoreSlim(1, 1));
+            
             try
             {
                 await semaphore.WaitAsync();
-                cachedReponse = Get<T>(cacheKey);
-                if (cachedReponse != null)
-                    return cachedReponse;
+                cachedItem = Get<T>(cacheKey);
+                if (cachedItem != null)
+                    return cachedItem;
 
-                cachedReponse = await createItem();
-                TryAdd(cacheKey, cachedReponse, cacheDuration);
+                cachedItem = await createItem();
+                TryAdd(cacheKey, cachedItem, cacheDuration);
             }
             finally
             {
                 semaphore.Release();
             }
 
-            return cachedReponse;
+            return cachedItem;
         }
+        
         public void Remove(string cacheKey)
         {
             if (string.IsNullOrWhiteSpace(cacheKey))
                 return;
 
-            memoryCache.Remove(cacheKey);
+            _memoryCache.Remove(cacheKey);
         }
+        
         public void Reset()
         {
-            if (cancellationTokenSource?.IsCancellationRequested == false &&
-                cancellationTokenSource.Token.CanBeCanceled)
+            if (!_cancellationTokenSource.IsCancellationRequested &&
+                _cancellationTokenSource.Token.CanBeCanceled)
             {
-                cancellationTokenSource.Cancel();
-                cancellationTokenSource.Dispose();
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
             }
 
-            cancellationTokenSource = new CancellationTokenSource();
+            _cancellationTokenSource = new CancellationTokenSource();
         }
-
-        #region private helpers
-
-        private MemoryCacheEntryOptions GetMemoryCacheEntryOptions(TimeSpan cacheDuration)
-        {
-            return new MemoryCacheEntryOptions()
-              .SetAbsoluteExpiration(cacheDuration)
-              .SetPriority(CacheItemPriority.Normal)
-              .AddExpirationToken(new CancellationChangeToken(cancellationTokenSource.Token));
-        }
-        private bool TryAdd<T>(string cacheKey, T cacheItem, TimeSpan? cacheDuration) where T : class
+        
+        protected override bool TryAdd<T>(string cacheKey, 
+            T cacheItem, 
+            TimeSpan? cacheDuration) where T : class
         {
             if (string.IsNullOrWhiteSpace(cacheKey) || cacheItem is null)
                 return false;
 
-            TimeSpan duration = cacheDuration ?? TimeSpan.FromMinutes(cacheOptions.DurationInMinutes);
-            MemoryCacheEntryOptions cacheEntryOptions = GetMemoryCacheEntryOptions(duration);
-            return !(memoryCache.Set(cacheKey, cacheItem, cacheEntryOptions) is null);
+            var duration = cacheDuration ?? TimeSpan.FromMinutes(_cacheOptions.DurationInMinutes);
+            var cacheEntryOptions = GetMemoryCacheEntryOptions(duration, _cancellationTokenSource.Token);
+            
+            return !(_memoryCache.Set(cacheKey, cacheItem, cacheEntryOptions) is null);
         }
-        private T Get<T>(string cacheKey) where T : class
+        
+        protected override T Get<T>(string cacheKey) where T : class
         {
             if (string.IsNullOrWhiteSpace(cacheKey))
                 return default;
 
-            object cachedResponse = memoryCache.Get(cacheKey);
-            return cachedResponse as T;
+            object cachedItem = _memoryCache.Get(cacheKey);
+            return cachedItem as T;
         }
-
-        #endregion
+        
+        private static MemoryCacheEntryOptions GetMemoryCacheEntryOptions(TimeSpan cacheDuration,
+            CancellationToken cancellationToken,
+            CacheItemPriority cacheItemPriority = CacheItemPriority.Normal)
+        {
+            return new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(cacheDuration)
+                .SetPriority(cacheItemPriority)
+                .AddExpirationToken(new CancellationChangeToken(cancellationToken));
+        }
     }
 }

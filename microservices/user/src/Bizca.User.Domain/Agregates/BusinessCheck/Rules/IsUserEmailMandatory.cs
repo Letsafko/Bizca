@@ -2,8 +2,8 @@
 {
     using Bizca.Core.Domain;
     using Bizca.Core.Domain.Exceptions;
-    using Bizca.Core.Domain.Partner;
     using Bizca.User.Domain.Agregates.BusinessCheck.Exceptions;
+    using Core.Domain.Referential.Model;
     using System.Threading.Tasks;
 
     public sealed class IsUserEmailMandatory : IUserRule

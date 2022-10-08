@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Support.Test.Builders
 {
-    using Bizca.Core.Domain.Country;
+    using Domain.Referential.Model;
 
     public sealed class CountryBuilder
     {

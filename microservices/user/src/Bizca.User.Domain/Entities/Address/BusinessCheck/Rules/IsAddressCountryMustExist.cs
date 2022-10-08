@@ -1,9 +1,9 @@
 ﻿namespace Bizca.User.Domain.Entities.Address.BusinessCheck.Rules
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.Exceptions;
     using Bizca.User.Domain.Entities.Address.BusinessCheck.Exceptions;
+    using Core.Domain.Referential.Repository;
     using System.Threading.Tasks;
 
     public sealed class IsAddressCountryMustExist : IAddressRule

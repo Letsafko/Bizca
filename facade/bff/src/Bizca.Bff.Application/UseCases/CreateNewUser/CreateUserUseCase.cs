@@ -11,8 +11,8 @@
     using Bizca.Core.Application.Commands;
     using Bizca.Core.Application.Services;
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.EmailTemplate;
-    using Bizca.Core.Domain.Services;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Services;
     using MediatR;
     using System;
     using System.Collections.Generic;

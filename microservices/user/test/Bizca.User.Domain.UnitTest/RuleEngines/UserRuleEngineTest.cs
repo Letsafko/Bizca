@@ -1,11 +1,11 @@
 ﻿namespace Bizca.User.Domain.UnitTest.Rules.RuleEngines
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Partner;
     using Bizca.Core.Support.Test.Builders;
     using Bizca.User.Domain.Agregates;
     using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner;
+    using Core.Domain.Referential.Model;
     using NFluent;
     using System;
     using System.Collections.Generic;

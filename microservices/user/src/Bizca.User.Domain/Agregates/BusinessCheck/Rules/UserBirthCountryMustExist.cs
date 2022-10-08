@@ -1,9 +1,10 @@
 ﻿namespace Bizca.User.Domain.Agregates.BusinessCheck.Rules
 {
     using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Country;
     using Bizca.Core.Domain.Exceptions;
-    using Bizca.Core.Domain.Partner;
+    using Core.Domain.Referential.Exception;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Repository;
     using System.Threading.Tasks;
 
     public sealed class UserBirthCountryMustExist : IUserRule
