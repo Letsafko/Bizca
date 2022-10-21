@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Infrastructure.Cache
 {
     using Core.Infrastructure.Cache;
-    using Domain.Referentials.Bundle;
+    using Domain.Referential.Bundle;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

@@ -1,17 +1,13 @@
-﻿namespace Bizca.Bff.Domain.Entities.User.Exceptions
+﻿namespace Bizca.Bff.Domain.Provider.Folder
 {
-    using Core.Domain.Exceptions;
+    using Bizca.Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
     public sealed class FolderDoesNotExistException : ResourceNotFoundException
     {
-        public FolderDoesNotExistException()
-        {
-        }
-
-        public FolderDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
+        public FolderDoesNotExistException(ICollection<DomainFailure> errors) : base(errors)
         {
         }
 

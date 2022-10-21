@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetProcedures
 {
-    using Core.Application.Queries;
+    using Core.Domain.Cqrs.Queries;
 
     public sealed class GetProceduresQuery : IQuery
     {

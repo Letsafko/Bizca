@@ -20,7 +20,7 @@
             string certificate)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(Constants.ANTELOP_SCHEME, _ =>
+                .AddJwtBearer(Constants.AntelopScheme, _ =>
                 {
                 });
 

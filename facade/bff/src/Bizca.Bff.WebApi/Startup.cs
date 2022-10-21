@@ -29,9 +29,9 @@ namespace Bizca.Bff.WebApi
     {
         private const string DatabaseScheme = "BizcaDatabase";
 
-        private static readonly string SendInBlueSheme = $"Api:Dependencies:{nameof(NotificationSettings)}";
-        private static readonly string ApiUserScheme = $"Api:Dependencies:{nameof(UserSettings)}";
-        private readonly string SendInBlueApiKey = $"{SendInBlueSheme}:ApiKey";
+        private const string SendInBlueScheme = $"Api:Dependencies:{nameof(NotificationSettings)}";
+        private const string ApiUserScheme = $"Api:Dependencies:{nameof(UserSettings)}";
+        private const string SendInBlueApiKey = $"{SendInBlueScheme}:ApiKey";
 
         /// <summary>
         ///     Creates an instance of <see cref="Startup" />
@@ -49,28 +49,28 @@ namespace Bizca.Bff.WebApi
         public new void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient(_ =>
-                new AuthorisationDelegateHandler(configuration.GetValue<string>(SendInBlueApiKey)));
+                new AuthorisationDelegateHandler(Configuration.GetValue<string>(SendInBlueApiKey)));
 
             services
                 .AddHttpClientBase<INotificationWrapper,
                     NotificationWrapper,
-                    NotificationSettings>(configuration.GetSection(SendInBlueSheme),
+                    NotificationSettings>(Configuration.GetSection(SendInBlueScheme),
                     NamedHttpClients.ApiNotificationClientName)
                 .AddHttpMessageHandler(provider => provider.GetRequiredService<AuthorisationDelegateHandler>());
 
             services
                 .AddHttpClientBase<IContactWrapper,
                     ContactWrapper,
-                    ContactSettings>(configuration.GetSection(SendInBlueSheme),
+                    ContactSettings>(Configuration.GetSection(SendInBlueScheme),
                     NamedHttpClients.ApiProviderName)
                 .AddHttpMessageHandler(provider => provider.GetRequiredService<AuthorisationDelegateHandler>());
 
             services.AddHttpClientBase<IUserWrapper,
                 UserWrapper,
-                UserSettings>(configuration.GetSection(ApiUserScheme),
+                UserSettings>(Configuration.GetSection(ApiUserScheme),
                 NamedHttpClients.ApiUserClientName);
 
-            services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseScheme));
+            services.Configure<DatabaseConfiguration>(Configuration.GetSection(DatabaseScheme));
             base.ConfigureServices(services);
             services.ConfigureHealthChecks()
                 .AddControllers()

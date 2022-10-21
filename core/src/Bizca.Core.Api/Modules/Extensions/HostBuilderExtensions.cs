@@ -10,10 +10,11 @@
 
     public static class HostBuilderExtensions
     {
-        public static IHostBuilder ConfigureSerilog(this IHostBuilder builder, string loggingjsonpath = "logging.json")
+        public static IHostBuilder ConfigureSerilog(this IHostBuilder builder, string loggingJsonPath = "logging.json")
         {
             return builder
-                .ConfigureAppConfiguration((_, config) => config.AddJsonFile(loggingjsonpath, false, true))
+                .ConfigureAppConfiguration((_, config) 
+                    => config.AddJsonFile(loggingJsonPath, false, true))
                 .UseSerilog(ConfigureLogging);
         }
 
@@ -34,7 +35,7 @@
         private static void ConfigureAppSettings(HostBuilderContext context, IConfigurationBuilder configBuilder)
         {
             configBuilder
-                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile("appSettings.json", false, true)
                 .AddEnvironmentVariables()
                 .AddUserSecrets(Assembly.GetEntryAssembly());
         }

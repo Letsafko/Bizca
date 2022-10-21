@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpsertPassword
 {
-    using Core.Application.Commands;
     using Core.Domain;
+    using Core.Domain.Cqrs.Commands;
     using Domain.Wrappers.Users;
     using Domain.Wrappers.Users.Requests;
     using Domain.Wrappers.Users.Responses;

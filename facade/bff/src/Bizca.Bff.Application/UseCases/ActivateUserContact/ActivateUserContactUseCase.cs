@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.ActivateUserContact
 {
-    using Core.Application.Events;
     using Core.Domain;
+    using Core.Domain.Cqrs.Events;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
     using Domain;
@@ -15,7 +15,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class ActivateUserContactUseCase : IEventHandler<ActivateUserContactEvent>
+    public sealed class ActivateUserContactUseCase : IEventHandler<ActivateUserContactNotificationEvent>
     {
         private readonly IContactListRepository _contactListRepository;
         private readonly IContactWrapper _contactWrapper;
@@ -33,7 +33,7 @@
             _contactWrapper = contactWrapper;
         }
 
-        public async Task Handle(ActivateUserContactEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(ActivateUserContactNotificationEvent notification, CancellationToken cancellationToken)
         {
             ContactList contactList = await _contactListRepository.GetContactListByProcedureAndOrganismAsync(
                 notification.Procedure.ProcedureType.Id,

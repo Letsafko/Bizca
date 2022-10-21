@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription.Factories
 {
     using Core.Domain.Exceptions;
-    using Referentials.Procedure;
+    using Referential.Procedure;
     using System;
     using System.Threading.Tasks;
 

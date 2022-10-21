@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.RegisterSmsCodeConfirmation
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
     using Domain.Enumerations;
 
     public sealed class RegisterSmsCodeConfirmationCommand : ICommand

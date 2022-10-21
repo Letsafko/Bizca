@@ -1,7 +1,8 @@
-namespace Bizca.Core.Infrastructure.Test
+namespace Bizca.Core.Infrastructure.Test.UnitOfWork
 {
     using Database;
-    using Database.Configuration;
+    using Bizca.Core.Infrastructure.Database.Configuration;
+    using Microsoft.Extensions.Logging;
     using NSubstitute;
     using System.Data;
 
@@ -9,12 +10,14 @@ namespace Bizca.Core.Infrastructure.Test
     {
         private readonly IDbConnection _connection;
         private readonly IConnectionFactory _connectionFactory;
+        private readonly ILogger<UnitOfWork> _logger;
         private readonly IDbTransaction _transaction;
 
         private UnitOfWorkBuilder()
         {
             _connectionFactory = Substitute.For<IConnectionFactory>();
             _transaction = Substitute.For<IDbTransaction>();
+            _logger = Substitute.For<ILogger<UnitOfWork>>();
             _connection = Substitute.For<IDbConnection>();
         }
 
@@ -22,13 +25,13 @@ namespace Bizca.Core.Infrastructure.Test
 
         public UnitOfWork Build()
         {
-            return new UnitOfWork(_connectionFactory);
+            return new UnitOfWork(_connectionFactory, _logger);
         }
 
         public UnitOfWorkBuilder WithConnectionFactory<T>() where T : class, IDatabaseConfiguration, new()
         {
             _connectionFactory
-                .CreateConnection<T>()
+                .CreateConnection()
                 .Returns(_connection);
 
             return this;

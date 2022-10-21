@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.ConfirmChannelCode
 {
-    using Core.Application.Commands;
     using Core.Domain;
+    using Core.Domain.Cqrs.Commands;
     using Domain.Entities.User;
     using Domain.Entities.User.Exceptions;
     using Domain.Wrappers.Users;

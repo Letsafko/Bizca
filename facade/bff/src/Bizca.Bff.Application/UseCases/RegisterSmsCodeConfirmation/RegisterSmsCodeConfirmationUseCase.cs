@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.RegisterSmsCodeConfirmation
 {
-    using Core.Application.Commands;
-    using Core.Application.Services;
     using Core.Domain;
+    using Core.Domain.Cqrs.Commands;
+    using Core.Domain.Cqrs.Services;
     using Domain.Entities.User;
     using Domain.Entities.User.Exceptions;
     using Domain.Wrappers.Users;

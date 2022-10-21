@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
 {
-    using Core.Application.Queries;
+    using Core.Domain.Cqrs.Queries;
 
     public sealed class AuthenticateUserQuery : IQuery
     {

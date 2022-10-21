@@ -70,8 +70,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.User.Infrastructure.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Infrastructure.Test", "core\test\Bizca.Core.Infrastructure.Test\Bizca.Core.Infrastructure.Test.csproj", "{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Application", "core\src\Bizca.Core.Application\Bizca.Core.Application.csproj", "{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.Core.Application.Test", "core\test\Bizca.Core.Application.Test\Bizca.Core.Application.Test.csproj", "{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizca.User.Application", "microservices\user\src\Bizca.User.Application\Bizca.User.Application.csproj", "{8141DDA1-4BFF-4EB3-A3AD-5C0262987511}"
@@ -104,9 +102,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "microservices", "microservices", "{313067C4-52B9-4101-9C2E-9A8948323417}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gateway", "gateway", "{B50D549D-FE3F-463A-B8EB-67B57404D551}"
-	ProjectSection(SolutionItems) = preProject
-		facade\bff\src\Bizca.Bff.Domain\Wrappers\Notification\Requests\Email\TransactionalEmailRequest - Copier.cs = facade\bff\src\Bizca.Bff.Domain\Wrappers\Notification\Requests\Email\TransactionalEmailRequest - Copier.cs
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{02CDCCB2-923C-466D-9E0C-FBA95CF80F28}"
 	ProjectSection(SolutionItems) = preProject
@@ -204,10 +199,6 @@ Global
 		{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -305,7 +296,6 @@ Global
 		{9F09439F-CAC7-4381-9A91-9BEAF0EA9CCE} = {EE1A66BE-1601-4D86-A082-F391F986C43A}
 		{624E98DD-30A2-441B-9D97-1E881FFA038C} = {D685D605-5CF4-4A64-806B-BAB0FF71912F}
 		{B714CE7B-D98E-4272-AC8E-465C7D4E3DDF} = {99C1A37C-EE0E-4791-90CF-C90520CE17A7}
-		{D5B72838-3804-44FF-8E9A-4CC6D3F0A4F2} = {EE1A66BE-1601-4D86-A082-F391F986C43A}
 		{FE972EF1-29C0-439B-9DC8-FE23C0DE2E37} = {99C1A37C-EE0E-4791-90CF-C90520CE17A7}
 		{8141DDA1-4BFF-4EB3-A3AD-5C0262987511} = {041743DF-BFB5-45F8-9B3A-BDC51CDC0B6E}
 		{240ABBBD-7255-4AC1-9814-6A4B5443C6C8} = {D685D605-5CF4-4A64-806B-BAB0FF71912F}

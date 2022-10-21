@@ -1,11 +1,11 @@
 ﻿namespace Bizca.Core.Application.Test.Pipelines.UnitOfWork
 {
     using Behaviors;
-    using Commands;
+    using Domain.Cqrs.Commands;
+    using Domain.Cqrs.Services;
     using MediatR;
     using NSubstitute;
     using NSubstitute.ExceptionExtensions;
-    using Services;
     using System;
 
     internal sealed class UnitOfWorkCommandBuilder

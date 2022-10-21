@@ -1,11 +1,12 @@
 ﻿namespace Bizca.Core.Application.Test
 {
-    using Commands;
     using Cqrs;
+    using Domain.Cqrs;
+    using Domain.Cqrs.Commands;
+    using Domain.Cqrs.Queries;
     using MediatR;
     using NFluent;
     using NSubstitute;
-    using Queries;
     using Support.Test;
     using System.Threading.Tasks;
     using Xunit;

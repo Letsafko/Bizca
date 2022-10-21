@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
-    using Core.Application.Queries;
+    using Core.Domain.Cqrs.Queries;
 
     public sealed class GetUserDetailQuery : IQuery
     {

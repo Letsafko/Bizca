@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateSubscription
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
     using Domain.Entities.Subscription;
     using Domain.Entities.Subscription.Factories;
     using Domain.Entities.User;

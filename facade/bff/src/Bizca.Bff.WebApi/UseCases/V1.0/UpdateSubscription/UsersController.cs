@@ -2,8 +2,8 @@
 {
     using Application.UseCases.UpdateSubscription;
     using Core.Api.Modules.Conventions;
-    using Core.Application;
     using Core.Domain;
+    using Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;

@@ -6,11 +6,11 @@
 
     public abstract class PresenterBase
     {
-        private readonly IHttpStrategyFactory strategyFactory;
+        private readonly IHttpStrategyFactory _strategyFactory;
 
         protected PresenterBase(IHttpStrategyFactory strategyFactory)
         {
-            this.strategyFactory = strategyFactory;
+            _strategyFactory = strategyFactory;
         }
 
         public IActionResult ViewModel { get; protected set; } = new NoContentResult();
@@ -22,7 +22,7 @@
 
         private IActionResult GetActionResult(IPublicResponse response)
         {
-            IHttpStrategy strategy = strategyFactory.GetStrategy(response.StatusCode);
+            IHttpStrategy strategy = _strategyFactory.GetStrategy(response.StatusCode);
             return strategy.GetResponse(response.Message);
         }
     }

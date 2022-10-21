@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetBundles
 {
-    using Core.Application.Queries;
-    using Domain.Referentials.Bundle;
+    using Core.Domain.Cqrs.Queries;
+    using Domain.Referential.Bundle;
     using MediatR;
     using System.Collections.Generic;
     using System.Threading;

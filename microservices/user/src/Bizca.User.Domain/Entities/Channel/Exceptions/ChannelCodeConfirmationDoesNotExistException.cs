@@ -10,11 +10,7 @@
     [ExcludeFromCodeCoverage]
     public sealed class ChannelCodeConfirmationDoesNotExistException : ResourceNotFoundException
     {
-        public ChannelCodeConfirmationDoesNotExistException()
-        {
-        }
-
-        public ChannelCodeConfirmationDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
+        public ChannelCodeConfirmationDoesNotExistException(ICollection<DomainFailure> errors) : base(errors)
         {
         }
 

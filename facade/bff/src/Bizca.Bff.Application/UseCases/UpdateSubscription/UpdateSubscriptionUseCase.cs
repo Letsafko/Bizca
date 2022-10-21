@@ -1,11 +1,11 @@
 ﻿namespace Bizca.Bff.Application.UseCases.UpdateSubscription
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
     using Domain.Entities.Subscription;
     using Domain.Entities.User;
     using Domain.Entities.User.Exceptions;
-    using Domain.Referentials.Procedure;
-    using Domain.Referentials.Procedure.Exceptions;
+    using Domain.Referential.Procedure;
+    using Domain.Referential.Procedure.Exceptions;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;

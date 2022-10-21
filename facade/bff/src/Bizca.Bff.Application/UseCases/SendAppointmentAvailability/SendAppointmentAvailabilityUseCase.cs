@@ -1,15 +1,16 @@
 ﻿namespace Bizca.Bff.Application.UseCases.SendAppointmentAvailability
 {
-    using Core.Application.Commands;
-    using Core.Application.Services;
     using Core.Domain;
+    using Core.Domain.Cqrs.Commands;
+    using Core.Domain.Cqrs.Events;
+    using Core.Domain.Cqrs.Services;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
     using Domain;
     using Domain.Entities.Subscription;
     using Domain.Events;
-    using Domain.Referentials.Procedure;
-    using Domain.Referentials.Procedure.Exceptions;
+    using Domain.Referential.Procedure;
+    using Domain.Referential.Procedure.Exceptions;
     using Domain.Wrappers.Notification.Requests.Email;
     using MediatR;
     using System.Collections.Generic;
@@ -46,9 +47,9 @@
             IEnumerable<SubscriberAvailability> subscribers =
                 await subscriptionRepository.GetSubscribers(procedure.Organism.Id, procedureTypeId);
 
-            var events = new List<IEvent>();
+            var events = new List<INotificationEvent>();
             //var smsNotification = BuildSmsGroupNotification(request.PartnerCode, subscribers);
-            IEvent emailNotification = BuildEmailGroupNotification(procedure.ProcedureHref,
+            INotificationEvent emailNotification = BuildEmailGroupNotification(procedure.ProcedureHref,
                 procedure.ProcedureType.Label,
                 emailTemplate.EmailTemplateId,
                 subscribers);
@@ -74,7 +75,7 @@
             }
         }
 
-        private static IEvent BuildEmailGroupNotification(string procedureHref,
+        private static INotificationEvent BuildEmailGroupNotification(string procedureHref,
             string procedureDescription,
             int emailTemplateId,
             IEnumerable<SubscriberAvailability> subscribers)
@@ -86,15 +87,15 @@
             var parameters = new Dictionary<string, object>();
             parameters.AddNewPair(AttributeConstant.Parameter.ProcedureName, procedureDescription);
             parameters.AddNewPair(AttributeConstant.Parameter.ProcedureUrl, procedureHref);
-            return new SendTransactionalEmailEvent(recipients,
+            return new SendTransactionalEmailNotificationEvent(recipients,
                 parameters: parameters,
                 emailTemplateId: emailTemplateId);
         }
 
-        private static IEvent BuildSmsGroupNotification(string partnerCode,
+        private static INotificationEvent BuildSmsGroupNotification(string partnerCode,
             IEnumerable<SubscriberAvailability> subscribers)
         {
-            return new SendTransactionalSmsEvent(partnerCode,
+            return new SendTransactionalSmsNotificationEvent(partnerCode,
                 "",
                 "");
         }

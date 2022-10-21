@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetProcedures
 {
-    using Core.Application.Queries;
-    using Domain.Referentials.Procedure;
-    using Domain.Referentials.Procedure.ValueObjects;
+    using Core.Domain.Cqrs.Queries;
+    using Domain.Referential.Procedure;
+    using Domain.Referential.Procedure.ValueObjects;
     using MediatR;
     using System.Collections.Generic;
     using System.Linq;

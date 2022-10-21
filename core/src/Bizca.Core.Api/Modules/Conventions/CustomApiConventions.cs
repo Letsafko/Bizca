@@ -9,9 +9,9 @@
     public static class CustomApiConventions
     {
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public static void Create(
             [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
@@ -21,9 +21,9 @@
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public static void Post(
             [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
@@ -33,10 +33,10 @@
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public static void Find(
             [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
@@ -46,10 +46,10 @@
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType( typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public static void Delete(
             [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
@@ -59,9 +59,9 @@
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public static void Get(
             [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
@@ -71,7 +71,7 @@
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public static void List(
             [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
@@ -82,10 +82,10 @@
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public static void Patch(
             [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
@@ -99,10 +99,10 @@
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public static void Update(
             [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]

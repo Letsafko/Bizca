@@ -1,11 +1,11 @@
 ﻿namespace Bizca.Bff.Application.UseCases.PaymentSubmitted
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
     using Domain.Entities.Subscription;
     using Domain.Entities.User;
     using Domain.Entities.User.Exceptions;
-    using Domain.Referentials.Bundle;
-    using Domain.Referentials.Bundle.Exceptions;
+    using Domain.Referential.Bundle;
+    using Domain.Referential.Bundle.Exceptions;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;

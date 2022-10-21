@@ -1,12 +1,13 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User
 {
     using Core.Domain;
+    using Core.Domain.Cqrs.Events;
     using Core.Domain.Exceptions;
     using Domain.Enumerations;
     using Enumerations.Subscription;
     using Events;
-    using Referentials.Bundle;
-    using Referentials.Procedure;
+    using Referential.Bundle;
+    using Referential.Procedure;
     using Subscription;
     using Subscription.Exceptions;
     using System;
@@ -18,7 +19,7 @@
     public sealed class User : Entity
     {
         private readonly List<Subscription> subscriptions;
-        private readonly ICollection<IEvent> userEvents;
+        private readonly ICollection<INotificationEvent> userEvents;
 
         private byte[] rowVersion;
 
@@ -30,7 +31,7 @@
             byte[] rowVersion = null)
         {
             this.subscriptions = subscriptions ?? new List<Subscription>();
-            userEvents = new List<IEvent>();
+            userEvents = new List<INotificationEvent>();
             UserIdentifier = userIdentifier;
             UserProfile = userProfile;
             SetRowVersion(rowVersion);
@@ -40,7 +41,7 @@
 
         public IReadOnlyCollection<Subscription> Subscriptions => subscriptions.ToList();
 
-        public IReadOnlyCollection<IEvent> UserEvents => userEvents.ToList();
+        public IReadOnlyCollection<INotificationEvent> UserEvents => userEvents.ToList();
 
         public UserIdentifier UserIdentifier { get; }
         public UserProfile UserProfile { get; }
@@ -67,14 +68,14 @@
 
             attributes.AddNewPair(AttributeConstant.Contact.Civility, UserProfile.Civility);
             attributes.AddNewPair(AttributeConstant.Contact.Email, UserProfile.Email);
-            var notification = new UserContactToCreateEvent(UserIdentifier.PartnerCode,
+            var notification = new UserContactToCreateNotificationEvent(UserIdentifier.PartnerCode,
                 UserProfile.Email,
                 attributes);
 
             userEvents.Add(notification);
         }
 
-        internal void RegisterUserContactToUpdateEvent(UserContactUpdatedEvent updateUserContactNotification)
+        internal void RegisterUserContactToUpdateEvent(UserContactUpdatedNotificationEvent updateUserContactNotification)
         {
             userEvents.Add(updateUserContactNotification);
         }
@@ -86,7 +87,7 @@
             string htmlContent = default,
             string subject = default)
         {
-            var @event = new SendTransactionalEmailEvent(recipients,
+            var @event = new SendTransactionalEmailNotificationEvent(recipients,
                 sender,
                 parameters,
                 emailTemplate,
@@ -98,7 +99,7 @@
 
         public void RegisterPaymentExecutedEvent(string subscriptionCode)
         {
-            var notification = new PaymentExecutedEvent(subscriptionCode);
+            var notification = new PaymentExecutedNotificationEvent(subscriptionCode);
             userEvents.Add(notification);
         }
 
@@ -106,19 +107,19 @@
             string phoneNumber,
             string content)
         {
-            userEvents.Add(new SendTransactionalSmsEvent(sender,
+            userEvents.Add(new SendTransactionalSmsNotificationEvent(sender,
                 phoneNumber,
                 content));
         }
 
         public void RegisterUserCreatedEvent(string externalUserId)
         {
-            userEvents.Add(new UserCreatedEvent(externalUserId));
+            userEvents.Add(new UserCreatedNotificationEvent(externalUserId));
         }
 
         public void RegisterUserUpdatedEvent(string externalUserId)
         {
-            userEvents.Add(new UserUpdatedEvent(externalUserId));
+            userEvents.Add(new UserUpdatedNotificationEvent(externalUserId));
         }
 
         #endregion
@@ -204,7 +205,7 @@
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
             subscription.UpdateSubscriptionDateRange();
 
-            var activateUserEvent = new ActivateUserContactEvent(subscription.Procedure,
+            var activateUserEvent = new ActivateUserContactNotificationEvent(subscription.Procedure,
                 UserIdentifier.PartnerCode,
                 UserProfile.Email);
 
@@ -273,7 +274,7 @@
 
             if (attributes.Any())
             {
-                var userContactToUpdateEvent = new UserContactUpdatedEvent(UserProfile.Email,
+                var userContactToUpdateEvent = new UserContactUpdatedNotificationEvent(UserProfile.Email,
                     attributes: attributes);
 
                 RegisterUserContactToUpdateEvent(userContactToUpdateEvent);

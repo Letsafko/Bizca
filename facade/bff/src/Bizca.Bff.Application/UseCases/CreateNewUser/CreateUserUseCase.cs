@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
 {
-    using Core.Application.Commands;
-    using Core.Application.Services;
     using Core.Domain;
+    using Core.Domain.Cqrs.Commands;
+    using Core.Domain.Cqrs.Services;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
     using Domain;

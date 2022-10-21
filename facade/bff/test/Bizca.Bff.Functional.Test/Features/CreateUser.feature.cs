@@ -120,7 +120,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.Then("the response should be \'201\'.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 11
-   testRunner.And("\'1\' event of type \'SendConfirmationEmalNotification\' has been published.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("\'1\' notificationEvent of type \'SendConfirmationEmalNotification\' has been published.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

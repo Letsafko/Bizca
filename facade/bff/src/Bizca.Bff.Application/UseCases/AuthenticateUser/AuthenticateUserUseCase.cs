@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.AuthenticateUser
 {
-    using Core.Application.Queries;
     using Core.Domain;
+    using Core.Domain.Cqrs.Queries;
     using Domain.Entities.User;
     using Domain.Entities.User.Exceptions;
     using Domain.Enumerations;

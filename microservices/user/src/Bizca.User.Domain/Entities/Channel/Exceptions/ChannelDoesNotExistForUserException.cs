@@ -7,14 +7,9 @@
     using System.Runtime.Serialization;
 
     [Serializable]
-    [ExcludeFromCodeCoverage]
     public sealed class ChannelDoesNotExistForUserException : ResourceNotFoundException
     {
-        public ChannelDoesNotExistForUserException()
-        {
-        }
-
-        public ChannelDoesNotExistForUserException(IEnumerable<DomainFailure> errors) : base(errors)
+        public ChannelDoesNotExistForUserException(ICollection<DomainFailure> errors) : base(errors)
         {
         }
 

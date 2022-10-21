@@ -27,7 +27,13 @@
         {
             if (headers == null) return;
 
-            foreach (object entry in headers.Keys) request.Headers.Add(entry.ToString(), headers[entry].ToString());
+            foreach (object entry in headers.Keys)
+            {
+                if (entry != null)
+                {
+                    request.Headers.Add(entry.ToString()!, headers[entry].ToString());
+                }
+            }
         }
     }
 

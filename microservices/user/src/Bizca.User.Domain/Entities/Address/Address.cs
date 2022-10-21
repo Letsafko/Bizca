@@ -29,19 +29,30 @@
         public string ZipCode { get; private set; }
         public Country Country { get; private set; }
 
-        internal void Update(bool active,
+        internal void Update(bool? active,
             string street,
             string city,
             string zipCode,
             Country country,
             string name)
         {
-            Name = name;
-            City = city;
-            Active = active;
-            Street = street;
-            ZipCode = zipCode;
-            Country = country;
+            if(!string.IsNullOrWhiteSpace(name))
+                Name = name;
+            
+            if(!string.IsNullOrWhiteSpace(city))
+                City = city;
+            
+            if(active.HasValue)
+                Active = active.Value;
+            
+            if(!string.IsNullOrWhiteSpace(street))
+                Street = street;
+            
+            if(!string.IsNullOrWhiteSpace(zipCode))
+                ZipCode = zipCode;
+            
+            if(country != null)
+                Country = country;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateNewUser
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
     using Domain.Enumerations;
 
     public sealed class CreateUserCommand : ICommand

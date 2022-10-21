@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUsers
 {
-    using Core.Application.Queries;
     using Core.Domain;
+    using Core.Domain.Cqrs.Queries;
     using Domain.Wrappers.Users;
     using Domain.Wrappers.Users.Requests;
     using Domain.Wrappers.Users.Responses;

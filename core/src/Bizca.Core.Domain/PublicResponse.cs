@@ -1,22 +1,23 @@
-﻿namespace Bizca.Core.Domain
+﻿#nullable enable
+namespace Bizca.Core.Domain
 {
     public sealed class PublicResponse<T> : IPublicResponse<T>
     {
-        public PublicResponse(string message, int statusCode, int? errorCode = null)
+        public PublicResponse(T? data,
+            int statusCode,
+            string? message = null, 
+            string? errorCode = null)
         {
             StatusCode = statusCode;
             ErrorCode = errorCode;
             Message = message;
+            Data = data;
         }
 
-        public PublicResponse()
-        {
-        }
-
-        public bool Success => ErrorCode == null && Message == null;
-        public object Message { get; }
-        public int? ErrorCode { get; }
+        public bool Success => !string.IsNullOrWhiteSpace(ErrorCode) && !string.IsNullOrWhiteSpace(Message);
+        public string? ErrorCode { get; }
+        public string? Message { get; }
         public int StatusCode { get; }
-        public T Data { get; set; }
+        public T? Data { get; init; }
     }
 }

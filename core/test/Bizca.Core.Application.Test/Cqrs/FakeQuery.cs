@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Application.Test.Cqrs
 {
-    using Queries;
+    using Domain.Cqrs.Queries;
 
     public class FakeQuery2 : IQuery
     {

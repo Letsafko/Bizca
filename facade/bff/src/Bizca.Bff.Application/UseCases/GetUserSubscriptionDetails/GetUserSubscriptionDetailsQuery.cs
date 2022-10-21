@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails
 {
-    using Core.Application.Queries;
+    using Core.Domain.Cqrs.Queries;
 
     public sealed class GetUserSubscriptionDetailsQuery : IQuery
     {

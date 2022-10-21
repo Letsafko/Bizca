@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetActiveProcedures
 {
-    using Core.Application.Queries;
-    using Domain.Referentials.Procedure;
+    using Core.Domain.Cqrs.Queries;
+    using Domain.Referential.Procedure;
     using MediatR;
     using System.Collections.Generic;
     using System.Threading;

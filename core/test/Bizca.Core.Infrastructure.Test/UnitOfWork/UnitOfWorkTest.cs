@@ -1,7 +1,10 @@
 namespace Bizca.Core.Infrastructure.Test
 {
     using Configuration;
+    using Database;
     using NFluent;
+    using Repository;
+    using UnitOfWork;
     using Xunit;
 
     public sealed class UnitOfWorkTest
@@ -10,7 +13,7 @@ namespace Bizca.Core.Infrastructure.Test
         public void Begin_should_create_new_transaction()
         {
             //arrange
-            UnitOfWork unitOfWork = UnitOfWorkBuilder
+            var unitOfWork = UnitOfWorkBuilder
                 .Instance
                 .WithConnectionFactory<BizcaDatabaseConfiguration>()
                 .WithDbTransaction()
@@ -28,7 +31,7 @@ namespace Bizca.Core.Infrastructure.Test
         public void Commit_should_validate_changes_and_dispose_connection_and_transaction()
         {
             //arrange
-            UnitOfWork unitOfWork;
+            IUnitOfWork unitOfWork;
             using (unitOfWork = UnitOfWorkBuilder
                        .Instance
                        .WithConnectionFactory<BizcaDatabaseConfiguration>()
@@ -49,7 +52,7 @@ namespace Bizca.Core.Infrastructure.Test
         public void Rollback_should_undo_changes_and_dispose_connection_and_transaction()
         {
             //arrange
-            UnitOfWork unitOfWork;
+            IUnitOfWork unitOfWork;
             using (unitOfWork = UnitOfWorkBuilder
                        .Instance
                        .WithConnectionFactory<BizcaDatabaseConfiguration>()
@@ -70,7 +73,7 @@ namespace Bizca.Core.Infrastructure.Test
         public void Dispose_should_delete_transaction_and_connection()
         {
             //arrange
-            UnitOfWork unitOfWork = UnitOfWorkBuilder
+            var unitOfWork = UnitOfWorkBuilder
                 .Instance
                 .WithConnectionFactory<BizcaDatabaseConfiguration>()
                 .WithDbTransaction()

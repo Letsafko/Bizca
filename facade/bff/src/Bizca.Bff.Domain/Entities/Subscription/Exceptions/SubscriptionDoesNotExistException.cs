@@ -8,11 +8,7 @@
     [Serializable]
     public sealed class SubscriptionDoesNotExistException : ResourceNotFoundException
     {
-        public SubscriptionDoesNotExistException()
-        {
-        }
-
-        public SubscriptionDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
+        public SubscriptionDoesNotExistException(ICollection<DomainFailure> errors) : base(errors)
         {
         }
 

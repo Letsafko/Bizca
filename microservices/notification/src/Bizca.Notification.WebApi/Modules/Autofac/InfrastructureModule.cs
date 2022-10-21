@@ -2,6 +2,7 @@
 {
     using Core.Infrastructure;
     using Core.Infrastructure.Database;
+    using Core.Infrastructure.Repository;
     using global::Autofac;
 
     /// <summary>

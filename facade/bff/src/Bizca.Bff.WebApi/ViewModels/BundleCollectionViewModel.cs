@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
-    using Domain.Referentials.Bundle;
+    using Domain.Referential.Bundle;
     using System.Collections.Generic;
 
     internal sealed class BundleCollectionViewModel : List<BundleViewModel>

@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails
 {
-    using Core.Application.Queries;
+    using Core.Domain.Cqrs.Queries;
     using Domain.Entities.Subscription;
     using Domain.Entities.User;
     using Domain.Entities.User.Exceptions;

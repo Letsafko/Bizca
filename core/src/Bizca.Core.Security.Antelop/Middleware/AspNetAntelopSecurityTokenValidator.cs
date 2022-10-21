@@ -53,12 +53,12 @@
 
             //Extract claims
             Claim walletIdClaim =
-                claims.SingleOrDefault(claim => claim.Type == Constants.ANTELOP_CLAIMS_WALLET_ID);
-            if (walletIdClaim != null) claims.Add(new Claim(Constants.ASPNET_CLAIMS_USER_ID, walletIdClaim.Value));
+                claims.SingleOrDefault(claim => claim.Type == Constants.AntelopClaimsWalletId);
+            if (walletIdClaim != null) claims.Add(new Claim(Constants.AspnetClaimsUserId, walletIdClaim.Value));
             Claim partnerCodeClaim =
-                claims.SingleOrDefault(claim => claim.Type == Constants.ANTELOP_CLAIMS_PARTNER_CODE);
+                claims.SingleOrDefault(claim => claim.Type == Constants.AntelopClaimsPartnerCode);
             if (partnerCodeClaim != null)
-                claims.Add(new Claim(Constants.ASPNET_CLAIMS_PARTNER_CODE, partnerCodeClaim.Value));
+                claims.Add(new Claim(Constants.AspnetClaimsPartnerCode, partnerCodeClaim.Value));
 
 
             return new ClaimsPrincipal(new ClaimsIdentity(claims, "Antelop"));

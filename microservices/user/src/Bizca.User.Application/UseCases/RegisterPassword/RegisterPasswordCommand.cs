@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.RegisterPassword
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
 
     public sealed class RegisterPasswordCommand : ICommand
     {

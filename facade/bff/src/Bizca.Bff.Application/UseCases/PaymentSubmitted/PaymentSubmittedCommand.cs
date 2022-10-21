@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.PaymentSubmitted
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
 
     public sealed class PaymentSubmittedCommand : ICommand
     {

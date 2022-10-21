@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetActiveProcedures
 {
     using Application.UseCases.GetActiveProcedures;
-    using Domain.Referentials.Procedure;
+    using Domain.Referential.Procedure;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using ViewModels;

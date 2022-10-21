@@ -17,8 +17,8 @@
 
             //act
             await builder.Build<FakeCommand2>().Handle(new FakeCommand2(),
-                default,
-                builder.pipelineBehaviourDelegate).ConfigureAwait(false);
+                builder.pipelineBehaviourDelegate,
+                default).ConfigureAwait(false);
 
             //assert
             Received.InOrder(() =>

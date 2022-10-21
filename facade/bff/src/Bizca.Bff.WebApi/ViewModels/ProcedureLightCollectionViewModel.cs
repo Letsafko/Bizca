@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
-    using Domain.Referentials.Procedure;
+    using Domain.Referential.Procedure;
     using System.Collections.Generic;
 
     /// <summary>

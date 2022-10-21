@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.Modules.Autofac
 {
-    using Core.Application;
+    using Core.Domain.Cqrs;
     using global::Autofac;
     using MediatR;
 

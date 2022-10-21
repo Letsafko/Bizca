@@ -3,8 +3,8 @@
     using Core.Domain;
     using Enumerations.Subscription;
     using Exceptions;
-    using Referentials.Bundle;
-    using Referentials.Procedure;
+    using Referential.Bundle;
+    using Referential.Procedure;
     using SubscriptionState;
     using System;
     using System.Collections.Generic;

@@ -4,30 +4,35 @@
     using System;
     using System.Collections.Generic;
 
-    public class ApplicationInsightsTelemetryService : ITelemetryService
+    public sealed class ApplicationInsightsTelemetryService : ITelemetryService
     {
-        private readonly TelemetryClient telemetryClient;
-        private bool disposed;
+        private readonly TelemetryClient _telemetryClient;
+        private bool _disposed;
 
         public ApplicationInsightsTelemetryService(TelemetryClient telemetryClient)
         {
-            this.telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            _telemetryClient = telemetryClient;
         }
 
-        public void TrackEvent(string eventName, IDictionary<string, string> properties = null,
+        ~ApplicationInsightsTelemetryService() => Dispose(false);
+        
+        public void TrackEvent(string eventName, 
+            IDictionary<string, string> properties = null,
             IDictionary<string, double> metrics = null)
         {
-            telemetryClient.TrackEvent(eventName, properties, metrics);
+            _telemetryClient.TrackEvent(eventName, properties, metrics);
         }
 
-        public void TrackMetric(string name, double value, IDictionary<string, string> properties = null)
+        public void TrackMetric(string name, 
+            double value, 
+            IDictionary<string, string> properties = null)
         {
-            telemetryClient.TrackMetric(name, value, properties);
+            _telemetryClient.TrackMetric(name, value, properties);
         }
 
         public void TrackTrace(string message)
         {
-            telemetryClient.TrackTrace(message);
+            _telemetryClient.TrackTrace(message);
         }
 
         public void Dispose()
@@ -36,17 +41,13 @@
             GC.SuppressFinalize(this);
         }
 
-        ~ApplicationInsightsTelemetryService()
-        {
-            Dispose(false);
-        }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (!disposed && disposing)
-                telemetryClient.Flush();
+            if (!_disposed && disposing)
+                _telemetryClient.Flush();
 
-            disposed = true;
+            _disposed = true;
         }
     }
 }

@@ -10,11 +10,7 @@
     [ExcludeFromCodeCoverage]
     public sealed class UserDoesNotExistException : ResourceNotFoundException
     {
-        public UserDoesNotExistException()
-        {
-        }
-
-        public UserDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
+        public UserDoesNotExistException(ICollection<DomainFailure> errors) : base(errors)
         {
         }
 

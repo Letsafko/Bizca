@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.FreezeSubscription
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
     using Domain.Entities.Subscription;
     using Domain.Entities.User;
     using Domain.Entities.User.Exceptions;

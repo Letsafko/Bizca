@@ -7,7 +7,7 @@
     using System.Runtime.Serialization;
 
     [Serializable]
-    [ExcludeFromCodeCoverage]
+    
     public sealed class ChannelResourceMustBeUniqueException : DomainException
     {
         public ChannelResourceMustBeUniqueException()

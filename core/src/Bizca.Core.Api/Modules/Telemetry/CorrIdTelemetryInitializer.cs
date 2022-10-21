@@ -8,38 +8,30 @@
     using System;
     using System.Collections.Generic;
 
-    /// <summary>Get the CorrId in header to log the key in global property</summary>
     public class CorrIdTelemetryInitializer : ITelemetryInitializer
     {
         private const string CorrIdKey = "CorrId";
-        private readonly IHttpContextAccessor contextAccessor;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        /// <summary>Initializes a new instance of the <see cref="CorrIdTelemetryInitializer" /> class.</summary>
-        /// <param name="contextAccessor">The context accessor.</param>
         public CorrIdTelemetryInitializer(IHttpContextAccessor contextAccessor)
         {
-            this.contextAccessor = contextAccessor;
+            this._contextAccessor = contextAccessor;
         }
 
-        /// <summary>
-        ///     Initializes properties of the specified
-        ///     <see cref="T:Microsoft.ApplicationInsights.Channel.ITelemetry">ITelemetry</see> object.
-        /// </summary>
-        /// <param name="telemetry"></param>
         public void Initialize(ITelemetry telemetry)
         {
-            HttpContext context = contextAccessor?.HttpContext;
-            if (context == null || !(telemetry is ISupportProperties))
+            HttpContext context = _contextAccessor?.HttpContext;
+            if (context == null || telemetry is not ISupportProperties supportProperties)
                 return;
 
             StringValues headers = context.Request.Headers[CorrIdKey];
-            if (headers.Count > 0)
-            {
-                IDictionary<string, string> properties = ((ISupportProperties)telemetry).Properties;
-                if (!properties.ContainsKey(CorrIdKey))
-                    properties.Add(CorrIdKey,
-                        string.Join(Environment.NewLine, headers));
-            }
+            if (headers.Count <= 0) 
+                return;
+            
+            IDictionary<string, string> properties = supportProperties.Properties;
+            if (!properties.ContainsKey(CorrIdKey))
+                properties.Add(CorrIdKey,
+                    string.Join(Environment.NewLine, headers));
         }
     }
 }

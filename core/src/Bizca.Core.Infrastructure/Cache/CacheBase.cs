@@ -1,5 +1,7 @@
 ﻿namespace Bizca.Core.Infrastructure.Cache
 {
+    using Extension;
+
     public abstract class CacheBase
     {
         protected readonly ICacheProvider CacheProvider;
@@ -11,7 +13,8 @@
 
         protected static string GetCacheKey<T>(object value) where T : class
         {
-            return $"{typeof(T).Name.ToLower()}_{value}";
+            string typeName = typeof(T).GetGenericTypeName().ToLower();
+            return $"{typeName}_{value}";
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Application.UseCases.GetUserDetail
 {
-    using Core.Application.Queries;
+    using Core.Domain.Cqrs.Queries;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
     using Domain.Agregates.Repositories;

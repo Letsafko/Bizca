@@ -39,7 +39,7 @@
             //scenarioContext.Pending();
         }
 
-        [Then(@"'(.*)' event of type '(.*)' has been published.")]
+        [Then(@"'(.*)' notificationEvent of type '(.*)' has been published.")]
         public void ThenAnEventOfTypeSendConfirmationEmailNotificationHasBeenPublish(int expectedEventCount
             , string expectedEventName)
         {

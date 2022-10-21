@@ -14,7 +14,8 @@
         /// <param name="eventName">A name for the event.</param>
         /// <param name="properties">Named string values you can use to search and classify events.</param>
         /// <param name="metrics">Measurements associated with this event.</param>
-        void TrackEvent(string eventName, IDictionary<string, string> properties = null,
+        void TrackEvent(string eventName, 
+            IDictionary<string, string> properties = null,
             IDictionary<string, double> metrics = null);
 
         /// <summary>
@@ -24,7 +25,9 @@
         /// <param name="name">Metric name.</param>
         /// <param name="value">Metric value.</param>
         /// <param name="properties">Named string values you can use to classify and filter metrics.</param>
-        void TrackMetric(string name, double value, IDictionary<string, string> properties = null);
+        void TrackMetric(string name, 
+            double value, 
+            IDictionary<string, string> properties = null);
 
         /// <summary>
         ///     Send a trace message for display in Diagnostic Search.

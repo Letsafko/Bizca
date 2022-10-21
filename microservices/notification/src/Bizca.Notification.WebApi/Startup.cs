@@ -33,7 +33,7 @@ namespace Bizca.Notification.WebApi
         /// <param name="services">service collection.</param>
         public new void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseScheme));
+            services.Configure<DatabaseConfiguration>(Configuration.GetSection(DatabaseScheme));
             base.ConfigureServices(services);
             services.ConfigureHealthChecks()
                 .AddControllers();

@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Application.UseCases.SendEmail
 {
-    using Core.Application.Events;
     using Core.Domain;
+    using Core.Domain.Cqrs.Events;
     using Core.Domain.Exceptions;
     using Domain.Events;
     using Domain.Wrappers.Notification;
@@ -10,7 +10,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class SendTransactionalEmailUseCase : IEventHandler<SendTransactionalEmailEvent>
+    public sealed class SendTransactionalEmailUseCase : IEventHandler<SendTransactionalEmailNotificationEvent>
     {
         private readonly INotificationWrapper notificationAgent;
 
@@ -19,7 +19,7 @@
             this.notificationAgent = notificationAgent;
         }
 
-        public async Task Handle(SendTransactionalEmailEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(SendTransactionalEmailNotificationEvent notification, CancellationToken cancellationToken)
         {
             TransactionalEmailRequest request = TransactionalEmailRequestBuilder
                 .Instance

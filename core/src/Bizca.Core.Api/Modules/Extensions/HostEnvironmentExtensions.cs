@@ -9,7 +9,8 @@
 
         public static bool IsDevEnvironment(this IHostEnvironment hostEnvironment)
         {
-            return hostEnvironment.IsDevelopment() || hostEnvironment.IsEnvironment(AzureIntegration) ||
+            return hostEnvironment.IsDevelopment() || 
+                   hostEnvironment.IsEnvironment(AzureIntegration) ||
                    hostEnvironment.IsEnvironment(AzureQualification);
         }
     }

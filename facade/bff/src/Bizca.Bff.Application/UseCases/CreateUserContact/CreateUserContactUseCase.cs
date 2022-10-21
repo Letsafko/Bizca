@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.CreateUserContact
 {
-    using Core.Application.Events;
+    using Core.Domain.Cqrs.Events;
     using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Services;
     using Domain.Entities.User.Exceptions;
@@ -12,7 +12,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class CreateUserContactUseCase : IEventHandler<UserContactToCreateEvent>
+    public sealed class CreateUserContactUseCase : IEventHandler<UserContactToCreateNotificationEvent>
     {
         private readonly IContactWrapper _contactWrapper;
         private readonly IFolderRepository _folderRepository;
@@ -27,7 +27,7 @@
             _contactWrapper = contactWrapper;
         }
 
-        public async Task Handle(UserContactToCreateEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(UserContactToCreateNotificationEvent notification, CancellationToken cancellationToken)
         {
             Partner partner = await _referentialService.GetPartnerByCodeAsync(notification.PartnerCode, true);
             Folder folder = await GetFolderAsync(partner.Id);

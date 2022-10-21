@@ -112,7 +112,7 @@
                            economicActivity));
         }
 
-        private TException GetDomainException<TException>(string propertyName, object propertyValue)
+        private static TException GetDomainException<TException>(string propertyName, object propertyValue)
             where TException : ResourceNotFoundException
         {
             var failure = new DomainFailure($"{propertyValue} does not exist.",

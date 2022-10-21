@@ -2,7 +2,7 @@
 {
     using Application.UseCases.GetBundles;
     using Core.Api.Modules.Conventions;
-    using Core.Application;
+    using Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;

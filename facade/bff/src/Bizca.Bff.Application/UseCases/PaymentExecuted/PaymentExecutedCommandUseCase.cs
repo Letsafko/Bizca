@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Application.UseCases.PaymentExecuted
 {
-    using Core.Application.Commands;
+    using Core.Domain.Cqrs.Commands;
     using MediatR;
     using System;
     using System.Threading;

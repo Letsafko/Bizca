@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetProcedures
 {
     using Application.UseCases.GetProcedures;
-    using Domain.Referentials.Procedure;
-    using Domain.Referentials.Procedure.ValueObjects;
+    using Domain.Referential.Procedure;
+    using Domain.Referential.Procedure.ValueObjects;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using ViewModels;

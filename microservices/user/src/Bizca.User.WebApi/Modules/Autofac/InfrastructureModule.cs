@@ -6,12 +6,13 @@
     using Core.Infrastructure;
     using Core.Infrastructure.Database;
     using Core.Infrastructure.Persistence;
-    using Core.Infrastructure.Persistence.RepositoryCache;
+    using Core.Infrastructure.Repository;
+    using Core.Infrastructure.RepositoryCache;
     using Domain.Agregates.Repositories;
     using Domain.Entities.Address.Repositories;
     using Domain.Entities.Channel.Repositories;
     using global::Autofac;
-    using Infrastructure.Persistance;
+    using Infrastructure.Persistence;
 
     /// <summary>
     ///     Infrastructure module.

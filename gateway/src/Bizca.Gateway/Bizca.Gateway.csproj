@@ -1,30 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
         <UserSecretsId>efc6c974-0ea2-4be6-8bd6-153fbfd9bb86</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <DockerfileContext>..\..\..\..</DockerfileContext>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AspNetCore.HealthChecks.Consul" Version="3.1.1"/>
-        <PackageReference Include="AspNetCore.HealthChecks.UI" Version="3.1.3"/>
-        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.1.2"/>
-        <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="3.1.2"/>
-        <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="3.1.2"/>
+        <PackageReference Include="AspNetCore.HealthChecks.Consul" Version="6.0.2"/>
         <PackageReference Include="CacheManager.Serialization.Json" Version="1.2.0"/>
         <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1"/>
-        <PackageReference Include="Microsoft.OpenApi" Version="1.2.3"/>
-        <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.2.3"/>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9"/>
-        <PackageReference Include="MMLib.SwaggerForOcelot" Version="2.5.0"/>
+        <PackageReference Include="Microsoft.OpenApi" Version="1.4.3"/>
+        <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.4.1"/>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0"/>
+        <PackageReference Include="MMLib.SwaggerForOcelot" Version="5.2.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-        <PackageReference Include="Ocelot" Version="16.0.1"/>
-        <PackageReference Include="Ocelot.Cache.CacheManager" Version="16.0.1"/>
-        <PackageReference Include="Ocelot.Provider.Consul" Version="16.0.1"/>
-        <PackageReference Include="Ocelot.Provider.Polly" Version="16.0.1"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="5.6.3"/>
+        <PackageReference Include="Ocelot" Version="18.0.0"/>
+        <PackageReference Include="Ocelot.Cache.CacheManager" Version="18.0.0"/>
+        <PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0"/>
+        <PackageReference Include="Ocelot.Provider.Polly" Version="18.0.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>

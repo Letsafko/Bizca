@@ -3,31 +3,24 @@
     using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Extensions.Configuration;
+    using System;
 
-    /// <summary>Set the role name with System name configuration</summary>
     public class CloudRoleNameTelemetryInitializer : ITelemetryInitializer
     {
         private const string ApplicationNameScheme = "Api:ApplicationInsights:ApplicationName";
-        private readonly string cloudRoleName;
+        private readonly string _cloudRoleName;
 
-        /// <summary>Initializes a new instance of the <see cref="CloudRoleNameTelemetryInitializer" /> class.</summary>
-        /// <param name="configuration">The configuration.</param>
         public CloudRoleNameTelemetryInitializer(IConfiguration configuration)
         {
-            cloudRoleName = configuration[ApplicationNameScheme];
+            _cloudRoleName = configuration[ApplicationNameScheme];
         }
 
-        /// <summary>
-        ///     Initializes properties of the specified
-        ///     <see cref="T:Microsoft.ApplicationInsights.Channel.ITelemetry">ITelemetry</see> object.
-        /// </summary>
-        /// <param name="telemetry"></param>
         public void Initialize(ITelemetry telemetry)
         {
-            if (string.IsNullOrWhiteSpace(cloudRoleName))
-                throw new MissingConfigurationException("missing application name configuration.");
+            if (string.IsNullOrWhiteSpace(_cloudRoleName))
+                throw new InvalidOperationException("missing application name configuration.");
 
-            telemetry.Context.Cloud.RoleName = cloudRoleName;
+            telemetry.Context.Cloud.RoleName = _cloudRoleName;
         }
     }
 }
