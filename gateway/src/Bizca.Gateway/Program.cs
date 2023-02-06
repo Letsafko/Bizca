@@ -47,7 +47,7 @@ namespace Bizca.Gateway
                 {
                     //builder.AddApplicationInsights();
                     //builder.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>
-                    // ("", Enum.Parse<LogLevel>(context.Configuration["Logging:LogLevel:Default"]));
+                    // ("", Enum.Parse<LogLevel>(context.PartnerConfiguration["Logging:LogLevel:Default"]));
                 });
         }
     }

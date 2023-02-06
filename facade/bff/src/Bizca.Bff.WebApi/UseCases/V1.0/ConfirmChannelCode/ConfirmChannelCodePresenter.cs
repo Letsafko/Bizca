@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.ConfirmChannelCode
 {
-    using Application.UseCases.ConfirmChannelCode;
-    using Core.Api.Modules.Presentation;
-    using Core.Api.Modules.Presentation.HttpStrategies;
+    using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels;
 
     /// <summary>
     ///     Confirmation channel code presenter.

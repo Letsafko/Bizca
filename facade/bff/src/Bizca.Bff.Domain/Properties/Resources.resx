@@ -122,13 +122,121 @@
             PublicKeyToken=b77a5c561934e089
         </value>
     </resheader>
-    <data name="PartnerCode" xml:space="preserve">
-    <value>Bizca</value>
+    <data name="BIZCA_NO_REPLY_EMAIL" xml:space="preserve">
+    <value>no-reply@bizca.fr</value>
   </data>
-    <data name="SUBSCRIPTION_STATUS_OPERATION_UNAUTHORIZED" xml:space="preserve">
-    <value>change operation status from {0} to {1} is unauthorized.</value>
+    <data name="BUNDLE_INVALID" xml:space="preserve">
+    <value>bundle is invalid.</value>
+  </data>
+    <data name="BUNDLE_REQUIRED" xml:space="preserve">
+    <value>bundle is required.</value>
+  </data>
+    <data name="CHANNEL_RESOURCE_REQUIRED" xml:space="preserve">
+    <value>channel resource is required.</value>
+  </data>
+    <data name="CHANNEL_TYPE_INVALID" xml:space="preserve">
+    <value>channel type is invalid.</value>
+  </data>
+    <data name="CHANNEL_TYPE_REQUIRED" xml:space="preserve">
+    <value>channel type is required.</value>
+  </data>
+    <data name="CIVILITY_INVALID" xml:space="preserve">
+    <value>civility is invalid.</value>
+  </data>
+    <data name="CIVILITY_REQUIRED" xml:space="preserve">
+    <value>civility is required.</value>
+  </data>
+    <data name="CODE_INSEE_MAL_FORMATTED" xml:space="preserve">
+    <value>code insee is mal formatted.</value>
+  </data>
+    <data name="CODE_INSEE_REQUIRED" xml:space="preserve">
+    <value>code insee is required.</value>
+  </data>
+    <data name="CONFIRMATION_CODE_REQUIRED" xml:space="preserve">
+    <value>confirmation code is required.</value>
+  </data>
+    <data name="ECONOMIC_ACTIVITY_INVALID" xml:space="preserve">
+    <value>economicActivity is invalid.</value>
+  </data>
+    <data name="ECONOMIC_ACTIVITY_REQUIRED" xml:space="preserve">
+    <value>economicActivity is required.</value>
+  </data>
+    <data name="EMAIL_CONFIRMATION_SUBJECT" xml:space="preserve">
+    <value>Bienvenue chez Bizca! Confirmons ton adresse email.</value>
+  </data>
+    <data name="EMAIL_INVALID" xml:space="preserve">
+    <value>email is invalid.</value>
+  </data>
+    <data name="EMAIL_REGEX" xml:space="preserve">
+    <value>^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</value>
+  </data>
+    <data name="EMAIL_REINIT_PASSWORD_SUBJECT" xml:space="preserve">
+    <value>Réinitialiser votre mot de passe.</value>
+  </data>
+    <data name="EMAIL_REQUIRED" xml:space="preserve">
+    <value>email is required</value>
+  </data>
+    <data name="EXTERNAL_USERID_MAXIMUM_LENGTH_EXCEED" xml:space="preserve">
+    <value>external user Identifier maximun length exceed.</value>
+  </data>
+    <data name="EXTERNAL_USERID_REQUIRED" xml:space="preserve">
+    <value>externalUserId is required.</value>
+  </data>
+    <data name="FIRSTNAME_MAXIMUN_LENGTH_EXCEED" xml:space="preserve">
+    <value>firstname maximun length exceed.</value>
+  </data>
+    <data name="FIRSTNAME_REQUIRED" xml:space="preserve">
+    <value>firstName is required.</value>
+  </data>
+    <data name="INVALID_DATA_INPUT" xml:space="preserve">
+    <value>invalid data input</value>
+  </data>
+    <data name="LASTNAME_MAXIMUN_LENGTH_EXCEED" xml:space="preserve">
+    <value>lastname maximun length exceed.</value>
+  </data>
+    <data name="LASTNAME_REQUIRED" xml:space="preserve">
+    <value>lastName is required.</value>
+  </data>
+    <data name="ORGANISM_IDENTIFIER_INVALID" xml:space="preserve">
+    <value>organism identifier is invalid</value>
+  </data>
+    <data name="ORGANISM_IDENTIFIER_REQUIRED" xml:space="preserve">
+    <value>organism identifier is required</value>
+  </data>
+    <data name="PARTNER_CODE_REQUIRED" xml:space="preserve">
+    <value>partnerCode is required.</value>
+  </data>
+    <data name="PASSWORD_REQUIRED" xml:space="preserve">
+    <value>password is required.</value>
+  </data>
+    <data name="PHONENUMBER_REQUIRED" xml:space="preserve">
+    <value>phoneNumber is required.</value>
+  </data>
+    <data name="PHONE_INVALID" xml:space="preserve">
+    <value>phone is invalid.</value>
+  </data>
+    <data name="PHONE_REGEX" xml:space="preserve">
+    <value>^(?:(?:\+|00)33)\s*[1-9](?:[\s.-]*\d{2}){4}$</value>
+  </data>
+    <data name="PROCEDURE_TYPE_INVALID" xml:space="preserve">
+    <value>procedure type is invalid.</value>
+  </data>
+    <data name="PROCEDURE_TYPE_REQUIRED" xml:space="preserve">
+    <value>procedure type is required.</value>
+  </data>
+    <data name="RESOURCE_LOGIN_REQUIRED" xml:space="preserve">
+    <value>resource login is required.</value>
+  </data>
+    <data name="SUBSCRIPTION_CODE_REQUIRED" xml:space="preserve">
+    <value>subscription code is required.</value>
+  </data>
+    <data name="VALUE_CANNOT_BE_NULL_OR_EMPTY" xml:space="preserve">
+    <value>value cannot be null or empty</value>
   </data>
     <data name="SUBSCRIPTION_STATUS_UNSUPPORTED" xml:space="preserve">
-    <value>unsupported subscription status.</value>
-  </data>
+      <value>unsupported subscription status.</value>
+    </data>
+    <data name="SUBSCRIPTION_STATUS_OPERATION_UNAUTHORIZED" xml:space="preserve">
+      <value>change operation status from {0} to {1} is unauthorized.</value>
+    </data>
 </root>

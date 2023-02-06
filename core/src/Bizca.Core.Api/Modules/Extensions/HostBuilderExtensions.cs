@@ -23,8 +23,6 @@
             return builder.ConfigureAppConfiguration(ConfigureAppSettings);
         }
 
-        #region private helpers
-
         private static void ConfigureLogging(HostBuilderContext hostingContext, LoggerConfiguration loggerConfiguration)
         {
             loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
@@ -39,7 +37,5 @@
                 .AddEnvironmentVariables()
                 .AddUserSecrets(Assembly.GetEntryAssembly());
         }
-
-        #endregion
     }
 }

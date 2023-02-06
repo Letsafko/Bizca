@@ -1,15 +1,14 @@
-﻿namespace Bizca.User.Domain.UnitTest.Rules.RuleEngines
+﻿namespace Bizca.User.Domain.UnitTest.RuleEngines
 {
-    using Agregates;
-    using Agregates.BusinessCheck;
-    using Core.Domain;
-    using Core.Domain.Referential.Model;
-    using Core.Support.Test.Builders;
+    using Bizca.Core.Domain.Referential.Model;
+    using Bizca.Core.Domain.Rules;
+    using Bizca.User.Domain.Agregates;
+    using Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner;
+    using BusinessCheck.UserRule;
     using NFluent;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using UserMustBeUniqueByPartner;
     using Xunit;
 
     public sealed class UserRuleEngineTest
@@ -43,8 +42,8 @@
                 .HasSize(1).And
                 .Not.IsEmpty().And
                 .HasElementThatMatches(x =>
-                    x.Sucess == !userExist && string.IsNullOrWhiteSpace(x.Failure.ErrorMessage) == !userExist).And
-                .InheritsFrom<List<RuleResult>>();
+                    x.Success == !userExist && string.IsNullOrWhiteSpace(x.Failure.ErrorMessage) == !userExist).And
+                .InheritsFrom<List<CheckResult>>();
         }
     }
 }

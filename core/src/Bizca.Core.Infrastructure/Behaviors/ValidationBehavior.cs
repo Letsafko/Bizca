@@ -16,8 +16,7 @@
         private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
         private readonly IServiceProvider _serviceProvider;
 
-        public ValidationBehavior(IServiceProvider serviceProvider,
-            ILogger<ValidationBehavior<TRequest, TResponse>> logger)
+        public ValidationBehavior(IServiceProvider serviceProvider, ILogger<ValidationBehavior<TRequest, TResponse>> logger)
         {
             _serviceProvider = serviceProvider;
             _logger = logger;

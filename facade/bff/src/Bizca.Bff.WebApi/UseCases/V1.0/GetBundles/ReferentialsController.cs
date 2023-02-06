@@ -1,18 +1,18 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetBundles
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetBundles
 {
-    using Application.UseCases.GetBundles;
-    using Core.Api.Modules.Conventions;
-    using Core.Domain.Cqrs;
+    using Bizca.Bff.Application.UseCases.GetBundles;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Conventions;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
-    using ViewModels;
 
     /// <summary>
     ///     Creates referential controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public sealed class ReferentialsController : ControllerBase
     {

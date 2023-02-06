@@ -2,6 +2,7 @@
 {
     using Bizca.Core.Domain.Referential.Model;
     using Database;
+    using Domain.Referential.Repository;
     using Entity;
     using System.Threading.Tasks;
 

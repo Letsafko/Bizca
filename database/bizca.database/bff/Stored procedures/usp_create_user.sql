@@ -13,22 +13,24 @@ as
 begin
 
 insert into [bff].[user]
-([     externalUserId]
-    , [civilityId]
-    , [roleId]
-    , [firstName]
-    , [lastName]
-    , [phoneNumber]
-    , [whatsapp]
-    , [email]
-    , [channelConfirmationStatus]
-    , [channelActivationStatus]
-    , [creationDate]
-    , [lastUpdate])
+    (
+          [externalUserId]
+        , [civilityId]
+        , [roleId]
+        , [firstName]
+        , [lastName]
+        , [phoneNumber]
+        , [whatsapp]
+        , [email]
+        , [channelConfirmationStatus]
+        , [channelActivationStatus]
+        , [creationDate]
+        , [lastUpdate]
+    )
     output inserted.userId
 values
     (
-    @externalUserId
+          @externalUserId
         , @civilityId
         , @roleId
         , @firstName

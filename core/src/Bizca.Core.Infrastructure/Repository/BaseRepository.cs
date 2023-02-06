@@ -31,6 +31,11 @@
         {
             return UnitOfWork.Connection.InsertAsync(entity, AttachTransaction);
         }
+    
+        protected Task<bool> UpdateAsync(T entity)
+        {
+            return UnitOfWork.Connection.UpdateAsync(entity, AttachTransaction);
+        }
 
         private void AttachTransaction(IStandardSqlStatementOptionsBuilder<T> statement)
         {

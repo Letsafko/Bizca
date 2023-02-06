@@ -1,17 +1,9 @@
 ﻿create table [bff].[role]
 (
-    [
-    roleId]
-    smallint
-    not
-    null, [
-    description]
-    varchar
-(
-    30
-) not null,
-    [creationDate] datetime2 not null,
-    [lastUpdate] datetime2 not null
+    [roleId]		smallint not null,
+    [description]	varchar(30) not null,
+    [creationDate]	datetime2 not null,
+    [lastUpdate]	datetime2 not null
     )
     go
 

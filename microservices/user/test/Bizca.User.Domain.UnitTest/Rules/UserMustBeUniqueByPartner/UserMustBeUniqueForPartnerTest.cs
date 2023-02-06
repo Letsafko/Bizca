@@ -3,7 +3,8 @@
     using Agregates;
     using Core.Domain;
     using Core.Domain.Referential.Model;
-    using Core.Support.Test.Builders;
+    using Core.Domain.Rules;
+    using Core.Test.Support;
     using NFluent;
     using System;
     using System.Threading.Tasks;
@@ -29,12 +30,12 @@
 
             //act
             Partner partner = PartnerBuilder.Instance.Build();
-            RuleResult result = await builder.Build().CheckAsync(new UserRequest { Partner = partner })
+            CheckResult result = await builder.Build().CheckAsync(new UserRequest { Partner = partner })
                 .ConfigureAwait(false);
 
             //assert
             builder.WithReceiveUserExist(1);
-            Check.That(result.Sucess).Equals(!userExist);
+            Check.That(result.Success).Equals(!userExist);
             Check.That(string.IsNullOrWhiteSpace(result.Failure?.ErrorMessage)).Equals(!userExist);
         }
     }

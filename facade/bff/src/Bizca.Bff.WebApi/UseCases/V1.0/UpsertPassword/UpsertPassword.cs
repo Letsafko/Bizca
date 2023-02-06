@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpsertPassword
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.UpsertPassword
 {
     using System.ComponentModel.DataAnnotations;
 

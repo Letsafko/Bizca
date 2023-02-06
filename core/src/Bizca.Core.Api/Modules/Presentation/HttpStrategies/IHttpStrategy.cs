@@ -5,6 +5,6 @@
     public interface IHttpStrategy
     {
         public int StatusCode { get; }
-        public IActionResult GetResponse(object message);
+        public IActionResult GetResponse(object result);
     }
 }

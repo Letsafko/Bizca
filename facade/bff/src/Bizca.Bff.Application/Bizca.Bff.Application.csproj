@@ -6,23 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Application\Bizca.Core.Application.csproj"/>
-        <ProjectReference Include="..\Bizca.Bff.Domain\Bizca.Bff.Domain.csproj"/>
+        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Application\Bizca.Core.Application.csproj" />
+        <ProjectReference Include="..\Bizca.Bff.Domain\Bizca.Bff.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Properties\Resources.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>Resources.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Update="Properties\Resources.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
+      <Folder Include="Properties" />
     </ItemGroup>
 
 </Project>

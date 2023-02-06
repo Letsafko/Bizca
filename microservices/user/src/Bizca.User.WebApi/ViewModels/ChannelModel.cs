@@ -13,7 +13,7 @@
         /// <param name="channel"></param>
         public ChannelModel(Channel channel)
         {
-            ChannelType = channel.ChannelType.Description.ToLower();
+            ChannelType = channel.ChannelType.Label.ToLower();
             ChannelValue = channel.ChannelValue;
             Confirmed = channel.Confirmed;
             Active = channel.Active;

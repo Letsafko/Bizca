@@ -6,7 +6,7 @@
 
     public sealed class AuthorisationDelegateHandler : DelegatingHandler
     {
-        private const string apiKey = "api-key";
+        private const string ApiKey = "api-key";
 
         public AuthorisationDelegateHandler(string privateSecretKey)
         {
@@ -18,7 +18,7 @@
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            request.Headers.Add(apiKey, PrivateSecretKey);
+            request.Headers.Add(ApiKey, PrivateSecretKey);
             return await base.SendAsync(request, cancellationToken);
         }
     }

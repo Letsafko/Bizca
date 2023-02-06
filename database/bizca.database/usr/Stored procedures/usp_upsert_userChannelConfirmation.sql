@@ -8,10 +8,11 @@ as
         confirmationCode,
         expirationDate
     )
-select s.userId,
-       s.channelId,
-       s.confirmationCode,
-       s.expirationDate
+select
+    s.userId,
+    s.channelId,
+    s.confirmationCode,
+    s.expirationDate
 from @channelCodes s
 where not exists
     (

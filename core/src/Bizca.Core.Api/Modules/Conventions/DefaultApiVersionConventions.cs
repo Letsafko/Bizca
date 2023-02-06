@@ -20,8 +20,8 @@
             foreach (RouteAttribute route in GetAllRouteWithVersionAttribute(applicationController.Attributes))
             {
                 var defaultRoute = Regex.Replace(route.Template, 
-                    _versionMatcher, 
-                    "/")
+                        _versionMatcher, 
+                        "/")
                     .Trim('/');
                 
                 applicationController

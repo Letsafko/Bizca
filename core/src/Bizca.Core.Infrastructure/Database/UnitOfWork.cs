@@ -6,18 +6,33 @@
 
     public sealed class UnitOfWork : IUnitOfWork
     {
+        private readonly IConnectionFactory _connectionFactory;
         private readonly ILogger<UnitOfWork> _logger;
+    
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-        private bool _disposed;
+        ~UnitOfWork() => Dispose(false);
 
         public UnitOfWork(IConnectionFactory connectionFactory, ILogger<UnitOfWork> logger)
         {
-            Connection = connectionFactory.CreateConnection();
+            _connectionFactory = connectionFactory;
             _logger = logger;
         }
 
         public IDbTransaction Transaction { get; private set; }
-        public IDbConnection Connection { get; }
+
+        private IDbConnection _dbConnection;
+        public IDbConnection Connection
+        {
+            get
+            {
+                return _dbConnection ??= _connectionFactory.CreateConnection();
+            }
+        }
 
         public void Rollback()
         {
@@ -36,17 +51,7 @@
             Transaction = Connection.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~UnitOfWork()
-        {
-            Dispose(false);
-        }
-
+        private bool _disposed;
         private void Dispose(bool disposing)
         {
             if (!_disposed && disposing)

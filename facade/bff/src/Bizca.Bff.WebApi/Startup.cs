@@ -46,7 +46,7 @@ namespace Bizca.Bff.WebApi
         ///     Configures services.
         /// </summary>
         /// <param name="services">service collection.</param>
-        public new void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient(_ =>
                 new AuthorisationDelegateHandler(Configuration.GetValue<string>(SendInBlueApiKey)));
@@ -81,7 +81,7 @@ namespace Bizca.Bff.WebApi
         ///     Configures application builder.
         /// </summary>
         /// <param name="app">application builder.</param>
-        public new void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app)
         {
             base.Configure(app);
             app.UseHealthChecks();

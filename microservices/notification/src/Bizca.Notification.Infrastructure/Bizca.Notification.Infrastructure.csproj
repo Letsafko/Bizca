@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Bizca.Notification.Application\Bizca.Notification.Application.csproj"/>
+        <ProjectReference Include="..\Bizca.Notification.Domain\Bizca.Notification.Domain.csproj" />
     </ItemGroup>
 
 </Project>

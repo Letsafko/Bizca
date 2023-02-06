@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.PaymentSubmitted
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.PaymentSubmitted
 {
     /// <summary>
     /// </summary>

@@ -1,12 +1,12 @@
 namespace Bizca.User.Domain.UnitTest.Factories
 {
     using Agregates;
-    using Agregates.BusinessCheck;
     using Agregates.BusinessCheck.Exceptions;
+    using BusinessCheck.UserRule;
     using Core.Domain.Referential.Model;
-    using Core.Support.Test.Builders;
+    using Core.Test.Support;
     using NFluent;
-    using Rules.RuleEngines;
+    using RuleEngines;
     using Rules.UserMustBeUniqueByPartner;
     using System;
     using System.Threading.Tasks;

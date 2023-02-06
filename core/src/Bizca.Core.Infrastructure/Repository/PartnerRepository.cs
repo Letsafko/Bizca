@@ -1,9 +1,10 @@
 ﻿namespace Bizca.Core.Infrastructure.Repository
 {
-    using Bizca.Core.Domain.Referential.Model;
+    using Domain.Referential.Model;
     using Bizca.Core.Domain.Referential.Repository;
     using Database;
     using Entity;
+    using Newtonsoft.Json;
     using System.Threading.Tasks;
 
     public sealed class PartnerRepository : BaseRepository<PartnerEntity>, IPartnerRepository
@@ -14,13 +15,15 @@
 
         public async Task<Partner> GetByCodeAsync(string partnerCode)
         {
-            PartnerEntity result = await GetAsync(new PartnerEntity { Code = partnerCode });
-
-            return result is null
-                ? default
-                : new Partner(result.Id,
-                    result.Code,
-                    result.Description);
+            var partnerEntity = await GetAsync(new PartnerEntity { Code = partnerCode });
+            if (partnerEntity is null)
+                return null;
+        
+            var partnerConfiguration = JsonConvert.DeserializeObject<PartnerConfiguration>(partnerEntity.Configuration);
+            return new Partner(partnerEntity.Id,
+                partnerEntity.Code,
+                partnerEntity.Description,
+                partnerConfiguration);
         }
     }
 }

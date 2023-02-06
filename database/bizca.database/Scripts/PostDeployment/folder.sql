@@ -1,5 +1,4 @@
-﻿declare
-@folder table
+﻿declare @folder table
 (
 	[folderId]		smallint not null,
 	[defaultListId] smallint not null,
@@ -7,57 +6,40 @@
 	[name]			varchar(30) not null
 )
 
-declare
-@environnement varchar(30)  = '$(Environnement)'
-if @environnement in ('Dev','Integration', 'AzureIntegration')
+declare @environment varchar(30)  = '$(Environment)'
+if @environment in ('Dev','Integration', 'AzureIntegration')
 begin
-insert into @folder
-values (10, 14, 1, 'bizca-integration')
+    insert into @folder values (10, 14, 1, 'bizca-integration')
 end
-else if @environnement in ('Qualification', 'AzureQualification')
+else if @environment in ('Qualification', 'AzureQualification')
 begin
-insert into @folder
-values (11, 16, 1, 'bizca-qualification')
+    insert into @folder values (11, 16, 1, 'bizca-qualification')
 end
-else if @environnement in ('Production', 'AzureProduction')
+else if @environment in ('Production', 'AzureProduction')
 begin
-insert into @folder
-values (12, 15, 1, 'bizca-production')
+    insert into @folder values (12, 15, 1, 'bizca-production')
 end
-
 
 merge into [bff].[folder] as target
-    using @folder as source
-    on target.[folderId] = source.[folderId]
+    using @folder as source on target.[folderId] = source.[folderId]
     when matched then
-update
-    set [defaultListId] = source.[defaultListId],
-    [partnerId] = source.[partnerId],
-    [name] = source.[name]
+    update
+        set [defaultListId] = source.[defaultListId],
+            [partnerId] = source.[partnerId],
+            [name] = source.[name]
     when not matched by target then
-insert
-(
-[
-folderId
-]
-,
-[
-defaultListId
-]
-,
-[
-partnerId
-]
-,
-[
-name
-]
-)
-values
+    insert
     (
-    source.[folderId],
-    source.[defaultListId],
-    source.[partnerId],
-    source.[name]
+        [folderId],
+        [defaultListId],
+        [partnerId],
+        [name]
+    )
+    values
+    (
+        source.[folderId],
+        source.[defaultListId],
+        source.[partnerId],
+        source.[name]
     );
 go

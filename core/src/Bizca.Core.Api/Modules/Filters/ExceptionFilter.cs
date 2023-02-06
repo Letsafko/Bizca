@@ -2,29 +2,28 @@
 {
     using Domain;
     using Domain.Exceptions;
-    using Extensions;
+    using Domain.Rules.Exception;
     using FluentValidation;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
     using System;
 
     public sealed class ExceptionFilter : IExceptionFilter
     {
         private readonly IExceptionFormatter _exceptionFormatter;
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly ILogger<ExceptionFilter> _logger;
-        private readonly IHostEnvironment _env;
 
-        public ExceptionFilter(IHostEnvironment env, 
+        public ExceptionFilter(IHostEnvironment hostEnvironment, 
             ILogger<ExceptionFilter> logger, 
             IExceptionFormatter exceptionFormatter)
         {
             _exceptionFormatter = exceptionFormatter;
+            _hostEnvironment = hostEnvironment;
             _logger = logger;
-            _env = env;
         }
 
         public void OnException(ExceptionContext context)
@@ -33,7 +32,7 @@
                 return;
 
             context.ExceptionHandled = true;
-            context.Result = GetModelStateResponse(_env, context.Exception);
+            context.Result = GetModelStateResponse(_hostEnvironment, context.Exception);
             
             _logger.LogError(new EventId(context.Exception.HResult), 
                 context.Exception, 
@@ -57,10 +56,6 @@
                 _ => ("an error occured, contact your administrator", "internal_error")
             };
 
-            errorMessage = !environment.IsDevEnvironment()
-                ? errorMessage
-                : JsonConvert.SerializeObject(exception);
-            
             var statusCode = GetStatusCode(exception);
             var modelState = new PublicResponse<object>(data: null,
                 statusCode,

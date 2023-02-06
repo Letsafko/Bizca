@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateNewUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.CreateNewUser
 {
     /// <summary>
     ///     Create an user.

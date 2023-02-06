@@ -13,23 +13,22 @@
 as
 begin
 	
-	set
-xact_abort on
+	set xact_abort on
 
 update u
-set u.[civilityId]                = @civilityId
-  , u.[firstName]                 = @firstName
-  , u.[roleId]                    = @roleId
-  , u.[lastName]                  = @lastName
-  , u.[phoneNumber]               = @phoneNumber
-  , u.[whatsapp]                  = @whatsapp
-  , u.[email]                     = @email
+set u.[civilityId]	            = @civilityId
+  , u.[firstName]		            = @firstName
+  , u.[roleId]					= @roleId
+  , u.[lastName]		            = @lastName
+  , u.[phoneNumber]		        = @phoneNumber
+  , u.[whatsapp]		            = @whatsapp
+  , u.[email]         	        = @email
   , u.[channelConfirmationStatus] = @confirmationStatus
   , u.channelActivationStatus     = @activationStatus
-  , u.[lastUpdate]                = getdate() output inserted.userId
+  , u.[lastUpdate]		        = getdate()
+    output inserted.userId
 from [bff].[user] u
-where externalUserId = @externalUserId
-  and
+where externalUserId = @externalUserId and
     [rowversion] = @rowversion
 
 end

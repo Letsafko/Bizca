@@ -61,11 +61,326 @@ namespace Bizca.Bff.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bizca.
+        ///   Looks up a localized string similar to no-reply@bizca.fr.
         /// </summary>
-        internal static string PartnerCode {
+        internal static string BIZCA_NO_REPLY_EMAIL {
             get {
-                return ResourceManager.GetString("PartnerCode", resourceCulture);
+                return ResourceManager.GetString("BIZCA_NO_REPLY_EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to bundle is invalid..
+        /// </summary>
+        internal static string BUNDLE_INVALID {
+            get {
+                return ResourceManager.GetString("BUNDLE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to bundle is required..
+        /// </summary>
+        internal static string BUNDLE_REQUIRED {
+            get {
+                return ResourceManager.GetString("BUNDLE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to channel resource is required..
+        /// </summary>
+        internal static string CHANNEL_RESOURCE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CHANNEL_RESOURCE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to channel type is invalid..
+        /// </summary>
+        internal static string CHANNEL_TYPE_INVALID {
+            get {
+                return ResourceManager.GetString("CHANNEL_TYPE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to channel type is required..
+        /// </summary>
+        internal static string CHANNEL_TYPE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CHANNEL_TYPE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to civility is invalid..
+        /// </summary>
+        internal static string CIVILITY_INVALID {
+            get {
+                return ResourceManager.GetString("CIVILITY_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to civility is required..
+        /// </summary>
+        internal static string CIVILITY_REQUIRED {
+            get {
+                return ResourceManager.GetString("CIVILITY_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to code insee is mal formatted..
+        /// </summary>
+        internal static string CODE_INSEE_MAL_FORMATTED {
+            get {
+                return ResourceManager.GetString("CODE_INSEE_MAL_FORMATTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to code insee is required..
+        /// </summary>
+        internal static string CODE_INSEE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CODE_INSEE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to confirmation code is required..
+        /// </summary>
+        internal static string CONFIRMATION_CODE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CONFIRMATION_CODE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to economicActivity is invalid..
+        /// </summary>
+        internal static string ECONOMIC_ACTIVITY_INVALID {
+            get {
+                return ResourceManager.GetString("ECONOMIC_ACTIVITY_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to economicActivity is required..
+        /// </summary>
+        internal static string ECONOMIC_ACTIVITY_REQUIRED {
+            get {
+                return ResourceManager.GetString("ECONOMIC_ACTIVITY_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bienvenue chez Bizca! Confirmons ton adresse email..
+        /// </summary>
+        internal static string EMAIL_CONFIRMATION_SUBJECT {
+            get {
+                return ResourceManager.GetString("EMAIL_CONFIRMATION_SUBJECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to email is invalid..
+        /// </summary>
+        internal static string EMAIL_INVALID {
+            get {
+                return ResourceManager.GetString("EMAIL_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^\w+([-+.&apos;]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$.
+        /// </summary>
+        internal static string EMAIL_REGEX {
+            get {
+                return ResourceManager.GetString("EMAIL_REGEX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Réinitialiser votre mot de passe..
+        /// </summary>
+        internal static string EMAIL_REINIT_PASSWORD_SUBJECT {
+            get {
+                return ResourceManager.GetString("EMAIL_REINIT_PASSWORD_SUBJECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to email is required.
+        /// </summary>
+        internal static string EMAIL_REQUIRED {
+            get {
+                return ResourceManager.GetString("EMAIL_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to external user Identifier maximun length exceed..
+        /// </summary>
+        internal static string EXTERNAL_USERID_MAXIMUM_LENGTH_EXCEED {
+            get {
+                return ResourceManager.GetString("EXTERNAL_USERID_MAXIMUM_LENGTH_EXCEED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to externalUserId is required..
+        /// </summary>
+        internal static string EXTERNAL_USERID_REQUIRED {
+            get {
+                return ResourceManager.GetString("EXTERNAL_USERID_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to firstname maximun length exceed..
+        /// </summary>
+        internal static string FIRSTNAME_MAXIMUN_LENGTH_EXCEED {
+            get {
+                return ResourceManager.GetString("FIRSTNAME_MAXIMUN_LENGTH_EXCEED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to firstName is required..
+        /// </summary>
+        internal static string FIRSTNAME_REQUIRED {
+            get {
+                return ResourceManager.GetString("FIRSTNAME_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to invalid data input.
+        /// </summary>
+        internal static string INVALID_DATA_INPUT {
+            get {
+                return ResourceManager.GetString("INVALID_DATA_INPUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lastname maximun length exceed..
+        /// </summary>
+        internal static string LASTNAME_MAXIMUN_LENGTH_EXCEED {
+            get {
+                return ResourceManager.GetString("LASTNAME_MAXIMUN_LENGTH_EXCEED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lastName is required..
+        /// </summary>
+        internal static string LASTNAME_REQUIRED {
+            get {
+                return ResourceManager.GetString("LASTNAME_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to organism identifier is invalid.
+        /// </summary>
+        internal static string ORGANISM_IDENTIFIER_INVALID {
+            get {
+                return ResourceManager.GetString("ORGANISM_IDENTIFIER_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to organism identifier is required.
+        /// </summary>
+        internal static string ORGANISM_IDENTIFIER_REQUIRED {
+            get {
+                return ResourceManager.GetString("ORGANISM_IDENTIFIER_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to partnerCode is required..
+        /// </summary>
+        internal static string PARTNER_CODE_REQUIRED {
+            get {
+                return ResourceManager.GetString("PARTNER_CODE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to password is required..
+        /// </summary>
+        internal static string PASSWORD_REQUIRED {
+            get {
+                return ResourceManager.GetString("PASSWORD_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to phone is invalid..
+        /// </summary>
+        internal static string PHONE_INVALID {
+            get {
+                return ResourceManager.GetString("PHONE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^(?:(?:\+|00)33)\s*[1-9](?:[\s.-]*\d{2}){4}$.
+        /// </summary>
+        internal static string PHONE_REGEX {
+            get {
+                return ResourceManager.GetString("PHONE_REGEX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to phoneNumber is required..
+        /// </summary>
+        internal static string PHONENUMBER_REQUIRED {
+            get {
+                return ResourceManager.GetString("PHONENUMBER_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to procedure type is invalid..
+        /// </summary>
+        internal static string PROCEDURE_TYPE_INVALID {
+            get {
+                return ResourceManager.GetString("PROCEDURE_TYPE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to procedure type is required..
+        /// </summary>
+        internal static string PROCEDURE_TYPE_REQUIRED {
+            get {
+                return ResourceManager.GetString("PROCEDURE_TYPE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to resource login is required..
+        /// </summary>
+        internal static string RESOURCE_LOGIN_REQUIRED {
+            get {
+                return ResourceManager.GetString("RESOURCE_LOGIN_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to subscription code is required..
+        /// </summary>
+        internal static string SUBSCRIPTION_CODE_REQUIRED {
+            get {
+                return ResourceManager.GetString("SUBSCRIPTION_CODE_REQUIRED", resourceCulture);
             }
         }
         
@@ -84,6 +399,15 @@ namespace Bizca.Bff.Domain.Properties {
         internal static string SUBSCRIPTION_STATUS_UNSUPPORTED {
             get {
                 return ResourceManager.GetString("SUBSCRIPTION_STATUS_UNSUPPORTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to value cannot be null or empty.
+        /// </summary>
+        internal static string VALUE_CANNOT_BE_NULL_OR_EMPTY {
+            get {
+                return ResourceManager.GetString("VALUE_CANNOT_BE_NULL_OR_EMPTY", resourceCulture);
             }
         }
     }

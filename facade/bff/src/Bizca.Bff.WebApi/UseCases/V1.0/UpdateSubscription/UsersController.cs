@@ -1,20 +1,20 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.UpdateSubscription
 {
-    using Application.UseCases.UpdateSubscription;
-    using Core.Api.Modules.Conventions;
-    using Core.Domain;
-    using Core.Domain.Cqrs;
+    using Bizca.Bff.Application.UseCases.UpdateSubscription;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Conventions;
+    using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
-    using ViewModels;
 
     /// <summary>
     ///     Creates subscription controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Subscriptions")]
     public sealed class UsersController : ControllerBase

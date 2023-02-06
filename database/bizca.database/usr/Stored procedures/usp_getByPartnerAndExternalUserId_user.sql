@@ -2,17 +2,15 @@
 	@partnerId		smallint,
 	@externalUserId varchar(20)
 as
-declare
-@userId int;
+declare @userId int;
 
-select @userId = userId
-from [usr].[user]
-where externalUserId = @externalUserId
-  and
+select @userId = userId from [usr].[user]
+where externalUserId = @externalUserId and
     partnerId = @partnerId
 
 select dto = 'user'
-select u.userId
+select
+    u.userId
      , u.externalUserId
      , u.userCode
      , u.partnerId
@@ -41,9 +39,10 @@ from [usr].[user] u
 where u.userId = @userId
 
 select dto = 'channelConfirmations'
-select channelId,
-       expirationDate,
-       confirmationCode
+select
+    channelId,
+    expirationDate,
+    confirmationCode
 from [usr].[userChannelConfirmation] uco
     join [usr].[userChannel] uc
 on
@@ -54,7 +53,8 @@ on
 where uco.userId = @userId
 
 select dto = 'addresses'
-select a.addressName
+select
+    a.addressName
      , a.[addressId]
      , a.[active]
      , a.[city]
@@ -64,8 +64,7 @@ select a.addressName
      , c.countryId
      , c.[description]
 from [usr].[address] a
-    join [ref].[country] c
-on c.countryId = a.countryId
+    join [ref].[country] c on c.countryId = a.countryId
 where a.userId = @userId
 
 select dto = 'passwords'

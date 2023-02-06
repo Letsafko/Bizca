@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Core.Infrastructure.Repository.Entity
 {
-    using Bizca.Core.Infrastructure.Database;
+    using Database;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,5 +12,7 @@
         [Column("partnerCode")] public string Code { get; init; }
 
         [Column("description")] public string Description { get; init; }
+    
+        [Column("configuration")] public string Configuration { get; init; }
     }
 }

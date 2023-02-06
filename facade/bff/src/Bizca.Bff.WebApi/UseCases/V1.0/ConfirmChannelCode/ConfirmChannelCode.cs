@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.ConfirmChannelCode
 {
     using System.ComponentModel.DataAnnotations;
 

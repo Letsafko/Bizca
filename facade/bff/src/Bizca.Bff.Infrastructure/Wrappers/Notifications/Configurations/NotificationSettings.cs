@@ -3,9 +3,5 @@
     using Core.Infrastructure;
     using System;
 
-    public sealed class NotificationSettings : IAgentConfiguration
-    {
-        public TimeSpan? Timeout { get; set; }
-        public Uri BaseAddress { get; set; }
-    }
+    public record NotificationSettings(TimeSpan? Timeout, Uri BaseAddress) : IAgentConfiguration;
 }

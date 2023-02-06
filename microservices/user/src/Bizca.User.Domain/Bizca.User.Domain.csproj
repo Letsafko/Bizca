@@ -4,17 +4,13 @@
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
-
+    
     <ItemGroup>
-        <Compile Remove="Agregates\UserBuilder.cs"/>
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CSharp" Version="4.7.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Domain\Bizca.Core.Domain.csproj"/>
+        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Domain\Bizca.Core.Domain.csproj" />
     </ItemGroup>
 
 </Project>

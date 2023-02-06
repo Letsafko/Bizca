@@ -1,7 +1,7 @@
-﻿namespace Bizca.User.Domain.UnitTest.Rules.RuleEngines
+﻿namespace Bizca.User.Domain.UnitTest.RuleEngines
 {
-    using Agregates.BusinessCheck;
-    using Agregates.BusinessCheck.Rules;
+    using BusinessCheck.UserRule;
+    using BusinessCheck.UserRule.Contract;
     using System.Collections.Generic;
     using System.Linq;
 

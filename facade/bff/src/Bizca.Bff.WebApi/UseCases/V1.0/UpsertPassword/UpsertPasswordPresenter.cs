@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpsertPassword
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.UpsertPassword
 {
-    using Application.UseCases.UpsertPassword;
-    using Core.Api.Modules.Presentation;
-    using Core.Api.Modules.Presentation.HttpStrategies;
+    using Bizca.Bff.Application.UseCases.UpsertPassword;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels;
 
     /// <summary>
     ///     Register or update user password presenter.

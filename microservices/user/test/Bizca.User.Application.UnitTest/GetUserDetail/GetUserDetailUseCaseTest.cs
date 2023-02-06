@@ -1,20 +1,18 @@
-﻿namespace Bizca.User.Application.UnitTest.GetUser.Detail
+﻿namespace Bizca.User.Application.UnitTest.GetUserDetail
 {
-    using Core.Domain;
-    using Core.Domain.Referential.Model;
-    using Core.Domain.Referential.Repository;
-    using Core.Domain.Referential.Services;
-    using Core.Support.Test;
-    using Core.Support.Test.Builders;
-    using Domain.Agregates.Repositories;
+    using Bizca.Core.Domain.Referential.Model;
+    using Bizca.Core.Domain.Referential.Repository;
+    using Bizca.Core.Domain.Referential.Services;
+    using Bizca.Core.Test.Support.Builder;
+    using Bizca.User.Application.UseCases.GetUserDetail;
+    using Bizca.User.Application.UseCases.GetUsersByCriteria;
+    using Bizca.User.Domain.Agregates.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using NFluent;
     using NSubstitute;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using UseCases.GetUserDetail;
-    using UseCases.GetUsersByCriteria;
     using Xunit;
 
     public sealed class GetUserDetailUseCaseTest
@@ -62,7 +60,7 @@
             var presenter = new GetUserDetailPresenter();
             var request = new GetUserDetailQuery("test", "bizca");
             GetUserDetailUseCaseBuilder builder = GetUserDetailUseCaseBuilder.Instance
-                .WithGetPartnerByCode(PartnerBuilder.Instance.Build())
+                .WithGetPartnerByCode(PartnerExtensions.Instance.Build())
                 .WithOutputPort(presenter)
                 .WithGetUserByPartnerIdAndExternalUserId(default);
 
@@ -81,7 +79,7 @@
             var argCapture = new ArgCapture<GetUserDetail>();
             var request = new GetUserDetailQuery("test", "bizca");
             GetUserDetailUseCaseBuilder builder = GetUserDetailUseCaseBuilder.Instance
-                .WithGetPartnerByCode(PartnerBuilder.Instance.Build())
+                .WithGetPartnerByCode(PartnerExtensions.Instance.Build())
                 .WithGetUserByPartnerIdAndExternalUserId(user);
 
             //act

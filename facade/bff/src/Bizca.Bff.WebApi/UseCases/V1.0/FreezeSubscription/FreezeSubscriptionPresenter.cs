@@ -1,9 +1,9 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.FreezeSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.FreezeSubscription
 {
-    using Application.UseCases.FreezeSubscription;
-    using Domain.Entities.Subscription;
+    using Bizca.Bff.Application.UseCases.FreezeSubscription;
+    using Bizca.Bff.Domain.Entities.Subscription;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels;
 
     /// <summary>
     ///     Subscription activation presenter.

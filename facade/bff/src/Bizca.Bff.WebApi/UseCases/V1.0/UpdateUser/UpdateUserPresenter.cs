@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.UpdateUser
 {
-    using Application.UseCases.UpdateUser;
-    using Core.Api.Modules.Presentation;
-    using Core.Api.Modules.Presentation.HttpStrategies;
+    using Bizca.Bff.Application.UseCases.UpdateUser;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels;
 
     /// <summary>
     ///     Update user presenter.

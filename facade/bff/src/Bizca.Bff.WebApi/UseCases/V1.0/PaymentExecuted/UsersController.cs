@@ -1,19 +1,19 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.PaymentExecuted
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.PaymentExecuted
 {
-    using Application.UseCases.PaymentExecuted;
-    using Core.Api.Modules.Conventions;
-    using Core.Domain.Cqrs;
+    using Bizca.Bff.Application.UseCases.PaymentExecuted;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Conventions;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
-    using ViewModels;
 
     /// <summary>
     ///     Creates subscription controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Payments")]
     public sealed class UsersController : ControllerBase

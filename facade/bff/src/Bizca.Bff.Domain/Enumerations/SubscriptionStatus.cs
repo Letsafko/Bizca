@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.Domain.Entities.Enumerations.Subscription
+﻿namespace Bizca.Bff.Domain.Enumerations
 {
     public enum SubscriptionStatus
     {

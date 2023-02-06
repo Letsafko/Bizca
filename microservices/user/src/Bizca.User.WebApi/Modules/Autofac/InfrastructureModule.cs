@@ -1,11 +1,8 @@
 ﻿namespace Bizca.User.WebApi.Modules.Autofac
 {
-    using Core.Domain.Referential.Model;
     using Core.Domain.Referential.Repository;
     using Core.Domain.Referential.Services;
-    using Core.Infrastructure;
     using Core.Infrastructure.Database;
-    using Core.Infrastructure.Persistence;
     using Core.Infrastructure.Repository;
     using Core.Infrastructure.RepositoryCache;
     using Domain.Agregates.Repositories;

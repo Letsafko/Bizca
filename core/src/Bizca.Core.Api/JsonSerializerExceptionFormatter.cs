@@ -20,7 +20,8 @@ namespace Bizca.Core.Api
         public string Format(string message, IEnumerable<DomainFailure> domainFailures)
         {
             return JsonConvert.SerializeObject(
-                new ErrorResultModel(message,
+                new ErrorResultModel(
+                    message,
                     domainFailures.Select(e =>
                         new ErrorModel(e.PropertyName, e.ErrorMessage))));
         }

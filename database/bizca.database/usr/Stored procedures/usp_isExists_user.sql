@@ -4,10 +4,8 @@
 as
 begin
 
-select 1
-from [usr].[user]
-where externalUserId = @externalUserId
-  and
+select 1 from [usr].[user]
+where externalUserId = @externalUserId and
     partnerId = @partnerId
 
 end

@@ -5,7 +5,6 @@
     public abstract class CacheBase
     {
         protected readonly ICacheProvider CacheProvider;
-
         protected CacheBase(ICacheProvider cacheProvider)
         {
             CacheProvider = cacheProvider;
@@ -13,7 +12,7 @@
 
         protected static string GetCacheKey<T>(object value) where T : class
         {
-            string typeName = typeof(T).GetGenericTypeName().ToLower();
+            var typeName = typeof(T).GetGenericTypeName().ToLower();
             return $"{typeName}_{value}";
         }
     }

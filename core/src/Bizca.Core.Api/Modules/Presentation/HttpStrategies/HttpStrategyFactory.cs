@@ -5,16 +5,16 @@
 
     public sealed class HttpStrategyFactory : IHttpStrategyFactory
     {
-        private readonly IEnumerable<IHttpStrategy> strategies;
+        private readonly IEnumerable<IHttpStrategy> _strategies;
 
         public HttpStrategyFactory(IEnumerable<IHttpStrategy> strategies)
         {
-            this.strategies = strategies;
+            this._strategies = strategies;
         }
 
         public IHttpStrategy GetStrategy(int statusCode)
         {
-            return strategies.Single(x => x.StatusCode == statusCode);
+            return _strategies.Single(x => x.StatusCode == statusCode);
         }
     }
 }

@@ -1,20 +1,20 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateNewUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.CreateNewUser
 {
-    using Application.UseCases.CreateNewUser;
-    using Core.Api.Modules.Conventions;
-    using Core.Domain.Cqrs;
+    using Bizca.Bff.Application.UseCases.CreateNewUser;
+    using Bizca.Bff.WebApi.Properties;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Conventions;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Properties;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
-    using ViewModels;
 
     /// <summary>
     ///     Creates user controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
     {

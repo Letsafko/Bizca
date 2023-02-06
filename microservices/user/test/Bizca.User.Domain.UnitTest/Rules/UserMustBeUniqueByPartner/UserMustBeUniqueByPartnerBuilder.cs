@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner
 {
-    using Agregates.BusinessCheck.Rules;
     using Agregates.Repositories;
+    using BusinessCheck.UserRule;
     using NSubstitute;
 
     public sealed class UserMustBeUniqueByPartnerBuilder

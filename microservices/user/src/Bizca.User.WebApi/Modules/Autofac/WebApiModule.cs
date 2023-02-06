@@ -12,7 +12,7 @@
     using UseCases.V1.ConfirmChannelCode;
     using UseCases.V1.CreateUser;
     using UseCases.V1.GetUserDetails;
-    using UseCases.V1.RegisterConfirmationCode;
+    using UseCases.V1.RegisterCodeConfirmation;
     using UseCases.V1.RegisterPassword;
     using UseCases.V1.UpdateUser;
 

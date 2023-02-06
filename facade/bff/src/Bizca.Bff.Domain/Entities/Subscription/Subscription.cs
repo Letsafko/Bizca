@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription
 {
     using Core.Domain;
-    using Enumerations.Subscription;
+    using Enumerations;
     using Exceptions;
     using Referential.Bundle;
     using Referential.Procedure;

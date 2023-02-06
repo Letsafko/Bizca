@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUserDetails
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUserDetails
 {
-    using Application.UseCases.GetUserDetails;
-    using Core.Api.Modules.Presentation;
-    using Core.Api.Modules.Presentation.HttpStrategies;
+    using Bizca.Bff.Application.UseCases.GetUserDetails;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels;
 
     /// <summary>
     ///     Get user details preseneter.

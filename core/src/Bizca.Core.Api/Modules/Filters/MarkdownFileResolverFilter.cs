@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Runtime.InteropServices;
 
@@ -13,7 +14,7 @@
         private const string SwaggerIntroductionMarkdownFilePath = "Assets/Introduction.md";
 
         private readonly string _microserviceAssemblyLocation =
-            Directory.GetParent(Assembly.GetEntryAssembly()!.Location).FullName;
+            Directory.GetParent(Assembly.GetEntryAssembly()!.Location)!.FullName;
         
 
         #region Methods
@@ -23,12 +24,9 @@
             if (!Directory.Exists(_microserviceAssemblyLocation)) return;
 
             GenerateIntroduction(swaggerDoc);
-            foreach (KeyValuePair<string, OpenApiPathItem> path in swaggerDoc.Paths)
+            foreach (var operation in swaggerDoc.Paths.SelectMany(path => path.Value.Operations))
             {
-                foreach (KeyValuePair<OperationType, OpenApiOperation> operation in path.Value.Operations)
-                {
-                    GenerateDescription(operation.Value);
-                }
+                GenerateDescription(operation.Value);
             }
         }
         
@@ -49,7 +47,6 @@
         ///     " header and put a relative path
         ///     to the .MD file. Example : "///
         ///     <remarks>/Assets/MyFile.md</remarks>
-        ///     "
         /// </example>
         private void GenerateDescription(OpenApiOperation operation)
         {

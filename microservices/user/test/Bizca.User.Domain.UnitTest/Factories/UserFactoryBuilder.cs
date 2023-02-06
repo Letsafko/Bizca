@@ -1,8 +1,9 @@
 ﻿namespace Bizca.User.Domain.UnitTest.Factories
 {
-    using Agregates.BusinessCheck;
     using Agregates.Factories;
     using Agregates.Repositories;
+    using BusinessCheck.UserRule;
+    using BusinessCheck.UserRule.Contract;
     using Core.Domain.Referential.Services;
     using NSubstitute;
 

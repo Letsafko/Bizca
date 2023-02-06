@@ -11,14 +11,16 @@
         public IEnumerable<DomainFailure> Errors { get; }
         public string ErrorCode { get; }
 
-        protected DomainException(string message, string errorCode, IEnumerable<DomainFailure> domainFailures = default)
-            : base(message)
+        protected DomainException(string message, 
+            string errorCode, 
+            IEnumerable<DomainFailure> domainFailures) : base(message)
         {
             Errors = domainFailures ?? new List<DomainFailure>();
             ErrorCode = errorCode;
         }
 
-        public override void GetObjectData([NotNull] SerializationInfo info, StreamingContext context)
+        public override void GetObjectData([NotNull] SerializationInfo info, 
+            StreamingContext context)
         {
             info.AddValue("errors", Errors);
             base.GetObjectData(info, context);

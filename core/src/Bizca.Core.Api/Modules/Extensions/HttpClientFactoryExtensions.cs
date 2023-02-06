@@ -14,7 +14,7 @@
             string httpClientName = null)
             where TClient : class
             where TImplementation : class, TClient
-            where TOption : class, IAgentConfiguration, new()
+            where TOption : class, IAgentConfiguration//, new()
         {
             return services
                 .Configure<TOption>(section)

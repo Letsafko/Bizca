@@ -1,8 +1,8 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.RegisterSmsCodeConfirmation
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.RegisterSmsCodeConfirmation
 {
-    using Application.UseCases.RegisterSmsCodeConfirmation;
-    using Core.Api.Modules.Presentation;
-    using Core.Api.Modules.Presentation.HttpStrategies;
+    using Bizca.Bff.Application.UseCases.RegisterSmsCodeConfirmation;
+    using Bizca.Core.Api.Modules.Presentation;
+    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
 
     /// <summary>
     ///     <see cref="RegisterSmsCodeConfirmationPresenter" />

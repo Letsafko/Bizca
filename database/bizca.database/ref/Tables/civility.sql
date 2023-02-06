@@ -1,28 +1,20 @@
 ﻿create table [ref].[civility]
 (
-    [
-    civilityId]
-    smallint
-    not
-    null, [
-    civilityCode]
-    varchar
-(
-    5
-) not null,
+    [civilityId] smallint not null, 
+    [civilityCode] varchar(5) not null,
     [creationDate] datetime2 not null,
     [lastUpdate] datetime2 not null
-    )
-    go
+)
+go
 
 alter table [ref].[civility] add constraint [pk_civility] primary key clustered ( [civilityId] asc)
-    go
+go
 
 alter table [ref].[civility] add constraint [df_civility_creationDate] default getdate() for [creationDate]
-    go
+go
 
 alter table [ref].[civility] add constraint [df_civility_lastUpdate] default getdate() for [lastUpdate]
-    go
+go
 
 create unique index [ix_civility_civilityCode] on [ref].[civility] ([civilityCode] asc)
-    go
+go

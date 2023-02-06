@@ -16,9 +16,9 @@
 
         private const string DatabaseTagName = "database";
 
-        public static IHealthChecksBuilder AddHealthCheckServices(this IServiceCollection services)
+        public static void AddHealthCheckServices(this IServiceCollection services)
         {
-            return services.AddHealthChecksUI(setup =>
+            services.AddHealthChecksUI(setup =>
                 {
                     setup.SetMinimumSecondsBetweenFailureNotifications(MinimumSecondsBetweenFailure)
                         .MaximumHistoryEntriesPerEndpoint(MaximumHistoryEntries)
@@ -31,7 +31,7 @@
                 .AddCheck<HealthCheckDatabase>(DatabaseTagName, tags: new[] { "database" });
         }
 
-        public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
+        public static void UseHealthChecks(this IApplicationBuilder app)
         {
             app.UseHealthChecks((PathString) "/status/readiness", new HealthCheckOptions()
             {
@@ -55,8 +55,8 @@
                     [HealthStatus.Unhealthy] = 503
                 }
             });
-            
-            return app.UseEndpoints(endpoints =>
+
+            app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecksUI(opt =>
                 {

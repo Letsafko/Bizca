@@ -13,7 +13,8 @@ as
 begin
 
 insert into [usr].[user]
-([     externalUserId]
+(
+    [externalUserId]
     , [userCode]
     , [partnerId]
     , [civilityId]
@@ -24,11 +25,12 @@ insert into [usr].[user]
     , [birthCountryId]
     , [birthCity]
     , [creationDate]
-    , [lastUpdate])
+    , [lastUpdate]
+)
     output inserted.userId
 values
     (
-    @externalUserId
+          @externalUserId
         , @userCode
         , @partnerId
         , @civilityId

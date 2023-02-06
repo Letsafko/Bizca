@@ -40,7 +40,7 @@ namespace Bizca.Gateway
 
             app.UseRouting();
             app.UseStaticFiles();
-            //app.UseHealthChecks(Configuration);
+            //app.UseHealthChecks(PartnerConfiguration);
             app.ConfigureApp(Configuration);
         }
     }

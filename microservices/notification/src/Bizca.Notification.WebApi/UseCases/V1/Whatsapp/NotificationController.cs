@@ -11,7 +11,7 @@
     ///     Whatsapp notification controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/{partnerCode}/[controller]")]
+    [Route("api/v{version:apiVersion}/{partnerCode}/[controller]")]
     [ApiController]
     public sealed class NotificationController : ControllerBase
     {

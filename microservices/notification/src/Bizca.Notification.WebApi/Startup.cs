@@ -53,11 +53,10 @@ namespace Bizca.Notification.WebApi
         ///     Configures autofac container.
         /// </summary>
         /// <param name="builder"></param>
-        public static void ConfigureContainer(ContainerBuilder builder)
+        public new void ConfigureContainer(ContainerBuilder builder)
         {
+            StartupExtended.ConfigureContainer(builder);
             builder.RegisterModule(new InfrastructureModule());
-            builder.RegisterModule(new ApplicationModule());
-            builder.RegisterModule(new MediatorModule());
             builder.RegisterModule(new WebApiModule());
             builder.RegisterModule(new DomainModule());
         }

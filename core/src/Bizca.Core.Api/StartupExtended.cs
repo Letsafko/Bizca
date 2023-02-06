@@ -1,10 +1,12 @@
 ﻿namespace Bizca.Core.Api
 {
+    using Autofac;
     using FluentValidation;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Modules.Autofac;
     using Modules.Configuration;
     using Modules.Extensions;
     using Modules.Filters;
@@ -12,13 +14,13 @@
 
     public abstract class StartupExtended
     {
-        protected readonly IConfiguration Configuration;
-        protected readonly IHostEnvironment Environment;
+        protected IConfiguration Configuration { get; }
+        private readonly IHostEnvironment _environment;
 
         protected StartupExtended(IConfiguration configuration, IHostEnvironment environment)
         {
-            this.Configuration = configuration;
-            this.Environment = environment;
+            Configuration = configuration;
+            _environment = environment;
         }
 
         protected void ConfigureServices(IServiceCollection services)
@@ -38,7 +40,7 @@
 
         protected void Configure(IApplicationBuilder app)
         {
-            if (Environment.IsDevEnvironment())
+            if (_environment.IsDevEnvironment())
                 app.UseDeveloperExceptionPage();
 
             app.ConfigureApp(Configuration)
@@ -48,6 +50,13 @@
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+        }
+    
+        protected static void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new InfrastructureModule());
+            builder.RegisterModule(new WebApiModule());
+            builder.RegisterModule(new DomainModule());
         }
     }
 }

@@ -20,25 +20,25 @@
     using Application.UseCases.UpdateUser;
     using Application.UseCases.UpsertPassword;
     using global::Autofac;
-    using UseCases.V10.AuthenticateUser;
-    using UseCases.V10.ConfirmChannelCode;
-    using UseCases.V10.CreateNewUser;
-    using UseCases.V10.CreateSubscription;
-    using UseCases.V10.FreezeSubscription;
-    using UseCases.V10.GetActiveProcedures;
-    using UseCases.V10.GetBundles;
-    using UseCases.V10.GetProcedures;
-    using UseCases.V10.GetUserDetails;
-    using UseCases.V10.GetUsers;
-    using UseCases.V10.GetUserSubscriptionDetails;
-    using UseCases.V10.GetUserSubscriptions;
-    using UseCases.V10.PaymentSubmitted;
-    using UseCases.V10.RegisterSmsCodeConfirmation;
-    using UseCases.V10.ReInitializedPassword;
-    using UseCases.V10.SendProcedureAppointmentAvailability;
-    using UseCases.V10.UpdateSubscription;
-    using UseCases.V10.UpdateUser;
-    using UseCases.V10.UpsertPassword;
+    using UseCases.V1._0.AuthenticateUser;
+    using UseCases.V1._0.ConfirmChannelCode;
+    using UseCases.V1._0.CreateNewUser;
+    using UseCases.V1._0.CreateSubscription;
+    using UseCases.V1._0.FreezeSubscription;
+    using UseCases.V1._0.GetActiveProcedures;
+    using UseCases.V1._0.GetBundles;
+    using UseCases.V1._0.GetProcedures;
+    using UseCases.V1._0.GetUserDetails;
+    using UseCases.V1._0.GetUsers;
+    using UseCases.V1._0.GetUserSubscriptionDetails;
+    using UseCases.V1._0.GetUserSubscriptions;
+    using UseCases.V1._0.PaymentSubmitted;
+    using UseCases.V1._0.RegisterSmsCodeConfirmation;
+    using UseCases.V1._0.ReInitializedPassword;
+    using UseCases.V1._0.SendProcedureAppointmentAvailability;
+    using UseCases.V1._0.UpdateSubscription;
+    using UseCases.V1._0.UpdateUser;
+    using UseCases.V1._0.UpsertPassword;
 
     /// <summary>
     ///     WebApi modules.

@@ -1,9 +1,8 @@
 ﻿namespace Bizca.Bff.Infrastructure.Persistence
 {
-    using Bizca.Bff.Domain.Provider.ContactList;
+    using Domain.Provider.ContactList;
     using Bizca.Core.Infrastructure.Database;
     using Bizca.Core.Infrastructure.Repository;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -21,18 +20,22 @@
 
         public async Task<ContactList> GetContactListByProcedureAndOrganismAsync(int procedureTypeId, int organismId)
         {
-            var procedureTypeIdColumn = GetColumnAttributeName(nameof(ContactList.ProcedureTypeId));
-            var organismIdColumn = GetColumnAttributeName(nameof(ContactList.OrganismId));
-            IEnumerable<ContactList> result = await FindAsync(statement =>
+            var queryParams = new
             {
-                if (UnitOfWork.Transaction != null) statement.AttachToTransaction(UnitOfWork.Transaction);
-
+                procedureTypeId,
+                organismId
+            };
+            
+            var result = await FindAsync(statement =>
+            {
                 statement
-                    .Where($"{procedureTypeIdColumn} = @procedureTypeId AND {organismIdColumn} = @organismId")
-                    .WithParameters(new { procedureTypeId, organismId });
+                    .AttachToTransaction(UnitOfWork.Transaction)
+                    .WithParameters(queryParams)
+                    .Where(@$"{nameof(ContactList.ProcedureTypeId):C} = {nameof(queryParams.procedureTypeId):P} AND
+                              {nameof(ContactList.OrganismId):C} = {nameof(queryParams.organismId):P}");
             });
 
-            return result?.FirstOrDefault();
+            return result.FirstOrDefault();
         }
     }
 }

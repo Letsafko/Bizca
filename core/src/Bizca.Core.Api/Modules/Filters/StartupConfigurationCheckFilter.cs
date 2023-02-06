@@ -1,52 +1,55 @@
-namespace Bizca.Core.Api.Modules.Filters;
-
-using FluentValidation;
-using Infrastructure.Extension;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-
-public class StartupConfigurationCheckFilter<T> : IStartupFilter where T : class, new()
+namespace Bizca.Core.Api.Modules.Filters
 {
-    private readonly ILogger<StartupConfigurationCheckFilter<T>> _logger;
-    private readonly IExceptionFormatter _exceptionFormatter;
-    private readonly IValidator<T> _validator;
-    private readonly IOptions<T> _options;
+    using FluentValidation;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
+    using System;
+    using Infrastructure.Database.Configuration;
 
-    public StartupConfigurationCheckFilter(IExceptionFormatter exceptionFormatter,
-        IValidator<T> validator,
-        IOptions<T> options,
-        ILogger<StartupConfigurationCheckFilter<T>> logger)
+    public class StartupConfigurationCheckFilter : IStartupFilter
     {
-        _exceptionFormatter = exceptionFormatter;
-        _validator = validator;
-        _options = options;
-        _logger = logger;
-    }
+        private readonly IExceptionFormatter _exceptionFormatter;
+        private readonly ILogger<StartupConfigurationCheckFilter> _logger;
+        private readonly IServiceProvider _serviceProvider;
 
-    public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
-    {
-        _logger.LogDebug("Starting Validation of configuration for {ConfigurationName} ...",
-            typeof(T).GetGenericTypeName());
-        
-        try
+        public StartupConfigurationCheckFilter(ILogger<StartupConfigurationCheckFilter> logger,
+            IExceptionFormatter exceptionFormatter,
+            IServiceProvider serviceProvider)
         {
-            _validator.ValidateAndThrow(_options.Value);
-            _logger.LogDebug("Validation of configuration for {ConfigurationName} ends successfully",
-                typeof(T).GetGenericTypeName());
-        
-            return next;
+            _exceptionFormatter = exceptionFormatter;
+            _serviceProvider = serviceProvider;
+            _logger = logger;
         }
-        catch (ValidationException e)
+
+        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
         {
-            var errorMessage = _exceptionFormatter.Format(e.Errors);
-            _logger.LogCritical("Validation of configuration for {ConfigurationName} failed with result: {Validation}", 
-                errorMessage,
-                typeof(T).GetGenericTypeName());
-            
-            throw;
+            const string typeName = nameof(DatabaseConfiguration);
+            _logger.LogDebug("Starting Validation of configuration for {ConfigurationName} ...",
+                typeName);
+
+            try
+            {
+                var configuration = _serviceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
+                var validator = _serviceProvider.GetRequiredService<IValidator<DatabaseConfiguration>>();
+
+                validator.ValidateAndThrow(configuration);
+
+                _logger.LogDebug("Validation of configuration for {ConfigurationName} ends successfully",
+                    nameof(DatabaseConfiguration));
+
+                return next;
+            }
+            catch (ValidationException e)
+            {
+                _logger.LogCritical("Validation of configuration for {ConfigurationName} failed with result: {Validation}",
+                    _exceptionFormatter.Format(e.Errors),
+                    typeName);
+
+                throw;
+            }
         }
     }
 }

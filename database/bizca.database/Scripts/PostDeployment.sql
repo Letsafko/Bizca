@@ -9,50 +9,18 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-:
-r
-.
-\PostDeployment
-\role.sql
-:r .
-\PostDeployment
-\channel.sql
-:r .
-\PostDeployment
-\partner.sql
-:r .
-\PostDeployment
-\folder.sql
-:r .
-\PostDeployment
-\country.sql 
-:r .
-\PostDeployment
-\pricing.sql
-:r .
-\PostDeployment
-\civility.sql
-:r .
-\PostDeployment
-\organism.sql
-:r .
-\PostDeployment
-\procedureType.sql
-:r .
-\PostDeployment
-\emailTemplateType.sql
-:r .
-\PostDeployment
-\procedure.sql
-:r .
-\PostDeployment
-\language.sql
-:r .
-\PostDeployment
-\emailTemplate.sql
-:r .
-\PostDeployment
-\economicActivity.sql
-:r .
-\PostDeployment
-\subscriptionStatus.sql
+:r .\PostDeployment\role.sql
+:r .\PostDeployment\channel.sql
+:r .\PostDeployment\partner.sql
+:r .\PostDeployment\folder.sql
+:r .\PostDeployment\country.sql 
+:r .\PostDeployment\pricing.sql
+:r .\PostDeployment\civility.sql
+:r .\PostDeployment\organism.sql
+:r .\PostDeployment\procedureType.sql
+:r .\PostDeployment\emailTemplateType.sql
+:r .\PostDeployment\procedure.sql
+:r .\PostDeployment\language.sql
+:r .\PostDeployment\emailTemplate.sql
+:r .\PostDeployment\economicActivity.sql
+:r .\PostDeployment\subscriptionStatus.sql

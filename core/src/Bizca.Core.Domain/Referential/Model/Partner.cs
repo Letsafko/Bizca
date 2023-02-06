@@ -1,56 +1,31 @@
 ﻿namespace Bizca.Core.Domain.Referential.Model
 {
-    using System;
+    using Enums;
+    using System.Collections.Generic;
 
-    public sealed class Partner : Entity
+    public sealed class Partner : ValueObject
     {
-        public Partner(int id, string code, string description)
+        private readonly PartnerConfiguration _partnerConfiguration;
+
+        public Partner(int partnerId, string code, string description, PartnerConfiguration partnerConfiguration = null)
         {
-            Id = id;
+            _partnerConfiguration = partnerConfiguration ?? new PartnerConfiguration();
+            Description = description;
+            PartnerId = partnerId;
             PartnerCode = code;
-            Desciption = description;
         }
 
+        public int ChannelCodeConfirmationExpirationDelay => _partnerConfiguration.ChannelCodeConfirmationExpirationDelay;
+        public MandatoryUserProfileField MandatoryUserProfileField => _partnerConfiguration.MandatoryUserProfileField;
+        public MandatoryAddressField MandatoryAddressField => _partnerConfiguration.MandatoryAddressField;
+        public int ChannelCodeConfirmationLength => _partnerConfiguration.ChannelCodeConfirmationLength;
         public string PartnerCode { get; }
-        public string Desciption { get; }
-        public PartnerSettings Settings { get; } = new PartnerSettings();
-    }
-
-    public sealed class PartnerSettings
-    {
-        public FeatureFlags FeatureFlags { get; } = new FeatureFlags();
-        public int ChannelCodeConfirmationExpirationDelay { get; set; } = 24 * 60;
-        public int ChannelCodeConfirmationLength { get; set; } = 10;
-    }
-
-    public sealed class FeatureFlags
-    {
-        public MandatoryUserFlags MandatoryUserFlags { get; set; } = MandatoryUserFlags.Email;
-        public MandatoryAddressFlags MandatoryAddressFlags { get; set; }
-    }
-
-    [Flags]
-    public enum MandatoryUserFlags
-    {
-        None = 0,
-        PhoneNumber = 1,
-        Whatsapp = 2,
-        Email = 4,
-        BirthCounty = 8,
-        BirthDate = 16,
-        BirthCity = 32,
-        EconomicActivity = 64,
-        Address = 128,
-        All = PhoneNumber | Whatsapp | Email | BirthCounty | BirthDate | BirthCity | EconomicActivity | Address
-    }
-
-    [Flags]
-    public enum MandatoryAddressFlags
-    {
-        None = 0,
-        Street = 1,
-        ZipCode = 2,
-        Name = 4,
-        All = Street | ZipCode | Name
+        public string Description { get; }
+        public int PartnerId { get; }
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return PartnerCode;
+            yield return PartnerId;
+        }
     }
 }

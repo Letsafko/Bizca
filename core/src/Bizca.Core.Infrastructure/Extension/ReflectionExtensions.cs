@@ -20,15 +20,15 @@ namespace Bizca.Core.Infrastructure.Extension
             var properties = new Dictionary<string, string>();
             if (source is null) return properties;
 
-            foreach (PropertyInfo propInfo in source.GetFilteredProperties(bindingFlags))
-                properties[propInfo.Name] = IsSimple(propInfo.GetType())
+            foreach (var propInfo in source.GetFilteredProperties(bindingFlags))
+                properties[propInfo.Name] = IsSimpleType(propInfo.GetType())
                     ? propInfo.GetValue(source, null)?.ToString()
                     : JsonConvert.SerializeObject(propInfo.GetValue(source, null), Formatting.Indented);
 
             return properties;
         }
 
-        private static bool IsSimple(Type type)
+        private static bool IsSimpleType(Type type)
         {
             while (true)
             {

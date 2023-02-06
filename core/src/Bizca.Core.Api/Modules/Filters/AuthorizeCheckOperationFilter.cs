@@ -37,7 +37,7 @@
             };
             operation.Security = new List<OpenApiSecurityRequirement>
             {
-                new OpenApiSecurityRequirement { [oAuthScheme] = _scopes }
+                new() { [oAuthScheme] = _scopes }
             };
         }
     }

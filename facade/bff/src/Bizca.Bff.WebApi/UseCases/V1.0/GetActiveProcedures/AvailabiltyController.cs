@@ -1,18 +1,18 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetActiveProcedures
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetActiveProcedures
 {
-    using Application.UseCases.GetActiveProcedures;
-    using Core.Api.Modules.Conventions;
-    using Core.Domain.Cqrs;
+    using Bizca.Bff.Application.UseCases.GetActiveProcedures;
+    using Bizca.Bff.WebApi.ViewModels;
+    using Bizca.Core.Api.Modules.Conventions;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
-    using ViewModels;
 
     /// <summary>
     ///     Retrieve procedure by active subscriptions.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public sealed class AvailabiltyController : ControllerBase
     {

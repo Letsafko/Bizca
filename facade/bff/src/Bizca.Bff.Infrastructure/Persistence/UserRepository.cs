@@ -1,6 +1,5 @@
 ﻿namespace Bizca.Bff.Infrastructure.Persistence
 {
-    using Bizca.Bff.Domain.Entities.Enumerations.Subscription;
     using Bizca.Bff.Domain.Entities.Subscription;
     using Bizca.Bff.Domain.Entities.User;
     using Bizca.Bff.Domain.Entities.User.ValueObjects;

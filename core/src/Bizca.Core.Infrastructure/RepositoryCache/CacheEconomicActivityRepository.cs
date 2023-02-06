@@ -2,6 +2,7 @@
 {
     using Bizca.Core.Domain.Referential.Model;
     using Bizca.Core.Infrastructure.Cache;
+    using Domain.Referential.Repository;
     using System.Threading.Tasks;
 
     public sealed class CacheEconomicActivityRepository : CacheBase, IEconomicActivityRepository
@@ -17,7 +18,7 @@
 
         public async Task<EconomicActivity> GetByIdAsync(int economicActivityId)
         {
-            string cacheKey = GetCacheKey<EconomicActivity>(economicActivityId);
+            var cacheKey = GetCacheKey<EconomicActivity>(economicActivityId);
             return await CacheProvider.GetOrCreateAsync(cacheKey,
                 () => _decorated.GetByIdAsync(economicActivityId));
         }

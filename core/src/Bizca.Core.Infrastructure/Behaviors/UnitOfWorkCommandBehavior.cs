@@ -2,7 +2,7 @@
 {
     using Database;
     using Domain.Cqrs.Commands;
-    using Domain.Cqrs.Services;
+    using DomainEventDispatch;
     using Extension;
     using MediatR;
     using Microsoft.Extensions.Logging;
@@ -13,15 +13,15 @@
     public class UnitOfWorkCommandBehavior<TCommand, TResponse> : IPipelineBehavior<TCommand, Unit>
         where TCommand : ICommand, IRequest<TResponse>
     {
-        private readonly IEventService _eventService;
         private readonly ILogger<UnitOfWorkCommandBehavior<TCommand, TResponse>> _logger;
+        private readonly IDomainEventsDispatcher _domainEventsDispatcher;
         private readonly IUnitOfWork _unitOfWork;
 
         public UnitOfWorkCommandBehavior(IUnitOfWork unitOfWork,
-            IEventService eventService,
-            ILogger<UnitOfWorkCommandBehavior<TCommand, TResponse>> logger)
+            ILogger<UnitOfWorkCommandBehavior<TCommand, TResponse>> logger, 
+            IDomainEventsDispatcher domainEventsDispatcher)
         {
-            _eventService = eventService;
+            _domainEventsDispatcher = domainEventsDispatcher;
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
@@ -32,8 +32,11 @@
             try
             {
                 Unit result = await next();
-                await _eventService.DequeueAsync(cancellationToken);
+            
                 _unitOfWork.Commit();
+            
+                await _domainEventsDispatcher.PublishAsync(cancellationToken);
+            
                 return result;
             }
             catch (Exception exception)

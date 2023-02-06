@@ -4,6 +4,7 @@
     using Bizca.Core.Domain.Referential.Repository;
     using Dapper;
     using Database;
+    using Domain.Referential.Enums;
     using Entity;
     using System.Data;
     using System.Threading.Tasks;

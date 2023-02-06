@@ -4,10 +4,8 @@
 as
 begin
 	
-	declare
-@userId int;
-	if
-@email is not null
+	declare @userId int;
+	if @email is not null
 begin
 select @userId = userId
 from [bff].[user]
@@ -21,9 +19,9 @@ where phoneNumber = @phone
 end
 else
 begin
-		raiserror
+            raiserror
 ('at least one of email or phone should be not null', 16, 1);
-		return;
+            return;
 end
 
 select dto = 'user'

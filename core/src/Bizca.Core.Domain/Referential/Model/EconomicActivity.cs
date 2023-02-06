@@ -14,11 +14,9 @@
         public string EconomicActivityCode { get; }
         public string Description { get; }
         public int Id { get; }
-
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return EconomicActivityCode;
-            yield return Description;
             yield return Id;
         }
     }

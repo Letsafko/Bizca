@@ -14,10 +14,10 @@ namespace Bizca.Core.Domain
             Data = data;
         }
 
-        public bool Success => !string.IsNullOrWhiteSpace(ErrorCode) && !string.IsNullOrWhiteSpace(Message);
+        public bool Success => !string.IsNullOrWhiteSpace(ErrorCode) || !string.IsNullOrWhiteSpace(Message);
         public string? ErrorCode { get; }
         public string? Message { get; }
         public int StatusCode { get; }
-        public T? Data { get; init; }
+        public T? Data { get;}
     }
 }

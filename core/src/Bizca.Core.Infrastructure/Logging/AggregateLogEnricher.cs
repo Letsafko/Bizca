@@ -18,7 +18,7 @@
         {
             foreach (KeyValuePair<string, string> property in _properties)
             {
-                LogEventProperty logEventProperty = propertyFactory
+                var logEventProperty = propertyFactory
                     .CreateProperty(property.Key, property.Value?.Replace("\"", ""));
 
                 logEvent.AddPropertyIfAbsent(logEventProperty);

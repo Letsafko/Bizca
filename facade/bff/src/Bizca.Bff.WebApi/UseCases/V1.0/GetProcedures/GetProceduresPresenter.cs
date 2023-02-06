@@ -1,11 +1,11 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetProcedures
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetProcedures
 {
-    using Application.UseCases.GetProcedures;
-    using Domain.Referential.Procedure;
-    using Domain.Referential.Procedure.ValueObjects;
+    using Bizca.Bff.Application.UseCases.GetProcedures;
+    using Bizca.Bff.Domain.Referential.Procedure;
+    using Bizca.Bff.Domain.Referential.Procedure.ValueObjects;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
-    using ViewModels;
 
     /// <summary>
     ///     Get procedures presenter.

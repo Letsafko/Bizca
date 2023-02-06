@@ -14,7 +14,7 @@
             var objTwo = new FakeValueObject(1, true, "same value");
 
             //assert
-             Check.That(objOne).IsEqualTo(objTwo);
+            Check.That(objOne).IsEqualTo(objTwo);
         }
         
         [Fact(DisplayName = "Should return false if one of properties has different value")]

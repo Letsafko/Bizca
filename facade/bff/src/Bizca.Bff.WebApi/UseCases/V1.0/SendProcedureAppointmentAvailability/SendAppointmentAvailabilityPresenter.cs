@@ -1,6 +1,6 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.SendProcedureAppointmentAvailability
 {
-    using Application.UseCases.SendAppointmentAvailability;
+    using Bizca.Bff.Application.UseCases.SendAppointmentAvailability;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

@@ -1,25 +1,11 @@
 ﻿create table [bff].[organism]
 (
-    [
-    organismId]
-    int
-    not
-    null, [
-    codeInsee]
-    varchar
-(
-    10
-) not null,
-    [organismName] varchar
-(
-    100
-) not null,
-    [organismHref] varchar
-(
-    100
-) not null,
-    [creationDate] datetime2 not null,
-    [lastUpdate] datetime2 not null
+    [organismId]	int not null,
+    [codeInsee]		varchar(10) not null,
+    [organismName]  varchar(100) not null,
+    [organismHref]  varchar(100) not null,
+    [creationDate]	datetime2 not null,
+    [lastUpdate]	datetime2 not null
     )
     go
 

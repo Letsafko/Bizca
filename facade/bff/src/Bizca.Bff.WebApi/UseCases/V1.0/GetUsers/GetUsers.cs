@@ -1,6 +1,6 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUsers
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUsers
 {
-    using Core.Api.Modules.Pagination;
+    using Bizca.Core.Api.Modules.Pagination;
 
     /// <summary>
     ///     Gets user criteria search.

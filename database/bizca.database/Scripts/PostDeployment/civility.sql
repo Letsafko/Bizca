@@ -1,25 +1,24 @@
 ﻿merge into [ref].[civility] as target
     using
     (
-    values (1,'Mr')
-    ,(2,'Mrs')
-    ,(3,'Miss')
-    ,(4,'Other')
+        values (1,'Mr')
+              ,(2,'Mrs')
+              ,(3,'Miss')
+              ,(4,'Other')
     ) as source (civilityId, civilityCode) on target.civilityId = source.civilityId
     when matched then
 update
     set civilityCode = source.civilityCode,
     lastUpdate = getdate()
     when not matched by target then
-insert
-(
-civilityId
-,
-civilityCode
-)
-values
+    insert
     (
-    source.civilityId,
-    source.civilityCode
+        civilityId,
+        civilityCode
+    )
+    values
+    (
+        source.civilityId,
+        source.civilityCode
     );
 go

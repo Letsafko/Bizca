@@ -3,9 +3,8 @@
     using Core.Domain.Referential.Services;
     using Core.Domain.Rules;
     using Domain.Agregates;
-    using Domain.Agregates.BusinessCheck;
-    using Domain.Agregates.BusinessCheck.Rules;
     using Domain.Agregates.Factories;
+    using Domain.BusinessCheck.UserRule;
     using Domain.Entities.Address.Factories;
     using global::Autofac;
 

@@ -7,59 +7,65 @@
     using System;
     using System.Collections;
     using System.Net.Http;
+    using System.Net.Http.Json;
     using System.Threading.Tasks;
 
     public abstract class BaseWrapper
     {
-        private readonly HttpClient httpClient;
-        private readonly ILogger logger;
+        private readonly ILogger<BaseWrapper> _logger;
+        private readonly HttpClient _httpClient;
 
-        protected BaseWrapper(ILogger logger, IHttpClientFactory httpClientFactory, string httpClientName)
+        protected BaseWrapper(ILogger<BaseWrapper> logger, 
+            IHttpClientFactory httpClientFactory, 
+            string httpClientName)
         {
             if (string.IsNullOrWhiteSpace(httpClientName))
                 throw new ArgumentNullException(nameof(httpClientName));
 
-            httpClient = httpClientFactory.CreateClient(httpClientName);
-            this.logger = logger;
+            _httpClient = httpClientFactory.CreateClient(httpClientName);
+            _logger = logger;
         }
 
-        protected virtual string ApiVersion { get; } = "api/v1.0";
+        protected virtual string ApiVersion => "api/v1.0";
 
-        protected virtual async Task<IPublicResponse<T>> SendAsync<T>(HttpMethod httpMethod, string requestUrl,
-            object content = null, IDictionary metadata = null)
+        protected async Task<IPublicResponse<T>> SendAsync<T>(HttpMethod httpMethod, 
+            string relativeRequestUrl,
+            object content = null, 
+            IDictionary metadata = null)
         {
-            if (string.IsNullOrWhiteSpace(requestUrl))
-                throw new ArgumentNullException(nameof(requestUrl));
+            if (string.IsNullOrWhiteSpace(relativeRequestUrl))
+                throw new ArgumentNullException(nameof(relativeRequestUrl));
 
-            using (var request = new HttpRequestMessage(httpMethod, new Uri(requestUrl, UriKind.Relative)))
-            {
-                request.AddHeaders(metadata);
-                if (httpMethod == HttpMethod.Post || httpMethod == HttpMethod.Patch || httpMethod == HttpMethod.Put)
-                    if (content != null)
-                    {
-                        request.Content = content.GetHttpContent();
-                        string requestLog = await request.Content.ReadAsStringAsync();
-                        logger.LogDebug($"[Request]= {requestLog}");
-                    }
-
-                using (HttpResponseMessage response = await httpClient.SendAsync(request).ConfigureAwait(false))
+            using var request = new HttpRequestMessage(httpMethod, new Uri(relativeRequestUrl, UriKind.Relative));
+            request.AddHeaders(metadata);
+            if (httpMethod == HttpMethod.Post || httpMethod == HttpMethod.Patch || httpMethod == HttpMethod.Put)
+                if (content != null)
                 {
-                    return GetResponseAndLog<T>(response);
+                    request.Content = content.GetHttpContent();
+                    string requestLog = await request.Content!.ReadAsStringAsync();
+                    _logger.LogDebug("[Request]= {Request}", requestLog);
                 }
-            }
+
+            using var response = await _httpClient.SendAsync(request);
+            return await GetResponseAndLogAsync<T>(response);
         }
 
-        private IPublicResponse<T> GetResponseAndLog<T>(HttpResponseMessage httpResponseMessage)
+        private async Task<IPublicResponse<T>> GetResponseAndLogAsync<T>(HttpResponseMessage httpResponseMessage)
         {
-            string responseAsString = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            var responseAsString = await httpResponseMessage.Content.ReadAsStringAsync();
+            var statusCode = httpResponseMessage.StatusCode;
+        
+            _logger.LogDebug("[StatusCode]={StatusCode}, [Response]= {Response}", 
+                statusCode.ToString(), 
+                responseAsString);
+        
             if (!httpResponseMessage.IsSuccessStatusCode)
-                return new PublicResponse<T>(responseAsString, (int)httpResponseMessage.StatusCode);
+                return new PublicResponse<T>(default, 
+                    (int)statusCode,
+                    httpResponseMessage.ReasonPhrase);
 
-            logger.LogDebug($"[Response]= {responseAsString}");
-            return new PublicResponse<T>(null, (int)httpResponseMessage.StatusCode)
-            {
-                Data = JsonConvert.DeserializeObject<T>(responseAsString)
-            };
+            var response = await httpResponseMessage.Content.ReadFromJsonAsync<T>();
+            return new PublicResponse<T>(response, (int)statusCode);
         }
     }
 }

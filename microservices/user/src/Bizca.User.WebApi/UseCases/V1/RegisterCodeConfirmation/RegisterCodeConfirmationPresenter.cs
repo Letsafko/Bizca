@@ -1,7 +1,6 @@
-﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
+﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterCodeConfirmation
 {
-    using Application.UseCases.RegisterCodeConfirmation;
-    using Core.Domain;
+    using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

@@ -1,9 +1,9 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUserSubscriptionDetails
 {
-    using Application.UseCases.GetUserSubscriptionDetails;
-    using Domain.Entities.Subscription;
+    using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
+    using Bizca.Bff.Domain.Entities.Subscription;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels;
 
     /// <summary>
     ///     User subscription details presenter.

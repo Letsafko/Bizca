@@ -10,14 +10,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0"/>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9"/>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Api\Bizca.Core.Api.csproj"/>
-        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Application\Bizca.Core.Application.csproj"/>
-        <ProjectReference Include="..\Bizca.Notification.Infrastructure\Bizca.Notification.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Api\Bizca.Core.Api.csproj" />
+        <ProjectReference Include="..\..\..\..\core\src\Bizca.Core.Application\Bizca.Core.Application.csproj" />
+        <ProjectReference Include="..\Bizca.Notification.Infrastructure\Bizca.Notification.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

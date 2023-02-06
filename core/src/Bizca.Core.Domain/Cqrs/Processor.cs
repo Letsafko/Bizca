@@ -9,6 +9,13 @@
 
     public sealed class Processor : IProcessor
     {
+        private readonly IMediator _mediator;
+
+        public Processor(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+    
         public async Task ProcessCommandAsync(ICommand command, CancellationToken cancellationToken)
         {
             await _mediator.Send(command, cancellationToken);
@@ -23,13 +30,6 @@
             CancellationToken cancellationToken)
         {
             await _mediator.Publish(notificationEvent, cancellationToken);
-        }
-
-        private readonly IMediator _mediator;
-
-        public Processor(IMediator mediator)
-        {
-            _mediator = mediator;
         }
     }
 }

@@ -11,7 +11,7 @@
     {
         private const string JsonMediaType = "application/json";
 
-        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings JsonSettings = new()
         {
             ContractResolver = new CamelCaseExceptDictionaryKeysResolver(),
             NullValueHandling = NullValueHandling.Ignore
@@ -25,7 +25,7 @@
 
         public static void AddHeaders(this HttpRequestMessage request, IDictionary headers)
         {
-            if (headers == null) return;
+            if (headers is null) return;
 
             foreach (object entry in headers.Keys)
             {

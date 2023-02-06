@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetActiveProcedures
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetActiveProcedures
 {
-    using Application.UseCases.GetActiveProcedures;
-    using Domain.Referential.Procedure;
+    using Bizca.Bff.Application.UseCases.GetActiveProcedures;
+    using Bizca.Bff.Domain.Referential.Procedure;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
-    using ViewModels;
 
     /// <summary>
     ///     Get procedures for active subscriptions

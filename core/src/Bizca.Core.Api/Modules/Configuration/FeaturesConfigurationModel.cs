@@ -6,6 +6,7 @@
         
         public bool Versioning { get; set; }
         
+        
         public bool KeyVault { get; set; }
 
         public bool Logging { get; set; }

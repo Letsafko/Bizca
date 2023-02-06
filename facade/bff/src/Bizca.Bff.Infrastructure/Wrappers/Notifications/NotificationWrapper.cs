@@ -12,7 +12,8 @@
 
     public sealed class NotificationWrapper : BaseWrapper, INotificationWrapper
     {
-        public NotificationWrapper(IHttpClientFactory httpClientFactory, ILogger<NotificationWrapper> logger)
+        public NotificationWrapper(IHttpClientFactory httpClientFactory, 
+            ILogger<NotificationWrapper> logger)
             : base(logger, httpClientFactory, NamedHttpClients.ApiNotificationClientName)
         {
         }

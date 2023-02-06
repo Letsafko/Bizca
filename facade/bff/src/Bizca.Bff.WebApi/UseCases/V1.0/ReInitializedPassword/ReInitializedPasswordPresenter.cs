@@ -1,8 +1,8 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.ReInitializedPassword
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.ReInitializedPassword
 {
-    using Application.UseCases.ReInitializedPassword;
+    using Bizca.Bff.Application.UseCases.ReInitializedPassword;
+    using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels;
 
     /// <summary>
     ///     Reinitialized password presenter.

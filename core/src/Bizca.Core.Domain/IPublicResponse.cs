@@ -3,14 +3,14 @@ namespace Bizca.Core.Domain
 {
     public interface IPublicResponse<out T> : IPublicResponse
     {
-        public T? Data { get; }
+        T? Data { get; }
     }
 
     public interface IPublicResponse
     {
+        string? ErrorCode { get; }
+        string? Message { get; }
+        bool Success { get; }
         int StatusCode { get; }
-        public bool Success { get; }
-        public string? Message { get; }
-        public string? ErrorCode { get; }
     }
 }

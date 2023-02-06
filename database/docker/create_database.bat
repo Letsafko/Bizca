@@ -26,7 +26,7 @@ timeout 15
 
 msbuild  %dacpac_project% /P:Configuration=Release
 
-sqlpackage.exe /a:publish /tcs:"Server=localhost,%port%;Database=%database_name%;User=sa;Password=%password%" /sf:%dacpac_path% /Variables:Environnement=Dev 
+sqlpackage.exe /a:publish /tcs:"Server=localhost,%port%;Database=%database_name%;User=sa;Password=%password%" /sf:%dacpac_path% /Variables:Environment=Dev 
 pause
 
 

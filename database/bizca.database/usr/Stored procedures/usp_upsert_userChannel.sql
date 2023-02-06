@@ -3,8 +3,7 @@
 as
 begin
 
-	delete
-uc
+	delete uc
 	from [usr].[userChannel] uc
 	join @channels c 
 	on 
@@ -23,7 +22,8 @@ uc
 		, [creationDate]	
 		, [lastUpdate]	
 	)
-select userId
+select
+    userId
      , channelId
      , [value]
      , active

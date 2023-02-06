@@ -1,18 +1,18 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.SendProcedureAppointmentAvailability
 {
-    using Application.UseCases.SendAppointmentAvailability;
-    using Core.Api.Modules.Conventions;
-    using Core.Domain.Cqrs;
+    using Bizca.Bff.Application.UseCases.SendAppointmentAvailability;
+    using Bizca.Bff.WebApi.Properties;
+    using Bizca.Core.Api.Modules.Conventions;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Properties;
     using System.Threading.Tasks;
 
     /// <summary>
     ///     Send appointment availability of a procedure to subscribers controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public sealed class AvailabiltyController : ControllerBase
     {

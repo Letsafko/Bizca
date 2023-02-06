@@ -1,8 +1,8 @@
 ﻿namespace Bizca.Core.Infrastructure.RepositoryCache
 {
-    using Bizca.Core.Domain.Referential.Model;
+    using Domain.Referential.Model;
     using Bizca.Core.Domain.Referential.Repository;
-    using Bizca.Core.Infrastructure.Cache;
+    using Cache;
     using System.Threading.Tasks;
 
     public sealed class CachePartnerRepository : CacheBase, IPartnerRepository

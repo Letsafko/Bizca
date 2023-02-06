@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription.SubscriptionState
 {
-    using Enumerations.Subscription;
+    using Enumerations;
 
     public interface ISubscriptionState
     {

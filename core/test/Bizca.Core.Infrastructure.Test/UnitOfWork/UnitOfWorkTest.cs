@@ -1,10 +1,8 @@
-namespace Bizca.Core.Infrastructure.Test
+namespace Bizca.Core.Infrastructure.Test.UnitOfWork
 {
-    using Configuration;
     using Database;
+    using Bizca.User.Infrastructure.Configuration;
     using NFluent;
-    using Repository;
-    using UnitOfWork;
     using Xunit;
 
     public sealed class UnitOfWorkTest

@@ -1,21 +1,10 @@
 ﻿create table [usr].[userChannelConfirmation]
 (
-    [
-    userId]
-    int
-    not
-    null, [
-    channelId]
-    smallint
-    not
-    null, [
-    confirmationCode]
-    varchar
-(
-    50
-) not null,
-    [creationDate] datetime2 not null,
-    [expirationDate] datetime2 null
+    [userId]			int not null,
+    [channelId]			smallint not null,
+    [confirmationCode]	varchar(50) not null,
+    [creationDate]		datetime2 not null,
+    [expirationDate]	datetime2 null
     )
     go
 

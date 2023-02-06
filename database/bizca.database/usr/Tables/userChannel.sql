@@ -1,29 +1,13 @@
 ﻿create table [usr].[userChannel]
 (
-    [
-    userId]
-    int
-    not
-    null, [
-    channelMask]
-    smallint
-    not
-    null, [
-    partnerId]
-    smallint
-    not
-    null
-    default
-    1, [
-    value]
-    varchar
-(
-    50
-) not null,
-    [active] bit not null,
-    [confirmed] bit not null,
-    [creationDate] datetime2 not null,
-    [lastUpdate] datetime2 not null
+    [userId]		 int not null,
+    [channelMask]		 smallint not null,
+    [partnerId]      smallint not null default 1,
+    [value]     	 varchar(50) not null,
+    [active]		 bit not null,
+    [confirmed]		 bit not null,
+    [creationDate]	 datetime2 not null,
+    [lastUpdate]	 datetime2 not null
     )
     go
 

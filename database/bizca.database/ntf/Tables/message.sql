@@ -1,26 +1,13 @@
 ﻿create table [ntf].[message]
 (
-    [
-    messageId]
-    int
-    identity
-(
-    1,
-    1
-) not null,
-    [userName] varchar
-(
-    20
-) not null,
-    [emailTemplateId] smallint not null,
-    [phoneNumber] smallint not null,
-    [email] smallint not null,
-    [channelId] smallint not null,
-    [content] varchar
-(
-    500
-) not null,
-    [creationDate] datetime2 not null
+    [messageId]			int identity(1,1) not null,
+    [userName]			varchar(20)  not null,
+    [emailTemplateId]	smallint     not null,
+    [phoneNumber]		smallint     not null,
+    [email]				smallint     not null,
+    [channelId]			smallint     not null,
+    [content]			varchar(500) not null,
+    [creationDate]		datetime2    not null
     )
     go
 

@@ -1,27 +1,44 @@
 namespace Bizca.Core.Infrastructure.Extension
 {
     using System;
-    using System.Linq;
+    using System.Text;
 
     public static class GetGenericTypeNameExtensions
     {
         public static string GetGenericTypeName(this object obj)
         {
-            Type type = obj.GetType();
-            return type.GetGenericTypeName();
+            return obj
+                .GetType()
+                .GetGenericTypeName();
         }
 
         public static string GetGenericTypeName(this Type type)
         {
-            return !type.IsGenericType
-                ? type.Name
-                : type.GetNameForGenericType();
+            return type.GetRecursiveTypeName();
         }
 
-        private static string GetNameForGenericType(this Type type)
+        private static string GetRecursiveTypeName(this Type type)
         {
-            string genericTypes = string.Join(",", type.GetGenericArguments().Select(t => t.Name).ToArray());
-            return $"{type.Name.Remove(type.Name.IndexOf('`'))}<{genericTypes}>";
+            if (!type.IsGenericType)
+            {
+                return type.Name;
+            }
+
+            var argumentTypes = type.GetGenericArguments();
+            var typeBuilder = new StringBuilder($"{type.Name.Remove(type.Name.IndexOf('`'))}<");
+            foreach (var argumentType in argumentTypes)
+            {
+                if (!argumentType.IsGenericType)
+                {
+                    typeBuilder.Append($"{argumentType.Name},");
+                    continue;
+                }
+
+                typeBuilder.Append($"{argumentType.GetRecursiveTypeName()},");
+            }
+
+            var typeName = typeBuilder.ToString();
+            return typeName.Remove(typeName.LastIndexOf(',')) + ">";
         }
     }
 }

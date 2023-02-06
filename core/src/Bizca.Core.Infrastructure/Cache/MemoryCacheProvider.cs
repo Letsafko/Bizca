@@ -84,7 +84,7 @@
             MemoryCacheEntryOptions cacheEntryOptions =
                 GetMemoryCacheEntryOptions(duration, _cancellationTokenSource.Token);
 
-            return !(_memoryCache.Set(cacheKey, cacheItem, cacheEntryOptions) is null);
+            return _memoryCache.Set(cacheKey, cacheItem, cacheEntryOptions) is not null;
         }
 
         protected override T Get<T>(string cacheKey) where T : class

@@ -42,7 +42,7 @@ namespace Bizca.Core.Api.Modules.Extensions
                     .AddHttpStrategies();
         }
 
-        private static IServiceCollection AddApplicationInsights(this IServiceCollection services,
+        private static void AddApplicationInsights(this IServiceCollection services,
             ApplicationInsightsServiceOptions applicationInsightsConfiguration)
         {
             services.AddSingleton<ITelemetryInitializer, CloudRoleNameTelemetryInitializer>();
@@ -50,7 +50,9 @@ namespace Bizca.Core.Api.Modules.Extensions
 
             applicationInsightsConfiguration.EnableActiveTelemetryConfigurationSetup = true;
             applicationInsightsConfiguration.EnableAdaptiveSampling = false;
-            return services.AddApplicationInsightsTelemetry(applicationInsightsConfiguration)
+        
+            services
+                .AddApplicationInsightsTelemetry(applicationInsightsConfiguration)
                 .AddSingleton<ITelemetryService, ApplicationInsightsTelemetryService>();
         }
 

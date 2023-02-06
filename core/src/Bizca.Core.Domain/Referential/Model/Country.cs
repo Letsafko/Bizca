@@ -14,7 +14,6 @@
         public string Description { get; }
         public string CountryCode { get; }
         public int Id { get; }
-
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Description;

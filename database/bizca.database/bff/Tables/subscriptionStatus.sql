@@ -1,23 +1,12 @@
 ﻿create table [bff].[subscriptionStatus]
 (
-    [
-    subscriptionStatusId]
-    smallint
-    not
-    null, [
-    subscriptionStatusCode]
-    varchar
-(
-    20
-) not null,
-    [subscriptionStatusName] varchar
-(
-    20
-) not null,
-    [creationDate] datetime2 not null,
-    [lastUpdate] datetime2 not null
-    )
-    go
+    [subscriptionStatusId]   smallint not null,
+    [subscriptionStatusCode] varchar(20) not null,
+    [subscriptionStatusName] varchar(20) not null,
+    [creationDate]			 datetime2 not null,
+    [lastUpdate]			 datetime2 not null
+)
+go
 
 alter table [bff].[subscriptionStatus] add constraint [pk_subscriptionStatus] primary key clustered ( [subscriptionStatusId] asc)
     go

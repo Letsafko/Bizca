@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.SendProcedureAppointmentAvailability
 {
     /// <summary>
     ///     Appointment availability of a procedure

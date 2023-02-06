@@ -1,27 +1,16 @@
 ﻿create table [bff].[bundle]
 (
-    [
-    bundleId]
-    smallint
-    not
-    null, [
-    bundleCode]
-    varchar
-(
-    20
-) not null,
-    [priority] smallint not null,
-    [amount] money not null,
-    [description] varchar
-(
-    100
-) not null,
-    [totalWhatsapp] int null,
-    [totalEmail] int not null,
-    [totalSms] int not null,
-    [intervalInWeeks] smallint not null,
-    [creationDate] datetime2 not null,
-    [lastUpdate] datetime2 not null
+    [bundleId]          smallint not null,
+    [bundleCode]	    varchar(20) not null,
+    [priority]		    smallint not null,
+    [amount]			money not null,
+    [description]	    varchar(100) not null,
+    [totalWhatsapp]     int null,
+    [totalEmail]        int not null,
+    [totalSms]          int not null,
+    [intervalInWeeks]   smallint not null,
+    [creationDate]	    datetime2 not null,
+    [lastUpdate]	    datetime2 not null
     )
     go
 

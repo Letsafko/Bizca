@@ -6,15 +6,14 @@
 	[languageId]			smallint not null
 )
 
-declare
-@environnement varchar(30)  = '$(Environnement)'
-if @environnement in ('Dev','Integration', 'AzureIntegration')
+declare @environment varchar(30)  = '$(Environment)'
+if @environment in ('Dev','Integration', 'AzureIntegration')
 begin
-insert into @template
-values (3, 1, 1),
-       (4, 2, 1),
-       (6, 1, 2),
-       (8, 3, 1)
+    insert into @template
+    values (3, 1, 1),
+           (4, 2, 1),
+           (6, 1, 2),
+           (8, 3, 1)
 end
 
 merge into [ref].[emailTemplate] as target
@@ -24,26 +23,18 @@ merge into [ref].[emailTemplate] as target
     when matched then
 update
     set [emailTemplateId] = source.[emailTemplateId],
-    [lastUpdate] = getdate()
+        [lastUpdate] = getdate()
     when not matched by target then
-insert
-(
-[
-languageId
-]
-,
-[
-emailTemplateId
-]
-,
-[
-emailTemplateTypeId
-]
-)
-values
+    insert
     (
-    source.[languageId],
-    source.[emailTemplateId],
-    source.[emailTemplateTypeId]
+        [languageId],
+        [emailTemplateId],
+        [emailTemplateTypeId]
+    )
+    values
+    (
+        source.[languageId],
+        source.[emailTemplateId],
+        source.[emailTemplateTypeId]
     );
 go

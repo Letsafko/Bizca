@@ -23,14 +23,14 @@
                     ?.Parameters
                     ?.SelectMany(x => x.ParameterType.GetProperties())
                     ?.Where(x => x.GetCustomAttribute<SwaggerExcludeAttribute>() != null)
-                    ?.ToList()
-                ?? new List<PropertyInfo>();
+                    ?.ToList();
 
             foreach (PropertyInfo param in parameters)
             {
-                OpenApiParameter openApiParameter =
-                    operation.Parameters.SingleOrDefault(x =>
-                        param.Name.Equals(x.Name, StringComparison.OrdinalIgnoreCase));
+                var openApiParameter = operation
+                    .Parameters
+                    .SingleOrDefault(x 
+                        => param.Name.Equals(x.Name, StringComparison.OrdinalIgnoreCase));
                 
                 if (openApiParameter is null)
                     continue;

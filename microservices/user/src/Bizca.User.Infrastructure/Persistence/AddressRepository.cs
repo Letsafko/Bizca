@@ -19,7 +19,7 @@
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> UpsertAsync(int userId, IEnumerable<Address> addresses)
+        public async Task<bool> SaveAsync(int userId, IEnumerable<Address> addresses)
         {
             var parameters = new { addresses = new TableValueParameter(addresses.ToDataTable(userId)) };
 

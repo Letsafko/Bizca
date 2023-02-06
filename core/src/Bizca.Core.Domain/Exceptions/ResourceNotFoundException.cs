@@ -7,7 +7,7 @@
     {
         public string ErrorCode { get; }
 
-        protected ResourceNotFoundException(string message, string errorCode = "resource_not_found")
+        public ResourceNotFoundException(string message, string errorCode = "resource_not_found")
             : base(message)
         {
             ErrorCode = errorCode;

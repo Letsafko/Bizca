@@ -12,7 +12,6 @@
 
         public string CivilityCode { get; }
         public int CivilityId { get; }
-
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return CivilityCode;

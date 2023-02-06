@@ -4,7 +4,6 @@
     using Core.Domain.Cqrs.Events;
     using Core.Domain.Exceptions;
     using Domain.Enumerations;
-    using Enumerations.Subscription;
     using Events;
     using Referential.Bundle;
     using Referential.Procedure;

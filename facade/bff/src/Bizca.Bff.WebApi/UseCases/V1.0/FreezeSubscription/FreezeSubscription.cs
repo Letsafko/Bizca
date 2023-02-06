@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.FreezeSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.FreezeSubscription
 {
     /// <summary>
     ///     Subscription activation.

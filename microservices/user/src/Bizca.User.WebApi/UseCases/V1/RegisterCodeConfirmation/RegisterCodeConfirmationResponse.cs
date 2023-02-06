@@ -1,6 +1,6 @@
-﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
+﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterCodeConfirmation
 {
-    using Application.UseCases.RegisterCodeConfirmation;
+    using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
