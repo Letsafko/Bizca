@@ -15,23 +15,23 @@ trigger:
     include: [ 'database/bizca.database' ]
 
 steps:
-- task: VSBuild@1
-  inputs:
-    solution: '$(projects)'
-    vsVersion: latest
-    clean: true
-    msbuildArgs: /p:OutputPath=$(Build.BinariesDirectory)
+  - task: VSBuild@1
+    inputs:
+      solution: '$(projects)'
+      vsVersion: latest
+      clean: true
+      msbuildArgs: /p:OutputPath=$(Build.BinariesDirectory)
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.BinariesDirectory)'
-    Contents: |
-      *.dacpac
-    TargetFolder: '$(build.ArtifactStagingDirectory)'
-    OverWrite: true
-    
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: '$(artifactName)'
-    publishLocation: 'Container'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.BinariesDirectory)'
+      Contents: |
+        *.dacpac
+      TargetFolder: '$(build.ArtifactStagingDirectory)'
+      OverWrite: true
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: '$(artifactName)'
+      publishLocation: 'Container'

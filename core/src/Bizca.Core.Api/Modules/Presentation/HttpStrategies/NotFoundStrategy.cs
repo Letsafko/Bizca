@@ -2,12 +2,14 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Net;
+
     public class NotFoundStrategy : IHttpStrategy
     {
         public int StatusCode => (int)HttpStatusCode.NotFound;
-        public IActionResult GetResponse(object message)
+
+        public IActionResult GetResponse(object result)
         {
-            return new NotFoundObjectResult(message);
+            return new NotFoundObjectResult(result);
         }
     }
 }

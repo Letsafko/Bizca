@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.ReInitializedPassword
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.ReInitializedPassword
 {
     using Bizca.Bff.Application.UseCases.ReInitializedPassword;
     using Bizca.Bff.WebApi.ViewModels;

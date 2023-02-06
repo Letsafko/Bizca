@@ -1,13 +1,12 @@
-﻿namespace Bizca.Core.Security.Antelop.Configuratin
+﻿namespace Bizca.Core.Security.Antelop.Configuratin;
+
+/// <summary>
+///     Antelop Configuration model
+/// </summary>
+public class AntelopConfiguration
 {
     /// <summary>
-    ///     Antelop Configuration model
+    ///     Gets or sets the antelop certificate.
     /// </summary>
-    public class AntelopConfiguration
-    {
-        /// <summary>
-        ///     Gets or sets the antelop certificate.
-        /// </summary>
-        public string AntelopCertificate { get; set; }
-    }
+    public string AntelopCertificate { get; set; }
 }

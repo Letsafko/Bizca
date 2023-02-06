@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.CreateUser
 {
     using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     ///     create user input.
     /// </summary>

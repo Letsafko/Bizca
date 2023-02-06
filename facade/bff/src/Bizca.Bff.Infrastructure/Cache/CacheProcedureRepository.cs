@@ -1,14 +1,15 @@
 ﻿namespace Bizca.Bff.Infrastructure.Cache
 {
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Core.Domain.Cache;
+    using Core.Infrastructure.Cache;
+    using Domain.Referential.Procedure;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public sealed class CacheProcedureRepository : IProcedureRepository
     {
-        private readonly IProcedureRepository decorated;
         private readonly ICacheProvider cache;
+        private readonly IProcedureRepository decorated;
+
         public CacheProcedureRepository(ICacheProvider cache, IProcedureRepository decorated)
         {
             this.decorated = decorated;
@@ -36,7 +37,7 @@
             return decorated.GetProceduresByActiveSubscriptionsAsync();
         }
 
-        private string GetCacheKey(object value)
+        private static string GetCacheKey(object value)
         {
             return $"{nameof(Procedure).ToLower()}_{value}";
         }

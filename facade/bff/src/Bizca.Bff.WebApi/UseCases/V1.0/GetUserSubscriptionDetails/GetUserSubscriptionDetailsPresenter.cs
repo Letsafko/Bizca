@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUserSubscriptionDetails
 {
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.Domain.Entities.Subscription;

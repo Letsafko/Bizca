@@ -29,7 +29,9 @@
     },
     {
       "UpstreamPathTemplate": "/api/v1.0/{partnerCode}/notification/whatsapp",
-      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
       "DownstreamPathTemplate": "/api/v1.0/{partnerCode}/notification/whatsapp",
       "ChangeDownstreamPathTemplate": {
         "partnerCode": "Claims[partner_code] > value[0]"
@@ -43,7 +45,9 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Identity",
-        "AllowedScopes": [ "partner" ]
+        "AllowedScopes": [
+          "partner"
+        ]
       },
       "RateLimitOptions": {
         "EnableRateLimiting": true,

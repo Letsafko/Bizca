@@ -1,14 +1,16 @@
 ﻿namespace Bizca.Core.Api.Modules.Presentation
 {
-    using Bizca.Core.Api.Modules.Presentation.HttpStrategies;
-    using Bizca.Core.Domain;
+    using Domain;
+    using HttpStrategies;
     using Microsoft.AspNetCore.Mvc;
+
     public abstract class PresenterBase
     {
-        private readonly IHttpStrategyFactory strategyFactory;
+        private readonly IHttpStrategyFactory _strategyFactory;
+
         protected PresenterBase(IHttpStrategyFactory strategyFactory)
         {
-            this.strategyFactory = strategyFactory;
+            _strategyFactory = strategyFactory;
         }
 
         public IActionResult ViewModel { get; protected set; } = new NoContentResult();
@@ -20,7 +22,7 @@
 
         private IActionResult GetActionResult(IPublicResponse response)
         {
-            var strategy = strategyFactory.GetStrategy(response.StatusCode);
+            IHttpStrategy strategy = _strategyFactory.GetStrategy(response.StatusCode);
             return strategy.GetResponse(response.Message);
         }
     }

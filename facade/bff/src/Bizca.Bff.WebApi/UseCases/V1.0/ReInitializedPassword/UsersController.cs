@@ -1,11 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.ReInitializedPassword
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.ReInitializedPassword
 {
     using Bizca.Bff.Application.UseCases.ReInitializedPassword;
     using Bizca.Bff.WebApi.Properties;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -15,12 +14,15 @@
     ///     Reinitialized password controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
+        private readonly ReInitializedPasswordPresenter presenter;
+        private readonly IProcessor processor;
+
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -30,9 +32,6 @@
             this.presenter = presenter;
         }
 
-        private readonly ReInitializedPasswordPresenter presenter;
-        private readonly IProcessor processor;
-
         /// <summary>
         ///     Reinitialized user password.
         /// </summary>
@@ -40,10 +39,9 @@
         /// <remarks>/Assets/reinitializedPassword.md</remarks>
         [HttpPost("password/init")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPasswordViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
-        public async Task<IActionResult> ReinitializedPasswordAsync([Required][FromBody] ReInitializedPassword reinitializedPassword)
+        public async Task<IActionResult> ReinitializedPasswordAsync(
+            [Required] [FromBody] ReInitializedPassword reinitializedPassword)
         {
             var command = new ReInitializedPasswordCommand(Resources.PartnerCode,
                 reinitializedPassword.Email);

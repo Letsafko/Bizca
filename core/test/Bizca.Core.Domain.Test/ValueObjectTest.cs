@@ -6,34 +6,43 @@
 
     public sealed class ValueObjectTest
     {
-        [Theory]
-        [InlineData("equal", "equal", true)]
-        [InlineData("equal", "notequal", false)]
-        public void Same_property_value_shouldbe_equal(string propOne, string propTwo, bool expected)
+        [Fact(DisplayName = "Should return true if all properties have same value")]
+        public void Should_true_if_all_properties_have_same_value()
         {
-            //arrage
-            var objOne = new FakeValueObject(1, true, propOne);
-            var objTwo = new FakeValueObject(1, true, propTwo);
+            //arrange
+            var objOne = new FakeValueObject(1, true, "same value");
+            var objTwo = new FakeValueObject(1, true, "same value");
 
             //assert
-            if (expected)
-                Check.That(objOne).IsEqualTo(objTwo);
-            else
-                Check.That(objOne).IsNotEqualTo(objTwo);
+            Check.That(objOne).IsEqualTo(objTwo);
+        }
+        
+        [Fact(DisplayName = "Should return false if one of properties has different value")]
+        public void Should_true_if_one_of_properties_has_different_value()
+        {
+            //arrange
+            var objOne = new FakeValueObject(1, true, "same value");
+            var objTwo = new FakeValueObject(1, true, "different value");
+
+            //assert
+            Check.That(objOne).HasSameValueAs(objTwo);
+            Check.That(objOne).IsNotEqualTo(objTwo);
         }
     }
 
     public class FakeValueObject : ValueObject
     {
-        public int FakePropertyInt { get; }
-        public bool FakePropertyBool { get; }
-        public string FakePropertyString { get; }
         public FakeValueObject(int propInt, bool propBool, string propString)
         {
             FakePropertyInt = propInt;
             FakePropertyBool = propBool;
             FakePropertyString = propString;
         }
+
+        public int FakePropertyInt { get; }
+        public bool FakePropertyBool { get; }
+        public string FakePropertyString { get; }
+
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return FakePropertyInt;

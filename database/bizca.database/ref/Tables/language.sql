@@ -1,10 +1,10 @@
 ﻿create table [ref].[language]
 (
-	[languageId]	smallint not null,
-	[languageCode]	char(2) not null,
-	[description]	nvarchar(20) not null,
-	[creationDate]	datetime2 not null,
-    [lastUpdate]	datetime2 not null
+    [languageId] smallint not null, 
+    [languageCode] char(2) not null,
+    [description] nvarchar(20) not null,
+    [creationDate] datetime2 not null,
+    [lastUpdate] datetime2 not null
 )
 go
 

@@ -1,25 +1,27 @@
 namespace Bizca.User.WebApi
 {
+    using Application.UseCases.CreateUser;
     using Autofac;
-    using Bizca.Core.Api;
-    using Bizca.Core.Api.Modules.HealthChecks;
-    using Bizca.Core.Infrastructure.Database.Configuration;
-    using Bizca.User.Application.UseCases.CreateUser;
-    using Bizca.User.WebApi.Modules.Autofac;
-    using Bizca.User.WebApi.Modules.Extensions;
+    using Core.Api;
+    using Core.Api.Modules.HealthChecks;
+    using Core.Infrastructure.Database.Configuration;
     using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Modules.Autofac;
+    using Modules.Extensions;
 
     /// <summary>
     ///     Startup
     /// </summary>
     public sealed class Startup : StartupExtended
     {
+        private const string DatabaseScheme = "BizcaDatabase";
+
         /// <summary>
-        ///     Creates an instance of <see cref="Startup"/>
+        ///     Creates an instance of <see cref="Startup" />
         /// </summary>
         /// <param name="environment"></param>
         /// <param name="configuration"></param>
@@ -27,26 +29,24 @@ namespace Bizca.User.WebApi
         {
         }
 
-        private const string DatabaseScheme = "BizcaDatabase";
-
         /// <summary>
         ///     Configures services.
         /// </summary>
         /// <param name="services">service collection.</param>
-        new public void ConfigureServices(IServiceCollection services)
+        public new void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseScheme));
+            services.Configure<DatabaseConfiguration>(Configuration.GetSection(DatabaseScheme));
             base.ConfigureServices(services);
             services.ConfigureHealthChecks()
-                    .AddControllers()
-                    .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<CreateUserValidator>());
+                .AddControllers()
+                .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<CreateUserValidator>());
         }
 
         /// <summary>
         ///     Configures application builder.
         /// </summary>
         /// <param name="app">application builder.</param>
-        new public void Configure(IApplicationBuilder app)
+        public new void Configure(IApplicationBuilder app)
         {
             base.Configure(app);
             app.UseHealthChecks();

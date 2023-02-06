@@ -1,5 +1,6 @@
 ﻿namespace Bizca.Core.Api.Modules.Configuration
 {
+    using FluentValidation;
     using System;
 
     public sealed class ConsulConfigurationModel
@@ -9,29 +10,26 @@
             HealthCheckEndPoint = "health";
         }
 
-        /// <summary>
-        ///     Gets or sets host.
-        /// </summary>
-        public Uri ConsulHost { get; set; }
-
-        /// <summary>
-        ///     Gets or sets token.
-        /// </summary>
-        public string Token { get; set; }
-
-        /// <summary>
-        ///     Gets or sets service name.
-        /// </summary>
+        public string HealthCheckEndPoint { get; set; }
+        
         public string ServiceName { get; set; }
 
-        /// <summary>
-        ///     Gets or sets health check endpoint.
-        /// </summary>
-        public string HealthCheckEndPoint { get; set; }
-
-        /// <summary>
-        ///     Gets or sets system address.
-        /// </summary>
         public Uri SystemAddress { get; set; }
+        
+        public Uri ConsulHost { get; set; }
+
+        public string Token { get; set; }
+    }
+    
+    public class ConsulConfigurationModelValidator : AbstractValidator<ConsulConfigurationModel>
+    {
+        public ConsulConfigurationModelValidator()
+        {
+            RuleFor(x => x.HealthCheckEndPoint).NotEmpty();
+            RuleFor(x => x.SystemAddress).NotEmpty();
+            RuleFor(x => x.ServiceName).NotEmpty();
+            RuleFor(x => x.ConsulHost).NotEmpty();
+            RuleFor(x => x.Token).NotEmpty();
+        }
     }
 }

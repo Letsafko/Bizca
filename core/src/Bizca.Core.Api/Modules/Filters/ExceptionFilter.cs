@@ -1,91 +1,82 @@
 ﻿namespace Bizca.Core.Api.Modules.Filters
 {
-    using Bizca.Core.Api.Modules.Extensions;
-    using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Exceptions;
+    using Domain;
+    using Domain.Exceptions;
+    using Domain.Rules.Exception;
     using FluentValidation;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
     using System;
-    using System.Linq;
 
-    /// <summary>
-    ///     Exception Filter.
-    /// </summary>
     public sealed class ExceptionFilter : IExceptionFilter
     {
-        /// <summary>
-        /// constructor <see cref="ExceptionFilter" />
-        /// </summary>
-        /// <param name="env"></param>
-        /// <param name="logger"></param>
-        public ExceptionFilter(IHostEnvironment env, ILogger<ExceptionFilter> logger)
+        private readonly IExceptionFormatter _exceptionFormatter;
+        private readonly IHostEnvironment _hostEnvironment;
+        private readonly ILogger<ExceptionFilter> _logger;
+
+        public ExceptionFilter(IHostEnvironment hostEnvironment, 
+            ILogger<ExceptionFilter> logger, 
+            IExceptionFormatter exceptionFormatter)
         {
-            this.logger = logger;
-            this.env = env;
+            _exceptionFormatter = exceptionFormatter;
+            _hostEnvironment = hostEnvironment;
+            _logger = logger;
         }
 
-        private readonly ILogger<ExceptionFilter> logger;
-        private readonly IHostEnvironment env;
-
-        /// <summary>
-        ///     Add details when occurs an exception.
-        /// </summary>
         public void OnException(ExceptionContext context)
         {
-            if (context == null || context.Exception is null)
+            if (context?.Exception is null)
                 return;
 
             context.ExceptionHandled = true;
-            context.Result = GetModelStateResponse(env, context.Exception);
-            logger.LogError(new EventId(context.Exception.HResult), context.Exception, context.Exception.Message);
+            context.Result = GetModelStateResponse(_hostEnvironment, context.Exception);
+            
+            _logger.LogError(new EventId(context.Exception.HResult), 
+                context.Exception, 
+                "{Message}", 
+                context.Exception.Message);
         }
-
-        #region private helpers
 
         private IActionResult GetModelStateResponse(IHostEnvironment environment, Exception exception)
         {
-            string modelStateError;
-            int statusCode = GetStatusCode(exception);
-            if (!(exception is DomainException) && !(exception is ResourceNotFoundException) && !(exception is ValidationException))
+            (string errorMessage, string errorCode) = exception switch
             {
-                modelStateError = "an error occured, contact your administrator.";
-            }
-            else if (exception is ValidationException validationException)
-            {
-                modelStateError = validationException.Errors.FirstOrDefault()?.ErrorMessage;
-            }
-            else if (exception is DomainException domainException)
-            {
-                modelStateError = domainException.Errors.FirstOrDefault()?.ErrorMessage;
-            }
-            else
-            {
-                modelStateError = (exception as ResourceNotFoundException).Errors.FirstOrDefault()?.ErrorMessage;
-            }
-
-            var errorMessage = !environment.IsDevEnvironment() ? modelStateError : JsonConvert.SerializeObject(exception);
-            var modelState = new PublicResponse<object>(errorMessage, statusCode);
-            return new ObjectResult(modelState)
-            {
-                StatusCode = modelState.StatusCode
+                ValidationException validationException
+                    => (_exceptionFormatter.Format(validationException.Errors), "invalid_input"),
+                
+                DomainException domainException => (_exceptionFormatter.Format(domainException.Message,
+                    domainException.Errors), domainException.ErrorCode),
+                
+                ResourceNotFoundException resourceNotFoundException => (resourceNotFoundException.Message,
+                    resourceNotFoundException.ErrorCode),
+                
+                _ => ("an error occured, contact your administrator", "internal_error")
             };
+
+            var statusCode = GetStatusCode(exception);
+            var modelState = new PublicResponse<object>(data: null,
+                statusCode,
+                message: errorMessage, 
+                errorCode: errorCode);
+            
+            return new ObjectResult(modelState) { StatusCode = statusCode };
         }
-        private bool IsAssignableFrom<T>(object obj) where T : class
+
+        private static bool IsAssignableFrom<T>(object obj) where T : class
         {
-            return !(obj is null) && typeof(T).IsAssignableFrom(obj.GetType());
+            return obj is T;
         }
-        private int GetStatusCode(object obj)
+
+        private static int GetStatusCode(object obj)
         {
             return IsAssignableFrom<DomainException>(obj) || IsAssignableFrom<ValidationException>(obj)
                 ? StatusCodes.Status400BadRequest
-                : (IsAssignableFrom<ResourceNotFoundException>(obj) ? StatusCodes.Status404NotFound : StatusCodes.Status500InternalServerError);
+                : IsAssignableFrom<ResourceNotFoundException>(obj)
+                    ? StatusCodes.Status404NotFound
+                    : StatusCodes.Status500InternalServerError;
         }
-
-        #endregion
     }
 }

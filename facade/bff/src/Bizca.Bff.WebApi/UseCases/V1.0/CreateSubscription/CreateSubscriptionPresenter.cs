@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.CreateSubscription
 {
     using Bizca.Bff.Application.UseCases.CreateSubscription;
     using Bizca.Bff.Domain.Entities.Subscription;

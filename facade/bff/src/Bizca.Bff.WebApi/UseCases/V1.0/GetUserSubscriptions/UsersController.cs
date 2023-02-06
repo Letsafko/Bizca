@@ -1,10 +1,9 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptions
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUserSubscriptions
 {
     using Bizca.Bff.Application.UseCases.GetUserSubscriptions;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -14,13 +13,16 @@
     ///     Creates subscription controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Subscriptions")]
     public sealed class UsersController : ControllerBase
     {
+        private readonly GetUserSubscriptionsPresenter presenter;
+        private readonly IProcessor processor;
+
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -30,9 +32,6 @@
             this.presenter = presenter;
         }
 
-        private readonly GetUserSubscriptionsPresenter presenter;
-        private readonly IProcessor processor;
-
         /// <summary>
         ///     Retrieve user subscriptions.
         /// </summary>
@@ -40,8 +39,7 @@
         /// <remarks>/Assets/createSubscription.md</remarks>
         [HttpGet("{externalUserId}/subscriptions")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionCollectionViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]
+        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
         public async Task<IActionResult> GetUserSubscriptionAsync([Required] string externalUserId)
         {
             var query = new GetUserSubscriptionsQuery(externalUserId);

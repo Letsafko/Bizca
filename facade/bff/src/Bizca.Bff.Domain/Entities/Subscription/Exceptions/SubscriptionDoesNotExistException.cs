@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
@@ -8,11 +8,7 @@
     [Serializable]
     public sealed class SubscriptionDoesNotExistException : ResourceNotFoundException
     {
-        public SubscriptionDoesNotExistException()
-        {
-        }
-
-        public SubscriptionDoesNotExistException(IEnumerable<DomainFailure> errors) : base(errors)
+        public SubscriptionDoesNotExistException(ICollection<DomainFailure> errors) : base(errors)
         {
         }
 
@@ -20,7 +16,8 @@
         {
         }
 
-        public SubscriptionDoesNotExistException(string message, Exception innerException) : base(message, innerException)
+        public SubscriptionDoesNotExistException(string message, Exception innerException) : base(message,
+            innerException)
         {
         }
 

@@ -6,7 +6,7 @@
     public sealed class CountryModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="CountryModel"/>
+        ///     Creates an instance of <see cref="CountryModel" />
         /// </summary>
         /// <param name="countryCode">country code.</param>
         /// <param name="description">country description.</param>

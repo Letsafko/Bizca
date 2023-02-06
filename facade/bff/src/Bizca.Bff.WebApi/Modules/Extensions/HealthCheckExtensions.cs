@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Extensions
 {
-    using Bizca.Core.Api.Modules.HealthChecks;
+    using Core.Api.Modules.HealthChecks;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>

@@ -1,6 +1,5 @@
 namespace Bizca.Notification.Application.UnitTest
 {
-    using System;
     using Xunit;
 
     public class UnitTest1
@@ -8,7 +7,6 @@ namespace Bizca.Notification.Application.UnitTest
         [Fact]
         public void Test1()
         {
-
         }
     }
 }

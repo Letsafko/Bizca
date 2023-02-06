@@ -1,8 +1,8 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.ConfirmChannelCode
 {
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.User.Application.UseCases.ConfirmChannelCode;
+    using Application.UseCases.ConfirmChannelCode;
+    using Core.Api.Modules.Conventions;
+    using Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -12,15 +12,15 @@
     ///     Creates code confirmation controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/{partnerCode}/[controller]")]
+    [Route("api/v{version:apiVersion}/{partnerCode}/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
-        private readonly IProcessor _processor;
         private readonly ConfirmChannelCodePresenter _presenter;
+        private readonly IProcessor _processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="processor"></param>
         /// <param name="presenter"></param>
@@ -43,14 +43,15 @@
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
         public async Task<IActionResult> RegisterCodeConfirmationAsync([Required] string partnerCode,
             [Required] string externalUserId,
-            [Required][FromBody] ConfirmChannelCode input)
+            [Required] [FromBody] ConfirmChannelCode input)
         {
             ChannelConfirmationCommand command = GetConfirmationCommand(externalUserId, partnerCode, input);
             await _processor.ProcessCommandAsync(command).ConfigureAwait(false);
             return _presenter.ViewModel;
         }
 
-        private ChannelConfirmationCommand GetConfirmationCommand(string userId, string partnerCode, ConfirmChannelCode input)
+        private ChannelConfirmationCommand GetConfirmationCommand(string userId, string partnerCode,
+            ConfirmChannelCode input)
         {
             return ConfirmChannelCodeCommandBuilder.Instance
                 .WithChannel(input.Channel)

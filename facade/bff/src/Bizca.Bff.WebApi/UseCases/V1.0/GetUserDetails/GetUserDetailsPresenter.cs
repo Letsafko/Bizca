@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUserDetails
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUserDetails
 {
     using Bizca.Bff.Application.UseCases.GetUserDetails;
     using Bizca.Bff.WebApi.ViewModels;
@@ -12,7 +12,7 @@
     public sealed class GetUserDetailsPresenter : PresenterBase, IGetUserDetailsOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="GetUserDetailsPresenter"/>
+        ///     Creates an instance of <see cref="GetUserDetailsPresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public GetUserDetailsPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)

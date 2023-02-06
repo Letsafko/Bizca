@@ -3,9 +3,9 @@
 	, @partnerId		  smallint
 as
 begin
-	
-	select 1 from [usr].[user] 
-	where externalUserId = @externalUserId and
-		  partnerId = @partnerId
+
+select 1 from [usr].[user]
+where externalUserId = @externalUserId and
+    partnerId = @partnerId
 
 end

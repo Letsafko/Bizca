@@ -1,116 +1,118 @@
 ﻿namespace Bizca.Core.Api.Modules.Conventions
 {
+    using Domain;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
+    using System;
 
     public static class CustomApiConventions
     {
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public static void Create([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public static void Create(
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
             object model)
         {
-            // Convention
+            if (model is null) throw new ArgumentNullException(nameof(model));
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public static void Delete([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public static void Post(
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
+            [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
+            object model)
+        {
+            if (model is null) throw new ArgumentNullException(nameof(model));
+        }
+
+        [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public static void Find(
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
+            [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
+            object model)
+        {
+            if (model is null) throw new ArgumentNullException(nameof(model));
+        }
+
+        [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType( typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public static void Delete(
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
             object id)
         {
-            // Convention
+            if (id is null) throw new ArgumentNullException(nameof(id));
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public static void Edit([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
-            [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
-            object id, [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
-            [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
-            object model)
-        {
-            // Convention
-        }
-
-        [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        public static void Find([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public static void Get(
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
             object id)
         {
-            // Convention
+            if (id is null) throw new ArgumentNullException(nameof(id));
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        public static void Get([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
-            [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
-            object id)
-        {
-            // Convention
-        }
-
-        [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(200)]
-        public static void List([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
-            [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
-            object id)
-        {
-            // Convention
-        }
-
-        [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public static void Post([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public static void List(
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
             object model)
         {
-            // Convention
+            //convention
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public static void Patch([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public static void Patch(
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
-            object id, [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
+            object id,
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
             object model)
         {
-            // Convention
+            if (id is null) throw new ArgumentNullException(nameof(id));
+            if (model is null) throw new ArgumentNullException(nameof(model));
         }
 
         [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Prefix)]
-        [ProducesDefaultResponseType]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public static void Update([ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
+        [ProducesDefaultResponseType(typeof(IPublicResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public static void Update(
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Suffix)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
-            object id, [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
+            object id,
+            [ApiConventionNameMatch(ApiConventionNameMatchBehavior.Any)]
             [ApiConventionTypeMatch(ApiConventionTypeMatchBehavior.Any)]
             object model)
         {
-            // Convention
+            if (id is null) throw new ArgumentNullException(nameof(id));
+            if (model is null) throw new ArgumentNullException(nameof(model));
         }
     }
 }

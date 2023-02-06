@@ -1,6 +1,5 @@
 namespace Bizca.Bff.Application.Test
 {
-    using System;
     using Xunit;
 
     public class UnitTest1
@@ -8,7 +7,6 @@ namespace Bizca.Bff.Application.Test
         [Fact]
         public void Test1()
         {
-
         }
     }
 }

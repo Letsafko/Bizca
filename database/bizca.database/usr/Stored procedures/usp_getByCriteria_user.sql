@@ -96,7 +96,7 @@ begin
 
 	if @direction = 'next'
 		set @query = @query + ' and u.userId > @index';
-	else
+else
 		set @query = @query + ' and u.userId < @index';
 
 	set @query = @query + ' order by u.userId asc'

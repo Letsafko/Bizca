@@ -1,7 +1,7 @@
 namespace Bizca.Gateway
 {
     using Application.Extensions;
-    using Bizca.Core.Api.Modules.Extensions;
+    using Core.Api.Modules.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -11,19 +11,19 @@ namespace Bizca.Gateway
     public class Startup
     {
         /// <summary>
-        /// Gets the appsettings configuration.
-        /// </summary>
-        /// <value>The configuration.</value>
-        public IConfiguration Configuration { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
+        ///     Initializes a new instance of the <see cref="Startup" /> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
+        /// <summary>
+        ///     Gets the appsettings configuration.
+        /// </summary>
+        /// <value>The configuration.</value>
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -36,14 +36,11 @@ namespace Bizca.Gateway
         [ExcludeFromCodeCoverage]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevEnvironment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevEnvironment()) app.UseDeveloperExceptionPage();
 
             app.UseRouting();
             app.UseStaticFiles();
-            //app.UseHealthChecks(Configuration);
+            //app.UseHealthChecks(PartnerConfiguration);
             app.ConfigureApp(Configuration);
         }
     }

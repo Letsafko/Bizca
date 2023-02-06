@@ -1,8 +1,9 @@
 ﻿namespace Bizca.Gateway.Application.Extensions
 {
-    using Bizca.Core.Api.Modules.Extensions;
-    using Bizca.Core.Security.Antelop.Extensions;
-    using Bizca.Gateway.Application.Configuration;
+    using Configuration;
+    using Core.Api.Modules.Configuration;
+    using Core.Api.Modules.Extensions;
+    using Core.Security.Antelop.Extensions;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Ocelot.DependencyInjection;
@@ -11,12 +12,13 @@
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Extension class to configure services that needs to be added to the container
+    ///     Extension class to configure services that needs to be added to the container
     /// </summary>
     [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtension
     {
-        internal static IServiceCollection ConfigureServiceCollection(this IServiceCollection services, IConfiguration configuration)
+        internal static IServiceCollection ConfigureServiceCollection(this IServiceCollection services,
+            IConfiguration configuration)
         {
             return services
                 .AddFoundationFeatures(configuration)
@@ -25,9 +27,10 @@
                 .AddAntelop(configuration["Antelop:Certificate"]);
         }
 
-        private static IServiceCollection AddFoundationFeatures(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddFoundationFeatures(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            Core.Api.Modules.Configuration.FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
+            FeaturesConfigurationModel features = configuration.GetFeaturesConfiguration();
 
             if (features.ApplicationInsights)
             {
@@ -42,7 +45,8 @@
             return services;
         }
 
-        private static IServiceCollection ConfigureOcelot(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection ConfigureOcelot(this IServiceCollection services,
+            IConfiguration configuration)
         {
             IOcelotBuilder ocelotBuilder = services
                 .AddOcelot()
@@ -50,16 +54,10 @@
 
             services.AddSwaggerForOcelot(configuration);
 
-            ApiFeaturesConfigurationModel features = configuration.GetConfiguration<ApiFeaturesConfigurationModel>();
-            if (features.Consul)
-            {
-                ocelotBuilder.AddConsul();
-            }
+            var features = configuration.GetConfiguration<ApiFeaturesConfigurationModel>();
+            if (features.Consul) ocelotBuilder.AddConsul();
 
-            if (features.Caching)
-            {
-                services.AddCacheManagerConfiguration(configuration);
-            }
+            if (features.Caching) services.AddCacheManagerConfiguration(configuration);
 
             return services;
         }

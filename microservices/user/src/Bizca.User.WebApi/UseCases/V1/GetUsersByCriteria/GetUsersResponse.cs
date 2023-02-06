@@ -1,10 +1,10 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.GetUsersByCriteria
 {
-    using Bizca.Core.Api.Modules.Pagination;
-    using Bizca.User.Application.UseCases.GetUsersByCriteria;
-    using Bizca.User.WebApi.ViewModels;
+    using Application.UseCases.GetUsersByCriteria;
+    using Core.Api.Modules.Pagination;
     using System.Collections.Generic;
     using System.Linq;
+    using ViewModels;
 
     /// <summary>
     ///     Gets users response.
@@ -19,8 +19,8 @@
             if (users?.Any() == true)
             {
                 var pagination = new Pagination<GetUsers>(criteria.PageSize, users, requestPath);
-                PagedResult<GetUsers> pagedUsers = pagination.GetPaged(criteria, 
-                    pagination.FirstIndex?.UserId ?? 0, 
+                PagedResult<GetUsers> pagedUsers = pagination.GetPaged(criteria,
+                    pagination.FirstIndex?.UserId ?? 0,
                     pagination.LastIndex?.UserId ?? 0);
 
                 Users = pagedUsers.Value.Select(x => new UserModel(x)).ToList();

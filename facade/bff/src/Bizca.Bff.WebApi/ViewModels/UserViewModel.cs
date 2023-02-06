@@ -1,11 +1,11 @@
 namespace Bizca.Bff.WebApi.ViewModels
 {
-    using Bizca.Bff.Application.UseCases.AuthenticateUser;
-    using Bizca.Bff.Application.UseCases.CreateNewUser;
-    using Bizca.Bff.Application.UseCases.GetUserDetails;
-    using Bizca.Bff.Application.UseCases.GetUsers;
-    using Bizca.Bff.Application.UseCases.UpdateUser;
-    using Bizca.Bff.Domain.Enumerations;
+    using Application.UseCases.AuthenticateUser;
+    using Application.UseCases.CreateNewUser;
+    using Application.UseCases.GetUserDetails;
+    using Application.UseCases.GetUsers;
+    using Application.UseCases.UpdateUser;
+    using Domain.Enumerations;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -16,13 +16,13 @@ namespace Bizca.Bff.WebApi.ViewModels
     public class UserViewModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="UserViewModel"/>
+        ///     Creates an instance of <see cref="UserViewModel" />
         /// </summary>
         /// <param name="user"></param>
         public UserViewModel(GetUserDetailsDto user)
         {
             ExternalUserId = user.ExternalUserId;
-            Civility = user.Civility.ToString();
+            Civility = user.Civility;
             FirstName = user.FirstName;
             LastName = user.LastName;
             Role = user.Role;
@@ -33,13 +33,13 @@ namespace Bizca.Bff.WebApi.ViewModels
         }
 
         /// <summary>
-        ///     Creates an instance of <see cref="UserViewModel"/>
+        ///     Creates an instance of <see cref="UserViewModel" />
         /// </summary>
         /// <param name="user"></param>
         public UserViewModel(UpdateUserDto user)
         {
             ExternalUserId = user.ExternalUserId;
-            Civility = user.Civility.ToString();
+            Civility = user.Civility;
             FirstName = user.FirstName;
             LastName = user.LastName;
             Role = user.Role;
@@ -50,7 +50,7 @@ namespace Bizca.Bff.WebApi.ViewModels
         }
 
         /// <summary>
-        ///     Creates an instance of <see cref="UserViewModel"/>
+        ///     Creates an instance of <see cref="UserViewModel" />
         /// </summary>
         /// <param name="newUserDto"></param>
         public UserViewModel(CreateNewUserDto newUserDto)
@@ -67,7 +67,7 @@ namespace Bizca.Bff.WebApi.ViewModels
         }
 
         /// <summary>
-        ///     Creates an instance of <see cref="UserViewModel"/>
+        ///     Creates an instance of <see cref="UserViewModel" />
         /// </summary>
         /// <param name="userDto"></param>
         public UserViewModel(AuthenticateUserDto userDto)
@@ -84,7 +84,7 @@ namespace Bizca.Bff.WebApi.ViewModels
         }
 
         /// <summary>
-        ///     Creates an instance of <see cref="UserViewModel"/>
+        ///     Creates an instance of <see cref="UserViewModel" />
         /// </summary>
         /// <param name="userDto"></param>
         public UserViewModel(GetUserDto userDto)
@@ -100,7 +100,7 @@ namespace Bizca.Bff.WebApi.ViewModels
         }
 
         /// <summary>
-        ///  External user identifier.
+        ///     External user identifier.
         /// </summary>
         [Required]
         public string ExternalUserId { get; }

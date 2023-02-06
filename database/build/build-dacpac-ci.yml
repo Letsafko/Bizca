@@ -12,38 +12,38 @@ trigger:
     include: [ 'database/bizca.database.build', 'database/bizca.database' ]
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET Core 3.x sdk'
-  inputs:
-     version: 3.x
-- task: DotNetCoreCLI@2
-  displayName: 'restore'
-  inputs:
-    command: restore
-    projects: '$(projects)'
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core 3.x sdk'
+    inputs:
+      version: 3.x
+  - task: DotNetCoreCLI@2
+    displayName: 'restore'
+    inputs:
+      command: restore
+      projects: '$(projects)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'build dacpac'
-  inputs:
-    command: build
-    configuration: '$(buildConfiguration)'
-    projects: '$(projects)'
-    workingDirectory: $(System.DefaultWorkingDirectory)
+  - task: DotNetCoreCLI@2
+    displayName: 'build dacpac'
+    inputs:
+      command: build
+      configuration: '$(buildConfiguration)'
+      projects: '$(projects)'
+      workingDirectory: $(System.DefaultWorkingDirectory)
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: |
-      **/*.dacpac
-      **/database.profile.xml
-    TargetFolder: '$(build.ArtifactStagingDirectory)/database'
-    flattenFolders: true
-    OverWrite: true
-    cleanTargetFolder: true
-    
-- task: PublishBuildArtifacts@1
-  displayName: 'dacpac artefact'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/database'
-    ArtifactName: '$(artifactName)'
-    publishLocation: 'Container'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: |
+        **/*.dacpac
+        **/database.profile.xml
+      TargetFolder: '$(build.ArtifactStagingDirectory)/database'
+      flattenFolders: true
+      OverWrite: true
+      cleanTargetFolder: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'dacpac artefact'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/database'
+      ArtifactName: '$(artifactName)'
+      publishLocation: 'Container'

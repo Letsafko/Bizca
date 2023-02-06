@@ -1,10 +1,11 @@
-﻿namespace Bizca.Bff.Domain.Entities.Enumerations.Subscription
+﻿namespace Bizca.Bff.Domain.Enumerations
 {
     public enum SubscriptionStatus
     {
         Pending = 1,
-        Activated = 2,
-        Deactivated = 3,
-        Expired = 4
+        PaymentSubmitted = 2,
+        Activated = 3,
+        Deactivated = 4,
+        Expired = 5
     }
 }

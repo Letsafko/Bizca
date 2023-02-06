@@ -2,12 +2,14 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Net;
+
     public class BadRequestStrategy : IHttpStrategy
     {
         public int StatusCode => (int)HttpStatusCode.BadRequest;
-        public IActionResult GetResponse(object message)
+
+        public IActionResult GetResponse(object result)
         {
-            return new BadRequestObjectResult(message);
+            return new BadRequestObjectResult(result);
         }
     }
 }

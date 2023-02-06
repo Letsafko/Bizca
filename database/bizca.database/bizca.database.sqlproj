@@ -218,6 +218,9 @@
     <Build Include="bff\Stored procedures\usp_getByProcedure_subscribers.sql" />
     <Build Include="bff\Types\subscriptionAvailabilityUdt.sql" />
     <Build Include="bff\Stored procedures\usp_update_subscriptionAvailability.sql" />
+    <Build Include="bff\Tables\contactList.sql" />
+    <Build Include="bff\Tables\folder.sql" />
+    <None Include="Scripts\PostDeployment\folder.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\PostDeployment\role.sql" />
@@ -230,11 +233,5 @@
     <None Include="Scripts\PostDeployment\language.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <SqlCmdVariable Include="Environnement">
-      <DefaultValue>Dev</DefaultValue>
-      <Value>$(SqlCmdVar__1)</Value>
-    </SqlCmdVariable>
   </ItemGroup>
 </Project>

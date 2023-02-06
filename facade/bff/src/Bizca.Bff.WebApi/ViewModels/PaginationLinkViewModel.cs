@@ -6,7 +6,7 @@
     public sealed class PaginationLinkViewModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="PaginationLinkViewModel"/>
+        ///     Creates an instance of <see cref="PaginationLinkViewModel" />
         /// </summary>
         /// <param name="url">link to forecast page</param>
         /// <param name="relation">direction to forecast page</param>
@@ -20,7 +20,7 @@
         ///     Link to next or previous page.
         /// </summary>
         public string Url { get; }
-        
+
         /// <summary>
         ///     Direction of forecast page.
         /// </summary>

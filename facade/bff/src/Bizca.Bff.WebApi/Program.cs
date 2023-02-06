@@ -1,12 +1,12 @@
 namespace Bizca.Bff.WebApi
 {
     using Autofac.Extensions.DependencyInjection;
-    using Bizca.Core.Api.Modules.Extensions;
+    using Core.Api.Modules.Extensions;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
 
     /// <summary>
-    ///  Program.
+    ///     Program.
     /// </summary>
     public static class Program
     {

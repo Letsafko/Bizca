@@ -1,18 +1,18 @@
 name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
 variables:
-  projectApi:  'microservices/user/src/Bizca.User.WebApi/Bizca.User.WebApi.csproj'
+  projectApi: 'microservices/user/src/Bizca.User.WebApi/Bizca.User.WebApi.csproj'
   testPattern: 'microservices/user/test/**/*.csproj'
   buildConfiguration: 'Release'
   artifactName: "api"
 
 trigger:
   branches:
-    include: ['master', 'develop', 'release/*', 'hotfix/*', 'feature/*', 'bugfix/*']
+    include: [ 'master', 'develop', 'release/*', 'hotfix/*', 'feature/*', 'bugfix/*' ]
   paths:
-    include: 
-     - 'microservices/user/src'
-     - 'microservices/user/test'
+    include:
+      - 'microservices/user/src'
+      - 'microservices/user/test'
 steps:
   - script: 'dotnet restore --configfile ./Nuget.config'
     displayName: 'restore'
@@ -51,7 +51,7 @@ steps:
       zipAfterPublish: false
       publishWebProjects: false
       arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
-  
+
   - task: PublishBuildArtifacts@1
     displayName: 'api artefact'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))

@@ -1,8 +1,8 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.GetUserDetails
 {
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.User.Application.UseCases.GetUserDetail;
+    using Application.UseCases.GetUserDetail;
+    using Core.Api.Modules.Conventions;
+    using Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -12,15 +12,15 @@
     ///     Get user detail controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/{partnerCode}/[controller]")]
+    [Route("api/v{version:apiVersion}/{partnerCode}/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
-        private readonly IProcessor _processor;
         private readonly GetUserDetailPresenter _presenter;
+        private readonly IProcessor _processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="processor"></param>
         /// <param name="presenter"></param>

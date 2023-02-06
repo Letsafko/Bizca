@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateNewUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.CreateNewUser
 {
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.WebApi.ViewModels;
@@ -12,7 +12,7 @@
     public sealed class CreateNewUserPresenter : PresenterBase, ICreateNewUserOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="CreateNewUserPresenter"/>
+        ///     Creates an instance of <see cref="CreateNewUserPresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public CreateNewUserPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)

@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User
 {
     using System.Threading.Tasks;
+
     public interface IUserRepository
     {
         Task<User> GetByExternalUserIdAsync(string externalUserId);

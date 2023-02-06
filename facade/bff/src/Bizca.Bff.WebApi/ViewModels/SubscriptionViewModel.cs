@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
-    using Bizca.Bff.Domain.Entities.Subscription;
+    using Domain.Entities.Subscription;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -14,8 +14,10 @@
                 Amount = subscription.Bundle.Price.Amount;
                 TotalEmail = subscription.SubscriptionSettings.TotalEmail;
                 TotalSms = subscription.SubscriptionSettings.TotalSms;
-                RemainingEmail = subscription.SubscriptionSettings.TotalEmail - subscription.SubscriptionSettings.EmailCounter;
-                RemainingSms = subscription.SubscriptionSettings.TotalSms - subscription.SubscriptionSettings.SmsCounter;
+                RemainingEmail = subscription.SubscriptionSettings.TotalEmail -
+                                 subscription.SubscriptionSettings.EmailCounter;
+                RemainingSms = subscription.SubscriptionSettings.TotalSms -
+                               subscription.SubscriptionSettings.SmsCounter;
                 BeginDate = subscription.SubscriptionSettings.BeginDate;
                 EndDate = subscription.SubscriptionSettings.EndDate;
             }
@@ -23,8 +25,8 @@
             Procedure = new ProcedureViewModel(subscription.Procedure.Organism.OrganismName,
                 subscription.Procedure.Organism.CodeInsee,
                 new ProcedureTypeViewModel(subscription.Procedure.ProcedureType.Id,
-                subscription.Procedure.ProcedureHref,
-                subscription.Procedure.ProcedureType.Label));
+                    subscription.Procedure.ProcedureHref,
+                    subscription.Procedure.ProcedureType.Label));
 
             Status = subscription.SubscriptionState.Status.ToString();
             Reference = subscription.SubscriptionCode.ToString();

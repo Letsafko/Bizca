@@ -23,6 +23,5 @@
         public string LastName { get; }
         public string Email { get; }
         public int PageSize { get; }
-
     }
 }

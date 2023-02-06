@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User.ValueObjects
 {
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Domain.Enumerations;
     using System.Collections.Generic;
 
     public sealed class ChannelStatus : ValueObject
@@ -12,6 +12,7 @@
             ChannelConfirmationStatus = channelConfirmationStatus;
             ChannelActivationStatus = channelActivationStatus;
         }
+
         public ChannelConfirmationStatus ChannelConfirmationStatus { get; }
         public ChannelActivationStatus ChannelActivationStatus { get; }
 

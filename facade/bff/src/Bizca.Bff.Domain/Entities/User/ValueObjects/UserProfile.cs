@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User.ValueObjects
 {
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Domain.Enumerations;
     using System.Collections.Generic;
 
     public sealed class UserProfile : ValueObject
@@ -36,33 +36,22 @@
 
         internal void SetChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
         {
-            if (!ChannelConfirmationStatus.HasFlag(confirmationStatus))
-            {
-                ChannelConfirmationStatus |= confirmationStatus;
-            }
+            if (!ChannelConfirmationStatus.HasFlag(confirmationStatus)) ChannelConfirmationStatus |= confirmationStatus;
         }
 
         internal void RemoveChannelConfirmationStatus(ChannelConfirmationStatus confirmationStatus)
         {
-            if (ChannelConfirmationStatus.HasFlag(confirmationStatus))
-            {
-                ChannelConfirmationStatus -= confirmationStatus;
-            }
+            if (ChannelConfirmationStatus.HasFlag(confirmationStatus)) ChannelConfirmationStatus -= confirmationStatus;
         }
 
         internal void SetChannelActivationStatus(ChannelActivationStatus activationStatus)
         {
-            if (!ChannelActivationStatus.HasFlag(activationStatus))
-            {
-                ChannelActivationStatus |= activationStatus;
-            }
+            if (!ChannelActivationStatus.HasFlag(activationStatus)) ChannelActivationStatus |= activationStatus;
         }
+
         internal void RemoveChannelActivationStatus(ChannelActivationStatus activationStatus)
         {
-            if (ChannelActivationStatus.HasFlag(activationStatus))
-            {
-                ChannelActivationStatus -= activationStatus;
-            }
+            if (ChannelActivationStatus.HasFlag(activationStatus)) ChannelActivationStatus -= activationStatus;
         }
 
         protected override IEnumerable<object> GetAtomicValues()

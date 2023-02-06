@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterConfirmationCode
+﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterCodeConfirmation
 {
     using Bizca.User.Application.UseCases.RegisterCodeConfirmation;
     using System.ComponentModel.DataAnnotations;
@@ -9,7 +9,7 @@
     public sealed class RegisterCodeConfirmationResponse
     {
         /// <summary>
-        ///     Creates an instance of <see cref="RegisterCodeConfirmationResponse"/>
+        ///     Creates an instance of <see cref="RegisterCodeConfirmationResponse" />
         /// </summary>
         public RegisterCodeConfirmationResponse(RegisterCodeConfirmationDto confirmationCodeDto)
         {

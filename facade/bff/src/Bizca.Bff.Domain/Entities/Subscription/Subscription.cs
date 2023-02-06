@@ -1,18 +1,20 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription
 {
-    using Bizca.Bff.Domain.Entities.Enumerations.Subscription;
-    using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
-    using Bizca.Bff.Domain.Entities.Subscription.SubscriptionState;
-    using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.Domain.Referentials.Bundle.ValueObjects;
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Core.Domain;
+    using Core.Domain;
+    using Enumerations;
+    using Exceptions;
+    using Referential.Bundle;
+    using Referential.Procedure;
+    using SubscriptionState;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using ValueObject;
 
     public sealed class Subscription : Entity
     {
+        private const int NumberOfDaysInWeek = 7;
+
         public Subscription(int id,
             Guid subscriptionCode,
             UserSubscription userSubscription,
@@ -32,7 +34,6 @@
             Id = id;
         }
 
-        private const int NumberOfDaysInWeek = 7;
         public Guid SubscriptionCode { get; }
         public SubscriptionSettings SubscriptionSettings { get; private set; }
         public ISubscriptionState SubscriptionState { get; private set; }
@@ -42,43 +43,45 @@
         public Money Price { get; private set; }
         internal int CheckSum => ComputeCheckSum();
 
-        internal void UpdateSubscription(Bundle bundleToUpdate, Procedure procedureToUpdate)
+        internal void UpdateProcedureSubscription(Procedure procedureToUpdate)
         {
-            if (procedureToUpdate != null)
-            {
-                Procedure = procedureToUpdate;
-            }
+            if (procedureToUpdate is null || procedureToUpdate == Procedure) return;
 
-            if (bundleToUpdate != null)
-            {
-                Bundle = bundleToUpdate;
-                Price = bundleToUpdate.Price;
-                SubscriptionSettings = new SubscriptionSettings(SubscriptionSettings?.WhatsappCounter ?? 0,
-                    SubscriptionSettings?.EmailCounter ?? 0,
-                    SubscriptionSettings?.SmsCounter ?? 0,
-                    bundleToUpdate.BundleSettings.TotalWhatsapp,
-                    bundleToUpdate.BundleSettings.TotalEmail,
-                    bundleToUpdate.BundleSettings.TotalSms);
-
-                DateTime beginDate = DateTime.Now;
-                DateTime endDate = beginDate.AddDays(bundleToUpdate.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
-
-                SetEndDate(endDate);
-                SetBeginDate(beginDate);
-            }
+            Procedure = procedureToUpdate;
         }
+
+        internal void UpdateSubscriptionBundle(Bundle bundleToAdd)
+        {
+            Bundle = bundleToAdd;
+            Price = bundleToAdd.Price;
+            SubscriptionSettings = new SubscriptionSettings(SubscriptionSettings?.WhatsappCounter ?? 0,
+                SubscriptionSettings?.EmailCounter ?? 0,
+                SubscriptionSettings?.SmsCounter ?? 0,
+                bundleToAdd.BundleSettings.TotalWhatsapp,
+                bundleToAdd.BundleSettings.TotalEmail,
+                bundleToAdd.BundleSettings.TotalSms);
+        }
+
+        internal void UpdateSubscriptionDateRange()
+        {
+            DateTime beginDate = DateTime.UtcNow;
+            DateTime endDate = beginDate.AddDays(Bundle.BundleSettings.IntervalInWeeks * NumberOfDaysInWeek);
+
+            SetEndDate(endDate);
+            SetBeginDate(beginDate);
+        }
+
         internal void SetSubscriptionState(ISubscriptionState subscriptionState)
         {
-            if (SubscriptionState.Status != subscriptionState.Status)
-            {
-                SubscriptionState = subscriptionState;
-            }
+            if (SubscriptionState.Status != subscriptionState.Status) SubscriptionState = subscriptionState;
         }
+
         internal void UnFreeze()
         {
             SubscriptionSettings.UnFreeze();
             SubscriptionState.StatusChangeCheck();
         }
+
         internal void Freeze()
         {
             SubscriptionSettings.Freeze();
@@ -87,7 +90,7 @@
 
         #region private helpers
 
-        ISubscriptionState GetSubscriptionState(SubscriptionStatus subscriptionStatus)
+        private ISubscriptionState GetSubscriptionState(SubscriptionStatus subscriptionStatus)
         {
             return subscriptionStatus switch
             {
@@ -98,6 +101,7 @@
                 _ => throw new UnSupportedSubscriptionStatusException("subscription status is not supported.")
             };
         }
+
         private IEnumerable<object> GetAtomicValues()
         {
             yield return UserSubscription.PhoneNumber?.Trim();
@@ -106,11 +110,12 @@
             yield return Procedure.Organism.CodeInsee;
             yield return Procedure.ProcedureType.Id;
         }
+
         private int ComputeCheckSum()
         {
             IEnumerable<object> values = GetAtomicValues().Where(x => x != null);
             return values.Select(x => x.GetHashCode())
-                         .Aggregate((x, y) => x ^ y);
+                .Aggregate((x, y) => x ^ y);
         }
 
         private void SetBeginDate(DateTime beginDate)
@@ -118,6 +123,7 @@
             SubscriptionSettings.SetBeginDate(beginDate);
             SubscriptionState.StatusChangeCheck();
         }
+
         private void SetEndDate(DateTime endDate)
         {
             SubscriptionSettings.SetEndDate(endDate);

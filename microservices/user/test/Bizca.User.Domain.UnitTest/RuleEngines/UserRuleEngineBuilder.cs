@@ -1,13 +1,14 @@
-﻿namespace Bizca.User.Domain.UnitTest.Rules.RuleEngines
+﻿namespace Bizca.User.Domain.UnitTest.RuleEngines
 {
-    using Bizca.User.Domain.Agregates.BusinessCheck;
-    using Bizca.User.Domain.Agregates.BusinessCheck.Rules;
+    using BusinessCheck.UserRule;
+    using BusinessCheck.UserRule.Contract;
     using System.Collections.Generic;
     using System.Linq;
 
     public sealed class UserRuleEngineBuilder
     {
         private ICollection<IUserRule> _businessRules;
+
         private UserRuleEngineBuilder()
         {
             _businessRules = default;
@@ -35,10 +36,7 @@
             if (rules?.Any() != true)
                 return this;
 
-            foreach (IUserRule rule in rules)
-            {
-                _businessRules.Add(rule);
-            }
+            foreach (IUserRule rule in rules) _businessRules.Add(rule);
             return this;
         }
     }

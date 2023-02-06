@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.GetUsersByCriteria
 {
-    using Bizca.Core.Api.Modules.Pagination;
+    using Core.Api.Modules.Pagination;
     using System;
 
     /// <summary>

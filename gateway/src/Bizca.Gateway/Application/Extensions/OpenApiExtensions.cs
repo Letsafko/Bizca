@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Gateway.Application.Extensions
 {
-    using Bizca.Core.Api.Modules.Extensions;
+    using Core.Api.Modules.Configuration;
+    using Core.Api.Modules.Extensions;
     using Microsoft.Extensions.Configuration;
     using Microsoft.OpenApi.Models;
     using System;
@@ -16,23 +17,24 @@
         /// <param name="document">The document.</param>
         /// <param name="securityDefinitionName">Name of the security definition.</param>
         /// <param name="securitySchema">The security schema.</param>
-        public static void AddSecurityConfiguration(this OpenApiDocument document, string securityDefinitionName, OpenApiSecurityScheme securitySchema)
+        public static void AddSecurityConfiguration(this OpenApiDocument document, string securityDefinitionName,
+            OpenApiSecurityScheme securitySchema)
         {
             document.Components.SecuritySchemes.Add(securityDefinitionName, securitySchema);
 
-            document.SecurityRequirements.Add(new OpenApiSecurityRequirement()
+            document.SecurityRequirements.Add(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
                     {
+                        Reference = new OpenApiReference
                         {
-                            new OpenApiSecurityScheme
-                                {
-                                    Reference = new OpenApiReference()
-                                    {
-                                        Type = ReferenceType.SecurityScheme,
-                                        Id = securityDefinitionName
-                                    }
-                                }, new List<string>()
+                            Type = ReferenceType.SecurityScheme, Id = securityDefinitionName
                         }
-                    });
+                    },
+                    new List<string>()
+                }
+            });
         }
 
         /// <summary>Excludes the partner code.</summary>
@@ -42,20 +44,16 @@
         {
             foreach (KeyValuePair<string, OpenApiPathItem> path in document.Paths)
             {
-                if (path.Value == null)
-                {
-                    continue;
-                }
+                if (path.Value == null) continue;
 
                 foreach (KeyValuePair<OperationType, OpenApiOperation> operation in path.Value.Operations)
                 {
                     OpenApiParameter partnerCodeParameter =
-                        operation.Value.Parameters.FirstOrDefault(p => p.Name.ToLower() == Constants.SWAGGER_PARTNER_CODE_PARAMETER);
+                        operation.Value.Parameters.FirstOrDefault(p =>
+                            p.Name.ToLower() == Constants.SWAGGER_PARTNER_CODE_PARAMETER);
                     if (partnerCodeParameter != null
                         && !path.Key.ToLower().Contains(Constants.SWAGGER_PARTNER_CODE_PARAMETER))
-                    {
                         operation.Value.Parameters.Remove(partnerCodeParameter);
-                    }
                 }
             }
 
@@ -69,11 +67,10 @@
         public static OpenApiDocument AddOpenApiSecurityScheme(this OpenApiDocument document,
             IConfiguration configuration)
         {
-            Core.Api.Modules.Configuration.SwaggerConfigurationModel swaggerConfiguration = configuration.GetSwaggerConfiguration();
+            SwaggerConfigurationModel swaggerConfiguration = configuration.GetSwaggerConfiguration();
 
             if (swaggerConfiguration?.Security != null)
-            {
-                foreach (Core.Api.Modules.Configuration.SwaggerSecurityDefinitionModel securityDefinition in swaggerConfiguration.Security)
+                foreach (SwaggerSecurityDefinitionModel securityDefinition in swaggerConfiguration.Security)
                 {
                     Enum.TryParse(securityDefinition.Type, true, out SecuritySchemeType type);
                     Enum.TryParse(securityDefinition.In, true, out ParameterLocation location);
@@ -89,7 +86,6 @@
 
                     document.AddSecurityConfiguration(securityDefinition.DisplayName, securitySchema);
                 }
-            }
 
             return document;
         }
@@ -101,11 +97,11 @@
         public static OpenApiDocument AddOpenApiOAuthFlow(this OpenApiDocument document,
             IConfiguration configuration)
         {
-            Core.Api.Modules.Configuration.SwaggerConfigurationModel swaggerConfiguration = configuration.GetSwaggerConfiguration();
+            SwaggerConfigurationModel swaggerConfiguration = configuration.GetSwaggerConfiguration();
 
             if (configuration.GetFeaturesConfiguration().Sts && swaggerConfiguration?.StsSecurity != null)
             {
-                Core.Api.Modules.Configuration.StsConfiguration stsConfiguration = configuration.GetStsConfiguration();
+                StsConfiguration stsConfiguration = configuration.GetStsConfiguration();
 
                 var securitySchema = new OpenApiSecurityScheme
                 {
@@ -116,7 +112,8 @@
                         ClientCredentials = new OpenApiOAuthFlow
                         {
                             TokenUrl = new Uri($"{stsConfiguration.Authority}/connect/token"),
-                            Scopes = swaggerConfiguration?.StsSecurity.Scopes.ToDictionary(k => k, v => string.Empty)
+                            Scopes = swaggerConfiguration?.StsSecurity.Scopes.ToDictionary(k => k,
+                                v => string.Empty)
                         }
                     }
                 };

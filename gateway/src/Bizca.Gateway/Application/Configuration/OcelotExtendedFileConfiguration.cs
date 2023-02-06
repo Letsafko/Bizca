@@ -10,8 +10,8 @@
         /// <summary>Initializes a new instance of the <see cref="OcelotExtendedFileConfiguration" /> class.</summary>
         public OcelotExtendedFileConfiguration()
         {
-            this.Routes = new List<ExtendedFileRoute>();
-            this.SwaggerEndPoints = new List<SwaggerEndPointOptions>();
+            Routes = new List<ExtendedFileRoute>();
+            SwaggerEndPoints = new List<SwaggerEndPointOptions>();
         }
 
         /// <summary>Gets or sets the routes.</summary>

@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.ConfirmChannelCode
 {
-    using Bizca.User.Application.UseCases.ConfirmChannelCode;
+    using Application.UseCases.ConfirmChannelCode;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

@@ -2,7 +2,9 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/api/v1.0/{partnerCode}/users/{userId}",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
       "DownstreamPathTemplate": "/api/v1.0/{partnerCode}/users/{userId}",
       "ChangeDownstreamPathTemplate": {
         "partnerCode": "Claims[partner_code] > value[0]"
@@ -16,7 +18,9 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Identity",
-        "AllowedScopes": [ "partner" ]
+        "AllowedScopes": [
+          "partner"
+        ]
       },
       "RateLimitOptions": {
         "EnableRateLimiting": true,

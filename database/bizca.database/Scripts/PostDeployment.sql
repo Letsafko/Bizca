@@ -9,10 +9,10 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-
 :r .\PostDeployment\role.sql
 :r .\PostDeployment\channel.sql
 :r .\PostDeployment\partner.sql
+:r .\PostDeployment\folder.sql
 :r .\PostDeployment\country.sql 
 :r .\PostDeployment\pricing.sql
 :r .\PostDeployment\civility.sql

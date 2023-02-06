@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.ViewModels
 {
-    using Bizca.User.Domain.Entities.Address;
+    using Domain.Entities.Address;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -9,7 +9,7 @@
     public sealed class UserAddressModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="UserAddressModel"/>
+        ///     Creates an instance of <see cref="UserAddressModel" />
         /// </summary>
         /// <param name="address">address</param>
         public UserAddressModel(Address address)

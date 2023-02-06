@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
     using System.ComponentModel.DataAnnotations;
+
     internal sealed class ProcedureViewModel
     {
         public ProcedureViewModel(string organismName,

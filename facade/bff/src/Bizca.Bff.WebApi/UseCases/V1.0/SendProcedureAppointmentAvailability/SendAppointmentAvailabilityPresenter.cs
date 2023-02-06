@@ -1,12 +1,12 @@
-﻿using Bizca.Bff.Application.UseCases.SendProcedureAppointmentAvailability;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Bizca.Bff.WebApi.UseCases.V10.SendProcedureAppointmentAvailability
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.SendProcedureAppointmentAvailability
 {
+    using Bizca.Bff.Application.UseCases.SendAppointmentAvailability;
+    using Microsoft.AspNetCore.Mvc;
+
     /// <summary>
-    ///    Send appointment of procedure availability
+    ///     Send appointment of procedure availability
     /// </summary>
-    public class SendProcedureAppointmentAvailabilityPresenter : ISendProcedureAppointmentAvailabilityOutput
+    public class SendProcedureAppointmentAvailabilityPresenter : ISendAppointmentAvailabilityOutput
     {
         /// <summary>
         ///     Get procedures for active subscriptions view model.

@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.UpdateUser
 {
     /// <summary>
     ///     Updates an user

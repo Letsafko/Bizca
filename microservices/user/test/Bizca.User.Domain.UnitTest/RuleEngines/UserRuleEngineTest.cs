@@ -1,11 +1,10 @@
-﻿namespace Bizca.User.Domain.UnitTest.Rules.RuleEngines
+﻿namespace Bizca.User.Domain.UnitTest.RuleEngines
 {
-    using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Partner;
-    using Bizca.Core.Support.Test.Builders;
+    using Bizca.Core.Domain.Referential.Model;
+    using Bizca.Core.Domain.Rules;
     using Bizca.User.Domain.Agregates;
-    using Bizca.User.Domain.Agregates.BusinessCheck;
     using Bizca.User.Domain.UnitTest.Rules.UserMustBeUniqueByPartner;
+    using BusinessCheck.UserRule;
     using NFluent;
     using System;
     using System.Collections.Generic;
@@ -18,7 +17,7 @@
         public void BusinessUserRuleEngine_AnyConstructorArgumentIsNull_ThrowArgumentNullException()
         {
             Check.ThatCode(() => UserRuleEngineBuilder.Instance.Build())
-                 .Throws<ArgumentNullException>();
+                .Throws<ArgumentNullException>();
         }
 
         [Theory]
@@ -28,19 +27,23 @@
         {
             //arrange
             Partner partner = PartnerBuilder.Instance.Build();
-            UserMustBeUniqueByPartnerBuilder userMustBeUniqueBuilder = UserMustBeUniqueByPartnerBuilder.Instance.WithUserExist(userExist);
-            UserRuleEngine engine = UserRuleEngineBuilder.Instance.WithBusinessRule(userMustBeUniqueBuilder.Build()).Build();
+            UserMustBeUniqueByPartnerBuilder userMustBeUniqueBuilder =
+                UserMustBeUniqueByPartnerBuilder.Instance.WithUserExist(userExist);
+            UserRuleEngine engine = UserRuleEngineBuilder.Instance.WithBusinessRule(userMustBeUniqueBuilder.Build())
+                .Build();
 
             //act
-            RuleResultCollection ruleResultCollection = await engine.CheckRulesAsync(new UserRequest { Partner = partner }).ConfigureAwait(false);
+            RuleResultCollection ruleResultCollection =
+                await engine.CheckRulesAsync(new UserRequest { Partner = partner }).ConfigureAwait(false);
 
             //assert
             userMustBeUniqueBuilder.WithReceiveUserExist(1);
             Check.That(ruleResultCollection)
-                 .HasSize(1).And
-                 .Not.IsEmpty().And
-                 .HasElementThatMatches(x => x.Sucess == !userExist && string.IsNullOrWhiteSpace(x.Failure.ErrorMessage) == !userExist).And
-                 .InheritsFrom<List<RuleResult>>();
+                .HasSize(1).And
+                .Not.IsEmpty().And
+                .HasElementThatMatches(x =>
+                    x.Success == !userExist && string.IsNullOrWhiteSpace(x.Failure.ErrorMessage) == !userExist).And
+                .InheritsFrom<List<CheckResult>>();
         }
     }
 }

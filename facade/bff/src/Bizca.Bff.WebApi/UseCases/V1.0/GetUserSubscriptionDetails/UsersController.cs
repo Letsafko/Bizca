@@ -1,10 +1,9 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUserSubscriptionDetails
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUserSubscriptionDetails
 {
     using Bizca.Bff.Application.UseCases.GetUserSubscriptionDetails;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -14,7 +13,7 @@
     ///     Creates subscription controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Subscriptions")]
     public sealed class UsersController : ControllerBase
@@ -23,7 +22,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -41,8 +40,6 @@
         /// <remarks>/Assets/createSubscription.md</remarks>
         [HttpGet("{externalUserId}/subscriptions/{reference}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubscriptionViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
         public async Task<IActionResult> GetUserSubscriptionDetailsAsync([Required] string externalUserId,
             [Required] string reference)

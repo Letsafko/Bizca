@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
-    using Bizca.Bff.Application.UseCases.GetUsers;
+    using Application.UseCases.GetUsers;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -10,7 +10,7 @@
     public sealed class UserPaginationViewModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="UserPaginationViewModel"/>
+        ///     Creates an instance of <see cref="UserPaginationViewModel" />
         /// </summary>
         /// <param name="pagedUsers"></param>
         public UserPaginationViewModel(GetPagedUsersDto pagedUsers)

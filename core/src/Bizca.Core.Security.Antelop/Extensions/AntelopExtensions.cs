@@ -1,10 +1,10 @@
 ﻿namespace Bizca.Core.Security.Antelop.Extensions
 {
-    using Bizca.Core.Security.Antelop.Configuratin;
-    using Bizca.Core.Security.Antelop.Middleware;
+    using Configuratin;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
+    using Middleware;
 
     /// <summary>
     ///     Antelop extension methods
@@ -20,11 +20,11 @@
             string certificate)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(Constants.ANTELOP_SCHEME, _ =>
+                .AddJwtBearer(Constants.AntelopScheme, _ =>
                 {
                 });
 
-            services.Configure<AntelopConfiguration>((configuration) => configuration.AntelopCertificate = certificate);
+            services.Configure<AntelopConfiguration>(configuration => configuration.AntelopCertificate = certificate);
             services.AddSingleton<ITokenValidator, AntelopTokenValidator>();
             services.AddSingleton<IPostConfigureOptions<JwtBearerOptions>, AntelopPostConfigureOptions>();
             services.AddSingleton<AspNetAntelopSecurityTokenValidator>();

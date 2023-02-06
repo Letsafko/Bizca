@@ -1,11 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateNewUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.CreateNewUser
 {
     using Bizca.Bff.Application.UseCases.CreateNewUser;
     using Bizca.Bff.WebApi.Properties;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -15,7 +14,7 @@
     ///     Creates user controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
@@ -23,7 +22,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -40,9 +39,8 @@
         /// <remarks>/Assets/createUser.md</remarks>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> CreateUserAsync([Required][FromBody] CreateUser user)
+        public async Task<IActionResult> CreateUserAsync([Required] [FromBody] CreateUser user)
         {
             CreateUserCommand command = GetCreateUserCommand(user);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);

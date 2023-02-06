@@ -27,30 +27,29 @@
         [ExcludeFromCodeCoverage]
         public static IApplicationBuilder ConfigureApp(this IApplicationBuilder app, IConfiguration configuration)
         {
-
-            List<SwaggerEndPointOptions> swaggerEndpoints = app.ApplicationServices.GetService<IOptions<List<SwaggerEndPointOptions>>>().Value;
+            List<SwaggerEndPointOptions> swaggerEndpoints =
+                app.ApplicationServices.GetService<IOptions<List<SwaggerEndPointOptions>>>().Value;
 
             if (swaggerEndpoints.Count > 0)
-            {
                 app.UseSwaggerForOcelotUI(setup =>
-                {
-                    setup.ConfigObject.DefaultModelExpandDepth = 2;
-                    setup.ConfigObject.DefaultModelRendering = ModelRendering.Model;
-                    setup.ConfigObject.DocExpansion = DocExpansion.None;
-                    setup.ConfigObject.DeepLinking = true;
-                    setup.ConfigObject.DisplayOperationId = true;
-                    setup.InjectStylesheet("/swagger/custom-swagger.css");
-                    setup.ReConfigureUpstreamSwaggerJson = (context, json) => ReConfigureUpstreamSwaggerJson(json, configuration);
-                })
-                .UseReDoc(c =>
-                {
-                    c.NoAutoAuth();
-                    c.DocumentTitle = "Xpollens API Documentation";
-                    c.RoutePrefix = "documentation";
-                    c.InjectStylesheet("/swagger/custom.css");
-                    c.SpecUrl = SwaggerDocumentationPath;
-                });
-            }
+                    {
+                        setup.ConfigObject.DefaultModelExpandDepth = 2;
+                        setup.ConfigObject.DefaultModelRendering = ModelRendering.Model;
+                        setup.ConfigObject.DocExpansion = DocExpansion.None;
+                        setup.ConfigObject.DeepLinking = true;
+                        setup.ConfigObject.DisplayOperationId = true;
+                        setup.InjectStylesheet("/swagger/custom-swagger.css");
+                        setup.ReConfigureUpstreamSwaggerJson = (context, json) =>
+                            ReConfigureUpstreamSwaggerJson(json, configuration);
+                    })
+                    .UseReDoc(c =>
+                    {
+                        c.NoAutoAuth();
+                        c.DocumentTitle = "Xpollens API Documentation";
+                        c.RoutePrefix = "documentation";
+                        c.InjectStylesheet("/swagger/custom.css");
+                        c.SpecUrl = SwaggerDocumentationPath;
+                    });
 
             //Add isAlive endpoint to check is Ocelot instance is up
             app.UseOcelot(pipelineConfiguration =>
@@ -58,13 +57,9 @@
                 pipelineConfiguration.PreErrorResponderMiddleware = async (ctx, next) =>
                 {
                     if (ctx.Request.Path.Equals(new PathString("/isalive")))
-                    {
                         await ctx.Response.WriteAsync("ok");
-                    }
                     else
-                    {
                         await next.Invoke();
-                    }
                 };
             });
 

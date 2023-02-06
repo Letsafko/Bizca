@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.UpdateSubscription
 {
     using Bizca.Bff.Application.UseCases.UpdateSubscription;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
     using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -14,13 +14,16 @@
     ///     Creates subscription controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Subscriptions")]
     public sealed class UsersController : ControllerBase
     {
+        private readonly UpdateSubscriptionPresenter presenter;
+        private readonly IProcessor processor;
+
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -29,9 +32,6 @@
             this.processor = processor;
             this.presenter = presenter;
         }
-
-        private readonly UpdateSubscriptionPresenter presenter;
-        private readonly IProcessor processor;
 
         /// <summary>
         ///     Updates subscription of an user.
@@ -47,7 +47,7 @@
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Update))]
         public async Task<IActionResult> UpdateSubscriptionAsync([Required] string externalUserId,
             [Required] string reference,
-            [Required][FromBody] UpdateSubscription subscription)
+            [Required] [FromBody] UpdateSubscription subscription)
         {
             UpdateSubscriptionCommand command = GetUpdateSubscriptionCommand(externalUserId, reference, subscription);
             await processor.ProcessCommandAsync(command).ConfigureAwait(false);
@@ -61,8 +61,7 @@
             return new UpdateSubscriptionCommand(externalUserId,
                 subscriptionCode,
                 subscription.CodeInsee,
-                subscription.ProcedureTypeId,
-                subscription.BundleId);
+                subscription.ProcedureTypeId);
         }
     }
 }

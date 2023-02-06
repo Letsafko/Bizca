@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Bizca.Notification.Application\Bizca.Notification.Application.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Bizca.Notification.Domain\Bizca.Notification.Domain.csproj" />
+    </ItemGroup>
 
 </Project>

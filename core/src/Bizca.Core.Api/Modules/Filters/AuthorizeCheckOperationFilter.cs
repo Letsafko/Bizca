@@ -8,39 +8,37 @@
 
     public class AuthorizeCheckOperationFilter : IOperationFilter
     {
-        private readonly IList<string> scopes;
+        private readonly IList<string> _scopes;
 
         public AuthorizeCheckOperationFilter(IList<string> scopes)
         {
-            this.scopes = scopes;
+            this._scopes = scopes;
         }
+
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            bool hasAuthorize = context.MethodInfo.DeclaringType.GetCustomAttributes(true)
+            if(context.MethodInfo.DeclaringType is null)
+                return;
+            
+            bool hasAuthorizeAttribute = context
+                .MethodInfo.DeclaringType.GetCustomAttributes(true)
                 .Union(context.MethodInfo.GetCustomAttributes(true))
-                .OfType<AuthorizeAttribute>().Any();
+                .OfType<AuthorizeAttribute>()
+                .Any();
 
-            if (hasAuthorize)
+            if (!hasAuthorizeAttribute) 
+                return;
+            
+            operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
+            operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
+            var oAuthScheme = new OpenApiSecurityScheme
             {
-                operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
-                operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
-                var oAuthScheme = new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "oauth2"
-                    }
-                };
-                operation.Security = new List<OpenApiSecurityRequirement>
-                {
-                    new OpenApiSecurityRequirement
-                    {
-                        [oAuthScheme] = scopes
-                    }
-                };
-            }
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+            };
+            operation.Security = new List<OpenApiSecurityRequirement>
+            {
+                new() { [oAuthScheme] = _scopes }
+            };
         }
-
     }
 }

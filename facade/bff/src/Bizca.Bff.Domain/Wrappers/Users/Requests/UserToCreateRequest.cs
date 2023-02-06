@@ -1,7 +1,7 @@
-﻿using Bizca.Bff.Domain.Properties;
-
-namespace Bizca.Bff.Domain.Wrappers.Users.Requests
+﻿namespace Bizca.Bff.Domain.Wrappers.Users.Requests
 {
+    using Properties;
+
     public sealed class UserToCreateRequest
     {
         public UserToCreateRequest(string externalUserId,

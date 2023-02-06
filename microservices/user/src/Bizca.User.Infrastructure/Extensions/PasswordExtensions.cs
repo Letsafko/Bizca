@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.Infrastructure.Extensions
 {
-    using Bizca.User.Domain.Agregates.ValueObjects;
+    using Domain.Agregates.ValueObjects;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -8,6 +8,7 @@
     public static class PasswordExtensions
     {
         private const string typeName = "[usr].[passwords]";
+
         public static DataTable ToDataTable(this IEnumerable<Password> passwords, int userId)
         {
             var dt = new DataTable(typeName);

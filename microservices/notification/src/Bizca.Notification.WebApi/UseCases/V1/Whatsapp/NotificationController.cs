@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Notification.WebApi.UseCases.V1.Whatsapp
 {
-    using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
+    using Core.Api.Modules.Conventions;
+    using Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -11,14 +11,14 @@
     ///     Whatsapp notification controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/{partnerCode}/[controller]")]
+    [Route("api/v{version:apiVersion}/{partnerCode}/[controller]")]
     [ApiController]
     public sealed class NotificationController : ControllerBase
     {
         private readonly IProcessor _processor;
 
         /// <summary>
-        ///     Creates an instance of <see cref="NotificationController"/>
+        ///     Creates an instance of <see cref="NotificationController" />
         /// </summary>
         /// <param name="processor"></param>
         public NotificationController(IProcessor processor)
@@ -34,7 +34,8 @@
         [HttpPost("whatsapp")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WhatsappResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Create))]
-        public async Task<IActionResult> SendWhatsappMessageAsync([Required] string partnerCode, WhatsappMessage message)
+        public async Task<IActionResult> SendWhatsappMessageAsync([Required] string partnerCode,
+            WhatsappMessage message)
         {
             return Ok();
         }

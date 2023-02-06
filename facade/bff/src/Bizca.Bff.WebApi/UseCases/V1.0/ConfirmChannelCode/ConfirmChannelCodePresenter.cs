@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.ConfirmChannelCode
 {
     using Bizca.Bff.Application.UseCases.ConfirmChannelCode;
     using Bizca.Bff.WebApi.ViewModels;
@@ -12,7 +12,7 @@
     public sealed class ConfirmChannelCodePresenter : PresenterBase, IConfirmChannelCodeOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="ConfirmChannelCodePresenter"/>
+        ///     Creates an instance of <see cref="ConfirmChannelCodePresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public ConfirmChannelCodePresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)

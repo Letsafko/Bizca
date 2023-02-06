@@ -1,8 +1,10 @@
 ﻿namespace Bizca.Core.Domain.Rules
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+
     public interface IBusinessRuleEngine<in TRequest>
     {
-        Task<RuleResultCollection> CheckRulesAsync(TRequest request);
+        Task CheckRulesAsync(TRequest request);
     }
 }

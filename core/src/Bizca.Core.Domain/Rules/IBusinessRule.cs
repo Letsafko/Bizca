@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    public interface IBusinessRule<TRequest>
+    public interface IBusinessRule<in TRequest>
     {
-        Task<RuleResult> CheckAsync(TRequest request);
+        Task<CheckResult> CheckAsync(TRequest request);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.CreateSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.CreateSubscription
 {
     /// <summary>
     ///     Create subscription.

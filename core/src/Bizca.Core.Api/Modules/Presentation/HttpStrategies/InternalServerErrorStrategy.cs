@@ -2,15 +2,14 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Net;
+
     public class InternalServerErrorStrategy : IHttpStrategy
     {
         public int StatusCode => (int)HttpStatusCode.InternalServerError;
-        public IActionResult GetResponse(object message)
+
+        public IActionResult GetResponse(object result)
         {
-            return new ObjectResult(message)
-            {
-                StatusCode = (int)HttpStatusCode.InternalServerError
-            };
+            return new ObjectResult(result) { StatusCode = (int)HttpStatusCode.InternalServerError };
         }
     }
 }

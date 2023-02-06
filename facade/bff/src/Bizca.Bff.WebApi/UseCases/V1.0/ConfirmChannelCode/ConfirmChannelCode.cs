@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.ConfirmChannelCode
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.ConfirmChannelCode
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -7,12 +7,6 @@
     /// </summary>
     public sealed class ConfirmChannelCode
     {
-        /// <summary>
-        ///     Channel type.
-        /// </summary>
-        [Required]
-        public string Channel { get; set; }
-
         /// <summary>
         ///     Channel confirmation code.
         /// </summary>

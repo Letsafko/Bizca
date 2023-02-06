@@ -1,25 +1,29 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Autofac
 {
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.Domain.Entities.User;
-    using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Bff.Domain.Wrappers.Notification;
-    using Bizca.Bff.Domain.Wrappers.Users;
-    using Bizca.Bff.Infrastructure.Cache;
-    using Bizca.Bff.Infrastructure.Persistance;
-    using Bizca.Bff.Infrastructure.Wrappers.Notifications;
-    using Bizca.Bff.Infrastructure.Wrappers.Users;
-    using Bizca.Core.Domain;
-    using Bizca.Core.Domain.EmailTemplate;
-    using Bizca.Core.Infrastructure;
-    using Bizca.Core.Infrastructure.Cache;
-    using Bizca.Core.Infrastructure.Database;
-    using Bizca.Core.Infrastructure.Persistance;
+    using Core.Domain.Referential.Model;
+    using Core.Domain.Referential.Repository;
+    using Core.Domain.Referential.Services;
+    using Core.Infrastructure.Database;
+    using Core.Infrastructure.Repository;
+    using Core.Infrastructure.RepositoryCache;
+    using Domain.Entities.Subscription;
+    using Domain.Entities.User;
+    using Domain.Provider.ContactList;
+    using Domain.Provider.Folder;
+    using Domain.Referential.Bundle;
+    using Domain.Referential.Procedure;
+    using Domain.Wrappers.Contact;
+    using Domain.Wrappers.Notification;
+    using Domain.Wrappers.Users;
     using global::Autofac;
+    using Infrastructure.Cache;
+    using Infrastructure.Persistence;
+    using Infrastructure.Wrappers.Contact;
+    using Infrastructure.Wrappers.Notifications;
+    using Infrastructure.Wrappers.Users;
 
     /// <summary>
-    ///     Infrastrcuture modules.
+    ///     Infrastructure modules.
     /// </summary>
     public sealed class InfrastructureModule : Module
     {
@@ -29,13 +33,11 @@
         /// <param name="builder">container builder.</param>
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ConnectionFactory>().As<IConnectionFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
             LoadRepositories(builder);
             LoadWrappers(builder);
         }
 
-        private void LoadRepositories(ContainerBuilder builder)
+        private static void LoadRepositories(ContainerBuilder builder)
         {
             builder.RegisterType<SubscriptionRepository>().As<ISubscriptionRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
@@ -46,12 +48,17 @@
             builder.RegisterType<BundleRepository>().As<IBundleRepository>().InstancePerLifetimeScope();
             builder.RegisterDecorator<CacheBundleRepository, IBundleRepository>();
 
-            builder.RegisterType<EmailTemplateRepository>().As<IEmailTemplateRepository>().InstancePerLifetimeScope();
-            builder.RegisterDecorator<CacheEmailTemplateRepository, IEmailTemplateRepository>();
+            builder.RegisterType<ContactListRepository>().As<IContactListRepository>().InstancePerLifetimeScope();
+            builder.RegisterDecorator<CacheContactListRepository, IContactListRepository>();
+
+            builder.RegisterType<FolderRepository>().As<IFolderRepository>().InstancePerLifetimeScope();
+            builder.RegisterDecorator<CacheFolderRepository, IFolderRepository>();
         }
-        private void LoadWrappers(ContainerBuilder builder)
+
+        private static void LoadWrappers(ContainerBuilder builder)
         {
             builder.RegisterType<NotificationWrapper>().As<INotificationWrapper>();
+            builder.RegisterType<ContactWrapper>().As<IContactWrapper>();
             builder.RegisterType<UserWrapper>().As<IUserWrapper>();
         }
     }

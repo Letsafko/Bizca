@@ -1,7 +1,7 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetBundles
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetBundles
 {
     using Bizca.Bff.Application.UseCases.GetBundles;
-    using Bizca.Bff.Domain.Referentials.Bundle;
+    using Bizca.Bff.Domain.Referential.Bundle;
     using Bizca.Bff.WebApi.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;

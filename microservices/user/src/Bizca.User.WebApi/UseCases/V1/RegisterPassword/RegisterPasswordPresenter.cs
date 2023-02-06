@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.RegisterPassword
 {
-    using Bizca.User.Application.UseCases.RegisterPassword;
+    using Application.UseCases.RegisterPassword;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

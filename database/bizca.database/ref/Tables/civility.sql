@@ -1,9 +1,9 @@
 ﻿create table [ref].[civility]
 (
-	[civilityId]	smallint	not null,
-	[civilityCode]	varchar(5)	not null,
-	[creationDate]	datetime2   not null,
-    [lastUpdate]	datetime2   not null
+    [civilityId] smallint not null, 
+    [civilityCode] varchar(5) not null,
+    [creationDate] datetime2 not null,
+    [lastUpdate] datetime2 not null
 )
 go
 

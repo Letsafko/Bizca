@@ -17,7 +17,17 @@
         public override bool Equals(object obj)
         {
             return obj is ValueObject second &&
-                    GetAtomicValues().SequenceEqual(second.GetAtomicValues());
+                   GetAtomicValues().SequenceEqual(second.GetAtomicValues());
+        }
+
+        public static bool operator ==(ValueObject a, ValueObject b)
+        {
+            return (a is null && b is null) || (a is not null && b is not null && a.Equals(b));
+        }
+
+        public static bool operator !=(ValueObject a, ValueObject b)
+        {
+            return !(a == b);
         }
     }
 }

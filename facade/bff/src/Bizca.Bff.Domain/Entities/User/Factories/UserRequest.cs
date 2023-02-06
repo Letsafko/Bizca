@@ -1,6 +1,7 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User.Factories
 {
-    using Bizca.Bff.Domain.Enumerations;
+    using Domain.Enumerations;
+
     public sealed class UserRequest
     {
         public UserRequest(string externalUserId,

@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.Modules.Autofac
 {
-    using Bizca.Core.Application;
+    using Core.Domain.Cqrs;
     using global::Autofac;
     using MediatR;
 
@@ -19,7 +19,7 @@
             builder.RegisterAssemblyTypes(typeof(IMediator).Assembly).AsImplementedInterfaces();
             builder.Register<ServiceFactory>(context =>
             {
-                IComponentContext componentContext = context.Resolve<IComponentContext>();
+                var componentContext = context.Resolve<IComponentContext>();
                 return t => componentContext.TryResolve(t, out object o) ? o : default;
             });
         }

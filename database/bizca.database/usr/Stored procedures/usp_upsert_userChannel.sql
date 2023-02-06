@@ -22,14 +22,14 @@ begin
 		, [creationDate]	
 		, [lastUpdate]	
 	)
-	select
-		  userId
-		, channelId
-		, [value]
-		, active
-		, confirmed
-		, getdate()
-		, getdate()
-	from @channels
+select
+    userId
+     , channelId
+     , [value]
+     , active
+     , confirmed
+     , getdate()
+     , getdate()
+from @channels
 
 end

@@ -1,13 +1,14 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
     using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     ///     Procedure type view model.
     /// </summary>
     public sealed class ProcedureTypeViewModel
     {
         /// <summary>
-        ///     Creates an instance of <see cref="ProcedureTypeViewModel"/>
+        ///     Creates an instance of <see cref="ProcedureTypeViewModel" />
         /// </summary>
         /// <param name="idenitifier">procedure type identifier</param>
         /// <param name="href">procedure link form.</param>

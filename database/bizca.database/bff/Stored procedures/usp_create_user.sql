@@ -11,37 +11,37 @@
 	, @activationStatus   smallint
 as
 begin
-	
-	insert into [bff].[user]
-	(
-		  [externalUserId]	         
-		, [civilityId]	             
-		, [roleId]	             
-		, [firstName]				 
-		, [lastName]		
-		, [phoneNumber]	
-		, [whatsapp]		
-		, [email]			
-		, [channelConfirmationStatus]
-		, [channelActivationStatus]  
-		, [creationDate]		     
-		, [lastUpdate]
-	)
-	output inserted.userId
-	values
-	(
-		  @externalUserId		 
-		, @civilityId	
-		, @roleId
-		, @firstName		 
-		, @lastName		
-		, @phoneNumber
-		, @whatsapp
-		, @email
-		, @confirmationStatus   		
-		, @activationStatus			
-		, getdate()
-		, getdate()
-	)
+
+insert into [bff].[user]
+    (
+          [externalUserId]
+        , [civilityId]
+        , [roleId]
+        , [firstName]
+        , [lastName]
+        , [phoneNumber]
+        , [whatsapp]
+        , [email]
+        , [channelConfirmationStatus]
+        , [channelActivationStatus]
+        , [creationDate]
+        , [lastUpdate]
+    )
+    output inserted.userId
+values
+    (
+          @externalUserId
+        , @civilityId
+        , @roleId
+        , @firstName
+        , @lastName
+        , @phoneNumber
+        , @whatsapp
+        , @email
+        , @confirmationStatus
+        , @activationStatus
+        , getdate()
+        , getdate()
+    )
 
 end

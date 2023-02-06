@@ -1,7 +1,7 @@
 ﻿namespace Bizca.Bff.WebApi.Modules.Autofac
 {
-    using Bizca.Bff.Domain.Entities.Subscription.Factories;
-    using Bizca.Bff.Domain.Entities.User.Factories;
+    using Domain.Entities.Subscription.Factories;
+    using Domain.Entities.User.Factories;
     using global::Autofac;
 
     /// <summary>

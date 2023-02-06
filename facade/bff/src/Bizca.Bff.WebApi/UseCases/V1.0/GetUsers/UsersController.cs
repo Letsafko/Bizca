@@ -1,10 +1,10 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUsers
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUsers
 {
     using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.WebApi.Properties;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -14,7 +14,7 @@
     ///     Get user detail controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
@@ -22,7 +22,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="processor"></param>
         /// <param name="presenter"></param>
@@ -40,8 +40,8 @@
         /// <remarks>/Assets/getUserByCriteria.md</remarks>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPaginationViewModel))]
-        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]
-        public async Task<IActionResult> GetUsers([Required][FromQuery] GetUsers criteria)
+        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
+        public async Task<IActionResult> GetUsers([Required] [FromQuery] GetUsers criteria)
         {
             GetUsersQuery query = GetQuery(Resources.PartnerCode, criteria);
             await processor.ProcessQueryAsync(query).ConfigureAwait(false);

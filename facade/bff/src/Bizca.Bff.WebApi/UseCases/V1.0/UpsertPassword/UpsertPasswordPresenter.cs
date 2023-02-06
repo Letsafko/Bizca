@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpsertPassword
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.UpsertPassword
 {
     using Bizca.Bff.Application.UseCases.UpsertPassword;
     using Bizca.Bff.WebApi.ViewModels;
@@ -12,7 +12,7 @@
     public sealed class UpsertPasswordPresenter : PresenterBase, IUpsertPasswordOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="UpsertPasswordPresenter"/>
+        ///     Creates an instance of <see cref="UpsertPasswordPresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public UpsertPasswordPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)

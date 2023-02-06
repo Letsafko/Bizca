@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.UpdateSubscription
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.UpdateSubscription
 {
     /// <summary>
     ///     Update subscription.
@@ -14,10 +14,5 @@
         ///     Gets or sets procedure type identifier.
         /// </summary>
         public string ProcedureTypeId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets bundle identifier.
-        /// </summary>
-        public string BundleId { get; set; }
     }
 }

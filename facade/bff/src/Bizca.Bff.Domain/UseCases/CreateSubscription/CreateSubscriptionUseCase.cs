@@ -1,0 +1,64 @@
+﻿namespace Bizca.Bff.Application.UseCases.CreateSubscription
+{
+    using Core.Domain.Cqrs.Commands;
+    using Domain.Entities.Subscription;
+    using Domain.Entities.Subscription.Factories;
+    using Domain.Entities.User;
+    using Domain.Entities.User.Exceptions;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public sealed class CreateSubscriptionUseCase : ICommandHandler<CreateSubscriptionCommand>
+    {
+        private readonly ICreateSubscriptionOutput createSubscriptionOutput;
+        private readonly ISubscriptionFactory subscriptionFactory;
+        private readonly ISubscriptionRepository subscriptionRepository;
+        private readonly IUserRepository userRepository;
+
+        public CreateSubscriptionUseCase(ISubscriptionRepository subscriptionRepository,
+            ICreateSubscriptionOutput createSubscriptionOutput,
+            ISubscriptionFactory subscriptionFactory,
+            IUserRepository userRepository)
+        {
+            this.createSubscriptionOutput = createSubscriptionOutput;
+            this.subscriptionRepository = subscriptionRepository;
+            this.subscriptionFactory = subscriptionFactory;
+            this.userRepository = userRepository;
+        }
+
+        public async Task<Unit> Handle(CreateSubscriptionCommand command, CancellationToken cancellationToken)
+        {
+            User user = await userRepository.GetByExternalUserIdAsync(command.ExternalUserId);
+            if (user is null) throw new UserDoesNotExistException($"user {command.ExternalUserId} does not exist.");
+
+            Subscription subscription = await GetSubscriptionAsync(command);
+            user.AddSubscription(subscription);
+            await subscriptionRepository.UpsertAsync(user.UserIdentifier.UserId, user.Subscriptions);
+            createSubscriptionOutput.Ok(subscription);
+            return Unit.Value;
+        }
+
+        #region private helpers
+
+        private async Task<Subscription> GetSubscriptionAsync(CreateSubscriptionCommand command)
+        {
+            SubscriptionRequest request = GetSubscriptionRequest(command);
+            return await subscriptionFactory.CreateAsync(request);
+        }
+
+        private SubscriptionRequest GetSubscriptionRequest(CreateSubscriptionCommand command)
+        {
+            return new SubscriptionRequest(command.ExternalUserId,
+                command.CodeInsee,
+                int.Parse(command.ProcedureTypeId),
+                command.FirstName,
+                command.LastName,
+                command.PhoneNumber,
+                command.Whatsapp,
+                command.Email);
+        }
+
+        #endregion
+    }
+}

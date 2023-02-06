@@ -1,26 +1,27 @@
 ﻿namespace Bizca.Core.Api.Modules.Configuration
 {
+    using FluentValidation;
     using System.Collections.Generic;
+
     public sealed class SwaggerStsSecurityModel
     {
-        /// <summary>
-        ///     Gets or sets client Id.
-        /// </summary>
+        public IEnumerable<string> Scopes { get; set; }
+        
+        public string ClientSecret { get; set; }
+        
         public string ClientId { get; set; }
 
-        /// <summary>
-        ///     Gets or sets client secret.
-        /// </summary>
-        public string ClientSecret { get; set; }
-
-        /// <summary>
-        ///     Gets or sets sts url.
-        /// </summary>
         public string StsUrl { get; set; }
-
-        /// <summary>
-        ///     Gets or sets scopes.
-        /// </summary>
-        public IEnumerable<string> Scopes { get; set; }
+    }
+    
+    public class SwaggerStsSecurityModelValidator : AbstractValidator<SwaggerStsSecurityModel>
+    {
+        public SwaggerStsSecurityModelValidator()
+        {
+            RuleFor(x => x.ClientSecret).NotEmpty();
+            RuleFor(x => x.ClientId).NotEmpty();
+            RuleFor(x => x.StsUrl).NotEmpty();
+            RuleFor(x => x.Scopes).NotEmpty();
+        }
     }
 }

@@ -1,8 +1,9 @@
 ﻿namespace Bizca.Bff.WebApi.ViewModels
 {
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Bff.Domain.Referentials.Procedure.ValueObjects;
+    using Domain.Referential.Procedure;
+    using Domain.Referential.Procedure.ValueObjects;
     using System.Collections.Generic;
+
     internal sealed class OrganismViewModel
     {
         public OrganismViewModel(Organism organism, IEnumerable<Procedure> procedures)

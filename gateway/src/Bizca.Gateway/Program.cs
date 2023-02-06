@@ -1,7 +1,7 @@
 namespace Bizca.Gateway
 {
-    using Bizca.Core.Api.Modules.Extensions;
-    using Bizca.Gateway.Application.Extensions;
+    using Application.Extensions;
+    using Core.Api.Modules.Extensions;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
@@ -19,36 +19,36 @@ namespace Bizca.Gateway
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                       .ConfigureWebHostDefaults(webBuilder =>
-                       {
-                           webBuilder.UseIISIntegration();
-                           webBuilder.UseStartup<Startup>();
-                       })
-                       .ConfigureAppConfiguration((context, config) =>
-                       {
-                           config.AddJsonFile("appsettings.json", false, true);
-                           config.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseIISIntegration();
+                    webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    config.AddJsonFile("appsettings.json", false, true);
+                    config.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true);
 
-                           if (context.HostingEnvironment.IsDevEnvironment())
-                           {
-                               config.AddJsonFile("ocelot.global.json", optional: false, reloadOnChange: true);
-                               config.AddJsonFile("ocelot.Development.json", optional: false, reloadOnChange: true);
-                               config.AddJsonFile("cache.development.json", optional: true, reloadOnChange: true);
-                           }
-                           else
-                           {
-                               config.AddJsonFile("cache.json", optional: true, reloadOnChange: true);
-                               config.MergeOcelotFiles();
-                           }
+                    if (context.HostingEnvironment.IsDevEnvironment())
+                    {
+                        config.AddJsonFile("ocelot.global.json", false, true);
+                        config.AddJsonFile("ocelot.Development.json", false, true);
+                        config.AddJsonFile("cache.development.json", true, true);
+                    }
+                    else
+                    {
+                        config.AddJsonFile("cache.json", true, true);
+                        config.MergeOcelotFiles();
+                    }
 
-                           config.AddAzureKeyVaultWithEnvVariables();
-                       })
-                       .ConfigureLogging((context, builder) =>
-                       {
-                           //builder.AddApplicationInsights();
-                           //builder.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>
-                           // ("", Enum.Parse<LogLevel>(context.Configuration["Logging:LogLevel:Default"]));
-                       });
+                    config.AddAzureKeyVaultWithEnvVariables();
+                })
+                .ConfigureLogging((context, builder) =>
+                {
+                    //builder.AddApplicationInsights();
+                    //builder.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>
+                    // ("", Enum.Parse<LogLevel>(context.PartnerConfiguration["Logging:LogLevel:Default"]));
+                });
         }
     }
 }

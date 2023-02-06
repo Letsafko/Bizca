@@ -1,7 +1,8 @@
 ﻿namespace Bizca.Gateway.Application.Extensions
 {
-    using Bizca.Gateway.Application.Configuration;
+    using Configuration;
     using Microsoft.Extensions.Configuration;
+    using MMLib.SwaggerForOcelot.Configuration;
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
@@ -25,11 +26,11 @@
 
             var reg = new Regex(subConfigPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-            var files = new DirectoryInfo(folder)
+            List<FileInfo> files = new DirectoryInfo(folder)
                 .EnumerateFiles()
                 .Where(fi => reg.IsMatch(fi.Name)
-                    && (!excludeConfigNames.Contains(fi.Name))
-                    && !fi.Name.Contains("ignored"))
+                             && !excludeConfigNames.Contains(fi.Name)
+                             && !fi.Name.Contains("ignored"))
                 .ToList();
 
             OcelotExtendedFileConfiguration fileConfiguration = BuildConfiguration(files);
@@ -50,9 +51,7 @@
             foreach (FileInfo file in files)
             {
                 if (files.Count > 1 && file.Name.Equals(primaryConfigFile, StringComparison.OrdinalIgnoreCase))
-                {
                     continue;
-                }
 
                 BuildConfiguration(fileConfiguration, file);
             }
@@ -67,12 +66,10 @@
 
             string lines = File.ReadAllText(file.FullName);
 
-            OcelotExtendedFileConfiguration config = JsonConvert.DeserializeObject<OcelotExtendedFileConfiguration>(lines);
+            var config = JsonConvert.DeserializeObject<OcelotExtendedFileConfiguration>(lines);
 
             if (file.Name.Equals(globalConfigFile, StringComparison.OrdinalIgnoreCase))
-            {
                 fileConfiguration.GlobalConfiguration = config.GlobalConfiguration;
-            }
 
             fileConfiguration.Aggregates.AddRange(config.Aggregates);
 
@@ -90,16 +87,12 @@
             File.WriteAllText(string.Concat(Path.GetFileNameWithoutExtension(file.FullName), ".ignored.json"),
                 JsonConvert.SerializeObject(ignoredRoutes));
 
-            foreach (MMLib.SwaggerForOcelot.Configuration.SwaggerEndPointOptions swaggerEndpoint in config.SwaggerEndPoints)
+            foreach (SwaggerEndPointOptions swaggerEndpoint in config.SwaggerEndPoints)
             {
-                if (fileConfiguration.SwaggerEndPoints.Any(i => i.Key == swaggerEndpoint.Key))
-                {
-                    continue;
-                }
+                if (fileConfiguration.SwaggerEndPoints.Any(i => i.Key == swaggerEndpoint.Key)) continue;
 
                 fileConfiguration.SwaggerEndPoints.Add(swaggerEndpoint);
             }
-
         }
     }
 }

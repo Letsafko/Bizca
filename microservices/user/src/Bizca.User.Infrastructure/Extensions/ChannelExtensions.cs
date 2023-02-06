@@ -1,7 +1,7 @@
 ﻿namespace Bizca.User.Infrastructure.Extensions
 {
-    using Bizca.User.Domain.Entities.Channel;
-    using Bizca.User.Domain.Entities.Channel.ValueObjects;
+    using Domain.Entities.Channel;
+    using Domain.Entities.Channel.ValueObjects;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -9,7 +9,8 @@
 
     public static class ChannelExtensions
     {
-        public static DataTable ToDataTable(this IEnumerable<ChannelConfirmation> channelConfirmations, int userId, int channelId, string typeName)
+        public static DataTable ToDataTable(this IEnumerable<ChannelConfirmation> channelConfirmations, int userId,
+            int channelId, string typeName)
         {
             var dt = new DataTable(typeName);
             dt.Columns.Add(ChannelColumns.UserId, typeof(int));
@@ -50,7 +51,8 @@
                 if (dt.Rows.Contains(channel.ChannelValue))
                 {
                     DataRow datarow = dt.Rows.Find(channel.ChannelValue);
-                    datarow[ChannelColumns.ChannelId] = (int)datarow[ChannelColumns.ChannelId] + channel.ChannelType.Code;
+                    datarow[ChannelColumns.ChannelId] =
+                        (int)datarow[ChannelColumns.ChannelId] + channel.ChannelType.Code;
                     datarow[ChannelColumns.Confirmed] = (bool)datarow[ChannelColumns.Confirmed] || channel.Confirmed;
                     datarow[ChannelColumns.Active] = (bool)datarow[ChannelColumns.Active] || channel.Active;
                     continue;
@@ -65,6 +67,7 @@
                     channel.ChannelValue
                 );
             }
+
             return dt;
         }
 

@@ -1,11 +1,11 @@
 ﻿## Creates new user.
 
-|  Parameters        |   Description		                          |   Possible values                |	 Mandatory  |
+|  Parameters        |   Description                                  |   Possible values                |     Mandatory  |
 | -------------------|------------------------------------------------|----------------------------------|--------------|
-|  partnerCode       |   partner code identifier					  |	  partner referential			 |	    x       |
-|  externalUserId    |   user identifier of partner in 12 characters  |	  xxxxxxxxxx                     |	    x       |
-|  civility          |   civility identifier(Id)                      |	  civility referential           |	    x       |
-|  birthCountry      |   birth country code                           |	  country referential            |	            |
+|  partnerCode       |   partner code identifier                      |      partner referential             |        x       |
+|  externalUserId    |   user identifier of partner in 12 characters  |      xxxxxxxxxx                     |        x       |
+|  civility          |   civility identifier(Id)                      |      civility referential           |        x       |
+|  birthCountry      |   birth country code                           |      country referential            |	            |
 |  economicActivity  |   economic activity identifier(Id)             |   economic activity referential  |	            |
 
 <details>

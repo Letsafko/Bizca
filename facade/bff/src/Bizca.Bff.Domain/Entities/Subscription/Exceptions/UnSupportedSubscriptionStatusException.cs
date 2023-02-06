@@ -1,6 +1,6 @@
 ﻿namespace Bizca.Bff.Domain.Entities.Subscription.Exceptions
 {
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
@@ -20,7 +20,8 @@
         {
         }
 
-        public UnSupportedSubscriptionStatusException(string message, Exception innerException) : base(message, innerException)
+        public UnSupportedSubscriptionStatusException(string message, Exception innerException) : base(message,
+            innerException)
         {
         }
 
@@ -28,7 +29,8 @@
         {
         }
 
-        public UnSupportedSubscriptionStatusException(SerializationInfo info, StreamingContext context) : base(info, context)
+        public UnSupportedSubscriptionStatusException(SerializationInfo info, StreamingContext context) : base(info,
+            context)
         {
         }
     }

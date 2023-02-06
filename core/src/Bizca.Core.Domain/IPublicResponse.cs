@@ -1,15 +1,16 @@
-﻿namespace Bizca.Core.Domain
+﻿#nullable enable
+namespace Bizca.Core.Domain
 {
-    public interface IPublicResponse<T> : IPublicResponse
+    public interface IPublicResponse<out T> : IPublicResponse
     {
-        public T Data { get; }
+        T? Data { get; }
     }
 
     public interface IPublicResponse
     {
-        public bool Success { get; }
-        public object Message { get; }
-        public int? ErrorCode { get; }
-        public int StatusCode { get; }
+        string? ErrorCode { get; }
+        string? Message { get; }
+        bool Success { get; }
+        int StatusCode { get; }
     }
 }

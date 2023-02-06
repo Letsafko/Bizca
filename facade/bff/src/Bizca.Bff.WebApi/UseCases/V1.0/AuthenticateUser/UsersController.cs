@@ -1,10 +1,9 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.AuthenticateUser
 {
     using Bizca.Bff.Application.UseCases.AuthenticateUser;
     using Bizca.Bff.WebApi.ViewModels;
     using Bizca.Core.Api.Modules.Conventions;
-    using Bizca.Core.Application;
-    using Bizca.Core.Domain;
+    using Bizca.Core.Domain.Cqrs;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.ComponentModel.DataAnnotations;
@@ -14,7 +13,7 @@
     ///     Authenticate user controller.
     /// </summary>
     [ApiVersion("1.0")]
-    [Route("api/v{version:api-version}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
@@ -22,7 +21,7 @@
         private readonly IProcessor processor;
 
         /// <summary>
-        ///     Create an instance of <see cref="UsersController"/>
+        ///     Create an instance of <see cref="UsersController" />
         /// </summary>
         /// <param name="presenter"></param>
         /// <param name="processor"></param>
@@ -39,10 +38,8 @@
         /// <remarks>/Assets/authenticateUser.md</remarks>
         [HttpPost("authenticate")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IPublicResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IPublicResponse))]
-        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Edit))]
-        public async Task<IActionResult> AuthenticateUserAsync([Required][FromBody] AuthenticateUser authenticateUser)
+        [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
+        public async Task<IActionResult> AuthenticateUserAsync([Required] [FromBody] AuthenticateUser authenticateUser)
         {
             var query = new AuthenticateUserQuery(authenticateUser.Password, authenticateUser.Resource);
             await processor.ProcessQueryAsync(query).ConfigureAwait(false);

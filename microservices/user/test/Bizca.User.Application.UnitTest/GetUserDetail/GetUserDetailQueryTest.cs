@@ -1,4 +1,4 @@
-﻿namespace Bizca.User.Application.UnitTest.GetUser.Detail
+﻿namespace Bizca.User.Application.UnitTest.GetUserDetail
 {
     using Bizca.User.Application.UseCases.GetUserDetail;
     using NFluent;

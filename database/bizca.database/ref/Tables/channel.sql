@@ -1,9 +1,9 @@
 ﻿create table [ref].[channel]
 (
-	[channelId]     smallint    not null,
-	[channelCode]   varchar(30) not null,
-	[creationDate]	datetime2   not null,
-    [lastUpdate]	datetime2   not null
+    [channelId] smallint not null, 
+    [channelCode] varchar(30) not null,
+    [creationDate] datetime2 not null,
+    [lastUpdate] datetime2 not null
 )
 go
 

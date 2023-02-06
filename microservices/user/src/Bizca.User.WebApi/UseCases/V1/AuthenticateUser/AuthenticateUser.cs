@@ -1,6 +1,7 @@
 ﻿namespace Bizca.User.WebApi.UseCases.V1.AuthenticateUser
 {
     using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     ///     Authenticate user.
     /// </summary>

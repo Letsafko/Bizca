@@ -1,6 +1,6 @@
 ﻿namespace Bizca.User.WebApi.ViewModels
 {
-    using Bizca.User.Application.UseCases.GetUserDetail;
+    using Application.UseCases.GetUserDetail;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -38,12 +38,12 @@
         public AddressModel Address { get; }
 
         /// <summary>
-        ///  Gets user economic activity.
+        ///     Gets user economic activity.
         /// </summary>
         public string EconomicActivity { get; }
 
         /// <summary>
-        ///  Gets user identifier of partner.
+        ///     Gets user identifier of partner.
         /// </summary>
         [Required]
         public string ExternalUserId { get; }

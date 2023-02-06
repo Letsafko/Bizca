@@ -2,7 +2,7 @@
 {
     public class DatabaseConfiguration : IDatabaseConfiguration
     {
-        public bool UseAzureIdentity { get; set; }
-        public string ConnectionString { get; set; }
+        public bool UseAzureIdentity { get; init; }
+        public string ConnectionString { get; init; }
     }
 }

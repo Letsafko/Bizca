@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.AuthenticateUser
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.AuthenticateUser
 {
     /// <summary>
     ///     Authenticate user.

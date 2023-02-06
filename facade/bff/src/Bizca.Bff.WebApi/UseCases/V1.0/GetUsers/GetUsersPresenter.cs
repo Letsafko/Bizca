@@ -1,4 +1,4 @@
-﻿namespace Bizca.Bff.WebApi.UseCases.V10.GetUsers
+﻿namespace Bizca.Bff.WebApi.UseCases.V1._0.GetUsers
 {
     using Bizca.Bff.Application.UseCases.GetUsers;
     using Bizca.Bff.WebApi.ViewModels;
@@ -12,7 +12,7 @@
     public sealed class GetUsersPresenter : PresenterBase, IGetUsersOutput
     {
         /// <summary>
-        ///     Creates an instance of <see cref="GetUsersPresenter"/>
+        ///     Creates an instance of <see cref="GetUsersPresenter" />
         /// </summary>
         /// <param name="strategyFactory"></param>
         public GetUsersPresenter(IHttpStrategyFactory strategyFactory) : base(strategyFactory)
@@ -25,10 +25,7 @@
         /// <param name="pagedUsers"></param>
         public void Ok(GetPagedUsersDto pagedUsers)
         {
-            if (!(pagedUsers is null))
-            {
-                ViewModel = new OkObjectResult(new UserPaginationViewModel(pagedUsers));
-            }
+            if (!(pagedUsers is null)) ViewModel = new OkObjectResult(new UserPaginationViewModel(pagedUsers));
         }
     }
 }

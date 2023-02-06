@@ -1,10 +1,10 @@
 ﻿create table [ref].[economicActivity]
 (
-	[economicActivityId]	smallint	not null,
-	[economicActivityCode]	varchar(30)	not null,
-	[description]			varchar(50) not null,
-	[creationDate]			datetime2   not null,
-    [lastUpdate]			datetime2   not null
+    [economicActivityId] smallint not null, 
+    [economicActivityCode] varchar(30) not null,
+    [description] varchar(50) not null,
+    [creationDate] datetime2 not null,
+    [lastUpdate] datetime2 not null
 )
 go
 

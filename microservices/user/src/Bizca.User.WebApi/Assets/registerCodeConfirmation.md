@@ -1,10 +1,10 @@
 ﻿## Creates a new channel code confirmation.
 
-  |    Parameters         |    Description		                           |   Possible values        |
+|    Parameters         |    Description                                   |   Possible values        |
   | ----------------------|------------------------------------------------|--------------------------|  
-  |     partnerCode       |   partner code identifier					   |	partner referential	  |
-  |     externalUserId    |   user identifier of partner in 12 characters  |	xxxxxxxxxx            |
-  |     channel           |   channel code identifier                      |	channel referential   |
+|     partnerCode       |   partner code identifier                       |    partner referential      |
+|     externalUserId    |   user identifier of partner in 12 characters  |    xxxxxxxxxx            |
+|     channel           |   channel code identifier                      |    channel referential   |
 
 <details>
   <summary>Partner referential.</summary>

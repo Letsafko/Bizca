@@ -1,21 +1,27 @@
 ﻿namespace Bizca.Bff.Domain.Entities.User
 {
-    using Bizca.Bff.Domain.Entities.Enumerations.Subscription;
-    using Bizca.Bff.Domain.Entities.Subscription;
-    using Bizca.Bff.Domain.Entities.Subscription.Exceptions;
-    using Bizca.Bff.Domain.Entities.User.Events;
-    using Bizca.Bff.Domain.Entities.User.ValueObjects;
-    using Bizca.Bff.Domain.Enumerations;
-    using Bizca.Bff.Domain.Referentials.Bundle;
-    using Bizca.Bff.Domain.Referentials.Procedure;
-    using Bizca.Bff.Domain.Wrappers.Notification.Requests.Email;
-    using Bizca.Core.Domain;
-    using Bizca.Core.Domain.Exceptions;
+    using Core.Domain;
+    using Core.Domain.Cqrs.Events;
+    using Core.Domain.Exceptions;
+    using Domain.Enumerations;
+    using Events;
+    using Referential.Bundle;
+    using Referential.Procedure;
+    using Subscription;
+    using Subscription.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using ValueObjects;
+    using Wrappers.Notification.Requests.Email;
+
     public sealed class User : Entity
     {
+        private readonly List<Subscription> subscriptions;
+        private readonly ICollection<INotificationEvent> userEvents;
+
+        private byte[] rowVersion;
+
         public User(int id,
             UserIdentifier userIdentifier,
             UserProfile userProfile,
@@ -24,7 +30,7 @@
             byte[] rowVersion = null)
         {
             this.subscriptions = subscriptions ?? new List<Subscription>();
-            userEvents = new List<IEvent>();
+            userEvents = new List<INotificationEvent>();
             UserIdentifier = userIdentifier;
             UserProfile = userProfile;
             SetRowVersion(rowVersion);
@@ -33,10 +39,8 @@
         }
 
         public IReadOnlyCollection<Subscription> Subscriptions => subscriptions.ToList();
-        private readonly List<Subscription> subscriptions;
 
-        public IReadOnlyCollection<IEvent> UserEvents => userEvents.ToList();
-        private readonly ICollection<IEvent> userEvents;
+        public IReadOnlyCollection<INotificationEvent> UserEvents => userEvents.ToList();
 
         public UserIdentifier UserIdentifier { get; }
         public UserProfile UserProfile { get; }
@@ -46,110 +50,167 @@
         {
             return rowVersion;
         }
-        private byte[] rowVersion;
-
-        #region aggregate helpers
 
         #region events
 
-        public void RegisterSendEmailEvent(MailAddressRequest sender,
-            ICollection<MailAddressRequest> to,
-            string subject,
-            string htmlContent)
+        public void RegisterUserContactToCreateEvent()
         {
-            userEvents.Add(new SendEmailNotification(sender,
-                to,
-                subject,
-                htmlContent));
+            var attributes = new Dictionary<string, object>();
+            if (!string.IsNullOrWhiteSpace(UserProfile.PhoneNumber))
+                attributes.AddNewPair(AttributeConstant.Contact.PhoneNumber, UserProfile.PhoneNumber);
+
+            if (!string.IsNullOrWhiteSpace(UserProfile.FirstName))
+                attributes.AddNewPair(AttributeConstant.Contact.FirstName, UserProfile.FirstName);
+
+            if (!string.IsNullOrWhiteSpace(UserProfile.LastName))
+                attributes.AddNewPair(AttributeConstant.Contact.LastName, UserProfile.LastName);
+
+            attributes.AddNewPair(AttributeConstant.Contact.Civility, UserProfile.Civility);
+            attributes.AddNewPair(AttributeConstant.Contact.Email, UserProfile.Email);
+            var notification = new UserContactToCreateNotificationEvent(UserIdentifier.PartnerCode,
+                UserProfile.Email,
+                attributes);
+
+            userEvents.Add(notification);
         }
 
-        public void RegisterSendSmsEvent(string sender, string phoneNumber, string content)
+        internal void RegisterUserContactToUpdateEvent(UserContactUpdatedNotificationEvent updateUserContactNotification)
         {
-            userEvents.Add(new SendSmsNotification(sender,
+            userEvents.Add(updateUserContactNotification);
+        }
+
+        public void RegisterSendTransactionalEmailEvent(ICollection<MailAddressRequest> recipients,
+            MailAddressRequest sender = default,
+            int? emailTemplate = default,
+            IDictionary<string, object> parameters = default,
+            string htmlContent = default,
+            string subject = default)
+        {
+            var @event = new SendTransactionalEmailNotificationEvent(recipients,
+                sender,
+                parameters,
+                emailTemplate,
+                htmlContent,
+                subject);
+
+            userEvents.Add(@event);
+        }
+
+        public void RegisterPaymentExecutedEvent(string subscriptionCode)
+        {
+            var notification = new PaymentExecutedNotificationEvent(subscriptionCode);
+            userEvents.Add(notification);
+        }
+
+        public void RegisterSendTransactionalSmsEvent(string sender,
+            string phoneNumber,
+            string content)
+        {
+            userEvents.Add(new SendTransactionalSmsNotificationEvent(sender,
                 phoneNumber,
                 content));
         }
-        public void RegisterUserCreatedEvent(UserCreatedNotification userCreated)
+
+        public void RegisterUserCreatedEvent(string externalUserId)
         {
-            userEvents.Add(userCreated);
+            userEvents.Add(new UserCreatedNotificationEvent(externalUserId));
         }
-        public void RegisterUserUpdatedEvent(UserUpdatedNotification userUpdated)
+
+        public void RegisterUserUpdatedEvent(string externalUserId)
         {
-            userEvents.Add(userUpdated);
+            userEvents.Add(new UserUpdatedNotificationEvent(externalUserId));
         }
 
         #endregion
 
-        public Subscription UpdateSubscription(string subscriptionCode,
-            Bundle bundle,
-            Procedure procedure)
+        #region aggregate helpers
+
+        public void UpdateSubscription(string subscriptionCode, Procedure procedure)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
             if (!IsSubscriptionAllowedToBeUpdated(subscription))
-            {
-                throw new SubscriptionCannotBeUpdatedException($"subscription status {subscription.SubscriptionState.Status} does not allowed changes.",
+                throw new SubscriptionCannotBeUpdatedException(
+                    $"subscription status {subscription.SubscriptionState.Status} does not allowed changes.",
                     nameof(subscription.SubscriptionState));
-            }
 
-            subscription.UpdateSubscription(bundle, procedure);
+            subscription.UpdateProcedureSubscription(procedure);
             if (IsSubscriptionConflicting(subscription))
-            {
-                throw new SubscriptionCannotBeUpdatedException($"subscription {subscription.SubscriptionCode} is in conflict with another one with same final status.",
+                throw new SubscriptionCannotBeUpdatedException(
+                    $"subscription {subscription.SubscriptionCode} is in conflict with another one with same final status.",
                     nameof(subscription.SubscriptionState));
-            }
 
             RemoveSubscriptionsWithSameCheckSum(subscription);
-            return subscription;
         }
+
         public Subscription GetSubscriptionByCode(string subscriptionCode, bool throwError = false)
         {
-            var subscription = subscriptions
+            Subscription subscription = subscriptions
                 .FirstOrDefault(x => x.SubscriptionCode == Guid.Parse(subscriptionCode));
 
             return throwError && subscription is null
-                ? throw new SubscriptionDoesNotExistException(nameof(subscription), "no subscription found for the given reference.")
+                ? throw new SubscriptionDoesNotExistException(nameof(subscription),
+                    "no subscription found for the given reference.")
                 : subscription;
         }
+
         public void SetChannelConfirmationStatus(string channelType)
         {
             if (UserProfile is null)
                 return;
 
-            var channelToConfirm = GetChannelToConfirm(channelType);
+            ChannelConfirmationStatus channelToConfirm = GetChannelToConfirm(channelType);
             UserProfile.SetChannelConfirmationStatus(channelToConfirm);
         }
+
         public void SetChannelActivationStatus(string channelType)
         {
             if (UserProfile is null)
                 return;
 
-            var channelToActivate = GetChannelToActivate(channelType);
+            ChannelActivationStatus channelToActivate = GetChannelToActivate(channelType);
             UserProfile.SetChannelActivationStatus(channelToActivate);
         }
+
         public void RemoveSubscriptionsWithSameCheckSum(Subscription subscription)
         {
+            //supprimer toutes les subscriptions en pending ayant le même checksum que l'instance courante.
             subscriptions.RemoveAll(x => x.CheckSum == subscription.CheckSum
-                && x.SubscriptionState.Status == SubscriptionStatus.Pending
-                && x.SubscriptionCode != subscription.SubscriptionCode);
+                                         && x.SubscriptionState.Status == SubscriptionStatus.Pending
+                                         && x.SubscriptionCode != subscription.SubscriptionCode);
         }
-        public Subscription DesactivateSubscription(string subscriptionCode)
+
+        public Subscription FreezeSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
-            if (IsAllowedToProcessDesactivation(subscription.SubscriptionState.Status))
-            {
-                subscription?.Freeze();
-            }
+            if (IsAllowedToProcessDesactivation(subscription.SubscriptionState.Status)) subscription.Freeze();
             return subscription;
         }
-        public Subscription ActivateSubscription(string subscriptionCode)
+
+        public Subscription UnFreezeSubscription(string subscriptionCode)
         {
             Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
-            if (IsAllowedToProcessActivation(subscription.SubscriptionState.Status))
-            {
-                subscription?.UnFreeze();
-            }
+            if (IsAllowedToProcessActivation(subscription.SubscriptionState.Status)) subscription.UnFreeze();
             return subscription;
         }
+
+        public void UpdateSubscriptionBundle(string subscriptionCode, Bundle bundle)
+        {
+            Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
+            subscription.UpdateSubscriptionBundle(bundle);
+        }
+
+        public void UpdateSubscriptionDateRange(string subscriptionCode)
+        {
+            Subscription subscription = GetSubscriptionByCode(subscriptionCode, true);
+            subscription.UpdateSubscriptionDateRange();
+
+            var activateUserEvent = new ActivateUserContactNotificationEvent(subscription.Procedure,
+                UserIdentifier.PartnerCode,
+                UserProfile.Email);
+
+            userEvents.Add(activateUserEvent);
+        }
+
         public void AddSubscription(Subscription subscription)
         {
             if (!IsSubscriptionAllowedToBeAdd(subscription))
@@ -157,6 +218,7 @@
 
             subscriptions.Add(subscription);
         }
+
         public void UpdateUserProfile(Civility? civility,
             string firstName,
             string lastName,
@@ -164,29 +226,57 @@
             string whatsapp,
             string email)
         {
-            UserProfile.FirstName = !string.IsNullOrWhiteSpace(firstName) ? firstName : UserProfile.FirstName;
-            UserProfile.LastName = !string.IsNullOrWhiteSpace(lastName) ? lastName : UserProfile.LastName;
-            UserProfile.Civility = civility ?? UserProfile.Civility;
+            var attributes = new Dictionary<string, object>();
+            if (!string.IsNullOrWhiteSpace(firstName) &&
+                !firstName.Equals(UserProfile.FirstName, StringComparison.OrdinalIgnoreCase))
+            {
+                attributes.AddNewPair(AttributeConstant.Contact.FirstName, firstName);
+                UserProfile.FirstName = firstName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(lastName) &&
+                !lastName.Equals(UserProfile.LastName, StringComparison.OrdinalIgnoreCase))
+            {
+                attributes.AddNewPair(AttributeConstant.Contact.LastName, lastName);
+                UserProfile.LastName = lastName;
+            }
+
+            if (civility.HasValue &&
+                civility.Value != UserProfile.Civility)
+            {
+                attributes.AddNewPair(AttributeConstant.Contact.Civility, civility.Value);
+                UserProfile.Civility = civility.Value;
+            }
 
             if (!string.IsNullOrWhiteSpace(phoneNumber) &&
-               !phoneNumber.Equals(UserProfile.PhoneNumber, StringComparison.OrdinalIgnoreCase))
+                !phoneNumber.Equals(UserProfile.PhoneNumber, StringComparison.OrdinalIgnoreCase))
             {
+                attributes.AddNewPair(AttributeConstant.Contact.PhoneNumber, phoneNumber);
                 UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.PhoneNumberConfirmed);
                 UserProfile.PhoneNumber = phoneNumber;
             }
 
             if (!string.IsNullOrWhiteSpace(whatsapp) &&
-               !whatsapp.Equals(UserProfile.Whatsapp, StringComparison.OrdinalIgnoreCase))
+                !whatsapp.Equals(UserProfile.Whatsapp, StringComparison.OrdinalIgnoreCase))
             {
                 UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.WhatsappConfirmed);
                 UserProfile.Whatsapp = whatsapp;
             }
 
             if (!string.IsNullOrWhiteSpace(email) &&
-               !email.Equals(UserProfile.Email, StringComparison.OrdinalIgnoreCase))
+                !email.Equals(UserProfile.Email, StringComparison.OrdinalIgnoreCase))
             {
+                attributes.AddNewPair(AttributeConstant.Contact.Email, email);
                 UserProfile.RemoveChannelConfirmationStatus(ChannelConfirmationStatus.EmailConfirmed);
                 UserProfile.Email = email;
+            }
+
+            if (attributes.Any())
+            {
+                var userContactToUpdateEvent = new UserContactUpdatedNotificationEvent(UserProfile.Email,
+                    attributes: attributes);
+
+                RegisterUserContactToUpdateEvent(userContactToUpdateEvent);
             }
         }
 
@@ -196,8 +286,10 @@
 
         private bool IsSubscriptionConflicting(Subscription subscription)
         {
+            //verifier qu'il n'existe pas plus d'une subscription avec le même checksum et un status different de <Expired>
             return subscriptions
-                .Where(x => x.CheckSum == subscription.CheckSum && x.SubscriptionState.Status != SubscriptionStatus.Expired)
+                .Where(x => x.CheckSum == subscription.CheckSum &&
+                            x.SubscriptionState.Status != SubscriptionStatus.Expired)
                 .Count() > 1;
         }
 
@@ -205,54 +297,59 @@
         {
             return subscription.SubscriptionState.Status == SubscriptionStatus.Pending;
         }
+
         private ChannelConfirmationStatus GetChannelToConfirm(string channelType)
         {
-            var channelTypeEnum = GetChannelType(channelType);
+            ChannelType channelTypeEnum = GetChannelType(channelType);
             return channelTypeEnum switch
             {
                 ChannelType.Messenger => ChannelConfirmationStatus.MessengerConfirmed,
                 ChannelType.Whatsapp => ChannelConfirmationStatus.WhatsappConfirmed,
                 ChannelType.Sms => ChannelConfirmationStatus.PhoneNumberConfirmed,
                 ChannelType.Email => ChannelConfirmationStatus.EmailConfirmed,
-                _ => throw new InvalidCastException($"unable to retrieve channel confirmtion from channel type {channelTypeEnum}")
+                _ => throw new InvalidCastException(
+                    $"unable to retrieve channel confirmtion from channel type {channelTypeEnum}")
             };
         }
+
         private ChannelActivationStatus GetChannelToActivate(string channelType)
         {
-            var channelTypeEnum = GetChannelType(channelType);
+            ChannelType channelTypeEnum = GetChannelType(channelType);
             return channelTypeEnum switch
             {
                 ChannelType.Messenger => ChannelActivationStatus.MessengerActivated,
                 ChannelType.Whatsapp => ChannelActivationStatus.WhatsappActivated,
                 ChannelType.Sms => ChannelActivationStatus.PhoneNumberActivated,
                 ChannelType.Email => ChannelActivationStatus.EmailActivated,
-                _ => throw new InvalidCastException($"unable to retrieve channel activation from channel type {channelTypeEnum}")
+                _ => throw new InvalidCastException(
+                    $"unable to retrieve channel activation from channel type {channelTypeEnum}")
             };
         }
+
         private bool IsAllowedToProcessActivation(SubscriptionStatus status)
         {
             return status == SubscriptionStatus.Deactivated;
         }
+
         private bool IsAllowedToProcessDesactivation(SubscriptionStatus status)
         {
             return status == SubscriptionStatus.Activated;
         }
+
         private bool IsSubscriptionAllowedToBeAdd(Subscription subscription)
         {
             foreach (Subscription subscr in subscriptions)
-            {
                 if (subscr.CheckSum == subscription.CheckSum &&
-                   subscr.SubscriptionState.Status != SubscriptionStatus.Expired)
-                {
+                    subscr.SubscriptionState.Status != SubscriptionStatus.Expired)
                     return false;
-                }
-            }
             return true;
         }
+
         private ChannelType GetChannelType(string channelType)
         {
             return Enum.Parse<ChannelType>(channelType, true);
         }
+
         private void SetRowVersion(byte[] value)
         {
             rowVersion = value;

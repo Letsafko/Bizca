@@ -7,7 +7,6 @@ namespace Bizca.Notification.Infrastructure.UnitTest
         [Fact]
         public void Test1()
         {
-
         }
     }
 }
